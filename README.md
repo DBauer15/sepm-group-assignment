@@ -39,3 +39,5 @@ Projektbeschreibung
 *   Das Programm kann mit dem Befehl:\
     ```mvnw clean verify && java -jar ./target/*.jar```\
     als ausführbares jar-File packetiert, verifiziert und ausgeführt werden.
+
+[![Coverage Status](https://coveralls.io/repos/github/Bernhard-St/sepm-group-assignment/badge.svg?branch=dev)](https://coveralls.io/github/Bernhard-St/sepm-group-assignment?branch=dev)
