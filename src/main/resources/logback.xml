@@ -1,0 +1,48 @@
+<configuration>
+	<!-- config documentation see https://logback.qos.ch/manual/configuration.html 
+		https://logback.qos.ch/manual/appenders.html#uniquelyNamed -->
+
+	<!-- Enabling output of status data usually goes a long way in the diagnosis 
+		of issues with logback. -->
+	<!-- <statusListener class="ch.qos.logback.core.status.OnConsoleStatusListener" 
+		/> -->
+
+
+	<!-- Insert the current time formatted as "yyyy-MM-dd" under the key "date" 
+		into the logger context. This value will be available to all subsequent configuration 
+		elements. -->
+	<timestamp key="date" datePattern="yyyy-MM-dd" />
+
+	<!-- Variable substitution can occur at any point in a configuration file 
+		where a value can be specified. -->
+	<property name="LOG_PATTERN"
+		value="%-40(%d{HH:mm:ss.SSS} [%thread]) %-5level %-25logger{0} - %msg%n" />
+
+	<appender name="STDOUT" class="ch.qos.logback.core.ConsoleAppender">
+		<!-- encoders are assigned the type ch.qos.logback.classic.encoder.PatternLayoutEncoder 
+			by default -->
+		<encoder>
+			<pattern>${LOG_PATTERN}</pattern>
+		</encoder>
+	</appender>
+
+	<appender name="FILE" class="ch.qos.logback.core.FileAppender">
+		<file>log/sepm-${date}.log</file>
+
+		<encoder>
+			<pattern>${LOG_PATTERN}</pattern>
+		</encoder>
+	</appender>
+
+	<!--  reduce log level for h2database from DEBUG to INFO 
+		  see TRACE_LEVEL_FILE=4 in DbUtil -->
+	<logger name="h2database" level="INFO" additivity="false">
+		<appender-ref ref="STDOUT" />
+		<appender-ref ref="FILE" />
+	</logger>
+
+	<root level="debug">
+		<appender-ref ref="FILE" />
+		<appender-ref ref="STDOUT" />
+	</root>
+</configuration>

@@ -1,0 +1,38 @@
+package at.ac.tuwien.sepm.assignment.groupphase.application.util.implementation;
+
+import java.sql.Connection;
+import java.sql.PreparedStatement;
+import java.sql.ResultSet;
+import java.sql.SQLException;
+
+import org.junit.Assert;
+import org.junit.Test;
+
+import at.ac.tuwien.sepm.assignment.groupphase.application.util.BaseTest;
+
+public class JDBCConnectionManagerTest extends BaseTest {
+
+	@Test
+	public void testGetConnection_withTestDb_noExceptionAndNotNull() throws SQLException {
+		JDBCConnectionManager conManager = new JDBCConnectionManager();
+		Connection connection = conManager.getConnection();
+
+		Assert.assertNotNull(connection);
+		conManager.closeConnection();
+	}
+
+	@Test
+	public void testTableIngredient_withTestDb_noExceptionAndAtLeastOneTupelInIngredientTable() throws SQLException {
+		JDBCConnectionManager conManager = new JDBCConnectionManager();
+		Connection connection = conManager.getConnection();
+
+		PreparedStatement getStmnt = connection.prepareStatement("select count(*) from INGREDIENT;");
+		ResultSet resultSet = getStmnt.executeQuery();
+
+		if (resultSet.next() == false) {
+			Assert.fail("Result of 'select count(*) from INGREDIENT' should not be empty.");
+		}
+		Assert.assertTrue(resultSet.getInt(1) > 0);
+	}
+
+}
