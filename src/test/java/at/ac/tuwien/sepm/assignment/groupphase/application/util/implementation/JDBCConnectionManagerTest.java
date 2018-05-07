@@ -33,6 +33,8 @@ public class JDBCConnectionManagerTest extends BaseTest {
 			Assert.fail("Result of 'select count(*) from INGREDIENT' should not be empty.");
 		}
 		Assert.assertTrue(resultSet.getInt(1) > 0);
+		getStmnt.close();
+		conManager.closeConnection();
 	}
 
 }
