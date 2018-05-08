@@ -15,8 +15,8 @@ public class DietPlan {
 	private Double lipid;
 	private Double protein;
 	private Double carbohydrate;
-	private LocalDate from_date;
-	private LocalDate to_date;
+	private LocalDate fromDate;
+	private LocalDate toDate;
 
 	/**
 	 * Constructor
@@ -26,19 +26,35 @@ public class DietPlan {
 	 * @param lipid {@link Double}
 	 * @param protein {@link Double}
 	 * @param carbohydrate {@link Double}
-	 * @param from_date {@link LocalDate}
-	 * @param to_date {@link LocalDate}
+	 * @param fromDate {@link LocalDate}
+	 * @param toDate {@link LocalDate}
 	 */
 	public DietPlan(Integer id, String name, Double energy_kcal, Double lipid, Double protein, Double carbohydrate,
-			LocalDate from_date, LocalDate to_date) {
+			LocalDate fromDate, LocalDate toDate) {
 		this.id = id;
 		this.name = name;
 		this.energy_kcal = energy_kcal;
 		this.lipid = lipid;
 		this.protein = protein;
 		this.carbohydrate = carbohydrate;
-		this.from_date = from_date;
-		this.to_date = to_date;
+		this.setFromDate(fromDate);
+		this.setToDate(toDate);
+	}
+
+	/**
+	 * Constructor
+	 * @param name {@link String}
+	 * @param energy_kcal {@link Double}
+	 * @param lipid {@link Double}
+	 * @param protein {@link Double}
+	 * @param carbohydrate {@link Double}
+	 */
+	public DietPlan(String name, Double energy_kcal, Double lipid, Double protein, Double carbohydrate) {
+		this.name = name;
+		this.energy_kcal = energy_kcal;
+		this.lipid = lipid;
+		this.protein = protein;
+		this.carbohydrate = carbohydrate;
 	}
 
 	public Integer getId() {
@@ -89,19 +105,20 @@ public class DietPlan {
 		this.carbohydrate = carbohydrate;
 	}
 
-	public LocalDate getFrom_date() {
-		return from_date;
+	public LocalDate getFromDate() {
+		return fromDate;
 	}
 
-	public void setFrom_date(LocalDate from_date) {
-		this.from_date = from_date;
+	public void setFromDate(LocalDate fromDate) {
+		this.fromDate = fromDate;
 	}
 
-	public LocalDate getTo_date() {
-		return to_date;
+	public LocalDate getToDate() {
+		return toDate;
 	}
 
-	public void setTo_date(LocalDate to_date) {
-		this.to_date = to_date;
+	public void setToDate(LocalDate toDate) {
+		this.toDate = toDate;
 	}
+
 }
