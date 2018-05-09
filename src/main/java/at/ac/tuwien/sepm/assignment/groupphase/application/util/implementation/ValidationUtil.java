@@ -5,7 +5,14 @@ import at.ac.tuwien.sepm.assignment.groupphase.application.service.ServiceInvoka
 
 public class ValidationUtil {
 
-	public static boolean validateDietPlan(DietPlan dietPlan, ServiceInvokationContext context) {
+    public static boolean validateDietPlanForUpdate(DietPlan dietPlan, ServiceInvokationContext context) {
+        ValidationUtil.validateId(dietPlan.getId(), context);
+        validateDietPlanForCreation(dietPlan, context);
+
+        return context.isValid();
+    }
+
+	public static boolean validateDietPlanForCreation(DietPlan dietPlan, ServiceInvokationContext context) {
 		ValidationUtil.validateStringLength("Diet plan name", dietPlan.getName(), 5, 255, context);
 
 		// TODO was sind sinnvolle schranken?
@@ -37,4 +44,13 @@ public class ValidationUtil {
 					String.format("Enter a value that is smaller than %s in the field '%s'", upperBound, fieldName));
 		}
 	}
+
+	private static void validateId(Integer id, ServiceInvokationContext context) {
+        if (id == null) {
+            context.addError("ID needs to be set to perform update");
+        }
+        if (id != null && id < 0) {
+            context.addError("ID cannot be negative");
+        }
+    }
 }

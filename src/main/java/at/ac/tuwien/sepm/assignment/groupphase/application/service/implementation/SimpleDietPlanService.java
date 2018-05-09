@@ -32,7 +32,7 @@ public class SimpleDietPlanService implements DietPlanService {
 	public void create(DietPlan dietPlan) throws ServiceInvokationException {
 
 		ServiceInvokationContext context = new ServiceInvokationContext();
-		if (ValidationUtil.validateDietPlan(dietPlan, context) == false) {
+		if (ValidationUtil.validateDietPlanForCreation(dietPlan, context) == false) {
 			throw new ServiceInvokationException(context);
 		}
 
@@ -44,4 +44,18 @@ public class SimpleDietPlanService implements DietPlanService {
 		}
 	}
 
+	@Override
+    public void switchTo(DietPlan dietPlan) throws ServiceInvokationException {
+
+	    ServiceInvokationContext context = new ServiceInvokationContext();
+	    if (ValidationUtil.validateDietPlanForUpdate(dietPlan, context) == false) {
+	        throw new ServiceInvokationException(context);
+        }
+
+        try {
+            dietPlanRepository.switchTo(dietPlan);
+        } catch (PersistenceException e) {
+            throw new ServiceInvokationException(e.getMessage());
+        }
+    }
 }

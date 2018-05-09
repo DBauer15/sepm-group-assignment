@@ -121,4 +121,17 @@ public class DietPlan {
 		this.toDate = toDate;
 	}
 
+    @Override
+    public String toString() {
+        return "DietPlan{" +
+            "id=" + id +
+            ", name='" + name + '\'' +
+            ", energy_kcal=" + energy_kcal +
+            ", lipid=" + lipid +
+            ", protein=" + protein +
+            ", carbohydrate=" + carbohydrate +
+            ", fromDate=" + fromDate +
+            ", toDate=" + toDate +
+            '}';
+    }
 }
