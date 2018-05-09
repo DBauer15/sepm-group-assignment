@@ -1,0 +1,140 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import java.lang.String?>
+<?import java.net.URL?>
+<?import javafx.scene.control.Button?>
+<?import javafx.scene.control.ChoiceBox?>
+<?import javafx.scene.control.ComboBox?>
+<?import javafx.scene.control.Label?>
+<?import javafx.scene.control.Slider?>
+<?import javafx.scene.control.TextArea?>
+<?import javafx.scene.control.TextField?>
+<?import javafx.scene.layout.AnchorPane?>
+<?import javafx.scene.layout.ColumnConstraints?>
+<?import javafx.scene.layout.GridPane?>
+<?import javafx.scene.layout.RowConstraints?>
+<?import javafx.scene.shape.Line?>
+<?import javafx.scene.text.Font?>
+
+<AnchorPane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="878.0" prefWidth="1248.0" xmlns="http://javafx.com/javafx/9.0.4" xmlns:fx="http://javafx.com/fxml/1">
+   <children>
+      <AnchorPane prefHeight="878.0" prefWidth="624.0" styleClass="background-white" AnchorPane.bottomAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0">
+         <children>
+            <AnchorPane prefHeight="200.0" prefWidth="200.0" AnchorPane.bottomAnchor="30.0" AnchorPane.leftAnchor="30.0" AnchorPane.rightAnchor="30.0" AnchorPane.topAnchor="40.0">
+               <children>
+                  <Line endX="544.0" stroke="#196674cc" AnchorPane.leftAnchor="10.0" AnchorPane.rightAnchor="10.0" AnchorPane.topAnchor="70.0" />
+                  <Label alignment="CENTER" contentDisplay="CENTER" text="DIRECTIONS" textAlignment="CENTER" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0">
+                     <font>
+                        <Font name="Helvetica" size="40.0" />
+                     </font>
+                     <styleClass>
+                        <String fx:value="text-heading" />
+                        <String fx:value="text-blue" />
+                     </styleClass>
+                  </Label>
+                  <TextArea layoutY="119.0" prefHeight="629.0" prefWidth="564.0" promptText="Enter all needed steps to cook you recipe here." styleClass="text-area" wrapText="true" AnchorPane.bottomAnchor="50.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="100.0" />
+                  <Button mnemonicParsing="false" prefHeight="38.0" prefWidth="86.0" text="Create" AnchorPane.bottomAnchor="0.0" AnchorPane.rightAnchor="0.0">
+                     <styleClass>
+                        <String fx:value="card" />
+                        <String fx:value="button-rounded" />
+                     </styleClass>
+                  </Button>
+                  <Button mnemonicParsing="false" prefHeight="38.0" prefWidth="86.0" text="Cancel" AnchorPane.bottomAnchor="0.0" AnchorPane.rightAnchor="110.0">
+                     <styleClass>
+                        <String fx:value="card" />
+                        <String fx:value="button-rounded" />
+                        <String fx:value="button-cancel" />
+                     </styleClass>
+                  </Button>
+               </children>
+            </AnchorPane>
+         </children>
+      </AnchorPane>
+      <AnchorPane layoutX="-6.0" layoutY="14.0" prefHeight="878.0" prefWidth="624.0" style="-fx-background-color: #03D7F1;" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.topAnchor="0.0">
+         <children>
+            <AnchorPane prefHeight="200.0" prefWidth="200.0" AnchorPane.bottomAnchor="30.0" AnchorPane.leftAnchor="30.0" AnchorPane.rightAnchor="30.0" AnchorPane.topAnchor="40.0">
+               <children>
+                  <GridPane layoutY="409.0" maxHeight="352.0" maxWidth="565.0" minHeight="349.0" minWidth="564.0" prefHeight="349.0" prefWidth="565.0" AnchorPane.bottomAnchor="50.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="440.0">
+                    <columnConstraints>
+                      <ColumnConstraints hgrow="SOMETIMES" maxWidth="328.0" minWidth="10.0" prefWidth="328.0" />
+                        <ColumnConstraints hgrow="SOMETIMES" maxWidth="220.0" minWidth="10.0" prefWidth="72.0" />
+                      <ColumnConstraints hgrow="SOMETIMES" maxWidth="184.0" minWidth="10.0" prefWidth="164.0" />
+                    </columnConstraints>
+                    <rowConstraints>
+                      <RowConstraints maxHeight="45.0" minHeight="10.0" prefHeight="45.0" vgrow="SOMETIMES" />
+                      <RowConstraints maxHeight="45.0" minHeight="10.0" prefHeight="45.0" vgrow="SOMETIMES" />
+                      <RowConstraints maxHeight="45.0" minHeight="10.0" prefHeight="45.0" vgrow="SOMETIMES" />
+                    </rowConstraints>
+                  </GridPane>
+                  <Label alignment="CENTER" contentDisplay="CENTER" text="NEW RECIPE" textAlignment="CENTER" textFill="WHITE" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0">
+                     <font>
+                        <Font name="Helvetica" size="40.0" />
+                     </font>
+                     <styleClass>
+                        <String fx:value="text-heading" />
+                        <String fx:value="font-white" />
+                     </styleClass>
+                  </Label>
+                  <AnchorPane prefHeight="150.0" prefWidth="564.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="70.0">
+                     <children>
+                        <Label text="PREPARATION TIME" AnchorPane.topAnchor="80.0">
+                           <styleClass>
+                              <String fx:value="text-medium" />
+                              <String fx:value="text-white" />
+                           </styleClass>
+                        </Label>
+                        <Slider prefHeight="23.0" prefWidth="293.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="80.0" />
+                        <Line endX="544.0" stroke="#ffffffcc" AnchorPane.leftAnchor="10.0" AnchorPane.rightAnchor="10.0" AnchorPane.topAnchor="0.0" />
+                        <Label text="RECIPE NAME" AnchorPane.topAnchor="30.0">
+                           <styleClass>
+                              <String fx:value="text-medium" />
+                              <String fx:value="text-white" />
+                           </styleClass>
+                        </Label>
+                        <TextField prefHeight="26.0" prefWidth="293.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="30.0" />
+                        <Label layoutX="401.0" layoutY="85.0" text="1° 30'" textFill="WHITE" AnchorPane.topAnchor="105.0" />
+                     </children>
+                  </AnchorPane>
+                  <AnchorPane prefHeight="190.0" prefWidth="230.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="220.0">
+                     <children>
+                        <Label text="INGREDIENTS" AnchorPane.leftAnchor="0.0" AnchorPane.topAnchor="30.0">
+                           <styleClass>
+                              <String fx:value="text-medium" />
+                              <String fx:value="text-white" />
+                           </styleClass>
+                        </Label>
+                        <Button layoutX="320.0" layoutY="124.0" mnemonicParsing="false" prefHeight="38.0" prefWidth="59.0" styleClass="button-rounded" text="Add" AnchorPane.bottomAnchor="30.0" AnchorPane.rightAnchor="186.0" />
+                        <Button layoutX="186.0" layoutY="124.0" mnemonicParsing="false" prefHeight="38.0" prefWidth="108.0" styleClass="button-rounded" text="Customzie" AnchorPane.bottomAnchor="30.0" />
+                        <Line endX="544.0" stroke="#ffffffcc" AnchorPane.leftAnchor="10.0" AnchorPane.rightAnchor="10.0" AnchorPane.topAnchor="0.0" />
+                        <Line endX="544.0" stroke="#ffffffcc" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="10.0" AnchorPane.rightAnchor="10.0" />
+                        <Label prefHeight="27.0" text="Placeholder Unit" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="70.0">
+                           <font>
+                              <Font size="16.0" />
+                           </font>
+                           <styleClass>
+                              <String fx:value="text-blue" />
+                              <String fx:value="text-medium" />
+                           </styleClass>
+                        </Label>
+                        <ChoiceBox maxHeight="27.0" prefHeight="27.0" prefWidth="165.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="70.0" />
+                        <TextField maxHeight="27.0" prefHeight="27.0" prefWidth="317.0" promptText="Name" styleClass="textfield-rounded" AnchorPane.topAnchor="70.0" />
+                        <ComboBox editable="true" maxHeight="27.0" prefHeight="27.0" prefWidth="329.0" promptText="Placeholder" styleClass="combobox-rounded" AnchorPane.leftAnchor="0.0" AnchorPane.topAnchor="70.0" />
+                        <TextField layoutX="340.0" layoutY="70.0" prefHeight="27.0" prefWidth="53.0" promptText="Count" styleClass="textfield-rounded" AnchorPane.leftAnchor="340.0" AnchorPane.topAnchor="70.0" />
+                     </children>
+                  </AnchorPane>
+               </children>
+            </AnchorPane>
+         </children>
+         <styleClass>
+            <String fx:value="background-blue" />
+            <String fx:value="card-pane" />
+         </styleClass>
+      </AnchorPane>
+   </children>
+   <stylesheets>
+      <URL value="@../css/main.css" />
+      <URL value="@../css/text.css" />
+      <URL value="@../css/button.css" />
+      <URL value="@../css/textarea.css" />
+   </stylesheets>
+</AnchorPane>

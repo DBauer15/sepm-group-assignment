@@ -1,0 +1,45 @@
+* {
+	-fx-font-family: sans-serif;
+}
+
+.background-blue {
+    -fx-background-color: #58C6DA;
+}
+
+.background-white {
+    -fx-background-color: #FFFFFF;
+}
+
+.round {
+
+}
+
+.card-pane {
+	-fx-effect: dropshadow(gaussian, rgba(0,0,0,0.4), 15, 0.1, 0, 5);
+}
+
+.card {
+	-fx-effect: dropshadow(gaussian, rgba(0,0,0,0.2), 10, 0.2, 0, 5);
+	-fx-border-radius: 5;
+  	-fx-background-radius: 5;
+}
+
+.card:hover {
+	-fx-effect: dropshadow(gaussian, rgba(0,0,0,0.4), 15, 0.2, 0, 5);
+}
+
+.card:pressed {
+	-fx-effect: dropshadow(gaussian, rgba(0,0,0,0.4), 5, 0.05, 0, 3);
+	-fx-background-color: #FAFAFA;
+}
+
+.combobox-rounded {
+	-fx-background-color: -fx-shadow-highlight-color, -fx-outer-border, -fx-inner-border, white;
+    /*-fx-background-insets: 0 0 -1 0, 0, 1, 2;
+    -fx-background-radius: 3px, 3px, 2px, 1px;*/
+}
+
+.textfield-rounded {
+	-fx-border-radius: 5;
+	-fx-background-radius: 5;
+}

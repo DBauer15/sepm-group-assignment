@@ -1,0 +1,38 @@
+
+.text-heading {
+	-fx-font-family: sans-serif;
+	-fx-font-weight: black;
+	-fx-font-size: 40px;
+	-fx-text-alignment: center;
+}
+
+.text-small {
+	-fx-font-size: 12px;
+}
+
+.text-medium {
+	-fx-font-size: 20px;
+}
+
+.text-large {
+	-fx-font-size: 30px;
+}
+
+.text-blue {
+	-fx-text-fill: #196674;
+}
+
+.text-white {
+	-fx-text-fill: #ffffff;
+}
+
+.text-input-multiline {
+    -fx-font-family: Consolas;
+    -fx-font-size: 15;
+    -fx-text-fill: #006097;
+    -fx-display-caret:true;
+}
+
+.text-input-multiline .content {
+    -fx-background-color: #000000;
+}
