@@ -9,6 +9,11 @@ import at.ac.tuwien.sepm.assignment.groupphase.application.dto.DietPlan;
  */
 public interface DietPlanPersistence {
 
+    /**
+     * Creates a new Diet Plan with the supplied data. The diet plan will not be set active.
+     * @param dietPlan {@link DietPlan}
+     * @throws PersistenceException
+     */
 	public void create(DietPlan dietPlan) throws PersistenceException;
 
     /**
