@@ -2,6 +2,7 @@ package at.ac.tuwien.sepm.assignment.groupphase.application.service.implementati
 
 import java.lang.invoke.MethodHandles;
 
+import at.ac.tuwien.sepm.assignment.groupphase.application.util.implementation.DietPlanValidator;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.stereotype.Service;
@@ -19,6 +20,7 @@ public class SimpleDietPlanService implements DietPlanService {
 
 	private static final Logger LOG = LoggerFactory.getLogger(MethodHandles.lookup().lookupClass());
 	private DietPlanPersistence dietPlanRepository;
+	private DietPlanValidator dietPlanValidator;
 
 	/**
 	 * Constructor
@@ -26,13 +28,14 @@ public class SimpleDietPlanService implements DietPlanService {
 	 */
 	public SimpleDietPlanService(DietPlanPersistence dietPlanRepository) {
 		this.dietPlanRepository = dietPlanRepository;
+		this.dietPlanValidator = new DietPlanValidator();
 	}
 
 	@Override
 	public void create(DietPlan dietPlan) throws ServiceInvokationException {
 
 		ServiceInvokationContext context = new ServiceInvokationContext();
-		if (ValidationUtil.validateDietPlanForCreation(dietPlan, context) == false) {
+		if (dietPlanValidator.validateForCreation(dietPlan, context) == false) {
 			throw new ServiceInvokationException(context);
 		}
 
@@ -48,7 +51,7 @@ public class SimpleDietPlanService implements DietPlanService {
     public void switchTo(DietPlan dietPlan) throws ServiceInvokationException {
 
 	    ServiceInvokationContext context = new ServiceInvokationContext();
-	    if (ValidationUtil.validateDietPlanForUpdate(dietPlan, context) == false) {
+	    if (dietPlanValidator.validateForUpdate(dietPlan, context) == false) {
 	        throw new ServiceInvokationException(context);
         }
 
