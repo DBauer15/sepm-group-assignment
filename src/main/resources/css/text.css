@@ -1,9 +1,9 @@
 
 .text-heading {
-	-fx-font-family: sans-serif;
-	-fx-font-weight: black;
+    -fx-font-weight: bold;
 	-fx-font-size: 40px;
 	-fx-text-alignment: center;
+    -fx-font-family: sans-serif;
 }
 
 .text-small {

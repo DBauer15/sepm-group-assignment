@@ -13,11 +13,12 @@ public class MainController {
 
     @FXML
     private TabPlansController tabPlansController;
+    @FXML
     private TabRecipesController tabRecipesController;
+    @FXML
     private TabSearchController tabSearchController;
 
     public MainController(){
-        System.out.println("lalala");
 
     }
 }

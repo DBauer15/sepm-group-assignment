@@ -16,7 +16,7 @@
          <children>
             <ImageView fitHeight="124.0" fitWidth="124.0" layoutX="51.0" layoutY="39.0" pickOnBounds="true" preserveRatio="true" AnchorPane.bottomAnchor="30.0" AnchorPane.leftAnchor="30.0" AnchorPane.topAnchor="30.0">
                <image>
-                  <!-- <Image url="@../img/plan_placeholder.png" /> -->
+                  <Image url="@../img/plan_placeholder.png" />
                </image>
             </ImageView>
 
@@ -53,14 +53,14 @@
           <Tab closable="false" text="Placeholder Plan">
             <content>
               <AnchorPane minHeight="0.0" minWidth="0.0" prefHeight="180.0" prefWidth="200.0">
-                <fx:include source="TabPlans.fxml" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0" />
+                <fx:include fx:id="TabPlans" source="TabPlans.fxml" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0" />
               </AnchorPane>
             </content>
           </Tab>
           <Tab closable="false" text="Placeholder Recipes">
             <content>
               <AnchorPane minHeight="0.0" minWidth="0.0" prefHeight="180.0" prefWidth="200.0">
-                <fx:include source="TabRecipes.fxml" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0" />
+                <fx:include fx:id="TabRecipes" source="TabRecipes.fxml" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0" />
               </AnchorPane>
 
             </content>
@@ -68,7 +68,7 @@
             <Tab closable="false" text="Placeholder Search">
                <content>
                   <AnchorPane minHeight="0.0" minWidth="0.0" prefHeight="180.0" prefWidth="200.0">
-                      <fx:include source="TabSearch.fxml" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0" />
+                      <fx:include fx:id="TabSearch" source="TabSearch.fxml" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0" />
                   </AnchorPane>
                </content>
             </Tab>
@@ -76,7 +76,7 @@
       </TabPane>
    </children>
    <stylesheets>
-     <!-- <URL value="@../css/tab.css" /> -->
-     <!-- <URL value="@../css/text.css" /> -->
+     <URL value="@../css/tab.css" />
+     <URL value="@../css/text.css" />
    </stylesheets>
 </AnchorPane>
