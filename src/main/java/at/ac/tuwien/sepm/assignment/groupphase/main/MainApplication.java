@@ -1,6 +1,9 @@
 package at.ac.tuwien.sepm.assignment.groupphase.main;
 
+import at.ac.tuwien.sepm.assignment.groupphase.application.util.implementation.SpringFXMLLoader;
 import javafx.application.Application;
+import javafx.scene.Parent;
+import javafx.scene.Scene;
 import javafx.stage.Stage;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -22,13 +25,27 @@ public final class MainApplication extends Application {
     public void start(Stage primaryStage) throws Exception {
         // setup main
         // TODO Start here
+        primaryStage.setTitle("Universe Calculator");
+        primaryStage.setWidth(1366);
+        primaryStage.setHeight(768);
+        primaryStage.centerOnScreen();
+        primaryStage.setOnCloseRequest(event -> LOG.debug("Application shutdown initiated"));
+
+        context = new AnnotationConfigApplicationContext(MainApplication.class);
+        final var fxmlLoader = context.getBean(SpringFXMLLoader.class);
+        primaryStage.setScene(new Scene((Parent) fxmlLoader.load(
+            getClass().getResourceAsStream("/fxml/Main.fxml"))));
+
+        // show application
+        primaryStage.show();
+        primaryStage.toFront();
         LOG.debug("Application startup complete");
     }
 
     public static void main(String[] args) {
         LOG.debug("Application starting with arguments={}", (Object) args);
         // TODO Enable this
-        //Application.launch(MainApplication.class, args);
+        Application.launch(MainApplication.class, args);
     }
 
     @Override
