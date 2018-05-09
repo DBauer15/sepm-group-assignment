@@ -9,7 +9,7 @@ CREATE TABLE IF NOT EXISTS `RECIPE` (
   `description` CLOB NOT NULL,
   `tags` ENUM('B', 'D', 'L', 'BD', 'BL', 'DL', 'BDL') NOT NULL,
   `deleted` BOOL NOT NULL DEFAULT FALSE,
-  PRIMARY KEY (`id`))
+  PRIMARY KEY (`id`));
 
 
 
@@ -25,7 +25,7 @@ CREATE TABLE IF NOT EXISTS `RECIPE_IMAGE` (
     FOREIGN KEY (`RECIPE_id`)
     REFERENCES `RECIPE` (`id`)
     ON DELETE NO ACTION
-    ON UPDATE NO ACTION)
+    ON UPDATE NO ACTION);
 
 
 
@@ -46,7 +46,7 @@ CREATE TABLE IF NOT EXISTS `RECIPE_INGREDIENT` (
     FOREIGN KEY (`RECIPE_id`)
     REFERENCES `RECIPE` (`id`)
     ON DELETE NO ACTION
-    ON UPDATE NO ACTION)
+    ON UPDATE NO ACTION);
 
 
 
@@ -62,7 +62,7 @@ CREATE TABLE IF NOT EXISTS `DIET_PLAN` (
   `CARBOHYDRT` DOUBLE NOT NULL,
   `from_dt` TIMESTAMP,
   `to_dt` TIMESTAMP,
-  PRIMARY KEY (`id`))
+  PRIMARY KEY (`id`));
 
 
 
@@ -85,7 +85,7 @@ CREATE TABLE IF NOT EXISTS `DIET_PLAN_SUGGESTION` (
     FOREIGN KEY (`DIET_PLAN_id`)
     REFERENCES `DIET_PLAN` (`id`)
     ON DELETE NO ACTION
-    ON UPDATE NO ACTION)
+    ON UPDATE NO ACTION);
 
 -- -----------------------------------------------------
 -- Table `INGREDIENT`
@@ -106,4 +106,23 @@ CREATE TABLE IF NOT EXISTS `INGREDIENT` (
   `UNIT_GRAM_NORMALISED` DOUBLE NOT NULL,
   `UNIT_ORIG` VARCHAR(255),
   `USER_SPECIFIC` BOOL NOT NULL DEFAULT TRUE,
-  PRIMARY KEY (`id`))
+  PRIMARY KEY (`id`));
+
+
+-- -----------------------------------------------------
+-- Data for Table `DIET_PLAN`
+-- -----------------------------------------------------
+
+-- pre-defined meal plans
+
+-- Build Muscle
+INSERT INTO `DIET_PLAN` (`id`, `NAME`, `ENERG_KCAL`, `LIPID`, `PROTEIN`, `CARBOHYDRT`, `from_dt`, `to_dt`)
+VALUES (1, 'Build Muscle', 2500, 20.0, 25.0, 50.0, NULL, NULL);
+
+-- Lose Weight
+INSERT INTO `DIET_PLAN` (`id`, `NAME`, `ENERG_KCAL`, `LIPID`, `PROTEIN`, `CARBOHYDRT`, `from_dt`, `to_dt`)
+VALUES (2, 'Lose Weight', 1900, 30.0, 40.0, 30.0, NULL, NULL);
+
+-- Carefree
+INSERT INTO `DIET_PLAN` (`id`, `NAME`, `ENERG_KCAL`, `LIPID`, `PROTEIN`, `CARBOHYDRT`, `from_dt`, `to_dt`)
+VALUES (3, 'Carefree', 3000, 30.0, 10.0, 60.0, NULL, NULL);
