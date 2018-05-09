@@ -44,7 +44,6 @@ public class SimpleDietPlanPersistence implements DietPlanPersistence {
 			dietPlan.setId(generatedKeys.getInt(1));
 
 		} catch (SQLException e) {
-			LOG.debug("There was an error when trying to create the diet plan in the database. {}", e);
 			throw new PersistenceException(
 					"There was an error while creating the diet plan in the database. " + e.getMessage());
 		} finally {
@@ -87,7 +86,7 @@ public class SimpleDietPlanPersistence implements DietPlanPersistence {
 				stmnt.close();
 			}
 		} catch (SQLException e) {
-			LOG.debug("Closing used Prepared Statement instance failed. {}", e);
+			LOG.error("Closing used Prepared Statement instance failed. {}", e);
 		}
 	}
 

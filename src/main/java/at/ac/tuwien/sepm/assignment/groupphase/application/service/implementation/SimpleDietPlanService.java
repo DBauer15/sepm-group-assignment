@@ -42,8 +42,7 @@ public class SimpleDietPlanService implements DietPlanService {
 		try {
 			dietPlanRepository.create(dietPlan);
 		} catch (PersistenceException e) {
-			LOG.error("An error occured while creating a new Diet plan.");
-			throw new ServiceInvokationException("An error occured while creating a new Diet plan in the database.");
+			throw new ServiceInvokationException(e.getMessage());
 		}
 	}
 
