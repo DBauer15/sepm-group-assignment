@@ -1,11 +1,19 @@
 package at.ac.tuwien.sepm.assignment.groupphase.application.util.implementation;
 
 import at.ac.tuwien.sepm.assignment.groupphase.application.dto.DietPlan;
+import at.ac.tuwien.sepm.assignment.groupphase.application.dto.Recipe;
 import at.ac.tuwien.sepm.assignment.groupphase.application.service.ServiceInvokationContext;
 
 public class ValidationUtil {
 
-	public static boolean validateDietPlan(DietPlan dietPlan, ServiceInvokationContext context) {
+    public static boolean validateRecipe(Recipe recipe, ServiceInvokationContext context) {
+        ValidationUtil.validateStringLength("Diet plan name", recipe.getName(), 0, 255, context);
+        ValidationUtil.validateDoubleLimits("Duration", recipe.getDuration(), 0d, 255d, context);
+        // TODO validation
+        return context.isValid();
+    }
+
+    public static boolean validateDietPlan(DietPlan dietPlan, ServiceInvokationContext context) {
 		ValidationUtil.validateStringLength("Diet plan name", dietPlan.getName(), 5, 255, context);
 
 		// TODO was sind sinnvolle schranken?

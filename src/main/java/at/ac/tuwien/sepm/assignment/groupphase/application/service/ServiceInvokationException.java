@@ -11,7 +11,7 @@ public class ServiceInvokationException extends Exception {
 	private ServiceInvokationContext context;
 
 	/**
-	 * Constructor 
+	 * Constructor
 	 * @param context {@link ServiceInvokationContext}
 	 */
 	public ServiceInvokationException(ServiceInvokationContext context) {
@@ -26,6 +26,10 @@ public class ServiceInvokationException extends Exception {
 		context = new ServiceInvokationContext();
 		context.addError(errorMessage);
 	}
+
+    public ServiceInvokationException(Throwable cause) {
+        this(cause.getMessage());
+    }
 
 	/**
 	 * Get the service invocation context from the exception
