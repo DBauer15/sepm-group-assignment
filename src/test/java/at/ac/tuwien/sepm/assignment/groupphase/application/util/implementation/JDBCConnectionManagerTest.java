@@ -14,17 +14,15 @@ public class JDBCConnectionManagerTest extends BaseTest {
 
 	@Test
 	public void testGetConnection_withTestDb_noExceptionAndNotNull() throws SQLException {
-		JDBCConnectionManager conManager = new JDBCConnectionManager();
-		Connection connection = conManager.getConnection();
+		Connection connection = JDBCConnectionManager.getConnection();
 
 		Assert.assertNotNull(connection);
-		conManager.closeConnection();
+		JDBCConnectionManager.closeConnection();
 	}
 
 	@Test
 	public void testTableIngredient_withTestDb_noExceptionAndAtLeastOneTupelInIngredientTable() throws SQLException {
-		JDBCConnectionManager conManager = new JDBCConnectionManager();
-		Connection connection = conManager.getConnection();
+		Connection connection = JDBCConnectionManager.getConnection();
 
 		PreparedStatement getStmnt = connection.prepareStatement("select count(*) from INGREDIENT;");
 		ResultSet resultSet = getStmnt.executeQuery();
@@ -34,7 +32,7 @@ public class JDBCConnectionManagerTest extends BaseTest {
 		}
 		Assert.assertTrue(resultSet.getInt(1) > 0);
 		getStmnt.close();
-		conManager.closeConnection();
+		JDBCConnectionManager.closeConnection();
 	}
 
 }
