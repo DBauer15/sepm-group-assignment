@@ -34,4 +34,8 @@ public class ServiceInvokationException extends Exception {
 	public ServiceInvokationContext getContext() {
 		return context;
 	}
+
+    public ServiceInvokationException(Throwable cause) {
+        this(cause.getMessage());
+    }
 }
