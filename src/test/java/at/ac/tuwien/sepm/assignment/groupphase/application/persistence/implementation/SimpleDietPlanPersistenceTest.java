@@ -42,10 +42,10 @@ public class SimpleDietPlanPersistenceTest extends BaseTest{
 
         //Get currently active plan and save its ID for later
         ResultSet resultSetOldActive = getActiveStatement.executeQuery();
-        if (resultSetOldActive.next() == false) {
-            Assert.fail("No diet plan was not set active");
+        int old_active_id = -1;
+        if (resultSetOldActive.next() == true) {
+            old_active_id = resultSetOldActive.getInt(1);
         }
-        int old_active_id = resultSetOldActive.getInt(1);
 
         //Switch to the new plan
         dietPlanPersistence.switchTo(dietPlan);
@@ -59,7 +59,7 @@ public class SimpleDietPlanPersistenceTest extends BaseTest{
         getActiveStatement.close();
 
         //Check if the old plan was updated correctly
-        if (old_active_id != dietPlan.getId()) {
+        if (old_active_id != dietPlan.getId() && old_active_id != -1) {
             getOldStatement.setInt(1, old_active_id);
             ResultSet resultSetOldInactive = getOldStatement.executeQuery();
             if (resultSetOldInactive.next() == false) {
