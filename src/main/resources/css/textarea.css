@@ -5,7 +5,7 @@
     -fx-background-color: transparent, white, transparent, white;
     -fx-background-radius: 0, 0, 0, 0;
 
-    -fx-box-border: none;
+    -fx-box-border: transparent;
     -fx-focus-color: -fx-control-inner-background;
     -fx-faint-focus-color: -fx-control-inner-background;
     -fx-text-box-border: -fx-control-inner-background;
