@@ -12,6 +12,10 @@ public class Recipe {
     private EnumSet<RecipeTag> tags;
     private Boolean deleted;
 
+    public Recipe(){
+
+    }
+
     /**
      * @param id
      * @param name
@@ -104,5 +108,17 @@ public class Recipe {
             .stream(tags.split(""))
             .map(RecipeTag::valueOf)
             .collect(Collectors.toCollection(() -> EnumSet.noneOf(RecipeTag.class)));
+    }
+
+    @Override
+    public String toString() {
+        return "Recipe{" +
+            "id=" + id +
+            ", name='" + name + '\'' +
+            ", duration=" + duration +
+            ", description='" + description + '\'' +
+            ", tags=" + tags +
+            ", deleted=" + deleted +
+            '}';
     }
 }

@@ -18,7 +18,7 @@
             <TableColumn prefWidth="147.0" resizable="false" text="Preparation Time" />
         </columns>
       </TableView>
-      <Button mnemonicParsing="false" prefHeight="50.0" prefWidth="50.0" styleClass="button-circular" text="+" AnchorPane.bottomAnchor="36.0" AnchorPane.rightAnchor="36.0" />
+      <Button fx:id="addRecipeButton" mnemonicParsing="false" onAction="#onAddRecipeButtonClicked" prefHeight="50.0" prefWidth="50.0" styleClass="button-circular" text="+" AnchorPane.bottomAnchor="36.0" AnchorPane.rightAnchor="36.0" />
    </children>
    <stylesheets>
       <URL value="@../css/table.css" />

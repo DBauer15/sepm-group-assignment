@@ -32,8 +32,8 @@
                         <String fx:value="text-blue" />
                      </styleClass>
                   </Label>
-                  <TextArea layoutY="119.0" prefHeight="629.0" prefWidth="564.0" promptText="Enter all needed steps to cook you recipe here." styleClass="text-area" wrapText="true" AnchorPane.bottomAnchor="50.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="100.0" />
-                  <Button mnemonicParsing="false" prefHeight="38.0" prefWidth="86.0" text="Create" AnchorPane.bottomAnchor="0.0" AnchorPane.rightAnchor="0.0">
+                  <TextArea fx:id="directionsTextArea" layoutY="119.0" prefHeight="629.0" prefWidth="564.0" promptText="Enter all needed steps to cook you recipe here." styleClass="text-area" wrapText="true" AnchorPane.bottomAnchor="50.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="100.0" />
+                  <Button fx:id="createButton" mnemonicParsing="false" onAction="#onCreateButtonClicked" prefHeight="38.0" prefWidth="86.0" text="Create" AnchorPane.bottomAnchor="0.0" AnchorPane.rightAnchor="0.0">
                      <styleClass>
                         <String fx:value="card" />
                         <String fx:value="button-rounded" />
@@ -83,7 +83,7 @@
                               <String fx:value="text-white" />
                            </styleClass>
                         </Label>
-                        <Slider prefHeight="23.0" prefWidth="293.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="80.0" />
+                        <Slider fx:id="preparationTimeSlider" prefHeight="23.0" prefWidth="293.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="80.0" />
                         <Line endX="544.0" stroke="#ffffffcc" AnchorPane.leftAnchor="10.0" AnchorPane.rightAnchor="10.0" AnchorPane.topAnchor="0.0" />
                         <Label text="RECIPE NAME" AnchorPane.topAnchor="30.0">
                            <styleClass>
@@ -91,8 +91,8 @@
                               <String fx:value="text-white" />
                            </styleClass>
                         </Label>
-                        <TextField prefHeight="26.0" prefWidth="293.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="30.0" />
-                        <Label layoutX="401.0" layoutY="85.0" text="1° 30'" textFill="WHITE" AnchorPane.topAnchor="105.0" />
+                        <TextField fx:id="recipeNameTextField" prefHeight="26.0" prefWidth="293.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="30.0" />
+                        <Label fx:id="preparationTimeLabel" layoutX="401.0" layoutY="85.0" text="0 minutes" textFill="WHITE" AnchorPane.topAnchor="105.0" />
                      </children>
                   </AnchorPane>
                   <AnchorPane prefHeight="190.0" prefWidth="230.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="220.0">
@@ -104,7 +104,7 @@
                            </styleClass>
                         </Label>
                         <Button layoutX="320.0" layoutY="124.0" mnemonicParsing="false" prefHeight="38.0" prefWidth="59.0" styleClass="button-rounded" text="Add" AnchorPane.bottomAnchor="30.0" AnchorPane.rightAnchor="186.0" />
-                        <Button layoutX="186.0" layoutY="124.0" mnemonicParsing="false" prefHeight="38.0" prefWidth="108.0" styleClass="button-rounded" text="Customzie" AnchorPane.bottomAnchor="30.0" />
+                        <Button layoutX="186.0" layoutY="124.0" mnemonicParsing="false" prefHeight="38.0" prefWidth="108.0" styleClass="button-rounded" text="Customize" AnchorPane.bottomAnchor="30.0" />
                         <Line endX="544.0" stroke="#ffffffcc" AnchorPane.leftAnchor="10.0" AnchorPane.rightAnchor="10.0" AnchorPane.topAnchor="0.0" />
                         <Line endX="544.0" stroke="#ffffffcc" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="10.0" AnchorPane.rightAnchor="10.0" />
                         <Label prefHeight="27.0" text="Placeholder Unit" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="70.0">
