@@ -28,8 +28,23 @@ public class Recipe {
         this.id = id;
         this.name = name;
         this.duration = duration;
+		this.description = description;
         this.tags = tags;
         this.deleted = deleted;
+    }
+    
+    /**
+     * Constructor
+     * @param name
+     * @param duration
+     * @param description
+     * @param tags
+     */
+    public Recipe(String name, Double duration, String description, EnumSet<RecipeTag> tags) {
+        this.name = name;
+        this.duration = duration;
+		this.description = description;
+        this.tags = tags;
     }
 
     /**
@@ -44,6 +59,7 @@ public class Recipe {
         this.id = id;
         this.name = name;
         this.duration = duration;
+		this.description = description;
         setTagsAsString(tagsAsString);
         this.deleted = deleted;
     }

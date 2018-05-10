@@ -11,46 +11,39 @@ import java.sql.*;
 
 @Repository
 public class DBRecipePersistence implements RecipePersistence {
-    private static final String CREATE_RECIPE = "INSERT INTO RECIPE (name, duration, description, tags, deleted) VALUES (?, ?, ?, ?, ?)";
+	private static final String CREATE_RECIPE = "INSERT INTO RECIPE (name, duration, description, tags, deleted) VALUES (?, ?, ?, ?, ?)";
 
-    private final Connection connection;
-    private PreparedStatement ps;
+	private PreparedStatement ps;
 
-    public DBRecipePersistence(JDBCConnectionManager jdbcConnectionManager) throws PersistenceException {
-        try {
-            connection = jdbcConnectionManager.getConnection();
-        } catch (SQLException e) {
-            throw new PersistenceException(e);
-        }
-    }
+	@Override
+	public void create(Recipe recipe) throws PersistenceException {
+		ResultSet generatedKeys = null;
+		int i = 1;
 
-    @Override
-    public void create(Recipe recipe) throws PersistenceException {
-    	ResultSet generatedKeys = null;
-    	int i = 1;
-    	
-        try {
-            ps = connection.prepareStatement(CREATE_RECIPE);
-            ps.setString(i++, recipe.getName());
-            ps.setDouble(i++, recipe.getDuration());
-            
-            Clob clob = connection.createClob();
-            clob.setString(1, recipe.getDescription());
-            
-            ps.setClob(i++, clob);
-            ps.setString(i++, recipe.getTagsAsString());
-            ps.setBoolean(i++, false);
-            ps.executeQuery();
+		try {
+			Connection connection = JDBCConnectionManager.getConnection();
+			ps = connection.prepareStatement(CREATE_RECIPE, Statement.RETURN_GENERATED_KEYS);
+			ps.setString(i++, recipe.getName());
+			ps.setDouble(i++, recipe.getDuration());
 
-            generatedKeys = ps.getGeneratedKeys();
-            generatedKeys.next();
-            
-            recipe.setId(generatedKeys.getInt(1));
-        } catch (SQLException e) {
-            throw new PersistenceException(e);
-        } finally {
-        	CloseUtil.closeResultSet(generatedKeys);
-            CloseUtil.closeStatement(ps);
-        }
-    }
+			Clob clob = connection.createClob();
+			clob.setString(1, recipe.getDescription());
+
+			ps.setClob(i++, clob);
+			ps.setString(i++, recipe.getTagsAsString());
+			ps.setBoolean(i++, false);
+			ps.execute();
+
+			generatedKeys = ps.getGeneratedKeys();
+			generatedKeys.next();
+
+			recipe.setId(generatedKeys.getInt(1));
+		} catch (SQLException e) {
+			throw new PersistenceException(
+					"There was an error while creating a recipe in the database. " + e.getMessage());
+		} finally {
+			CloseUtil.closeResultSet(generatedKeys);
+			CloseUtil.closeStatement(ps);
+		}
+	}
 }
