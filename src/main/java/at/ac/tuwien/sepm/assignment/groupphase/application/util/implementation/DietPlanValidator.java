@@ -7,6 +7,9 @@ import at.ac.tuwien.sepm.assignment.groupphase.application.util.Validator;
 public class DietPlanValidator implements Validator<DietPlan> {
     @Override
     public boolean validateForCreation(DietPlan dietPlan, ServiceInvokationContext context) {
+        if (ValidationUtil.validateNull("Diet plan", dietPlan, context)) {
+            return context.isValid();
+        }
         ValidationUtil.validateStringLength("Diet plan name", dietPlan.getName(), 5, 255, context);
 
         // TODO was sind sinnvolle schranken?
@@ -18,7 +21,19 @@ public class DietPlanValidator implements Validator<DietPlan> {
     }
 
     @Override
+    public boolean validateForReading(DietPlan dietPlan, ServiceInvokationContext context) {
+        if (ValidationUtil.validateNull("Diet plan", dietPlan, context)) {
+            return context.isValid();
+        }
+        validateForUpdate(dietPlan, context);
+        return context.isValid();
+    }
+
+    @Override
     public boolean validateForUpdate(DietPlan dietPlan, ServiceInvokationContext context) {
+        if (ValidationUtil.validateNull("Diet plan", dietPlan, context)) {
+            return context.isValid();
+        }
         ValidationUtil.validateId(dietPlan.getId(), context);
         validateForCreation(dietPlan, context);
 

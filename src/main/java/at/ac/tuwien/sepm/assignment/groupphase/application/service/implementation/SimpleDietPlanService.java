@@ -1,7 +1,9 @@
 package at.ac.tuwien.sepm.assignment.groupphase.application.service.implementation;
 
 import java.lang.invoke.MethodHandles;
+import java.util.List;
 
+import at.ac.tuwien.sepm.assignment.groupphase.application.persistence.NoEntryFoundException;
 import at.ac.tuwien.sepm.assignment.groupphase.application.util.implementation.DietPlanValidator;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -13,7 +15,6 @@ import at.ac.tuwien.sepm.assignment.groupphase.application.persistence.Persisten
 import at.ac.tuwien.sepm.assignment.groupphase.application.service.DietPlanService;
 import at.ac.tuwien.sepm.assignment.groupphase.application.service.ServiceInvokationContext;
 import at.ac.tuwien.sepm.assignment.groupphase.application.service.ServiceInvokationException;
-import at.ac.tuwien.sepm.assignment.groupphase.application.util.implementation.ValidationUtil;
 
 @Service
 public class SimpleDietPlanService implements DietPlanService {
@@ -45,6 +46,36 @@ public class SimpleDietPlanService implements DietPlanService {
 			throw new ServiceInvokationException(e.getMessage());
 		}
 	}
+
+	@Override
+    public List<DietPlan> readAll() throws ServiceInvokationException {
+	    try {
+	        List<DietPlan> dietPlans = dietPlanRepository.readAll();
+	        for (DietPlan dietPlan : dietPlans) {
+	            ServiceInvokationContext context = new ServiceInvokationContext();
+	            if (dietPlanValidator.validateForReading(dietPlan, context) == false) {
+	                throw new ServiceInvokationException(context);
+                }
+            }
+            return dietPlans;
+        } catch (PersistenceException e) {
+            throw new ServiceInvokationException(e.getMessage());
+        }
+    }
+
+    @Override
+    public DietPlan readActive() throws ServiceInvokationException, NoEntryFoundException{ //TODO NoEntryFoundException indicates that there is no active plan and that the plan chooser has to be shown
+        try {
+            ServiceInvokationContext context = new ServiceInvokationContext();
+            DietPlan dietPlan = dietPlanRepository.readActive();
+            if (dietPlanValidator.validateForReading(dietPlan, context) == false) {
+                throw new ServiceInvokationException(context);
+            }
+            return dietPlan;
+        } catch (PersistenceException e) {
+            throw new ServiceInvokationException(e.getMessage());
+        }
+    }
 
 	@Override
     public void switchTo(DietPlan dietPlan) throws ServiceInvokationException {

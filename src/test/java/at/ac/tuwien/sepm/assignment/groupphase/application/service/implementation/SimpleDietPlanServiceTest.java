@@ -1,12 +1,9 @@
 package at.ac.tuwien.sepm.assignment.groupphase.application.service.implementation;
 
-import static org.mockito.Mockito.mock;
-import static org.mockito.Mockito.times;
-import static org.mockito.Mockito.verify;
-import static org.mockito.Mockito.verifyZeroInteractions;
-
 import java.util.ArrayList;
+import java.util.Arrays;
 
+import at.ac.tuwien.sepm.assignment.groupphase.application.persistence.NoEntryFoundException;
 import org.junit.Assert;
 import org.junit.Test;
 
@@ -18,9 +15,12 @@ import at.ac.tuwien.sepm.assignment.groupphase.application.service.DietPlanServi
 import at.ac.tuwien.sepm.assignment.groupphase.application.service.ServiceInvokationException;
 import at.ac.tuwien.sepm.assignment.groupphase.application.util.BaseTest;
 
+import static org.mockito.Mockito.*;
+
 /**
  * Test class for {@link SimpleDietPlanService}
  * @author e01529136
+ * @author e01442385
  */
 public class SimpleDietPlanServiceTest extends BaseTest {
 
@@ -97,6 +97,95 @@ public class SimpleDietPlanServiceTest extends BaseTest {
 	}
 
 	@Test
+    public void testReadAll_none_callsPersistenceReadAllOnce() throws ServiceInvokationException, PersistenceException {
+        // invocation
+        DietPlanService dietPlanService = new SimpleDietPlanService(mockedDietPlanRepo);
+        dietPlanService.readAll();
+
+        // verification after invocation
+        verify(mockedDietPlanRepo, times(1)).readAll();
+    }
+
+    @Test
+    public void testReadAll_none_throwsServiceInvocationException() throws PersistenceException, NoEntryFoundException {
+        when(mockedDietPlanRepo.readAll()).thenReturn(new ArrayList<DietPlan>(Arrays.asList(dietPlanInvalid1)));
+        DietPlanService dietPlanService = new SimpleDietPlanService(mockedDietPlanRepo);
+
+        try {
+            dietPlanService.readAll();
+        } catch (ServiceInvokationException e) {
+
+            //Verify that persistence was called
+            verify(mockedDietPlanRepo, times(1)).readAll();
+
+            // verify validations
+            ArrayList<String> errors = e.getContext().getErrors();
+            Assert.assertEquals(6, errors.size());
+            Assert.assertEquals("ID needs to be set", errors.get(0));
+            Assert.assertEquals("Enter only 255 characters in the field 'Diet plan name'", errors.get(1));
+            Assert.assertEquals("Enter a value that is smaller than 50.0 in the field 'Energy Kcal'", errors.get(2));
+            Assert.assertEquals("Enter a value that is smaller than 50.0 in the field 'Lipid'", errors.get(3));
+            Assert.assertEquals("Enter a value that is smaller than 50.0 in the field 'Protein'", errors.get(4));
+            Assert.assertEquals("Enter a value that is smaller than 50.0 in the field 'Carbohydrate'", errors.get(5));
+            return;
+        }
+        Assert.fail("Should throw NoEntryFoundException!");
+    }
+
+    @Test
+    public void testReadActive_withActiveDietPlan_callsPersistenceReadActiveOnce() throws NoEntryFoundException, PersistenceException, ServiceInvokationException {
+        // invocation
+        when(mockedDietPlanRepo.readActive()).thenReturn(dietPlanValidWithId);
+        DietPlanService dietPlanService = new SimpleDietPlanService(mockedDietPlanRepo);
+        dietPlanService.readActive();
+
+        // verification after invocation
+        verify(mockedDietPlanRepo, times(1)).readActive();
+    }
+
+    @Test
+    public void testReadActive_withoutActiveDietPlan_throwsNoEntryException() throws PersistenceException, ServiceInvokationException, NoEntryFoundException {
+	    when(mockedDietPlanRepo.readActive()).thenThrow(NoEntryFoundException.class);
+        DietPlanService dietPlanService = new SimpleDietPlanService(mockedDietPlanRepo);
+
+        try {
+            dietPlanService.readActive();
+        } catch (NoEntryFoundException e) {
+            //Verify that persistence was called
+            verify(mockedDietPlanRepo, times(1)).readActive();
+            return;
+        }
+        Assert.fail("Should throw NoEntryFoundException!");
+    }
+
+    @Test
+    public void testReadActive_withInvalidActiveDietPlan_throwsServiceInvocationException() throws PersistenceException, ServiceInvokationException, NoEntryFoundException {
+        when(mockedDietPlanRepo.readActive()).thenReturn(dietPlanInvalid1);
+        DietPlanService dietPlanService = new SimpleDietPlanService(mockedDietPlanRepo);
+
+        try {
+            dietPlanService.readActive();
+        } catch (ServiceInvokationException e) {
+
+            //Verify that persistence was called
+            verify(mockedDietPlanRepo, times(1)).readActive();
+
+            // verify validations
+            ArrayList<String> errors = e.getContext().getErrors();
+            Assert.assertEquals(6, errors.size());
+            Assert.assertEquals("ID needs to be set", errors.get(0));
+            Assert.assertEquals("Enter only 255 characters in the field 'Diet plan name'", errors.get(1));
+            Assert.assertEquals("Enter a value that is smaller than 50.0 in the field 'Energy Kcal'", errors.get(2));
+            Assert.assertEquals("Enter a value that is smaller than 50.0 in the field 'Lipid'", errors.get(3));
+            Assert.assertEquals("Enter a value that is smaller than 50.0 in the field 'Protein'", errors.get(4));
+            Assert.assertEquals("Enter a value that is smaller than 50.0 in the field 'Carbohydrate'", errors.get(5));
+            return;
+        }
+        Assert.fail("Should throw NoEntryFoundException!");
+    }
+
+
+	@Test
     public void testSwitchTo_validData_callsPersistenceSwitchToOnce() throws ServiceInvokationException, PersistenceException {
         // invocation
         DietPlanService dietPlanService = new SimpleDietPlanService(mockedDietPlanRepo);
@@ -120,7 +209,7 @@ public class SimpleDietPlanServiceTest extends BaseTest {
             // verify validations
             ArrayList<String> errors = e.getContext().getErrors();
             Assert.assertEquals(1, errors.size());
-            Assert.assertEquals("ID needs to be set to perform update", errors.get(0));
+            Assert.assertEquals("ID needs to be set", errors.get(0));
             return;
         }
         Assert.fail("Should throw ServiceInvokationException!");
