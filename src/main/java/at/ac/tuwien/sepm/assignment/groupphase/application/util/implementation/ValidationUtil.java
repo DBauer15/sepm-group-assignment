@@ -5,18 +5,18 @@ import at.ac.tuwien.sepm.assignment.groupphase.application.dto.Recipe;
 import at.ac.tuwien.sepm.assignment.groupphase.application.service.ServiceInvokationContext;
 
 public class ValidationUtil {
-    public static boolean validateRecipe(Recipe recipe, ServiceInvokationContext context) {
-        ValidationUtil.validateStringLength("Recipe name", recipe.getName(), 0, 255, context);
-        ValidationUtil.validateDoubleLimits("Duration", recipe.getDuration(), 0d, 255d, context);
-        ValidationUtil.validateStringLength("Description", recipe.getDescription(), 1, null, context);
-        
-        if (recipe.getTags().size() == 0) {
+	public static boolean validateRecipe(Recipe recipe, ServiceInvokationContext context) {
+		ValidationUtil.validateStringLength("Recipe name", recipe.getName(), 0, 255, context);
+		ValidationUtil.validateDoubleLimits("Duration", recipe.getDuration(), 0d, 255d, context);
+		ValidationUtil.validateStringLength("Description", recipe.getDescription(), 1, null, context);
+
+		if (recipe.getTags().size() == 0) {
 			context.addError(String.format("Select at least one tag (breakfast, lunch or dinner)"));
-        }
-        
-        return context.isValid();
-    }
-    
+		}
+
+		return context.isValid();
+	}
+
 	public static boolean validateDietPlan(DietPlan dietPlan, ServiceInvokationContext context) {
 		ValidationUtil.validateStringLength("Diet plan name", dietPlan.getName(), 5, 255, context);
 
@@ -38,7 +38,7 @@ public class ValidationUtil {
 		}
 	}
 
-	private static void validateDoubleLimits(String fieldName, Double value, Double lowerBound, Double upperBound,
+	public static void validateDoubleLimits(String fieldName, Double value, Double lowerBound, Double upperBound,
 			ServiceInvokationContext context) {
 		if (lowerBound != null && value <= lowerBound) {
 			context.addError(
@@ -48,5 +48,22 @@ public class ValidationUtil {
 			context.addError(
 					String.format("Enter a value that is smaller than %s in the field '%s'", upperBound, fieldName));
 		}
+	}
+
+	public static void validateId(Integer id, ServiceInvokationContext context) {
+		if (id == null) {
+			context.addError("ID needs to be set");
+		}
+		if (id != null && id < 0) {
+			context.addError("ID cannot be negative");
+		}
+	}
+
+	public static boolean validateNull(String fieldName, Object value, ServiceInvokationContext context) {
+		if (value == null) {
+			context.addError(String.format("The field '%s' cannot be null", fieldName));
+			return true;
+		}
+		return false;
 	}
 }
