@@ -13,6 +13,14 @@ public interface Validator <T> {
     public boolean validateForCreation(T dto, ServiceInvokationContext context);
 
     /**
+     * Validates a given DTO after reading from persistence
+     * @param dto Data Transfer Object to be validated
+     * @param context {@link ServiceInvokationContext}
+     * @return Boolean indicating if the given DTO is valid
+     */
+    public boolean validateForReading(T dto, ServiceInvokationContext context);
+
+    /**
      * Validates a given DTO for update purposes
      * @param dto Data Transfer Object to be validated
      * @param context {@link ServiceInvokationContext}
