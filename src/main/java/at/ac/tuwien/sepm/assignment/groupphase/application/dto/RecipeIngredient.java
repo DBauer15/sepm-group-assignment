@@ -11,6 +11,7 @@ public class RecipeIngredient {
 	private String unitName;
 	private Double unitGramNormalised;
 	private Boolean userSpecific;
+	private String ingredientName;
 
 	/**
 	 * Constructor
@@ -23,9 +24,10 @@ public class RecipeIngredient {
 	 * @param unitName
 	 * @param unitGramNormalised
 	 * @param userSpecific
+	 * @param ingredientName
 	 */
 	public RecipeIngredient(Integer id, Double amount, Double energyKcal, Double lipid, Double protein,
-			Double carbohydrate, String unitName, Double unitGramNormalised, Boolean userSpecific) {
+			Double carbohydrate, String unitName, Double unitGramNormalised, Boolean userSpecific, String ingredientName) {
 		this.id = id;
 		this.amount = amount;
 		this.energyKcal = energyKcal;
@@ -35,6 +37,7 @@ public class RecipeIngredient {
 		this.unitName = unitName;
 		this.unitGramNormalised = unitGramNormalised;
 		this.userSpecific = userSpecific;
+		this.ingredientName = ingredientName;
 	}
 
 	/**
@@ -47,9 +50,10 @@ public class RecipeIngredient {
 	 * @param unitName
 	 * @param unitGramNormalised
 	 * @param userSpecific
+	 * @param ingredientName
 	 */
 	public RecipeIngredient(Double amount, Double energyKcal, Double lipid, Double protein, Double carbohydrate,
-			String unitName, Double unitGramNormalised, Boolean userSpecific) {
+			String unitName, Double unitGramNormalised, Boolean userSpecific, String ingredientName) {
 		this.amount = amount;
 		this.energyKcal = energyKcal;
 		this.lipid = lipid;
@@ -58,6 +62,7 @@ public class RecipeIngredient {
 		this.unitName = unitName;
 		this.unitGramNormalised = unitGramNormalised;
 		this.userSpecific = userSpecific;
+		this.ingredientName = ingredientName;
 	}
 
 	/**
@@ -142,6 +147,14 @@ public class RecipeIngredient {
 
 	public void setUserSpecific(Boolean userSpecific) {
 		this.userSpecific = userSpecific;
+	}
+
+	public String getIngredientName() {
+		return ingredientName;
+	}
+
+	public void setIngredientName(String ingredientName) {
+		this.ingredientName = ingredientName;
 	}
 
 }
