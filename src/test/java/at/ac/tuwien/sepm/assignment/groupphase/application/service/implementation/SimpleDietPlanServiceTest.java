@@ -13,7 +13,7 @@ import org.junit.Test;
 import at.ac.tuwien.sepm.assignment.groupphase.application.dto.DietPlan;
 import at.ac.tuwien.sepm.assignment.groupphase.application.persistence.DietPlanPersistence;
 import at.ac.tuwien.sepm.assignment.groupphase.application.persistence.PersistenceException;
-import at.ac.tuwien.sepm.assignment.groupphase.application.persistence.implementation.SimpleDietPlanPersistence;
+import at.ac.tuwien.sepm.assignment.groupphase.application.persistence.implementation.DBDietPlanPersistence;
 import at.ac.tuwien.sepm.assignment.groupphase.application.service.DietPlanService;
 import at.ac.tuwien.sepm.assignment.groupphase.application.service.ServiceInvokationException;
 import at.ac.tuwien.sepm.assignment.groupphase.application.util.BaseTest;
@@ -25,7 +25,7 @@ import at.ac.tuwien.sepm.assignment.groupphase.application.util.BaseTest;
 public class SimpleDietPlanServiceTest extends BaseTest {
 
 	// mocking
-	private final DietPlanPersistence mockedDietPlanRepo = mock(SimpleDietPlanPersistence.class);
+	private final DietPlanPersistence mockedDietPlanRepo = mock(DBDietPlanPersistence.class);
 
 	// example data
 	private static final String EXAMPLE_TEXT_256CHARS = "Lorem ipsum dolor sit amet, consetetur sadipscing elitr, sed diam nonumy eirmod tempor invidunt ut labore et dolore magna aliquyam erat, sed diam voluptua. At vero eos et accusam et justo duo dolores et ea rebum. Stet clita kasd gubergren, no sea takimatad";

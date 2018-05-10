@@ -16,11 +16,11 @@ import java.sql.SQLException;
 
 import static org.hamcrest.core.Is.is;
 
-public class SimpleDietPlanPersistenceTest extends BaseTest{
+public class DBDietPlanPersistenceTest extends BaseTest{
 
 	@Test
 	public void testCreate_withDietPlan_successWithSetDietPlanId() throws PersistenceException {
-		DietPlanPersistence dietPlanPersistence = new SimpleDietPlanPersistence();
+		DietPlanPersistence dietPlanPersistence = new DBDietPlanPersistence();
 
 		DietPlan dietPlan = new DietPlan("Jeden Tag Sorgenfrei", 3000d, 100d, 200d, 300.50);
 		dietPlanPersistence.create(dietPlan);
@@ -31,7 +31,7 @@ public class SimpleDietPlanPersistenceTest extends BaseTest{
 
 	@Test
     public void testSwitchTo_withDietPlan_successWithSetDietPlanDtFrom() throws PersistenceException, SQLException {
-	    DietPlanPersistence dietPlanPersistence = new SimpleDietPlanPersistence();
+	    DietPlanPersistence dietPlanPersistence = new DBDietPlanPersistence();
 
 	    DietPlan dietPlan = new DietPlan(2, "Jeden Tag Sorgenfrei", 3000d, 100d, 200d, 300.50, null, null);
 
