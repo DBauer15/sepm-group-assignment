@@ -8,7 +8,12 @@ public class ValidationUtil {
     public static boolean validateRecipe(Recipe recipe, ServiceInvokationContext context) {
         ValidationUtil.validateStringLength("Recipe name", recipe.getName(), 0, 255, context);
         ValidationUtil.validateDoubleLimits("Duration", recipe.getDuration(), 0d, 255d, context);
-        // TODO validation
+        ValidationUtil.validateStringLength("Description", recipe.getDescription(), 1, null, context);
+        
+        if (recipe.getTags().size() == 0) {
+			context.addError(String.format("Select at least one tag (breakfast, lunch or dinner)"));
+        }
+        
         return context.isValid();
     }
     
