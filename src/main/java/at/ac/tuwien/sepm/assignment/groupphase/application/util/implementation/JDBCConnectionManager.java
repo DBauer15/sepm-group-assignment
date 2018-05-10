@@ -28,8 +28,7 @@ public class JDBCConnectionManager {
 
 	private static final String TRACE_LEVEL = "TRACE_LEVEL_FILE=4"; // log h2 database output via slf4j
 
-	private static final String INIT_SCRIPT_TEST = ""; // TODO for test "INIT=runscript from
-														// 'classpath:createAndInsert.sql'";
+	private static final String INIT_SCRIPT_TEST = "INIT=runscript from 'classpath:db/restoreDbBeforeTest.sql'";
 	private static final String INIT_SCRIPT = "";
 
 	public static Connection getConnection() throws SQLException {
