@@ -15,7 +15,7 @@ public class JDBCConnectionManager {
 
 	private static final Logger LOG = LoggerFactory.getLogger(MethodHandles.lookup().lookupClass());
 
-	private Connection connection;
+	private static Connection connection;
 
 	private static final String SYS_PROPERTY_TESTMODE = "at.ac.tuwien.sepm.testmode";
 	private static final String SYS_PROPERTY_DB_LOG = "at.ac.tuwien.sepm.db_log";
@@ -32,7 +32,7 @@ public class JDBCConnectionManager {
 														// 'classpath:createAndInsert.sql'";
 	private static final String INIT_SCRIPT = "";
 
-	public Connection getConnection() throws SQLException {
+	public static Connection getConnection() throws SQLException {
 		if (connection == null) {
 			connection = DriverManager.getConnection(
 					String.format("%s;%s;%s", getDbUrl(), getInitScript(), getTraceLevel()), DB_USER, DB_PASSWORD);
@@ -40,7 +40,7 @@ public class JDBCConnectionManager {
 		return connection;
 	}
 
-	public void closeConnection() {
+	public static void closeConnection() {
 		if (connection != null) {
 			try {
 				connection.close();
@@ -50,6 +50,38 @@ public class JDBCConnectionManager {
 			connection = null;
 		}
 	}
+
+	public static void startTransaction() {
+        try {
+            getConnection().setAutoCommit(false);
+        } catch (SQLException e) {
+            LOG.error("Failed to start transaction '{}'", e.getMessage(), e);
+        }
+    }
+
+    public static void rollbackTransaction() {
+	    try {
+	        getConnection().rollback();
+        } catch (SQLException e) {
+            LOG.error("Failed to rollback transaction '{}'", e.getMessage(), e);
+        }
+    }
+
+    public static void commitTransaction() {
+	    try {
+	        getConnection().commit();
+        } catch (SQLException e) {
+            LOG.error("Failed to commit transaction '{}'", e.getMessage(), e);
+        }
+    }
+
+    public static void finalizeTransaction() {
+	    try {
+	        getConnection().setAutoCommit(true);
+        } catch (SQLException e) {
+            LOG.error("Failed to finalize transaction '{}'", e.getMessage(), e);
+        }
+    }
 
 	private static String getTraceLevel() {
 		return isSysPropertySet(SYS_PROPERTY_DB_LOG, "true") ? TRACE_LEVEL : "";
