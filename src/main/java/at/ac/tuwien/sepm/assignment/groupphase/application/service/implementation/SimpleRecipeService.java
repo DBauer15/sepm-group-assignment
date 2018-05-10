@@ -7,7 +7,9 @@ import at.ac.tuwien.sepm.assignment.groupphase.application.service.RecipeService
 import at.ac.tuwien.sepm.assignment.groupphase.application.service.ServiceInvokationContext;
 import at.ac.tuwien.sepm.assignment.groupphase.application.service.ServiceInvokationException;
 import at.ac.tuwien.sepm.assignment.groupphase.application.util.implementation.ValidationUtil;
+import org.springframework.stereotype.Service;
 
+@Service
 public class SimpleRecipeService implements RecipeService {
     private final RecipePersistence recipePersistence;
 
