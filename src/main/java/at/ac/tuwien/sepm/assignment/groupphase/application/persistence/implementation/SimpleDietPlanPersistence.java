@@ -21,7 +21,7 @@ public class SimpleDietPlanPersistence implements DietPlanPersistence {
 	private static final Logger LOG = LoggerFactory.getLogger(MethodHandles.lookup().lookupClass());
 
 	private static final String SQL_CREATE_DIET_PLAN = "INSERT INTO diet_plan (name, energ_kcal, lipid, protein, carbohydrt) VALUES (?,?,?,?,?);";
-	private static final String SQL_DEACTIVATE_DIET_PLAN = "UPDATE diet_plan SET to_dt=NOW() WHERE from_dt=(SELECT max(from_dt) FROM diet_plan WHERE from_dt IS NOT NULL));";
+	private static final String SQL_DEACTIVATE_DIET_PLAN = "UPDATE diet_plan SET to_dt=NOW() WHERE from_dt=(SELECT max(from_dt) FROM diet_plan WHERE from_dt IS NOT NULL);";
 	private static final String SQL_ACTIVATE_DIET_PLAN = "UPDATE diet_plan SET from_dt=NOW(), to_dt=NULL WHERE id=?;";
 
 	@Override
@@ -72,7 +72,7 @@ public class SimpleDietPlanPersistence implements DietPlanPersistence {
 	        LOG.debug("Successfully switched to new diet plan. {}", dietPlan);
         } catch (SQLException e) {
 	        JDBCConnectionManager.rollbackTransaction();
-            throw new PersistenceException("There was an error while deactivating the current diet plan. " + e.getMessage());
+            throw new PersistenceException("There was an error while switching the current diet plan. " + e.getMessage());
         } finally {
 	        JDBCConnectionManager.finalizeTransaction();
             closePreparedStmnt(deactivateDietPlan);

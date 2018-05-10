@@ -30,6 +30,8 @@ public class SimpleDietPlanServiceTest extends BaseTest {
 	// example data
 	private static final String EXAMPLE_TEXT_256CHARS = "Lorem ipsum dolor sit amet, consetetur sadipscing elitr, sed diam nonumy eirmod tempor invidunt ut labore et dolore magna aliquyam erat, sed diam voluptua. At vero eos et accusam et justo duo dolores et ea rebum. Stet clita kasd gubergren, no sea takimatad";
 
+	private DietPlan dietPlanValidWithId = new DietPlan(1, "Jeden Tag Sorgenfrei", 10d, 15d, 20d, 30.50, null, null);
+	private DietPlan dietPlanValidWithoutId = new DietPlan(null, "Jeden Tag Sorgenfrei", 10d, 15d, 20d, 30.50, null, null);
 	private DietPlan dietPlanValid = new DietPlan("Jeden Tag Sorgenfrei", 10d, 15d, 20d, 30.50);
 	private DietPlan dietPlanInvalid1 = new DietPlan(EXAMPLE_TEXT_256CHARS, 5000d, 6000d, 8000d, 9999.99);
 	private DietPlan dietPlanInvalid2 = new DietPlan("Abnehmen", 0d, -1d, 0d, -2.33);
@@ -93,5 +95,35 @@ public class SimpleDietPlanServiceTest extends BaseTest {
 		}
 		Assert.fail("Should throw ServiceInvokationException!");
 	}
+
+	@Test
+    public void testSwitchTo_validData_callsPersistenceSwitchToOnce() throws ServiceInvokationException, PersistenceException {
+        // invocation
+        DietPlanService dietPlanService = new SimpleDietPlanService(mockedDietPlanRepo);
+        dietPlanService.switchTo(dietPlanValidWithId);
+
+        // verification after invokation
+        verify(mockedDietPlanRepo, times(1)).switchTo(dietPlanValidWithId);
+    }
+
+    @Test
+    public void testSwitchTo_invalidDataHasNoId_notCallsPersistenceSwitchToAndValidation() {
+        // invocation
+        DietPlanService dietPlanService = new SimpleDietPlanService(mockedDietPlanRepo);
+        try {
+            dietPlanService.switchTo(dietPlanValidWithoutId);
+        } catch (ServiceInvokationException e) {
+
+            // verification - no interaction with repo
+            verifyZeroInteractions(mockedDietPlanRepo);
+
+            // verify validations
+            ArrayList<String> errors = e.getContext().getErrors();
+            Assert.assertEquals(1, errors.size());
+            Assert.assertEquals("ID needs to be set to perform update", errors.get(0));
+            return;
+        }
+        Assert.fail("Should throw ServiceInvokationException!");
+    }
 
 }
