@@ -63,6 +63,10 @@ public class TabRecipesController {
     @FXML
     private ObservableList<Recipe> recipeObservableList = FXCollections.observableArrayList();
 
+    public TabRecipesController(RecipeService recipeService){
+        this.recipeService = recipeService;
+    }
+
 
     @FXML
     public void initialize(){
@@ -122,7 +126,6 @@ public class TabRecipesController {
     }
 
     private void updateRecipeTableView() {
-        /*
         recipeObservableList.clear();
         try {
             recipeObservableList.addAll(recipeService.getRecipes());
@@ -132,6 +135,5 @@ public class TabRecipesController {
         }
 
         recipeTableView.setItems(recipeObservableList);
-        */
     }
 }
