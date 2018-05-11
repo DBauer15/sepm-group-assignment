@@ -19,21 +19,11 @@ public class DBRecipePersistence implements RecipePersistence {
     private static final String SELECT_RECIPE = "SELECT * FROM RECIPE WHERE ID = ?;";
     private static final String UPDATE_RECIPE = "UPDATE RECIPE SET NAME = ?, DURATION = ?, DESCRIPTION = ?, TAGS = ?, DELETED = ? WHERE ID = ?";
 
-    private final Connection connection;
-    private PreparedStatement ps;
-
-    public DBRecipePersistence(JDBCConnectionManager jdbcConnectionManager) throws PersistenceException {
-        try {
-            connection = jdbcConnectionManager.getConnection();
-        } catch (SQLException e) {
-            throw new PersistenceException(e);
-        }
-    }
-
     @Override
     public Recipe get(int id) throws PersistenceException {
+        PreparedStatement ps;
         try {
-            ps = connection.prepareStatement(SELECT_RECIPE);
+            ps = JDBCConnectionManager.getConnection().prepareStatement(SELECT_RECIPE);
             ps.setInt(1, id);
 
             ResultSet rs = ps.executeQuery();
@@ -45,14 +35,15 @@ public class DBRecipePersistence implements RecipePersistence {
         } catch (SQLException e) {
             throw new PersistenceException(e);
         } finally {
-            closeStatement(ps);
+            // ps.close();
         }
     }
 
     @Override
     public void update(Recipe recipe) throws PersistenceException {
+        PreparedStatement ps;
         try {
-            ps = connection.prepareStatement(UPDATE_RECIPE);
+            ps = JDBCConnectionManager.getConnection().prepareStatement(UPDATE_RECIPE);
             ps.setString(1, recipe.getName());
             ps.setDouble(2, recipe.getDuration());
             //TODO what is Clob?
@@ -64,22 +55,13 @@ public class DBRecipePersistence implements RecipePersistence {
         } catch (SQLException e) {
             throw new PersistenceException(e);
         } finally {
-            closeStatement(ps);
+            // ps.close();
         }
     }
 
     @Override
     public List<Recipe> list() {
         return null;
-    }
-
-    private void closeStatement(PreparedStatement s) throws PersistenceException {
-        try {
-            if (s != null && !s.isClosed())
-                s.close();
-        } catch (SQLException e) {
-            throw new PersistenceException(e);
-        }
     }
 }
 
