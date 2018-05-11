@@ -3,11 +3,14 @@ package at.ac.tuwien.sepm.assignment.groupphase.application.ui;
 import at.ac.tuwien.sepm.assignment.groupphase.application.dto.Recipe;
 import at.ac.tuwien.sepm.assignment.groupphase.application.service.RecipeService;
 import at.ac.tuwien.sepm.assignment.groupphase.application.service.ServiceInvokationException;
+import at.ac.tuwien.sepm.assignment.groupphase.application.util.implementation.SpringFXMLLoader;
+import at.ac.tuwien.sepm.assignment.groupphase.main.MainApplication;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
+import javafx.scene.Parent;
 import javafx.scene.Scene;
 import javafx.scene.control.*;
 import javafx.scene.control.cell.PropertyValueFactory;
@@ -90,29 +93,29 @@ public class TabRecipesController {
     @FXML
     public void onEditRecipeClicked(ActionEvent actionEvent){
         LOG.info("Edit recipe button clicked");
-        loadExternalController("/fxml/RecipeDetails.fxml", RecipeController.class, "Edit Recipe");
+        loadExternalController("/fxml/RecipeDetails.fxml", "Edit Recipe");
         updateRecipeTableView();
     }
 
     @FXML
     public void onAddRecipeButtonClicked(ActionEvent actionEvent) {
         LOG.info("Add recipe button clicked");
-        loadExternalController("/fxml/RecipeDetails.fxml", RecipeController.class, "Add Recipe");
+        loadExternalController("/fxml/RecipeDetails.fxml", "Add Recipe");
     }
 
-    private void loadExternalController(String Path, Class c, String Title){
-        context = new AnnotationConfigApplicationContext(c);
+    private void loadExternalController(String Path, String Title){
         try {
-            FXMLLoader loader = new FXMLLoader();
+            // load files
+            context = MainApplication.context;
+            final var fxmlLoader = context.getBean(SpringFXMLLoader.class);
             URL location = getClass().getResource(Path);
-            loader.setLocation(location);
-            loader.setControllerFactory(context::getBean);
+            fxmlLoader.setLocation(location);
             Stage stage = new Stage();
 
             stage.initModality(Modality.WINDOW_MODAL);
             stage.initOwner(addRecipeButton.getScene().getWindow());
             stage.setTitle(Title);
-            stage.setScene(new Scene(loader.load()));
+            stage.setScene(new Scene((Parent)fxmlLoader.load(getClass().getResourceAsStream(Path))));
             stage.showAndWait();
         } catch (IOException e) {
             LOG.error(e.getMessage());

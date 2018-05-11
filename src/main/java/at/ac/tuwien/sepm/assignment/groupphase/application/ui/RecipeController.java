@@ -35,9 +35,11 @@ public class RecipeController {
     @FXML
     Label preparationTimeLabel;
 
+    RecipeService recipeService;
     Recipe r;
 
-    public RecipeController() {
+    public RecipeController(RecipeService recipeService) {
+        this.recipeService = recipeService;
         r = new Recipe();
     }
 
@@ -55,17 +57,17 @@ public class RecipeController {
         r.setDuration(preparationTimeSlider.getValue());
         r.setDescription(directionsTextArea.getText());
 
-        /*
+
         try {
             recipeService.create(r);
-            showAlert(Alert.AlertType.INFORMATION, "Saving successful.", "Vehicle successfully saved.");
-            LOG.debug("Vehicle successfully saved.");
+            showAlert(Alert.AlertType.INFORMATION, "Saving successful.", "Recipe successfully saved.");
+            LOG.debug("Recipe successfully saved.");
             ((Stage) createButton.getScene().getWindow()).close();
         } catch (ServiceInvokationException e) {
             showAlert(Alert.AlertType.WARNING, "Error.", e.getMessage());
             LOG.error(e.getMessage());
         }
-        */
+
 
     }
 }
