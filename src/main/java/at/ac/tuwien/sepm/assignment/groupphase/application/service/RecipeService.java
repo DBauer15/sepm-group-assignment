@@ -25,4 +25,10 @@ public interface RecipeService {
 	 * @throws ServiceInvokationException if the supplied data is invalid
 	 */
 	public List<RecipeIngredient> searchIngredient(IngredientSearchParam searchParam) throws ServiceInvokationException;
+
+    public Recipe get(int id) throws ServiceInvokationException;
+
+    public void update(Recipe recipe) throws ServiceInvokationException;
+
+    public List<Recipe> list() throws ServiceInvokationException;
 }

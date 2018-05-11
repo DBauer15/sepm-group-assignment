@@ -27,6 +27,10 @@ public class DBRecipePersistence implements RecipePersistence {
 	private static final String CREATE_RECIPE = "INSERT INTO RECIPE (name, duration, description, tags, deleted) VALUES (?, ?, ?, ?, ?)";
 	private static final String SEARCH_INGREDIENT = "SELECT ID, NAME, ENERG_KCAL, LIPID, PROTEIN, CARBOHYDRT, "
 			+ "UNIT_NAME, UNIT_GRAM_NORMALISED, USER_SPECIFIC FROM ingredient WHERE name ILIKE ? ORDER BY LENGTH(name), name ASC";
+    private static final String SELECT_RECIPES = "SELECT * FROM RECIPE WHERE DELETED = FALSE;";
+    private static final String SELECT_RECIPE_WHERE = "SELECT * FROM RECIPE WHERE ID = ?;";
+    private static final String SELECT_INGREDIENTS_WHERE = "SELECT * FROM RECIPE_INGREDIENT r_i JOIN INGREDIENT i ON r_i.INGREDIENT_ID = i.ID JOIN RECIPE r ON r_i.RECIPE_ID = r.ID WHERE r.ID = ?;";
+    private static final String UPDATE_RECIPE_WHERE = "UPDATE RECIPE SET NAME = ?, DURATION = ?, DESCRIPTION = ?, TAGS = ?, DELETED = ? WHERE ID = ?;";
 
 	private PreparedStatement ps;
 
@@ -102,4 +106,123 @@ public class DBRecipePersistence implements RecipePersistence {
 				userSpecific, ingredientName);
 	}
 
+    @Override
+    public Recipe get(int id) throws PersistenceException {
+        PreparedStatement ps = null;
+        ResultSet rs = null;
+
+        try {
+            ps = JDBCConnectionManager.getConnection().prepareStatement(SELECT_RECIPE_WHERE);
+            ps.setInt(1, id);
+
+            rs = ps.executeQuery();
+
+            if (rs.next()) {
+                Recipe r = new Recipe(
+                    rs.getInt("ID"),
+                    rs.getString("NAME"),
+                    rs.getDouble("DURATION"),
+                    rs.getString("DESCRIPTION"),
+                    rs.getString("TAGS"),
+                    rs.getBoolean("DELETED"));
+                r.setRecipeIngredients(getIngredients(id));
+                return r;
+            }
+
+            throw new PersistenceException("No recipe found for given id");
+        } catch (SQLException e) {
+            throw new PersistenceException(e);
+        } finally {
+            CloseUtil.closeStatement(ps);
+            CloseUtil.closeResultSet(rs);
+        }
+    }
+
+    private List<RecipeIngredient> getIngredients(int id) throws PersistenceException {
+        PreparedStatement ps = null;
+        ResultSet rs = null;
+
+        try {
+            ps = JDBCConnectionManager.getConnection().prepareStatement(SELECT_INGREDIENTS_WHERE);
+            ps.setInt(1, id);
+            rs = ps.executeQuery();
+
+            List<RecipeIngredient> ingredients = new ArrayList<>();
+            while (rs.next()) {
+                ingredients.add(new RecipeIngredient(
+                    rs.getInt("INGREDIENT_ID"),
+                    rs.getDouble("AMOUNT"),
+                    rs.getDouble("ENERG_KCAL"),
+                    rs.getDouble("LIPID"),
+                    rs.getDouble("PROTEIN"),
+                    rs.getDouble("CARBOHYDRT"),
+                    rs.getString("UNIT_NAME"),
+                    rs.getDouble("UNIT_GRAM_NORMALISED"),
+                    rs.getBoolean("USER_SPECIFIC"),
+                    rs.getString("NAME")
+                ));
+            }
+
+            return ingredients;
+        } catch (SQLException e) {
+            throw new PersistenceException(e);
+        } finally {
+            CloseUtil.closeStatement(ps);
+            CloseUtil.closeResultSet(rs);
+        }
+    }
+
+    @Override
+    public void update(Recipe recipe) throws PersistenceException {
+        PreparedStatement ps = null;
+        try {
+            ps = JDBCConnectionManager.getConnection().prepareStatement(UPDATE_RECIPE_WHERE);
+            ps.setString(1, recipe.getName());
+            ps.setDouble(2, recipe.getDuration());
+
+            Clob description = JDBCConnectionManager.getConnection().createClob();
+            description.setString(1, recipe.getDescription());
+            ps.setClob(3, description);
+
+            ps.setString(4, recipe.getTagsAsString());
+            ps.setBoolean(5, recipe.getDeleted());
+            ps.setInt(6, recipe.getId());
+            ps.executeQuery();
+        } catch (SQLException e) {
+            throw new PersistenceException(e);
+        } finally {
+            CloseUtil.closeStatement(ps);
+        }
+    }
+
+    @Override
+    public List<Recipe> list() throws PersistenceException {
+        PreparedStatement ps = null;
+        ResultSet rs = null;
+
+        try {
+            ps = JDBCConnectionManager.getConnection().prepareStatement(SELECT_RECIPES);
+            rs = ps.executeQuery();
+
+            List<Recipe> recipes = new ArrayList<>();
+            while (rs.next()) {
+                Recipe r = new Recipe(
+                    rs.getInt("ID"),
+                    rs.getString("NAME"),
+                    rs.getDouble("DURATION"),
+                    rs.getString("DESCRIPTION"),
+                    rs.getString("TAGS"),
+                    rs.getBoolean("DELETED"));
+                r.setRecipeIngredients(getIngredients(r.getId()));
+                recipes.add(r);
+            }
+
+            return recipes;
+        } catch (SQLException e) {
+            throw new PersistenceException(e);
+        } finally {
+            CloseUtil.closeStatement(ps);
+            CloseUtil.closeResultSet(rs);
+        }
+    }
 }

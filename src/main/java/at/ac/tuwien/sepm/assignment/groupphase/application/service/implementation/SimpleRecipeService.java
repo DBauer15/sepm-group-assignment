@@ -64,4 +64,34 @@ public class SimpleRecipeService implements RecipeService {
 
 		return searchResult;
 	}
+
+    @Override
+    public Recipe get(int id) throws ServiceInvokationException {
+        try {
+            return recipePersistence.get(id);
+        } catch (PersistenceException e) {
+            throw new ServiceInvokationException(e);
+        }
+    }
+
+    @Override
+    public void update(Recipe r) throws ServiceInvokationException {
+        ServiceInvokationContext context = new ServiceInvokationContext();
+        if (!recipeValidator.validateForUpdate(r, context))
+            throw new ServiceInvokationException(context);
+        try {
+            recipePersistence.update(r);
+        } catch (PersistenceException e) {
+            throw new ServiceInvokationException(e);
+        }
+    }
+
+    @Override
+    public List<Recipe> list() throws ServiceInvokationException {
+        try {
+            return recipePersistence.list();
+        } catch (PersistenceException e) {
+            throw new ServiceInvokationException(e);
+        }
+    }
 }
