@@ -8,6 +8,7 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.stereotype.Service;
 
+import at.ac.tuwien.sepm.assignment.groupphase.application.dto.IngredientSearchParam;
 import at.ac.tuwien.sepm.assignment.groupphase.application.dto.Recipe;
 import at.ac.tuwien.sepm.assignment.groupphase.application.dto.RecipeIngredient;
 import at.ac.tuwien.sepm.assignment.groupphase.application.persistence.PersistenceException;
@@ -15,6 +16,7 @@ import at.ac.tuwien.sepm.assignment.groupphase.application.persistence.RecipePer
 import at.ac.tuwien.sepm.assignment.groupphase.application.service.RecipeService;
 import at.ac.tuwien.sepm.assignment.groupphase.application.service.ServiceInvokationContext;
 import at.ac.tuwien.sepm.assignment.groupphase.application.service.ServiceInvokationException;
+import at.ac.tuwien.sepm.assignment.groupphase.application.util.implementation.IngredientSearchParamValidator;
 import at.ac.tuwien.sepm.assignment.groupphase.application.util.implementation.RecipeValidator;
 import at.ac.tuwien.sepm.assignment.groupphase.application.util.implementation.ValidationUtil;
 
@@ -25,6 +27,7 @@ public class SimpleRecipeService implements RecipeService {
 
 	private final RecipePersistence recipePersistence;
 	private final RecipeValidator recipeValidator = new RecipeValidator();
+	private final IngredientSearchParamValidator ingredientSearchParamValidator = new IngredientSearchParamValidator();
 
 	public SimpleRecipeService(RecipePersistence recipePersistence) {
 		this.recipePersistence = recipePersistence;
@@ -45,17 +48,16 @@ public class SimpleRecipeService implements RecipeService {
 	}
 
 	@Override
-	public List<RecipeIngredient> searchIngredient(String query) throws ServiceInvokationException {
+	public List<RecipeIngredient> searchIngredient(IngredientSearchParam searchParam)
+			throws ServiceInvokationException {
 		List<RecipeIngredient> searchResult = new ArrayList<>();
 		ServiceInvokationContext context = new ServiceInvokationContext();
 
-		ValidationUtil.validateStringLength("Ingredient Name", query.trim(), 3, null, context);
-
-		if (context.isValid() == false) {
+		if (ingredientSearchParamValidator.validateForReading(searchParam, context) == false) {
 			throw new ServiceInvokationException(context);
 		}
 		try {
-			searchResult = recipePersistence.searchIngredient(query.trim());
+			searchResult = recipePersistence.searchIngredient(searchParam);
 		} catch (PersistenceException e) {
 			throw new ServiceInvokationException(e.getMessage());
 		}

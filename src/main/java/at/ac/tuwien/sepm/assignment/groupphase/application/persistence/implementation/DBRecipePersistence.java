@@ -1,6 +1,7 @@
 package at.ac.tuwien.sepm.assignment.groupphase.application.persistence.implementation;
 
 import at.ac.tuwien.sepm.assignment.groupphase.application.dto.DietPlan;
+import at.ac.tuwien.sepm.assignment.groupphase.application.dto.IngredientSearchParam;
 import at.ac.tuwien.sepm.assignment.groupphase.application.dto.Recipe;
 import at.ac.tuwien.sepm.assignment.groupphase.application.dto.RecipeIngredient;
 import at.ac.tuwien.sepm.assignment.groupphase.application.persistence.NoEntryFoundException;
@@ -64,14 +65,14 @@ public class DBRecipePersistence implements RecipePersistence {
 	}
 
 	@Override
-	public List<RecipeIngredient> searchIngredient(String query) throws PersistenceException {
-		LOG.debug("Searching for Ingredient with name '{}'", query);
+	public List<RecipeIngredient> searchIngredient(IngredientSearchParam searchIngredient) throws PersistenceException {
+		LOG.debug("Searching for Ingredient with name '{}'", searchIngredient.getIngredientName());
 
 		PreparedStatement searchIngredientStmnt = null;
 
 		try {
 			searchIngredientStmnt = JDBCConnectionManager.getConnection().prepareStatement(SEARCH_INGREDIENT);
-			searchIngredientStmnt.setString(1, query+"%");
+			searchIngredientStmnt.setString(1, searchIngredient.getIngredientName().trim()+"%");
 			ResultSet resultSet = searchIngredientStmnt.executeQuery();
 			List<RecipeIngredient> searchResult = new ArrayList<>();
 

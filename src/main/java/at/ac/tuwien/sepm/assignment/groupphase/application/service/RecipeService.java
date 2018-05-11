@@ -2,6 +2,7 @@ package at.ac.tuwien.sepm.assignment.groupphase.application.service;
 
 import java.util.List;
 
+import at.ac.tuwien.sepm.assignment.groupphase.application.dto.IngredientSearchParam;
 import at.ac.tuwien.sepm.assignment.groupphase.application.dto.Recipe;
 import at.ac.tuwien.sepm.assignment.groupphase.application.dto.RecipeIngredient;
 
@@ -19,9 +20,9 @@ public interface RecipeService {
 
 	/**
 	 * Search for an ingredient in the persistence layer.
-	 * @param query {@link String}
+	 * @param searchParam {@link IngredientSearchParam}
 	 * @return {@link List} of {@link RecipeIngredient}
 	 * @throws ServiceInvokationException if the supplied data is invalid
 	 */
-	public List<RecipeIngredient> searchIngredient(String query) throws ServiceInvokationException;
+	public List<RecipeIngredient> searchIngredient(IngredientSearchParam searchParam) throws ServiceInvokationException;
 }

@@ -14,6 +14,7 @@ import java.util.List;
 import org.junit.Assert;
 import org.junit.Test;
 
+import at.ac.tuwien.sepm.assignment.groupphase.application.dto.IngredientSearchParam;
 import at.ac.tuwien.sepm.assignment.groupphase.application.dto.Recipe;
 import at.ac.tuwien.sepm.assignment.groupphase.application.dto.RecipeIngredient;
 import at.ac.tuwien.sepm.assignment.groupphase.application.dto.RecipeTag;
@@ -78,43 +79,46 @@ public class SimpleRecipeServiceTest extends BaseTest {
 	}
 
 	@Test
-	public void testSearchIngredient_validData_callsPersistenceOnceWithTrimmedQueryAndReturnsListFromPersistence()
+	public void testSearchIngredient_validData_callsPersistenceOnceAndReturnsListFromPersistence()
 			throws ServiceInvokationException, PersistenceException {
+		IngredientSearchParam searchParam = new IngredientSearchParam("eggnog");
 
 		// prepare mock
 		List<RecipeIngredient> mockedResult = new ArrayList<>();
 		mockedResult.add(new RecipeIngredient(3, null, 5.55, 6.66, 7.77, 8.88, "cup", 10.10, false, "Eggnog"));
 
 		// mock
-		when(mockedRecipeRepo.searchIngredient("eggnog")).thenReturn(mockedResult);
+		when(mockedRecipeRepo.searchIngredient(searchParam)).thenReturn(mockedResult);
 
 		// invokation
 		RecipeService dietPlanService = new SimpleRecipeService(mockedRecipeRepo);
-		List<RecipeIngredient> actualResult = dietPlanService.searchIngredient("     eggnog    ");
+		List<RecipeIngredient> actualResult = dietPlanService
+				.searchIngredient(searchParam);
 
 		// verification after invokation
-		verify(mockedRecipeRepo, times(1)).searchIngredient("eggnog");
+		verify(mockedRecipeRepo, times(1)).searchIngredient(searchParam);
 
 		Assert.assertEquals(mockedResult, actualResult);
 	}
-	
-	
+
 	@Test
 	public void testSearchIngredient_validDataWherePersistenceReturnsEmptyList_callsPersistenceOnceAndReturnsEmptyListFromPersistence()
 			throws ServiceInvokationException, PersistenceException {
+		
+		IngredientSearchParam searchParam = new IngredientSearchParam("jaja");
 
 		// prepare mock - empty list
 		List<RecipeIngredient> mockedResult = new ArrayList<>();
 
 		// mock
-		when(mockedRecipeRepo.searchIngredient("jaja")).thenReturn(mockedResult);
+		when(mockedRecipeRepo.searchIngredient(searchParam)).thenReturn(mockedResult);
 
 		// invokation
 		RecipeService dietPlanService = new SimpleRecipeService(mockedRecipeRepo);
-		List<RecipeIngredient> actualResult = dietPlanService.searchIngredient("jaja");
+		List<RecipeIngredient> actualResult = dietPlanService.searchIngredient(searchParam);
 
 		// verification after invokation
-		verify(mockedRecipeRepo, times(1)).searchIngredient("jaja");
+		verify(mockedRecipeRepo, times(1)).searchIngredient(searchParam);
 
 		Assert.assertEquals(mockedResult, actualResult);
 	}

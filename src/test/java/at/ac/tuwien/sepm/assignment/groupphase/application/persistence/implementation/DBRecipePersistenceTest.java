@@ -6,6 +6,7 @@ import java.util.List;
 import org.junit.Assert;
 import org.junit.Test;
 
+import at.ac.tuwien.sepm.assignment.groupphase.application.dto.IngredientSearchParam;
 import at.ac.tuwien.sepm.assignment.groupphase.application.dto.Recipe;
 import at.ac.tuwien.sepm.assignment.groupphase.application.dto.RecipeIngredient;
 import at.ac.tuwien.sepm.assignment.groupphase.application.dto.RecipeTag;
@@ -34,7 +35,7 @@ public class DBRecipePersistenceTest {
 			throws PersistenceException {
 		RecipePersistence recipePersistence = new DBRecipePersistence();
 
-		List<RecipeIngredient> result = recipePersistence.searchIngredient("egg");
+		List<RecipeIngredient> result = recipePersistence.searchIngredient(new IngredientSearchParam("egg"));
 		Assert.assertTrue(result.size() >= 37);
 
 		boolean found = false;
