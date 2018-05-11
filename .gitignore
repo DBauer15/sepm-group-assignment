@@ -118,3 +118,4 @@ dist/
 nbdist/
 nbactions.xml
 .nb-gradle/
+*.trace.db

@@ -6,7 +6,6 @@ package at.ac.tuwien.sepm.assignment.groupphase.application.persistence;
  *
  */
 public class PersistenceException extends Exception {
-
 	private static final long serialVersionUID = -5201167670507374078L;
 
 	public PersistenceException(String message) {

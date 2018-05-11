@@ -2,6 +2,7 @@
 
 <?import javafx.scene.layout.AnchorPane?>
 
-<AnchorPane maxHeight="650.0" maxWidth="1068.0" minHeight="650.0" minWidth="1068.0" prefHeight="650.0" prefWidth="1068.0" style="-fx-background-color: #FF00FF;" xmlns="http://javafx.com/javafx/9.0.4" xmlns:fx="http://javafx.com/fxml/1">
+
+<AnchorPane maxHeight="650.0" maxWidth="1068.0" minHeight="650.0" minWidth="1068.0" prefHeight="650.0" prefWidth="1068.0" style="-fx-background-color: #FF00FF;" xmlns="http://javafx.com/javafx/9.0.1" xmlns:fx="http://javafx.com/fxml/1" fx:controller="at.ac.tuwien.sepm.assignment.groupphase.application.ui.TabSearchController">
 
 </AnchorPane>

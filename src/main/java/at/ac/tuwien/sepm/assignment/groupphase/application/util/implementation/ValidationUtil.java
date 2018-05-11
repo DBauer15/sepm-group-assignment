@@ -27,20 +27,19 @@ public class ValidationUtil {
 	}
 
 	public static void validateId(Integer id, ServiceInvokationContext context) {
-        if (id == null) {
-            context.addError("ID needs to be set");
-        }
-        if (id != null && id < 0) {
-            context.addError("ID cannot be negative");
-        }
-    }
+		if (id == null) {
+			context.addError("ID needs to be set");
+		}
+		if (id != null && id < 0) {
+			context.addError("ID cannot be negative");
+		}
+	}
 
-    public static boolean validateNull(String fieldName, Object value, ServiceInvokationContext context) {
-	    if (value == null) {
-	        context.addError(
-	                String.format("The field '%s' cannot be null", fieldName));
-	        return true;
-        }
-        return false;
-    }
+	public static boolean validateNull(String fieldName, Object value, ServiceInvokationContext context) {
+		if (value == null) {
+			context.addError(String.format("The field '%s' cannot be null", fieldName));
+			return true;
+		}
+		return false;
+	}
 }
