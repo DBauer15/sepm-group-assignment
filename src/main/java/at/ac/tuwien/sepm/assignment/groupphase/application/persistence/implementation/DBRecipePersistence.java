@@ -1,10 +1,8 @@
 package at.ac.tuwien.sepm.assignment.groupphase.application.persistence.implementation;
 
-import at.ac.tuwien.sepm.assignment.groupphase.application.dto.DietPlan;
 import at.ac.tuwien.sepm.assignment.groupphase.application.dto.IngredientSearchParam;
 import at.ac.tuwien.sepm.assignment.groupphase.application.dto.Recipe;
 import at.ac.tuwien.sepm.assignment.groupphase.application.dto.RecipeIngredient;
-import at.ac.tuwien.sepm.assignment.groupphase.application.persistence.NoEntryFoundException;
 import at.ac.tuwien.sepm.assignment.groupphase.application.persistence.PersistenceException;
 import at.ac.tuwien.sepm.assignment.groupphase.application.persistence.RecipePersistence;
 import at.ac.tuwien.sepm.assignment.groupphase.application.util.implementation.CloseUtil;
@@ -16,7 +14,6 @@ import org.springframework.stereotype.Repository;
 
 import java.lang.invoke.MethodHandles;
 import java.sql.*;
-import java.time.LocalDate;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -28,11 +25,15 @@ public class DBRecipePersistence implements RecipePersistence {
 	private static final String SEARCH_INGREDIENT = "SELECT ID, NAME, ENERG_KCAL, LIPID, PROTEIN, CARBOHYDRT, "
 			+ "UNIT_NAME, UNIT_GRAM_NORMALISED, USER_SPECIFIC FROM ingredient WHERE name ILIKE ? ORDER BY LENGTH(name), name ASC";
     private static final String SELECT_RECIPES = "SELECT * FROM RECIPE WHERE DELETED = FALSE;";
+
     private static final String SELECT_RECIPE_WHERE = "SELECT * FROM RECIPE WHERE ID = ?;";
-    private static final String SELECT_INGREDIENTS_WHERE = "SELECT * FROM RECIPE_INGREDIENT r_i JOIN INGREDIENT i ON r_i.INGREDIENT_ID = i.ID JOIN RECIPE r ON r_i.RECIPE_ID = r.ID WHERE r.ID = ?;";
     private static final String UPDATE_RECIPE_WHERE = "UPDATE RECIPE SET NAME = ?, DURATION = ?, DESCRIPTION = ?, TAGS = ?, DELETED = ? WHERE ID = ?;";
 
-	private PreparedStatement ps;
+    private static final String SELECT_R_I_WHERE = "SELECT * FROM RECIPE_INGREDIENT r_i JOIN INGREDIENT i ON r_i.INGREDIENT_ID = i.ID JOIN RECIPE r ON r_i.RECIPE_ID = r.ID WHERE r.ID = ?;";
+    private static final String DELETE_R_I_WHERE = "DELETE FROM RECIPE_INGREDIENT WHERE RECIPE_ID = ?;";
+    private static final String INSERT_R_I_WHERE = "INSERT INTO RECIPE_INGREDIENT (INGREDIENT_ID, RECIPE_ID, AMOUNT) VALUES (?, ?, ?);";
+
+    private PreparedStatement ps;
 
 	@Override
 	public void create(Recipe recipe) throws PersistenceException {
@@ -143,7 +144,7 @@ public class DBRecipePersistence implements RecipePersistence {
         ResultSet rs = null;
 
         try {
-            ps = JDBCConnectionManager.getConnection().prepareStatement(SELECT_INGREDIENTS_WHERE);
+            ps = JDBCConnectionManager.getConnection().prepareStatement(SELECT_R_I_WHERE);
             ps.setInt(1, id);
             rs = ps.executeQuery();
 
@@ -174,6 +175,8 @@ public class DBRecipePersistence implements RecipePersistence {
 
     @Override
     public void update(Recipe recipe) throws PersistenceException {
+        JDBCConnectionManager.startTransaction();
+
         PreparedStatement ps = null;
         try {
             ps = JDBCConnectionManager.getConnection().prepareStatement(UPDATE_RECIPE_WHERE);
@@ -187,8 +190,35 @@ public class DBRecipePersistence implements RecipePersistence {
             ps.setString(4, recipe.getTagsAsString());
             ps.setBoolean(5, recipe.getDeleted());
             ps.setInt(6, recipe.getId());
-            ps.executeQuery();
+            ps.executeUpdate();
+
+            setIngredients(recipe);
+
+            JDBCConnectionManager.commitTransaction();
         } catch (SQLException e) {
+            JDBCConnectionManager.rollbackTransaction();
+            throw new PersistenceException(e);
+        } finally {
+            JDBCConnectionManager.finalizeTransaction();
+            CloseUtil.closeStatement(ps);
+        }
+    }
+
+    private void setIngredients(Recipe recipe) throws PersistenceException {
+        try {
+            PreparedStatement ps = JDBCConnectionManager.getConnection().prepareStatement(DELETE_R_I_WHERE);
+            ps.setInt(1, recipe.getId());
+            ps.executeUpdate();
+
+            for (RecipeIngredient i : recipe.getRecipeIngredients()) {
+                ps = JDBCConnectionManager.getConnection().prepareStatement(INSERT_R_I_WHERE);
+                ps.setInt(1, i.getId());
+                ps.setInt(2, recipe.getId());
+                ps.setDouble(3, i.getAmount());
+                ps.executeUpdate();
+            }
+        } catch (SQLException e) {
+            JDBCConnectionManager.rollbackTransaction();
             throw new PersistenceException(e);
         } finally {
             CloseUtil.closeStatement(ps);
@@ -196,7 +226,7 @@ public class DBRecipePersistence implements RecipePersistence {
     }
 
     @Override
-    public List<Recipe> list() throws PersistenceException {
+    public List<Recipe> getRecipes() throws PersistenceException {
         PreparedStatement ps = null;
         ResultSet rs = null;
 

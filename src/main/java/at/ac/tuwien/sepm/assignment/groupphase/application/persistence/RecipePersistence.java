@@ -23,9 +23,9 @@ public interface RecipePersistence {
 	 */
 	List<RecipeIngredient> searchIngredient(IngredientSearchParam searchParam) throws PersistenceException;
 
-    public Recipe get(int id) throws PersistenceException;
+    Recipe get(int id) throws PersistenceException;
 
-    public void update(Recipe recipe) throws PersistenceException;
+    void update(Recipe recipe) throws PersistenceException;
 
-    public List<Recipe> list() throws PersistenceException;
+    List<Recipe> getRecipes() throws PersistenceException;
 }
