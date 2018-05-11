@@ -13,7 +13,7 @@ public class RecipeValidator implements Validator<Recipe> {
 		ValidationUtil.validateDoubleLimits("Duration", recipe.getDuration(), 0d, 255d, context);
 		ValidationUtil.validateStringLength("Description", recipe.getDescription(), 1, null, context);
 
-		if (recipe.getTags().size() == 0) {
+		if (recipe.getTags() == null || recipe.getTags().size() == 0) {
 			context.addError(String.format("Select at least one tag (breakfast, lunch or dinner)"));
 		}
 		return context.isValid();
