@@ -9,5 +9,5 @@ public interface RecipePersistence {
 
     void update(Recipe r) throws PersistenceException;
 
-    List<Recipe> list();
+    List<Recipe> list() throws PersistenceException;
 }

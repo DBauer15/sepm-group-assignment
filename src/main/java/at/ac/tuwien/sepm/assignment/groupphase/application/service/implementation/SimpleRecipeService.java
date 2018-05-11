@@ -7,7 +7,6 @@ import at.ac.tuwien.sepm.assignment.groupphase.application.service.RecipeService
 import at.ac.tuwien.sepm.assignment.groupphase.application.service.ServiceInvokationContext;
 import at.ac.tuwien.sepm.assignment.groupphase.application.service.ServiceInvokationException;
 import at.ac.tuwien.sepm.assignment.groupphase.application.util.implementation.RecipeValidator;
-import at.ac.tuwien.sepm.assignment.groupphase.application.util.implementation.ValidationUtil;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.stereotype.Service;
@@ -48,7 +47,11 @@ public class SimpleRecipeService implements RecipeService {
     }
 
     @Override
-    public List<Recipe> list() {
-        return null;
+    public List<Recipe> list() throws ServiceInvokationException {
+        try {
+            return recipePersistence.list();
+        } catch (PersistenceException e) {
+            throw new ServiceInvokationException(e);
+        }
     }
 }
