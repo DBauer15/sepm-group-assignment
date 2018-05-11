@@ -1,11 +1,11 @@
 -- CLEAN DATABASE, except external ingredient data
 
-DELETE FROM diet_plan;
-DELETE FROM diet_plan_suggestion;
-DELETE FROM recipe;
 DELETE FROM recipe_image;
 DELETE FROM recipe_ingredient;
+DELETE FROM diet_plan_suggestion;
+DELETE FROM recipe;
 DELETE FROM ingredient WHERE user_specific=TRUE;
+DELETE FROM diet_plan;
 
 -- INSERT DEFAULT DATA
 

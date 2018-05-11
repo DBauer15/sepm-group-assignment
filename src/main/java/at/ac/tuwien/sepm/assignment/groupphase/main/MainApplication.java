@@ -24,7 +24,7 @@ public final class MainApplication extends Application {
 
     private static final Logger LOG = LoggerFactory.getLogger(MethodHandles.lookup().lookupClass());
 
-    private AnnotationConfigApplicationContext context;
+    public static AnnotationConfigApplicationContext context;
 
     @Override
     public void start(Stage primaryStage) throws Exception {
@@ -35,24 +35,12 @@ public final class MainApplication extends Application {
         primaryStage.centerOnScreen();
         primaryStage.setOnCloseRequest(event -> LOG.debug("Application shutdown initiated"));
 
+        // load files
         context = new AnnotationConfigApplicationContext(MainApplication.class);
-        /*final var fxmlLoader = context.getBean(SpringFXMLLoader.class);
-
-          primaryStage.setScene(new Scene((Parent) fxmlLoader.load(
-            getClass().getResourceAsStream("/fxml/Main.fxml")))); */
-
-            try (InputStream fxmlStream = getClass().getResourceAsStream("/fxml/Main.fxml")) {
-                FXMLLoader loader = new FXMLLoader();
-                // set location of fxml files to FXMLLoader
-                URL location = getClass().getResource("/fxml/Main.fxml");
-                loader.setLocation(location);
-                // set controller factory
-                loader.setControllerFactory(context::getBean);
-                // load FXML
-                primaryStage.setScene(new Scene(loader.load(fxmlStream)));
-            } catch (BeansException e) {
-                throw new RuntimeException(e);
-            }
+        final var fxmlLoader = context.getBean(SpringFXMLLoader.class);
+        URL location = getClass().getResource("/fxml/Main.fxml");
+        fxmlLoader.setLocation(location);
+        primaryStage.setScene(new Scene((Parent) fxmlLoader.load(getClass().getResourceAsStream("/fxml/Main.fxml"))));
 
         // show application
         primaryStage.show();
@@ -62,7 +50,6 @@ public final class MainApplication extends Application {
 
     public static void main(String[] args) {
         LOG.debug("Application starting with arguments={}", (Object) args);
-        // TODO Enable this
         Application.launch(MainApplication.class, args);
     }
 

@@ -37,7 +37,7 @@ public class RecipeIngredient {
 		this.unitName = unitName;
 		this.unitGramNormalised = unitGramNormalised;
 		this.userSpecific = userSpecific;
-		this.ingredientName = ingredientName;
+		this.ingredientName = ingredientName.trim();
 	}
 
 	/**
@@ -62,7 +62,7 @@ public class RecipeIngredient {
 		this.unitName = unitName;
 		this.unitGramNormalised = unitGramNormalised;
 		this.userSpecific = userSpecific;
-		this.ingredientName = ingredientName;
+		this.ingredientName = ingredientName.trim();
 	}
 
 	/**
