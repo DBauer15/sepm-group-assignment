@@ -87,9 +87,9 @@ public class SimpleRecipeService implements RecipeService {
     }
 
     @Override
-    public List<Recipe> list() throws ServiceInvokationException {
+    public List<Recipe> getRecipes() throws ServiceInvokationException {
         try {
-            return recipePersistence.list();
+            return recipePersistence.getRecipes();
         } catch (PersistenceException e) {
             throw new ServiceInvokationException(e);
         }

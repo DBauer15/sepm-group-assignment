@@ -17,7 +17,7 @@ import java.lang.invoke.MethodHandles;
 import static at.ac.tuwien.sepm.assignment.groupphase.application.util.implementation.UserInterfaceUtility.showAlert;
 
 @Controller
-public class NewRecipeController {
+public class RecipeController {
     private static final Logger LOG = LoggerFactory.getLogger(MethodHandles.lookup().lookupClass());
 
     @FXML
@@ -37,7 +37,7 @@ public class NewRecipeController {
 
     Recipe r;
 
-    public NewRecipeController() {
+    public RecipeController() {
         r = new Recipe();
     }
 

@@ -30,5 +30,5 @@ public interface RecipeService {
 
     public void update(Recipe recipe) throws ServiceInvokationException;
 
-    public List<Recipe> list() throws ServiceInvokationException;
+    public List<Recipe> getRecipes() throws ServiceInvokationException;
 }
