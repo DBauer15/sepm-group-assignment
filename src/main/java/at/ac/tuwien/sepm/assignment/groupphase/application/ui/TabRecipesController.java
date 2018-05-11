@@ -66,6 +66,9 @@ public class TabRecipesController {
     @FXML
     private ObservableList<Recipe> recipeObservableList = FXCollections.observableArrayList();
 
+    public TabRecipesController(RecipeService recipeService){
+        this.recipeService = recipeService;
+    }
 
     @FXML
     public void initialize(){
@@ -101,6 +104,7 @@ public class TabRecipesController {
     public void onAddRecipeButtonClicked(ActionEvent actionEvent) {
         LOG.info("Add recipe button clicked");
         loadExternalController("/fxml/RecipeDetails.fxml", "Add Recipe");
+        updateRecipeTableView();
     }
 
     private void loadExternalController(String Path, String Title){
@@ -124,7 +128,6 @@ public class TabRecipesController {
     }
 
     private void updateRecipeTableView() {
-        /*
         recipeObservableList.clear();
         try {
             recipeObservableList.addAll(recipeService.getRecipes());
@@ -134,6 +137,5 @@ public class TabRecipesController {
         }
 
         recipeTableView.setItems(recipeObservableList);
-        */
     }
 }
