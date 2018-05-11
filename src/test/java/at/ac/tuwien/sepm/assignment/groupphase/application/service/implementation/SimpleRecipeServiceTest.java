@@ -31,15 +31,34 @@ public class SimpleRecipeServiceTest extends BaseTest {
 	private final RecipePersistence mockedRecipeRepo = mock(DBRecipePersistence.class);
 
 	// example data
-	private EnumSet<RecipeTag> validTagBreakdfastSet = EnumSet.noneOf(RecipeTag.class);
+	private EnumSet<RecipeTag> validTagBreakfastSet = EnumSet.noneOf(RecipeTag.class);
 
 	private static final String EXAMPLE_TEXT_256CHARS = "Lorem ipsum dolor sit amet, consetetur sadipscing elitr, sed diam nonumy eirmod tempor invidunt ut labore et dolore magna aliquyam erat, sed diam voluptua. At vero eos et accusam et justo duo dolores et ea rebum. Stet clita kasd gubergren, no sea takimatad";
 
-	private Recipe recipeValid = new Recipe("My recipe", 120d, "Test", validTagBreakdfastSet);
+	private List<RecipeIngredient> recipeIngredientList = new ArrayList<>();
+
+	private Recipe recipeValid = new Recipe("My recipe", 120d, "Test", validTagBreakfastSet);
 	private Recipe recipeInvalid1 = new Recipe(EXAMPLE_TEXT_256CHARS, 0d, "", EnumSet.noneOf(RecipeTag.class));
+	private Recipe recipeInvalid2 = new Recipe("My recipe 2", 256d, "something to do", validTagBreakfastSet);
 
 	public SimpleRecipeServiceTest() {
-		validTagBreakdfastSet.add(RecipeTag.B);
+		validTagBreakfastSet.add(RecipeTag.B);
+
+		// valid recipe ingredient list
+		RecipeIngredient ri1 = new RecipeIngredient(2d, 55.5, 66.6, 77.7, 88.8, "oz", 120d, true, "Watermelon");
+		RecipeIngredient ri2 = new RecipeIngredient(1.4, 88.9, 78d, 56d, 100d, "oz", 50d, true, "Cheese");
+		recipeIngredientList.add(ri1);
+		recipeIngredientList.add(ri2);
+
+		RecipeIngredient ri3 = new RecipeIngredient(45, 3.5, false);
+		RecipeIngredient ri4 = new RecipeIngredient(101, 2d, false);
+		recipeIngredientList.add(ri3);
+		recipeIngredientList.add(ri4);
+		recipeValid.setRecipeIngredients(recipeIngredientList);
+
+		// invalid recipe ingredient list
+		recipeInvalid1.setRecipeIngredients(new ArrayList<>());
+		recipeInvalid2.setRecipeIngredients(null);
 	}
 
 	@Test
@@ -55,7 +74,7 @@ public class SimpleRecipeServiceTest extends BaseTest {
 	}
 
 	@Test
-	public void testCreate_invalidDataFallsBelowLimits_notCallsPersistenceCreateAndValidations()
+	public void testCreate_invalidDataFallsBelowLimitsAndEmptyIngredientList_notCallsPersistenceCreateAndValidations()
 			throws PersistenceException {
 		// invokation
 		RecipeService recipeService = new SimpleRecipeService(mockedRecipeRepo);
@@ -68,11 +87,34 @@ public class SimpleRecipeServiceTest extends BaseTest {
 
 			// verify validations
 			ArrayList<String> errors = e.getContext().getErrors();
-			Assert.assertEquals(4, errors.size());
+			Assert.assertEquals(5, errors.size());
 			Assert.assertEquals("Enter only 255 characters in the field 'Recipe name'", errors.get(0));
 			Assert.assertEquals("Enter a value that is greater than 0.0 in the field 'Duration'", errors.get(1));
 			Assert.assertEquals("Enter at least 1 characters in the field 'Description'", errors.get(2));
 			Assert.assertEquals("Select at least one tag (breakfast, lunch or dinner)", errors.get(3));
+			Assert.assertEquals("Select at least one ingredient for the recipe.", errors.get(4));
+			return;
+		}
+		Assert.fail("Should throw ServiceInvokationException!");
+	}
+
+	@Test
+	public void testCreate_invalidDataDurationExceedsLimitAndIngredientListIsNull_notCallsPersistenceCreateAndValidations()
+			throws PersistenceException {
+		// invokation
+		RecipeService recipeService = new SimpleRecipeService(mockedRecipeRepo);
+		try {
+			recipeService.create(recipeInvalid2);
+		} catch (ServiceInvokationException e) {
+
+			// verification - no interaction with repo
+			verifyZeroInteractions(mockedRecipeRepo);
+
+			// verify validations
+			ArrayList<String> errors = e.getContext().getErrors();
+			Assert.assertEquals(2, errors.size());
+			Assert.assertEquals("Enter a value that is smaller than 255.0 in the field 'Duration'", errors.get(0));
+			Assert.assertEquals("The field 'Ingredient Selection' cannot be null", errors.get(1));
 			return;
 		}
 		Assert.fail("Should throw ServiceInvokationException!");
@@ -92,8 +134,7 @@ public class SimpleRecipeServiceTest extends BaseTest {
 
 		// invokation
 		RecipeService dietPlanService = new SimpleRecipeService(mockedRecipeRepo);
-		List<RecipeIngredient> actualResult = dietPlanService
-				.searchIngredient(searchParam);
+		List<RecipeIngredient> actualResult = dietPlanService.searchIngredient(searchParam);
 
 		// verification after invokation
 		verify(mockedRecipeRepo, times(1)).searchIngredient(searchParam);
@@ -104,7 +145,7 @@ public class SimpleRecipeServiceTest extends BaseTest {
 	@Test
 	public void testSearchIngredient_validDataWherePersistenceReturnsEmptyList_callsPersistenceOnceAndReturnsEmptyListFromPersistence()
 			throws ServiceInvokationException, PersistenceException {
-		
+
 		IngredientSearchParam searchParam = new IngredientSearchParam("jaja");
 
 		// prepare mock - empty list
