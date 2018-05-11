@@ -17,9 +17,15 @@ public interface RecipePersistence {
 	/**
 	 * Search for an ingredient and returns a list of matching recipe ingredients.
 	 * Note: field 'amount' of {@link RecipeIngredient} cannot be initalised and is therefore <code>null</code>
-	 * @param searchParam {@link IngredientSearchParam} 
+	 * @param searchParam {@link IngredientSearchParam}
 	 * @return {@link List} of {@link RecipeIngredient}
 	 * @throws PersistenceException if an persistence error occurs
 	 */
 	List<RecipeIngredient> searchIngredient(IngredientSearchParam searchParam) throws PersistenceException;
+
+    Recipe get(int id) throws PersistenceException;
+
+    void update(Recipe recipe) throws PersistenceException;
+
+    List<Recipe> getRecipes() throws PersistenceException;
 }

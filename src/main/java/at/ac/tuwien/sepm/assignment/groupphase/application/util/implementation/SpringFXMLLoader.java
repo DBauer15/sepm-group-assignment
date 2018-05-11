@@ -9,6 +9,7 @@ import org.springframework.stereotype.Component;
 
 import java.io.IOException;
 import java.io.InputStream;
+import java.net.URL;
 
 /**
  * A Spring Based FXMLLoader.
@@ -22,6 +23,7 @@ public class SpringFXMLLoader {
     private Logger LOG = LoggerFactory.getLogger(SpringFXMLLoader.class);
 
     private ApplicationContext applicationContext;
+    private URL location;
 
     @Autowired
     public SpringFXMLLoader(ApplicationContext applicationContext) {
@@ -30,8 +32,13 @@ public class SpringFXMLLoader {
 
     private FXMLLoader getFXMLLoader() {
         final var fxmlLoader = new FXMLLoader();
+        fxmlLoader.setLocation(this.location);
         fxmlLoader.setControllerFactory(applicationContext::getBean);
         return fxmlLoader;
+    }
+
+    public void setLocation(URL location) {
+        this.location = location;
     }
 
     /**
