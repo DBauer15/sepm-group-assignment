@@ -32,7 +32,6 @@ import static at.ac.tuwien.sepm.assignment.groupphase.application.util.implement
 @Controller
 public class TabRecipesController {
     private static final Logger LOG = LoggerFactory.getLogger(MethodHandles.lookup().lookupClass());
-    private AnnotationConfigApplicationContext context;
 
     private RecipeService recipeService;
 
@@ -75,10 +74,10 @@ public class TabRecipesController {
         recipeTableView.getSelectionModel().setSelectionMode(SelectionMode.SINGLE);
 
         nameTableColumn.setCellValueFactory(new PropertyValueFactory<>("name"));
-        caloriesTableColumn.setCellValueFactory(new PropertyValueFactory<>("calories"));
-        carbohydratesTableColumn.setCellValueFactory(new PropertyValueFactory<>("carbohydrates"));
-        proteinsTableColumn.setCellValueFactory(new PropertyValueFactory<>("proteins"));
-        fatsTableColumn.setCellValueFactory(new PropertyValueFactory<>("fats"));
+        //caloriesTableColumn.setCellValueFactory(new PropertyValueFactory<>("calories"));
+        //carbohydratesTableColumn.setCellValueFactory(new PropertyValueFactory<>("carbohydrates"));
+        //proteinsTableColumn.setCellValueFactory(new PropertyValueFactory<>("proteins"));
+        //fatsTableColumn.setCellValueFactory(new PropertyValueFactory<>("fats"));
         preparationTimeTableColumn.setCellValueFactory(new PropertyValueFactory<>("duration"));
 
         recipeTableView.addEventHandler(MouseEvent.MOUSE_CLICKED, t -> {
@@ -109,9 +108,7 @@ public class TabRecipesController {
 
     private void loadExternalController(String Path, String Title){
         try {
-            // load files
-            context = MainApplication.context;
-            final var fxmlLoader = context.getBean(SpringFXMLLoader.class);
+            final var fxmlLoader = MainApplication.context.getBean(SpringFXMLLoader.class);
             URL location = getClass().getResource(Path);
             fxmlLoader.setLocation(location);
             Stage stage = new Stage();
