@@ -6,17 +6,21 @@ import at.ac.tuwien.sepm.assignment.groupphase.application.persistence.RecipePer
 import at.ac.tuwien.sepm.assignment.groupphase.application.service.RecipeService;
 import at.ac.tuwien.sepm.assignment.groupphase.application.service.ServiceInvokationContext;
 import at.ac.tuwien.sepm.assignment.groupphase.application.service.ServiceInvokationException;
+import at.ac.tuwien.sepm.assignment.groupphase.application.util.implementation.RecipeValidator;
 import at.ac.tuwien.sepm.assignment.groupphase.application.util.implementation.ValidationUtil;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
+import org.springframework.stereotype.Service;
 
 import java.lang.invoke.MethodHandles;
 import java.util.List;
 
+@Service
 public class SimpleRecipeService implements RecipeService {
 
     private static final Logger LOG = LoggerFactory.getLogger(MethodHandles.lookup().lookupClass());
     private final RecipePersistence recipePersistence;
+    private final RecipeValidator recipeValidator = new RecipeValidator();
 
     public SimpleRecipeService(RecipePersistence recipePersistence) {
         this.recipePersistence = recipePersistence;
@@ -34,7 +38,7 @@ public class SimpleRecipeService implements RecipeService {
     @Override
     public void update(Recipe r) throws ServiceInvokationException {
         ServiceInvokationContext context = new ServiceInvokationContext();
-        if (!ValidationUtil.validateRecipe(r, context))
+        if (!recipeValidator.validateForUpdate(r, context))
             throw new ServiceInvokationException(context);
         try {
             recipePersistence.update(r);
