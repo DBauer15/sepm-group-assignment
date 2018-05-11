@@ -98,6 +98,7 @@ public class TabRecipesController {
     public void onAddRecipeButtonClicked(ActionEvent actionEvent) {
         LOG.info("Add recipe button clicked");
         loadExternalController("/fxml/RecipeDetails.fxml", RecipeController.class, "Add Recipe");
+        updateRecipeTableView();
     }
 
     private void loadExternalController(String Path, Class c, String Title){
