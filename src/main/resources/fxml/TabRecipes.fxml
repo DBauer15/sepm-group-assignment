@@ -19,13 +19,6 @@
             <TableColumn fx:id="fatsTableColumn" prefWidth="110.0" resizable="false" text="Fats" />
             <TableColumn fx:id="preparationTimeTableColumn" prefWidth="147.0" resizable="false" text="Preparation Time" />
         </columns>
-         <contextMenu>
-            <ContextMenu fx:id="recipeContextMenu">
-              <items>
-                <MenuItem mnemonicParsing="false" onAction="#onEditRecipeClicked" text="Edit" />
-              </items>
-            </ContextMenu>
-         </contextMenu>
       </TableView>
       <Button fx:id="addRecipeButton" mnemonicParsing="false" onAction="#onAddRecipeButtonClicked" prefHeight="50.0" prefWidth="50.0" styleClass="button-circular" text="+" AnchorPane.bottomAnchor="36.0" AnchorPane.rightAnchor="36.0" />
    </children>

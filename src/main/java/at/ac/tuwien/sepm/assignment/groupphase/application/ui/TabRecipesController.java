@@ -5,6 +5,7 @@ import at.ac.tuwien.sepm.assignment.groupphase.application.service.RecipeService
 import at.ac.tuwien.sepm.assignment.groupphase.application.service.ServiceInvokationException;
 import at.ac.tuwien.sepm.assignment.groupphase.application.util.implementation.SpringFXMLLoader;
 import at.ac.tuwien.sepm.assignment.groupphase.main.MainApplication;
+import javafx.beans.binding.Bindings;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 import javafx.event.ActionEvent;
@@ -60,9 +61,6 @@ public class TabRecipesController {
     TableColumn<Recipe, Double> preparationTimeTableColumn;
 
     @FXML
-    ContextMenu recipeContextMenu;
-
-    @FXML
     private ObservableList<Recipe> recipeObservableList = FXCollections.observableArrayList();
 
     public TabRecipesController(RecipeService recipeService){
@@ -80,22 +78,30 @@ public class TabRecipesController {
         //fatsTableColumn.setCellValueFactory(new PropertyValueFactory<>("fats"));
         preparationTimeTableColumn.setCellValueFactory(new PropertyValueFactory<>("duration"));
 
-        recipeTableView.addEventHandler(MouseEvent.MOUSE_CLICKED, t -> {
-            if (t.getButton() == MouseButton.SECONDARY) {
-                recipeContextMenu.show(recipeTableView, t.getScreenX(), t.getScreenY());
-            } else {
-                recipeContextMenu.hide();
-            }
+
+        recipeTableView.setRowFactory(tableView -> {
+            final TableRow<Recipe> row = new TableRow<>();
+
+            final ContextMenu recipeContextMenu = new ContextMenu();
+            final MenuItem editMenuItem = new MenuItem("Edit");
+            editMenuItem.setOnAction(event -> onEditRecipeClicked(row.getItem()));
+            recipeContextMenu.getItems().add(editMenuItem);
+
+            row.contextMenuProperty().bind(
+                Bindings.when(row.emptyProperty())
+                    .then((ContextMenu) null)
+                    .otherwise(recipeContextMenu)
+            );
+            return row;
         });
 
         updateRecipeTableView();
 
     }
 
-    @FXML
-    public void onEditRecipeClicked(ActionEvent actionEvent){
+    private void onEditRecipeClicked(Recipe recipe) {
         LOG.info("Edit recipe button clicked");
-        loadExternalController("/fxml/RecipeDetails.fxml", "Edit Recipe", null);
+        loadExternalController("/fxml/RecipeDetails.fxml", "Edit Recipe", recipe);
         updateRecipeTableView();
     }
 
