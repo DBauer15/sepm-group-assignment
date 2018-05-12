@@ -13,6 +13,10 @@ public class Recipe {
 	private EnumSet<RecipeTag> tags;
 	private Boolean deleted;
 	private List<RecipeIngredient> recipeIngredients = null;
+    private Double calories;
+    private Double carbohydrates;
+    private Double proteins;
+    private Double fats;
 
 	public Recipe() {
 		// NOOP
@@ -132,6 +136,38 @@ public class Recipe {
 	public void setRecipeIngredients(List<RecipeIngredient> recipeIngredients) {
 		this.recipeIngredients = recipeIngredients;
 	}
+
+    public Double getCalories() {
+        return calories;
+    }
+
+    public void setCalories(Double calories) {
+        this.calories = calories;
+    }
+
+    public Double getCarbohydrates() {
+        return carbohydrates;
+    }
+
+    public void setCarbohydrates(Double carbohydrates) {
+        this.carbohydrates = carbohydrates;
+    }
+
+    public Double getProteins() {
+        return proteins;
+    }
+
+    public void setProteins(Double proteins) {
+        this.proteins = proteins;
+    }
+
+    public Double getFats() {
+        return fats;
+    }
+
+    public void setFats(Double fats) {
+        this.fats = fats;
+    }
 
 	@Override
 	public String toString() {
