@@ -116,7 +116,11 @@ public class TabRecipesController {
             stage.initModality(Modality.WINDOW_MODAL);
             stage.initOwner(addRecipeButton.getScene().getWindow());
             stage.setTitle(Title);
-            stage.setScene(new Scene((Parent)fxmlLoader.load(getClass().getResourceAsStream(Path))));
+
+            var load = fxmlLoader.loadAndWrap(getClass().getResourceAsStream(Path), RecipeController.class);
+            load.getController().initializeView(null);
+            stage.setScene(new Scene((Parent) load.getLoadedObject()));
+
             stage.showAndWait();
         } catch (IOException e) {
             LOG.error(e.getMessage());
