@@ -18,7 +18,7 @@ public class RecipeValidator implements Validator<Recipe> {
 		if (recipe.getTags() == null || recipe.getTags().size() == 0) {
 			context.addError(String.format("Select at least one tag (breakfast, lunch or dinner)"));
 		}
-		
+
 		if (recipe.getRecipeIngredients() != null && recipe.getRecipeIngredients().size() == 0) {
 			context.addError("Select at least one ingredient for the recipe.");
 		}
@@ -34,7 +34,8 @@ public class RecipeValidator implements Validator<Recipe> {
 	@Override
 	public boolean validateForUpdate(Recipe recipe, ServiceInvokationContext context) {
 		// TODO Auto-generated method stub
-		return false;
+        ValidationUtil.validateId(recipe.getId(), context);
+        validateForCreation(recipe, context);
+		return context.isValid();
 	}
-
 }

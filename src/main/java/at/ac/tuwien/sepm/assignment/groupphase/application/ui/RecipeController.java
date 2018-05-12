@@ -3,8 +3,6 @@ package at.ac.tuwien.sepm.assignment.groupphase.application.ui;
 import at.ac.tuwien.sepm.assignment.groupphase.application.dto.Recipe;
 import at.ac.tuwien.sepm.assignment.groupphase.application.service.RecipeService;
 import at.ac.tuwien.sepm.assignment.groupphase.application.service.ServiceInvokationException;
-import javafx.beans.value.ObservableValue;
-import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.scene.control.*;
 import javafx.stage.Stage;
@@ -21,6 +19,9 @@ public class RecipeController {
     private static final Logger LOG = LoggerFactory.getLogger(MethodHandles.lookup().lookupClass());
 
     @FXML
+    Label headerLabel;
+
+    @FXML
     TextField recipeNameTextField;
 
     @FXML
@@ -30,21 +31,31 @@ public class RecipeController {
     Slider preparationTimeSlider;
 
     @FXML
-    Button createButton;
+    Button saveButton;
 
     @FXML
     Label preparationTimeLabel;
 
-    RecipeService recipeService;
-    Recipe r;
+    private RecipeService recipeService;
+    private Recipe r;
+    private boolean isInEditMode = false;
 
     public RecipeController(RecipeService recipeService) {
         this.recipeService = recipeService;
-        r = new Recipe();
     }
 
-    void initializeView(Recipe r){
+    void initializeView(Recipe r) {
+        if (r != null) {
+            isInEditMode = true;
 
+            headerLabel.setText("EDIT RECIPE");
+
+            recipeNameTextField.setText(r.getName());
+            preparationTimeSlider.setValue(r.getDuration());
+            directionsTextArea.setText(r.getDescription());
+        } else
+            r = new Recipe();
+        this.r = r;
     }
 
     @FXML
@@ -54,8 +65,8 @@ public class RecipeController {
     }
 
     @FXML
-    public void onCreateButtonClicked(ActionEvent actionEvent) {
-        LOG.info("Add recipe button clicked");
+    public void onSaveButtonClicked() {
+        LOG.info("Save recipe button clicked");
 
         r.setName(recipeNameTextField.getText());
         r.setDuration(preparationTimeSlider.getValue());
@@ -63,15 +74,23 @@ public class RecipeController {
 
 
         try {
-            recipeService.create(r);
+            if (isInEditMode)
+                recipeService.update(r);
+            else
+                recipeService.create(r);
+
             showAlert(Alert.AlertType.INFORMATION, "Saving successful.", "Recipe successfully saved.");
             LOG.debug("Recipe successfully saved.");
-            ((Stage) createButton.getScene().getWindow()).close();
+            ((Stage) saveButton.getScene().getWindow()).close();
         } catch (ServiceInvokationException e) {
-            showAlert(Alert.AlertType.WARNING, "Error.", e.getMessage());
+            showAlert(Alert.AlertType.WARNING, "Error.", e.getContext().getErrors().toString());
             LOG.error(e.getMessage());
         }
+    }
 
-
+    @FXML
+    public void onCancelButtonClicked() {
+        LOG.debug("Recipe dialog cancelled.");
+        ((Stage) saveButton.getScene().getWindow()).close();
     }
 }
