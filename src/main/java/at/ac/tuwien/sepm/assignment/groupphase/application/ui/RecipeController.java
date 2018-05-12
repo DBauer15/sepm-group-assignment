@@ -43,6 +43,10 @@ public class RecipeController {
         r = new Recipe();
     }
 
+    void initializeView(Recipe r){
+
+    }
+
     @FXML
     public void initialize() {
         preparationTimeSlider.valueProperty().addListener((ChangeListener) -> preparationTimeLabel.textProperty().setValue(
