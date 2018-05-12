@@ -12,6 +12,7 @@ import javafx.fxml.Initializable;
 import javafx.scene.Node;
 import javafx.scene.control.*;
 import javafx.scene.input.KeyEvent;
+import javafx.scene.layout.AnchorPane;
 import javafx.scene.layout.GridPane;
 import javafx.stage.Stage;
 import javafx.util.StringConverter;
@@ -51,13 +52,42 @@ public class RecipeController implements Initializable {
     Slider preparationTimeSlider;
 
     @FXML
+    Button switchIngredientModeButton;
+
+    @FXML
     Button saveButton;
 
     @FXML
     Label preparationTimeLabel;
 
     @FXML
+    AnchorPane searchIngredientAnchorPane;
+
+    @FXML
+    AnchorPane customIngredientAnchorPane;
+
+    @FXML
     ComboBox<RecipeIngredient> ingredientComboBox;
+
+    //Custom Ingredient
+    @FXML
+    TextField customIngredientNameTextField;
+    @FXML
+    TextField customIngredientUnitGramsTextField;
+    @FXML
+    TextField customIngredientKcalTextField;
+    @FXML
+    TextField customIngredientProteinTextField;
+    @FXML
+    TextField customIngredientCarbsTextField;
+    @FXML
+    TextField customIngredientFatTextField;
+    @FXML
+    TextField customIngredientAmountTextField;
+    @FXML
+    Label customIngredientUnitLabel;
+    @FXML
+    ChoiceBox<String> customIngredientUnitChoiceBox;
 
     private RecipeService recipeService;
     private Recipe r;
@@ -107,6 +137,12 @@ public class RecipeController implements Initializable {
                 ingredientUnitLabel.setText(newValue.getUnitName());
             }
         });
+
+        customIngredientUnitChoiceBox.getSelectionModel().selectedItemProperty().addListener( (options, oldValue, newValue) -> {
+            if (newValue != null) {
+                customIngredientUnitLabel.setText(newValue);
+            }
+        });
     }
 
     @FXML
@@ -116,11 +152,25 @@ public class RecipeController implements Initializable {
     }
 
     @FXML
+    public void onSwitchIngredientModeButtonClicked(ActionEvent event) {
+        switchIngredientModeButton.setText(isCustomIngredientMode() ? "Customize" : "Search");
+        customIngredientAnchorPane.setVisible(!customIngredientAnchorPane.isVisible());
+        searchIngredientAnchorPane.setVisible(!searchIngredientAnchorPane.isVisible());
+    }
+
+    @FXML
     public void onAddButtonClicked(ActionEvent event) {
-        RecipeIngredient selection = ingredientComboBox.getSelectionModel().getSelectedItem();
-        if (selection != null && validateIngredientInputs()) {
-            selection.setAmount(Double.parseDouble(ingredientAmountTextField.getText()));
-            addIngredient(selection);
+        if (!isCustomIngredientMode()) {
+            RecipeIngredient recipeIngredient = ingredientComboBox.getSelectionModel().getSelectedItem();
+            if (recipeIngredient != null && validateSearchIngredientInputs()) {
+                recipeIngredient.setAmount(Double.parseDouble(ingredientAmountTextField.getText()));
+                addIngredient(recipeIngredient);
+            }
+        } else {
+            if (validateCustomIngredientInputs()) {
+                RecipeIngredient recipeIngredient = createCustomIngredient();
+                addIngredient(recipeIngredient);
+            }
         }
     }
 
@@ -217,7 +267,8 @@ public class RecipeController implements Initializable {
         ingredients.remove(ingredient);
     }
 
-    private boolean validateIngredientInputs() {
+    private boolean validateSearchIngredientInputs() {
+        //TODO Berni und co
         if (ingredientAmountTextField.getText() == null) {
             showAlert(Alert.AlertType.ERROR, "Information", "Ingredient amount needs to be set.");
             return false;
@@ -230,5 +281,27 @@ public class RecipeController implements Initializable {
             return false;
         }
         return true;
+    }
+
+    private boolean validateCustomIngredientInputs() {
+        //TODO Berni und co
+        return true;
+    }
+
+    private RecipeIngredient createCustomIngredient() {
+        Double amount = Double.parseDouble(customIngredientAmountTextField.getText());
+        Double kcal = Double.parseDouble(customIngredientKcalTextField.getText());
+        Double fat = Double.parseDouble(customIngredientFatTextField.getText());
+        Double carbs = Double.parseDouble(customIngredientCarbsTextField.getText());
+        Double protein = Double.parseDouble(customIngredientProteinTextField.getText());
+        Double unitGrams = Double.parseDouble(customIngredientUnitGramsTextField.getText());
+        String unitName = customIngredientUnitChoiceBox.getValue();
+        String name = customIngredientNameTextField.getText();
+
+        return new RecipeIngredient(amount, kcal, fat, protein, carbs, unitName, unitGrams, true, name);
+    }
+
+    private boolean isCustomIngredientMode() {
+        return customIngredientAnchorPane.isVisible();
     }
 }
