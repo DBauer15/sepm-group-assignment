@@ -164,4 +164,84 @@ public class SimpleRecipeServiceTest extends BaseTest {
 		Assert.assertEquals(mockedResult, actualResult);
 	}
 
+	@Test
+	public void testSearchIngredient_invalidDataWhereParamObjectIsNull_notCallsPersistenceAndValidation() {
+
+		IngredientSearchParam searchParam = null;
+
+		// invokation
+		RecipeService dietPlanService = new SimpleRecipeService(mockedRecipeRepo);
+		try {
+			dietPlanService.searchIngredient(searchParam);
+		} catch (ServiceInvokationException e) {
+			// verification - no interaction with repo
+			verifyZeroInteractions(mockedRecipeRepo);
+			Assert.assertEquals(1, e.getContext().getErrors().size());
+			Assert.assertEquals("The field 'Ingredient Search Param' cannot be null",
+					e.getContext().getErrors().get(0));
+			return;
+		}
+		Assert.fail("Should throw ServiceInvokationException.");
+	}
+	
+	@Test
+	public void testSearchIngredient_invalidDataWhereIngredientNameIsNull_notCallsPersistenceAndValidation() {
+
+		IngredientSearchParam searchParam = new IngredientSearchParam(null);
+
+		// invokation
+		RecipeService dietPlanService = new SimpleRecipeService(mockedRecipeRepo);
+		try {
+			dietPlanService.searchIngredient(searchParam);
+		} catch (ServiceInvokationException e) {
+			// verification - no interaction with repo
+			verifyZeroInteractions(mockedRecipeRepo);
+			Assert.assertEquals(1, e.getContext().getErrors().size());
+			Assert.assertEquals("The field 'Ingredient Name' cannot be null",
+					e.getContext().getErrors().get(0));
+			return;
+		}
+		Assert.fail("Should throw ServiceInvokationException.");
+	}
+	
+	@Test
+	public void testSearchIngredient_invalidDataWhereIngredientNameLengthIsLessThan3Chars_notCallsPersistenceAndValidation() {
+
+		IngredientSearchParam searchParam = new IngredientSearchParam(" Eg "); // 2 chars + 2 spaces
+
+		// invokation
+		RecipeService dietPlanService = new SimpleRecipeService(mockedRecipeRepo);
+		try {
+			dietPlanService.searchIngredient(searchParam);
+		} catch (ServiceInvokationException e) {
+			// verification - no interaction with repo
+			verifyZeroInteractions(mockedRecipeRepo);
+			Assert.assertEquals(1, e.getContext().getErrors().size());
+			Assert.assertEquals("Enter at least 3 characters in the field 'Ingredient Name'",
+					e.getContext().getErrors().get(0));
+			return;
+		}
+		Assert.fail("Should throw ServiceInvokationException.");
+	}
+	
+	@Test
+	public void testSearchIngredient_invalidDataWhereIngredientNameLengthIsGreaterThan20Chars_notCallsPersistenceAndValidation() {
+
+		IngredientSearchParam searchParam = new IngredientSearchParam(" Lorem ipsum dolor sit "); // 21 chars + 2 spaces
+
+		// invokation
+		RecipeService dietPlanService = new SimpleRecipeService(mockedRecipeRepo);
+		try {
+			dietPlanService.searchIngredient(searchParam);
+		} catch (ServiceInvokationException e) {
+			// verification - no interaction with repo
+			verifyZeroInteractions(mockedRecipeRepo);
+			Assert.assertEquals(1, e.getContext().getErrors().size());
+			Assert.assertEquals("Enter only 20 characters in the field 'Ingredient Name'",
+					e.getContext().getErrors().get(0));
+			return;
+		}
+		Assert.fail("Should throw ServiceInvokationException.");
+	}
+
 }

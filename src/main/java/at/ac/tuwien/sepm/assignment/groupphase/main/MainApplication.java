@@ -1,5 +1,6 @@
 package at.ac.tuwien.sepm.assignment.groupphase.main;
 
+import at.ac.tuwien.sepm.assignment.groupphase.application.util.implementation.JDBCConnectionManager;
 import at.ac.tuwien.sepm.assignment.groupphase.application.util.implementation.SpringFXMLLoader;
 import javafx.application.Application;
 import javafx.fxml.FXMLLoader;
@@ -17,6 +18,7 @@ import java.io.IOException;
 import java.io.InputStream;
 import java.lang.invoke.MethodHandles;
 import java.net.URL;
+import java.sql.SQLException;
 
 @Component
 @ComponentScan("at.ac.tuwien.sepm.assignment.groupphase")
@@ -56,6 +58,11 @@ public final class MainApplication extends Application {
     @Override
     public void stop() {
         LOG.debug("Stopping main");
+        try {
+			JDBCConnectionManager.getConnection().close();
+		} catch (SQLException e) {
+			LOG.info("JDBC Connection could not be closed on application exit.");
+		}
         context.close();
     }
 }

@@ -18,9 +18,13 @@ public class IngredientSearchParamValidator implements Validator<IngredientSearc
 
 	@Override
 	public boolean validateForReading(IngredientSearchParam dto, ServiceInvokationContext context) {
-		ValidationUtil.validateNull("Ingredient Search Param", dto, context);
-		ValidationUtil.validateNull("Ingredient Name", dto.getIngredientName(), context);
-		ValidationUtil.validateStringLength("Ingredient Name", dto.getIngredientName().trim(), 3, null, context);
+		if (ValidationUtil.validateNull("Ingredient Search Param", dto, context) == true) {
+			return false;
+		};
+		if (ValidationUtil.validateNull("Ingredient Name", dto.getIngredientName(), context) == true) {
+			return false;
+		}
+		ValidationUtil.validateStringLength("Ingredient Name", dto.getIngredientName().trim(), 3, 20, context);
 		return context.isValid();
 	}
 
