@@ -3,6 +3,7 @@
 <?import java.lang.String?>
 <?import java.net.URL?>
 <?import javafx.scene.control.Button?>
+<?import javafx.scene.control.CheckBox?>
 <?import javafx.scene.control.ChoiceBox?>
 <?import javafx.scene.control.ComboBox?>
 <?import javafx.scene.control.Label?>
@@ -75,7 +76,7 @@
                         <String fx:value="font-white" />
                      </styleClass>
                   </Label>
-                  <AnchorPane prefHeight="150.0" prefWidth="564.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="70.0">
+                  <AnchorPane prefHeight="180.0" prefWidth="564.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="70.0">
                      <children>
                         <Label text="PREPARATION TIME" AnchorPane.topAnchor="80.0">
                            <styleClass>
@@ -93,9 +94,27 @@
                         </Label>
                         <TextField fx:id="recipeNameTextField" prefHeight="26.0" prefWidth="293.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="30.0" />
                         <Label fx:id="preparationTimeLabel" layoutX="401.0" layoutY="85.0" text="0 minutes" textFill="WHITE" AnchorPane.topAnchor="105.0" />
+                        <CheckBox fx:id="breakfastCheckBox" layoutX="97.0" layoutY="138.0" mnemonicParsing="false" text="Breakfast">
+                           <styleClass>
+                              <String fx:value="text-white" />
+                              <String fx:value="text-medium" />
+                           </styleClass>
+                        </CheckBox>
+                        <CheckBox fx:id="lunchCheckBox" layoutX="239.0" layoutY="138.0" mnemonicParsing="false" text="Lunch">
+                           <styleClass>
+                              <String fx:value="text-white" />
+                              <String fx:value="text-medium" />
+                           </styleClass>
+                        </CheckBox>
+                        <CheckBox fx:id="dinnerCheckBox" layoutX="351.0" layoutY="138.0" mnemonicParsing="false" text="Dinner">
+                           <styleClass>
+                              <String fx:value="text-white" />
+                              <String fx:value="text-medium" />
+                           </styleClass>
+                        </CheckBox>
                      </children>
                   </AnchorPane>
-                  <AnchorPane prefHeight="190.0" prefWidth="230.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="220.0">
+                  <AnchorPane prefHeight="190.0" prefWidth="230.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="250.0">
                      <children>
                         <Label text="INGREDIENTS" AnchorPane.leftAnchor="0.0" AnchorPane.topAnchor="30.0">
                            <styleClass>

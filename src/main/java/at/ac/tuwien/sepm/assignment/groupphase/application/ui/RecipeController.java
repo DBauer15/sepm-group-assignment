@@ -1,6 +1,7 @@
 package at.ac.tuwien.sepm.assignment.groupphase.application.ui;
 
 import at.ac.tuwien.sepm.assignment.groupphase.application.dto.Recipe;
+import at.ac.tuwien.sepm.assignment.groupphase.application.dto.RecipeTag;
 import at.ac.tuwien.sepm.assignment.groupphase.application.service.RecipeService;
 import at.ac.tuwien.sepm.assignment.groupphase.application.service.ServiceInvokationException;
 import javafx.fxml.FXML;
@@ -11,6 +12,7 @@ import org.slf4j.LoggerFactory;
 import org.springframework.stereotype.Controller;
 
 import java.lang.invoke.MethodHandles;
+import java.util.EnumSet;
 
 import static at.ac.tuwien.sepm.assignment.groupphase.application.util.implementation.UserInterfaceUtility.showAlert;
 
@@ -36,6 +38,15 @@ public class RecipeController {
     @FXML
     Label preparationTimeLabel;
 
+    @FXML
+    CheckBox breakfastCheckBox;
+
+    @FXML
+    CheckBox lunchCheckBox;
+
+    @FXML
+    CheckBox dinnerCheckBox;
+
     private RecipeService recipeService;
     private Recipe r;
     private boolean isInEditMode = false;
@@ -53,6 +64,13 @@ public class RecipeController {
             recipeNameTextField.setText(r.getName());
             preparationTimeSlider.setValue(r.getDuration());
             directionsTextArea.setText(r.getDescription());
+
+            if (r.getTags().contains(RecipeTag.B))
+                breakfastCheckBox.setSelected(true);
+            if (r.getTags().contains(RecipeTag.L))
+                lunchCheckBox.setSelected(true);
+            if (r.getTags().contains(RecipeTag.D))
+                dinnerCheckBox.setSelected(true);
         } else
             r = new Recipe();
         this.r = r;
@@ -72,6 +90,14 @@ public class RecipeController {
         r.setDuration(preparationTimeSlider.getValue());
         r.setDescription(directionsTextArea.getText());
 
+        EnumSet<RecipeTag> tags = EnumSet.noneOf(RecipeTag.class);
+        if (breakfastCheckBox.isSelected())
+            tags.add(RecipeTag.B);
+        if (lunchCheckBox.isSelected())
+            tags.add(RecipeTag.L);
+        if (dinnerCheckBox.isSelected())
+            tags.add(RecipeTag.D);
+        r.setTags(tags);
 
         try {
             if (isInEditMode)
