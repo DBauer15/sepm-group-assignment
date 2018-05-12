@@ -1,5 +1,6 @@
 package at.ac.tuwien.sepm.assignment.groupphase.application.dto;
 
+import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.EnumSet;
 import java.util.List;
@@ -19,7 +20,7 @@ public class Recipe {
     private Double fats;
 
 	public Recipe() {
-		// NOOP
+		recipeIngredients = new ArrayList<>();
 	}
 
 	/**
@@ -42,7 +43,7 @@ public class Recipe {
 
 	/**
 	 * Constructor
-	 * 
+	 *
 	 * @param name
 	 * @param duration
 	 * @param description

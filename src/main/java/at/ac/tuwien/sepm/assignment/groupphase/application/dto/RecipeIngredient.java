@@ -157,4 +157,9 @@ public class RecipeIngredient {
 		this.ingredientName = ingredientName;
 	}
 
+	@Override
+    public String toString() {
+	    return ingredientName;
+    }
+
 }
