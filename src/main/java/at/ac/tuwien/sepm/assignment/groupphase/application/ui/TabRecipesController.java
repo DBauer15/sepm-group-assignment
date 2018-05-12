@@ -6,6 +6,7 @@ import at.ac.tuwien.sepm.assignment.groupphase.application.service.ServiceInvoka
 import at.ac.tuwien.sepm.assignment.groupphase.application.util.implementation.SpringFXMLLoader;
 import at.ac.tuwien.sepm.assignment.groupphase.main.MainApplication;
 import javafx.beans.binding.Bindings;
+import javafx.beans.property.SimpleIntegerProperty;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 import javafx.event.ActionEvent;
@@ -46,16 +47,16 @@ public class TabRecipesController {
     TableColumn<Recipe, String> nameTableColumn;
 
     @FXML
-    TableColumn<Recipe, Double> caloriesTableColumn;
+    TableColumn<Recipe, Integer> caloriesTableColumn;
 
     @FXML
-    TableColumn<Recipe, Double> carbohydratesTableColumn;
+    TableColumn<Recipe, Integer> carbohydratesTableColumn;
 
     @FXML
-    TableColumn<Recipe, Double> proteinsTableColumn;
+    TableColumn<Recipe, Integer> proteinsTableColumn;
 
     @FXML
-    TableColumn<Recipe, Double> fatsTableColumn;
+    TableColumn<Recipe, Integer> fatsTableColumn;
 
     @FXML
     TableColumn<Recipe, Double> preparationTimeTableColumn;
@@ -72,10 +73,10 @@ public class TabRecipesController {
         recipeTableView.getSelectionModel().setSelectionMode(SelectionMode.SINGLE);
 
         nameTableColumn.setCellValueFactory(new PropertyValueFactory<>("name"));
-        //caloriesTableColumn.setCellValueFactory(new PropertyValueFactory<>("calories"));
-        //carbohydratesTableColumn.setCellValueFactory(new PropertyValueFactory<>("carbohydrates"));
-        //proteinsTableColumn.setCellValueFactory(new PropertyValueFactory<>("proteins"));
-        //fatsTableColumn.setCellValueFactory(new PropertyValueFactory<>("fats"));
+        caloriesTableColumn.setCellValueFactory(x -> new SimpleIntegerProperty((int)Math.ceil(x.getValue().getCalories())).asObject());
+        carbohydratesTableColumn.setCellValueFactory(x -> new SimpleIntegerProperty((int)Math.ceil(x.getValue().getCarbohydrates())).asObject());
+        proteinsTableColumn.setCellValueFactory((x -> new SimpleIntegerProperty((int)Math.ceil(x.getValue().getProteins())).asObject()));
+        fatsTableColumn.setCellValueFactory(x -> new SimpleIntegerProperty((int)Math.ceil(x.getValue().getFats())).asObject());
         preparationTimeTableColumn.setCellValueFactory(new PropertyValueFactory<>("duration"));
 
 

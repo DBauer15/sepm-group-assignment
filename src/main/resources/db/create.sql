@@ -324,7 +324,7 @@ VALUES(3527,12, 0.125); /* Sunflower seeds */
 INSERT INTO RECIPE_INGREDIENT(INGREDIENT_ID, RECIPE_ID, AMOUNT)
 VALUES(2408,12, 1.5); /* Medjool dates */
 INSERT INTO RECIPE_INGREDIENT(INGREDIENT_ID, RECIPE_ID, AMOUNT)
-VALUES(6146,12, 15); /* Wheat */
+VALUES(6146,12, 1.5); /* Wheat */
 INSERT INTO RECIPE_INGREDIENT(INGREDIENT_ID, RECIPE_ID, AMOUNT)
 VALUES(7880,12, 1); /* Yogurt */
 INSERT INTO RECIPE_INGREDIENT(INGREDIENT_ID, RECIPE_ID, AMOUNT)
@@ -378,11 +378,11 @@ VALUES(5960,15, 0.1); /* Honey*/
 INSERT INTO RECIPE(ID, NAME, DURATION, DESCRIPTION, TAGS, DELETED)
 VALUES(16,'Easy chocolate cupcakes',45, 'Heat oven to 180C/fan 160C/gas 4 and line a 10-hole muffin tin with paper cases. Whizz the chocolate into small pieces in a food processor. In the largest mixing bowl you have, tip in the flour, sugar, cocoa, oil, 100ml soured cream, eggs, vanilla and 100ml water. Whisk everything together with electric beaters until smooth, then quickly stir in 100g of the whizzed-up chocolate bits. Divide between the 10 cases, then bake for 20 mins until a skewer inserted comes out clean (make sure you don’t poke it into a chocolate chip bit). Cool on a wire rack.&#10;To make the icing, put the remaining chocolate bits, soured cream and 3 tbsp sugar in a small saucepan. Heat gently, stirring, until the chocolate is melted and you have a smooth icing. Chill in the fridge until firm enough to swirl on top of the muffins, then tuck in.','BD','false');
 INSERT INTO RECIPE_INGREDIENT(INGREDIENT_ID, RECIPE_ID, AMOUNT)
-VALUES(6130,16, 5); /* Dark Chocolate*/
+VALUES(6130,16, 2.5); /* Dark Chocolate*/
 INSERT INTO RECIPE_INGREDIENT(INGREDIENT_ID, RECIPE_ID, AMOUNT)
 VALUES(6211,16, 1); /* Flour*/
 INSERT INTO RECIPE_INGREDIENT(INGREDIENT_ID, RECIPE_ID, AMOUNT)
-VALUES(6135,16, 20); /* Sugar*/
+VALUES(6135,16, 7); /* Sugar*/
 INSERT INTO RECIPE_INGREDIENT(INGREDIENT_ID, RECIPE_ID, AMOUNT)
 VALUES(5874,16, 0.5); /* Cocoa*/
 INSERT INTO RECIPE_INGREDIENT(INGREDIENT_ID, RECIPE_ID, AMOUNT)
@@ -399,7 +399,7 @@ VALUES(17,'Double chocolate loaf cake', 80,'Heat oven to 160C/140C fan/gas 3. Gr
 INSERT INTO RECIPE_INGREDIENT(INGREDIENT_ID, RECIPE_ID, AMOUNT)
 VALUES(131, 17, 0.5); /* Butter */
 INSERT INTO RECIPE_INGREDIENT(INGREDIENT_ID, RECIPE_ID, AMOUNT)
-VALUES(6135,17, 15); /* Sugar*/
+VALUES(6135,17, 7); /* Sugar*/
 INSERT INTO RECIPE_INGREDIENT(INGREDIENT_ID, RECIPE_ID, AMOUNT)
 VALUES(111,17, 0.5); /* Eggs */
 INSERT INTO RECIPE_INGREDIENT(INGREDIENT_ID, RECIPE_ID, AMOUNT)

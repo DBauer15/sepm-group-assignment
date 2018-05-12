@@ -29,7 +29,7 @@
 
 .table-row-cell{
     -fx-background-color: #FFFFFF;
-    -fx-table-cell-border-color: #FF00FF /* color only for testing... :P */;
+    -fx-table-cell-border-color: grey
     -fx-background-insets: 0, 0 0 1 0;
     -fx-padding: 0.0em;
 }

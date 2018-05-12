@@ -4,6 +4,7 @@ import java.lang.invoke.MethodHandles;
 import java.util.ArrayList;
 import java.util.List;
 
+import at.ac.tuwien.sepm.assignment.groupphase.application.util.implementation.NutritionUtil;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.stereotype.Service;
@@ -68,7 +69,9 @@ public class SimpleRecipeService implements RecipeService {
     @Override
     public Recipe get(int id) throws ServiceInvokationException {
         try {
-            return recipePersistence.get(id);
+            Recipe r = recipePersistence.get(id);
+            r =  NutritionUtil.fillNutritionValues(r);
+            return r;
         } catch (PersistenceException e) {
             throw new ServiceInvokationException(e);
         }
@@ -89,7 +92,9 @@ public class SimpleRecipeService implements RecipeService {
     @Override
     public List<Recipe> getRecipes() throws ServiceInvokationException {
         try {
-            return recipePersistence.getRecipes();
+            List<Recipe> recipes = recipePersistence.getRecipes();
+            recipes.forEach(NutritionUtil::fillNutritionValues);
+            return recipes;
         } catch (PersistenceException e) {
             throw new ServiceInvokationException(e);
         }
