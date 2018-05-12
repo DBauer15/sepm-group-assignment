@@ -316,7 +316,7 @@ VALUES(631,11, 0.5); /* Oil */
 INSERT INTO RECIPE(ID, NAME, DURATION, DESCRIPTION, TAGS, DELETED)
 VALUES(12,'Homemade muesli with oats, dates & berries', 7,'Tip the oats into a frying pan and heat gently, stirring frequently until they are just starting to toast. Add the pecans and seeds to warm briefly, then tip into a large bowl and toss so they cool quickly.&#10;Add the dates and puffed wheat, mix well until thoroughly combined, then serve topped with the yogurt and fruit, and a sprinkling of cinnamon, if you like.','B','false');
 INSERT INTO RECIPE_INGREDIENT(INGREDIENT_ID, RECIPE_ID, AMOUNT)
-VALUES(6174,12, 1); /* Oats */
+VALUES(6174,12, 0.2); /* Oats */
 INSERT INTO RECIPE_INGREDIENT(INGREDIENT_ID, RECIPE_ID, AMOUNT)
 VALUES(3580,12, 0.25); /* Pecan */
 INSERT INTO RECIPE_INGREDIENT(INGREDIENT_ID, RECIPE_ID, AMOUNT)
@@ -386,7 +386,7 @@ VALUES(6135,16, 7); /* Sugar*/
 INSERT INTO RECIPE_INGREDIENT(INGREDIENT_ID, RECIPE_ID, AMOUNT)
 VALUES(5874,16, 0.5); /* Cocoa*/
 INSERT INTO RECIPE_INGREDIENT(INGREDIENT_ID, RECIPE_ID, AMOUNT)
-VALUES(706,16, 10); /* Sunflower oil*/
+VALUES(706,16, 3); /* Sunflower oil*/
 INSERT INTO RECIPE_INGREDIENT(INGREDIENT_ID, RECIPE_ID, AMOUNT)
 VALUES(152,16, 6); /* Sour cream*/
 INSERT INTO RECIPE_INGREDIENT(INGREDIENT_ID, RECIPE_ID, AMOUNT)
@@ -397,9 +397,9 @@ VALUES(265, 16, 0.00625); /* Vanilla */
 INSERT INTO RECIPE(ID, NAME, DURATION, DESCRIPTION, TAGS, DELETED)
 VALUES(17,'Double chocolate loaf cake', 80,'Heat oven to 160C/140C fan/gas 3. Grease and line a 2lb/900g loaf tin with a long strip of baking parchment. To make the loaf cake batter, beat the butter and sugar with an electric whisk until light and fluffy. Beat in the eggs, flour, almonds, baking powder, milk and cocoa until smooth. Stir in the chocolate chips, then scrape into the tin. Bake for 45-50 mins until golden, risen and a skewer poked in the centre comes out clean.&#10;Cool in the tin, then lift out onto a wire rack over some kitchen paper. Melt the extra chocolate chunks separately in pans over barely simmering water, or in bowls in the microwave, then use a spoon to drizzle each in turn over the cake. Leave to set before slicing.','BD','false');
 INSERT INTO RECIPE_INGREDIENT(INGREDIENT_ID, RECIPE_ID, AMOUNT)
-VALUES(131, 17, 0.5); /* Butter */
+VALUES(131, 17, 0.25); /* Butter */
 INSERT INTO RECIPE_INGREDIENT(INGREDIENT_ID, RECIPE_ID, AMOUNT)
-VALUES(6135,17, 7); /* Sugar*/
+VALUES(6135,17, 5); /* Sugar*/
 INSERT INTO RECIPE_INGREDIENT(INGREDIENT_ID, RECIPE_ID, AMOUNT)
 VALUES(111,17, 0.5); /* Eggs */
 INSERT INTO RECIPE_INGREDIENT(INGREDIENT_ID, RECIPE_ID, AMOUNT)
@@ -409,11 +409,11 @@ VALUES(3536, 17, 0.25); /* Almonds*/
 INSERT INTO RECIPE_INGREDIENT(INGREDIENT_ID, RECIPE_ID, AMOUNT)
 VALUES(5539, 17, 0.5); /* Baking Powder*/
 INSERT INTO RECIPE_INGREDIENT(INGREDIENT_ID, RECIPE_ID, AMOUNT)
-VALUES(70,17, 1); /* Milk */
+VALUES(70,17, 0.75); /* Milk */
 INSERT INTO RECIPE_INGREDIENT(INGREDIENT_ID, RECIPE_ID, AMOUNT)
 VALUES(5874,17, 0.125); /* Cocoa*/
 INSERT INTO RECIPE_INGREDIENT(INGREDIENT_ID, RECIPE_ID, AMOUNT)
-VALUES(6130,17, 1); /* Chocolate*/
+VALUES(6130,17, 0.75); /* Chocolate*/
 
 INSERT INTO RECIPE(ID, NAME, DURATION, DESCRIPTION, TAGS, DELETED)
 VALUES(18,'The classic pancake',30,'Sift the flour with a pinch of salt into a medium-size bowl and make a well in the middle. Mix the milk and 100ml of water together. Break the eggs into the well and start whisking slowly. Add the milk and water in a steady stream, whisking constantly and gradually incorporating the flour as you do so.&#10;Whisk until the batter is smooth and all the flour has been incorporated. Set the batter aside to rest for 30 mins, then whisk the melted butter into the batter.&#10;Heat the pan over a medium heat. Very lightly grease the pan with melted butter. Using a ladle, pour roughly 2 tbsp of batter into the pan and swirl it around so the bottom of the pan is evenly coated. You want to use just enough batter to make a delicate, lacy pancake. Cook the pancake for about 45 secs on one side until golden and then using a palette knife or fish slice, flip the pancake over and cook the other side for about 30 secs until it freckles.&#10;Slide the pancake out of the pan and either serve immediately or stack on a plate with baking parchment in between. Continue until all the batter is used up.','B','false');
