@@ -318,17 +318,17 @@ VALUES(12,'Homemade muesli with oats, dates & berries', 7,'Tip the oats into a f
 INSERT INTO RECIPE_INGREDIENT(INGREDIENT_ID, RECIPE_ID, AMOUNT)
 VALUES(6174,12, 0.2); /* Oats */
 INSERT INTO RECIPE_INGREDIENT(INGREDIENT_ID, RECIPE_ID, AMOUNT)
-VALUES(3580,12, 0.25); /* Pecan */
+VALUES(3580,12, 0.125); /* Pecan */
 INSERT INTO RECIPE_INGREDIENT(INGREDIENT_ID, RECIPE_ID, AMOUNT)
 VALUES(3527,12, 0.125); /* Sunflower seeds */
 INSERT INTO RECIPE_INGREDIENT(INGREDIENT_ID, RECIPE_ID, AMOUNT)
-VALUES(2408,12, 1.5); /* Medjool dates */
+VALUES(2408,12, 1); /* Medjool dates */
 INSERT INTO RECIPE_INGREDIENT(INGREDIENT_ID, RECIPE_ID, AMOUNT)
-VALUES(6146,12, 1.5); /* Wheat */
+VALUES(6146,12, 0.3); /* Wheat */
 INSERT INTO RECIPE_INGREDIENT(INGREDIENT_ID, RECIPE_ID, AMOUNT)
-VALUES(7880,12, 1); /* Yogurt */
+VALUES(7880,12, 0.5); /* Yogurt */
 INSERT INTO RECIPE_INGREDIENT(INGREDIENT_ID, RECIPE_ID, AMOUNT)
-VALUES(2186,12, 1); /* Cranberries */
+VALUES(2186,12, 0.5); /* Cranberries */
 
 INSERT INTO RECIPE(ID, NAME, DURATION, DESCRIPTION, TAGS, DELETED)
 VALUES(13,'Pink barley porridge with vanilla yogurt',25,'Tip the barley and oats into a bowl, pour over 1 litre boiling water and stir well. Cover and leave to soak overnight.&#10;The next morning, tip the mixture into a pan and stir in the plums. Simmer for 15 mins, stirring frequently and adding a little water if necessary to get a consistency you like.&#10;Stir the vanilla into the yogurt and serve on top of the porridge with the seeds sprinkled over.','B','false');
