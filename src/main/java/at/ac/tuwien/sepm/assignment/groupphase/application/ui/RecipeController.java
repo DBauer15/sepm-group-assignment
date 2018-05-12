@@ -106,10 +106,11 @@ public class RecipeController implements Initializable {
 
     public RecipeController(RecipeService recipeService) {
         this.recipeService = recipeService;
-        this.ingredients = new ArrayList<>();
     }
 
     void initializeView(Recipe r) {
+        this.ingredients = new ArrayList<>();
+
         if (r != null) {
             isInEditMode = true;
 
@@ -118,6 +119,9 @@ public class RecipeController implements Initializable {
             recipeNameTextField.setText(r.getName());
             preparationTimeSlider.setValue(r.getDuration());
             directionsTextArea.setText(r.getDescription());
+
+            for (RecipeIngredient i : r.getRecipeIngredients())
+                addIngredient(i);
 
             if (r.getTags().contains(RecipeTag.B))
                 breakfastCheckBox.setSelected(true);
