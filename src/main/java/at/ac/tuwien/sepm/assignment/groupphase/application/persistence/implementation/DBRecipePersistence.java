@@ -266,9 +266,9 @@ public class DBRecipePersistence implements RecipePersistence {
 			ps.executeUpdate();
 
             List<RecipeIngredient> newUserSpecificRecipeIngredients = recipe.getRecipeIngredients().stream()
-                .filter(ri -> ri.getUserSpecific() && ri.getId() == null).collect(Collectors.toList());
+                .filter(ri -> ri.getId() == null).collect(Collectors.toList());
             List<RecipeIngredient> commonRecipeIngredients = recipe.getRecipeIngredients().stream()
-                .filter(ri -> !ri.getUserSpecific()).collect(Collectors.toList());
+                .filter(ri -> ri.getId() != null).collect(Collectors.toList());
 
             for (RecipeIngredient ri : newUserSpecificRecipeIngredients) {
                 Integer userIngredientId = createUserSpecificIngredientTuple(ri);
