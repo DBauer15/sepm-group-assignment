@@ -249,7 +249,7 @@ public class RecipeController implements Initializable {
 		// checks if an common ingredient was already added - must be checked because
 		// ingredient ids must be unique for every recipe (tuple key constraint)
 		for (RecipeIngredient ri : ingredients) {
-			if (ri.getId() == newRi.getId()) {
+			if (ri.getId().intValue() == newRi.getId().intValue()) {
 				return true;
 			}
 		}

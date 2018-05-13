@@ -66,7 +66,8 @@ public class RecipeIngredientsValidator implements Validator<List<RecipeIngredie
 		boolean foundDuplicateIngredientId = false;
 		for (RecipeIngredient ri1 : dto) {
 			for (RecipeIngredient ri2 : dto) {
-				if (ri1.getId() != null && ri2.getId() != null && ri1.getId() == ri2.getId() && !ri1.equals(ri2)) {
+				if (ri1.getId() != null && ri2.getId() != null && ri1.getId().intValue() == ri2.getId().intValue()
+						&& !ri1.equals(ri2)) {
 					foundDuplicateIngredientId = true;
 				}
 			}
