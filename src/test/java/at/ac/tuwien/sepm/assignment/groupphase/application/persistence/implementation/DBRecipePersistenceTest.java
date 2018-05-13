@@ -4,7 +4,6 @@ import java.sql.Clob;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
-import java.sql.Statement;
 import java.util.ArrayList;
 import java.util.EnumSet;
 import java.util.List;
@@ -27,8 +26,8 @@ import org.junit.rules.ExpectedException;
 
 public class DBRecipePersistenceTest extends BaseTest {
 
-	private static final String SQL_CHECK_RECIPE_CREATION = "select id, name,duration,description,tags,deleted from recipe;";
-	private static final String SQL_CHECK_RECIPE_INGREDIENT_CREATION = "select ingredient_id, recipe_id, amount from recipe_ingredient;";
+	private static final String SQL_CHECK_RECIPE_CREATION = "select id, name,duration,description,tags,deleted from recipe where id=?;";
+	private static final String SQL_CHECK_RECIPE_INGREDIENT_CREATION = "select ingredient_id, recipe_id, amount from recipe_ingredient where recipe_id=?;";
 	private static final String SQL_CHECK_USER_SPECIFIC_INGREDIENT_CREATION = "select ID, NAME, ENERG_KCAL, LIPID, PROTEIN, CARBOHYDRT, UNIT_NAME, "
 			+ "UNIT_GRAM_NORMALISED from ingredient where user_specific=true;";
 	private static final String SQL_CHECK_RECIPE_UPDATE = "SELECT * FROM RECIPE WHERE ID = ?;";
@@ -105,9 +104,13 @@ public class DBRecipePersistenceTest extends BaseTest {
 
 	private void verifyRecipeCreation(Recipe r) throws SQLException, PersistenceException {
 
+		Assert.assertNotNull(r.getId());
+		Assert.assertTrue(r.getId() > 0);
+
 		// verify recipe tuple
 		PreparedStatement checkRecipeCreation = null;
 		checkRecipeCreation = JDBCConnectionManager.getConnection().prepareStatement(SQL_CHECK_RECIPE_CREATION);
+		checkRecipeCreation.setInt(1, r.getId());
 		ResultSet resultSet = checkRecipeCreation.executeQuery();
 		if (resultSet.next() == false) {
 			Assert.fail("Recipe creation failed because no tupel in Recipe Table exists.");
@@ -135,6 +138,7 @@ public class DBRecipePersistenceTest extends BaseTest {
 		PreparedStatement checkRecipeIngredientCreation = null;
 		checkRecipeIngredientCreation = JDBCConnectionManager.getConnection()
 				.prepareStatement(SQL_CHECK_RECIPE_INGREDIENT_CREATION);
+		checkRecipeIngredientCreation.setInt(1, r.getId());
 		resultSet = checkRecipeIngredientCreation.executeQuery();
 
 		int countRecipeIngredient = 0;
@@ -144,6 +148,7 @@ public class DBRecipePersistenceTest extends BaseTest {
 			Integer recipeId2 = resultSet.getInt("RECIPE_ID");
 			Integer ingredientId = resultSet.getInt("INGREDIENT_ID");
 			Double amount = resultSet.getDouble("AMOUNT");
+
 			Assert.assertEquals(r.getId(), recipeId2);
 			createdIngredientIds.add(ingredientId);
 		}
@@ -156,10 +161,6 @@ public class DBRecipePersistenceTest extends BaseTest {
 		checkUserSpecificIngredients = JDBCConnectionManager.getConnection()
 				.prepareStatement(SQL_CHECK_USER_SPECIFIC_INGREDIENT_CREATION);
 		resultSet = checkUserSpecificIngredients.executeQuery();
-
-		// private static final String SQL_CHECK_USER_SPECIFIC_INGREDIENT_CREATION =
-		// "select NAME, ENERG_KCAL, LIPID, PROTEIN, CARBOHYDRT, UNIT_NAME, "
-		// + "UNIT_GRAM_NORMALISED, USER_SPECIFIC from ingredient;";
 
 		List<RecipeIngredient> userSpecificRecipeIngredients = r.getRecipeIngredients().stream()
 				.filter(ri -> ri.getUserSpecific() == true).collect(Collectors.toList());
