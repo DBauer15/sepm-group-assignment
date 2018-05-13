@@ -39,6 +39,7 @@ public class SimpleRecipeServiceTest extends BaseTest {
 	private Recipe recipeInvalid1 = new Recipe(EXAMPLE_TEXT_256CHARS, 0d, " ", EnumSet.noneOf(RecipeTag.class));
 	private Recipe recipeInvalid2 = new Recipe(" ", 256d, "something to do", validTagBreakfastSet);
 	private Recipe recipeInvalid3 = new Recipe("My recipe", 120d, "Test", validTagBreakfastSet);
+	private Recipe recipeInvalid4 = new Recipe("My recipe", 120d, "Test", validTagBreakfastSet);
 
 	public SimpleRecipeServiceTest() {
 		validTagBreakfastSet.add(RecipeTag.B);
@@ -56,27 +57,37 @@ public class SimpleRecipeServiceTest extends BaseTest {
 		recipeValid.setRecipeIngredients(recipeIngredientList);
 
 		// invalid recipe ingredient list
-		List<RecipeIngredient> invalidRecipeIngredientList = new ArrayList<>();
-		invalidRecipeIngredientList.add(ri3);
-		invalidRecipeIngredientList.add(ri4);
-		
+		List<RecipeIngredient> invalidRecipeIngredientList1 = new ArrayList<>();
+		invalidRecipeIngredientList1.add(ri3);
+		invalidRecipeIngredientList1.add(ri4);
+
 		RecipeIngredient ri5 = new RecipeIngredient(0d, 0d, 100.9d, 101.1, 100.01, "oz", 0d, true, " ");
 		RecipeIngredient ri6 = new RecipeIngredient(0.1, 0.1, 100d, 100d, 100d, "lt", 0.5, true, " Walnut ");
 		RecipeIngredient ri7 = new RecipeIngredient(-1d, -1d, 80d, 80d, 80d, " ", 5d, true, " Ice cube");
 		RecipeIngredient ri8 = new RecipeIngredient(0.8, 110d, 0.1d, 0d, 99.9, "oz", 5d, true, EXAMPLE_TEXT_256CHARS);
-		RecipeIngredient ri9 = new RecipeIngredient(45, 0d, false);
-		RecipeIngredient ri10 = new RecipeIngredient(45, -2d, false);
-		invalidRecipeIngredientList.add(ri5);
-		invalidRecipeIngredientList.add(ri6);
-		invalidRecipeIngredientList.add(ri7);
-		invalidRecipeIngredientList.add(ri8);
-		invalidRecipeIngredientList.add(ri9);
-		invalidRecipeIngredientList.add(ri10);
+		RecipeIngredient ri9 = new RecipeIngredient(47, 0d, false);
+		RecipeIngredient ri10 = new RecipeIngredient(46, -2d, false);
+		invalidRecipeIngredientList1.add(ri5);
+		invalidRecipeIngredientList1.add(ri6);
+		invalidRecipeIngredientList1.add(ri7);
+		invalidRecipeIngredientList1.add(ri8);
+		invalidRecipeIngredientList1.add(ri9);
+		invalidRecipeIngredientList1.add(ri10);
+
+		// invalid recipe ingredient list 2
+		List<RecipeIngredient> invalidRecipeIngredientList2 = new ArrayList<>();
+		RecipeIngredient ri11 = new RecipeIngredient(45, 2d, false);
+		RecipeIngredient ri12 = new RecipeIngredient(45, 2d, false);
+		RecipeIngredient ri13 = new RecipeIngredient(45, 3d, false);
+		invalidRecipeIngredientList2.add(ri11);
+		invalidRecipeIngredientList2.add(ri12);
+		invalidRecipeIngredientList2.add(ri13);
 
 		// invalid recipe ingredient list
 		recipeInvalid1.setRecipeIngredients(new ArrayList<>());
 		recipeInvalid2.setRecipeIngredients(null);
-		recipeInvalid3.setRecipeIngredients(invalidRecipeIngredientList);
+		recipeInvalid3.setRecipeIngredients(invalidRecipeIngredientList1);
+		recipeInvalid4.setRecipeIngredients(invalidRecipeIngredientList2);
 	}
 
 	@Test
@@ -154,23 +165,65 @@ public class SimpleRecipeServiceTest extends BaseTest {
 			// verify validations
 			ArrayList<String> errors = e.getContext().getErrors();
 			Assert.assertEquals(15, errors.size());
-			Assert.assertEquals("Enter a value that is greater than 0.0 in the field 'Amount of ingredient '", errors.get(0));
+			Assert.assertEquals("Enter a value that is greater than 0.0 in the field 'Amount of ingredient '",
+					errors.get(0));
 			Assert.assertEquals("Enter at least 1 characters in the field 'Ingredient Name'", errors.get(1));
-			Assert.assertEquals("Enter a value that is greater than 0.0 in the field 'Unit gram of ingredient '", errors.get(2));
-			Assert.assertEquals("Enter a value that is smaller than or equal to 100.0 in the field 'Carbohydrate of ingredient '", errors.get(3));
-			Assert.assertEquals("Enter a value that is smaller than or equal to 100.0 in the field 'Lipid of ingredient '", errors.get(4));
-			Assert.assertEquals("Enter a value that is smaller than or equal to 100.0 in the field 'Protein of ingredient '", errors.get(5));
-			Assert.assertEquals("Enter a value that is smaller than or equal to 100.0 in the field 'Sum of nutrient/100g for ingredient '", errors.get(6));
-			
-			Assert.assertEquals("Enter a value that is smaller than or equal to 100.0 in the field 'Sum of nutrient/100g for ingredient Walnut'", errors.get(7));
-			
-			Assert.assertEquals("Enter a value that is greater than 0.0 in the field 'Amount of ingredient Ice cube'", errors.get(8));
-			Assert.assertEquals("Enter at least 1 characters in the field 'Unit name of ingredient Ice cube'", errors.get(9));
-			Assert.assertEquals("Enter a value that is greater than or equal to 0.0 in the field 'Energy (kcal) of ingredient Ice cube'", errors.get(10));
-			Assert.assertEquals("Enter a value that is smaller than or equal to 100.0 in the field 'Sum of nutrient/100g for ingredient Ice cube'", errors.get(11));
-			Assert.assertEquals("Enter only 255 characters in the field 'Ingredient Name'", e.getContext().getErrors().get(12));
-			Assert.assertEquals("Enter a value that is greater than 0.0 in the field 'Amount of ingredient '", errors.get(13));
-			Assert.assertEquals("Enter a value that is greater than 0.0 in the field 'Amount of ingredient '", errors.get(14));
+			Assert.assertEquals("Enter a value that is greater than 0.0 in the field 'Unit gram of ingredient '",
+					errors.get(2));
+			Assert.assertEquals(
+					"Enter a value that is smaller than or equal to 100.0 in the field 'Carbohydrate of ingredient '",
+					errors.get(3));
+			Assert.assertEquals(
+					"Enter a value that is smaller than or equal to 100.0 in the field 'Lipid of ingredient '",
+					errors.get(4));
+			Assert.assertEquals(
+					"Enter a value that is smaller than or equal to 100.0 in the field 'Protein of ingredient '",
+					errors.get(5));
+			Assert.assertEquals(
+					"Enter a value that is smaller than or equal to 100.0 in the field 'Sum of nutrient/100g for ingredient '",
+					errors.get(6));
+
+			Assert.assertEquals(
+					"Enter a value that is smaller than or equal to 100.0 in the field 'Sum of nutrient/100g for ingredient Walnut'",
+					errors.get(7));
+
+			Assert.assertEquals("Enter a value that is greater than 0.0 in the field 'Amount of ingredient Ice cube'",
+					errors.get(8));
+			Assert.assertEquals("Enter at least 1 characters in the field 'Unit name of ingredient Ice cube'",
+					errors.get(9));
+			Assert.assertEquals(
+					"Enter a value that is greater than or equal to 0.0 in the field 'Energy (kcal) of ingredient Ice cube'",
+					errors.get(10));
+			Assert.assertEquals(
+					"Enter a value that is smaller than or equal to 100.0 in the field 'Sum of nutrient/100g for ingredient Ice cube'",
+					errors.get(11));
+			Assert.assertEquals("Enter only 255 characters in the field 'Ingredient Name'",
+					e.getContext().getErrors().get(12));
+			Assert.assertEquals("Enter a value that is greater than 0.0 in the field 'Amount of ingredient '",
+					errors.get(13));
+			Assert.assertEquals("Enter a value that is greater than 0.0 in the field 'Amount of ingredient '",
+					errors.get(14));
+			return;
+		}
+		Assert.fail("Should throw ServiceInvokationException!");
+	}
+
+	@Test
+	public void testCreate_invalidDataMultipleIngredientsWithSameIds_notCallsPersistenceCreateAndValidations()
+			throws PersistenceException {
+		// invokation
+		RecipeService recipeService = new SimpleRecipeService(mockedRecipeRepo);
+		try {
+			recipeService.create(recipeInvalid4);
+		} catch (ServiceInvokationException e) {
+
+			// verification - no interaction with repo
+			verifyZeroInteractions(mockedRecipeRepo);
+
+			// verify validations
+			ArrayList<String> errors = e.getContext().getErrors();
+			Assert.assertEquals(1, errors.size());
+			Assert.assertEquals("The same ingredient cannot be added more than once.", errors.get(0));
 			return;
 		}
 		Assert.fail("Should throw ServiceInvokationException!");

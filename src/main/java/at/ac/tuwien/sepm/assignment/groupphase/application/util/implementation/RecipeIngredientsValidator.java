@@ -61,6 +61,20 @@ public class RecipeIngredientsValidator implements Validator<List<RecipeIngredie
 					null, 100d, context);
 		}
 
+		// check if ingredient id exists multiple times, to avoid key constraint error
+		// in recipient_ingredent table
+		boolean foundDuplicateIngredientId = false;
+		for (RecipeIngredient ri1 : dto) {
+			for (RecipeIngredient ri2 : dto) {
+				if (ri1.getId() != null && ri2.getId() != null && ri1.getId() == ri2.getId() && !ri1.equals(ri2)) {
+					foundDuplicateIngredientId = true;
+				}
+			}
+		}
+		if (foundDuplicateIngredientId == true) {
+			context.addError("The same ingredient cannot be added more than once.");
+		}
+
 		return context.isValid();
 	}
 
