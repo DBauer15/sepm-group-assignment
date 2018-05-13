@@ -299,4 +299,30 @@ public class SimpleRecipeServiceTest extends BaseTest {
 		Assert.fail("Should throw ServiceInvokationException.");
 	}
 
+    @Test
+    public void testUpdate_recipeIsValid_callsPersistenceUpdateOnce() throws ServiceInvokationException, PersistenceException {
+
+        RecipeService dietPlanService = new SimpleRecipeService(mockedRecipeRepo);
+        recipeValid.setId(1);
+        dietPlanService.update(recipeValid);
+        verify(mockedRecipeRepo, times(1)).update(recipeValid);
+    }
+
+    @Test
+    public void testUpdate_recipeHasNoId_throwsValidationError() {
+        RecipeService recipeService = new SimpleRecipeService(mockedRecipeRepo);
+        Recipe recipeNotValidForUpdate = recipeValid;
+
+        try {
+            recipeService.update(recipeNotValidForUpdate);
+        } catch (ServiceInvokationException e) {
+            verifyZeroInteractions(mockedRecipeRepo);
+
+            ArrayList<String> errors = e.getContext().getErrors();
+            Assert.assertEquals(1, errors.size());
+            Assert.assertEquals("ID needs to be set", errors.get(0));
+            return;
+        }
+        Assert.fail("Should throw ServiceInvokationException!");
+    }
 }
