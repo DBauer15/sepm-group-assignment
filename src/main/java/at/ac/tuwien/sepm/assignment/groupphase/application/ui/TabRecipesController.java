@@ -142,6 +142,8 @@ public class TabRecipesController {
 			recipeObservableList.addAll(recipeService.getRecipes());
 		} catch (ServiceInvokationException e) {
 			UserInterfaceUtility.handleFaults(e.getContext());
+		} catch (Exception e) {
+			UserInterfaceUtility.handleFault(e);
 		}
 
 		recipeTableView.setItems(recipeObservableList);

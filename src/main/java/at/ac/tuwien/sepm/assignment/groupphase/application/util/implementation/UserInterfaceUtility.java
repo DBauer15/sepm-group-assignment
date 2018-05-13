@@ -58,7 +58,8 @@ public class UserInterfaceUtility {
 	 * @param e the exception
 	 */
 	public static void handleFault(Exception e) {
-		LOG.debug("Errors occured: \r\n{}", e);
-		showAlert(AlertType.ERROR, "An error occured.", e.getMessage());
+		LOG.debug("Unexpected Errors occured: \r\n", e);
+		showAlert(AlertType.ERROR, "An unexpected error occured.",
+				String.format("An unexpected error occured :-( \nMessage: %s", e.getMessage()));
 	}
 }

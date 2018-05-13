@@ -229,6 +229,8 @@ public class RecipeController implements Initializable {
 			((Stage) saveButton.getScene().getWindow()).close();
 		} catch (ServiceInvokationException e) {
 			UserInterfaceUtility.handleFaults(e.getContext());
+		} catch (Exception e) {
+			UserInterfaceUtility.handleFault(e);
 		}
 	}
 
@@ -245,6 +247,8 @@ public class RecipeController implements Initializable {
 			ingredientComboBox.show();
 		} catch (ServiceInvokationException e) {
 			UserInterfaceUtility.handleFaults(e.getContext());
+		} catch (Exception e) {
+			UserInterfaceUtility.handleFault(e);
 		}
 	}
 
