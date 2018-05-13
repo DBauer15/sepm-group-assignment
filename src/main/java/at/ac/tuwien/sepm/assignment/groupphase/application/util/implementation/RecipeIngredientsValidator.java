@@ -18,24 +18,27 @@ public class RecipeIngredientsValidator implements Validator<List<RecipeIngredie
 		}
 
 		for (RecipeIngredient ri : dto) {
+
+			// amount must be > 0
+			ValidationUtil.validateDoubleLimits(
+					String.format("Amount of ingredient %s",
+							ri.getIngredientName() == null ? "" : ri.getIngredientName().trim()),
+					ri.getAmount(), 0d, null, context);
+
 			if (ri.getId() != null && ri.getId() > 0) {
 				continue; // a common ingredient
 			}
 
 			// trimmed ingredient name >= 1 chars
 			ValidationUtil.validateStringLength("Ingredient Name", ri.getIngredientName().trim(), 1, 255, context);
-			
+
 			// unit gram > 0
 			ValidationUtil.validateDoubleLimits(String.format("Unit gram of ingredient %s", ri.getIngredientName()),
 					ri.getUnitGramNormalised(), 0d, null, context);
-			
+
 			// unit name >= 1 chars
 			ValidationUtil.validateStringLength(String.format("Unit name of ingredient %s", ri.getIngredientName()),
 					ri.getUnitName().trim(), 1, 255, context);
-
-			// amount must be > 0
-			ValidationUtil.validateDoubleLimits(String.format("Amount of ingredient %s", ri.getIngredientName()),
-					ri.getEnergyKcal(), 0d, null, context);
 
 			// energy must be >= 0
 			ValidationUtil.validateDoubleLimitsInclusive(
@@ -46,8 +49,7 @@ public class RecipeIngredientsValidator implements Validator<List<RecipeIngredie
 					String.format("Carbohydrate of ingredient %s", ri.getIngredientName()), ri.getCarbohydrate(), 0d,
 					100d, context);
 			ValidationUtil.validateDoubleLimitsInclusive(
-					String.format("Lipid of ingredient %s", ri.getIngredientName()), ri.getLipid(), 0d, 100d,
-					context);
+					String.format("Lipid of ingredient %s", ri.getIngredientName()), ri.getLipid(), 0d, 100d, context);
 			ValidationUtil.validateDoubleLimitsInclusive(
 					String.format("Protein of ingredient %s", ri.getIngredientName()), ri.getProtein(), 0d, 100d,
 					context);
@@ -55,8 +57,8 @@ public class RecipeIngredientsValidator implements Validator<List<RecipeIngredie
 			// sum of carbohydrate, lipid, protein must be <= 100
 			final double nutrientSumPer100g = ri.getCarbohydrate() + ri.getLipid() + ri.getProtein();
 			ValidationUtil.validateDoubleLimitsInclusive(
-					String.format("Sum of nutrient/100g for ingredient %s", ri.getIngredientName()),
-					nutrientSumPer100g, null, 100d, context);
+					String.format("Sum of nutrient/100g for ingredient %s", ri.getIngredientName()), nutrientSumPer100g,
+					null, 100d, context);
 		}
 
 		return context.isValid();
