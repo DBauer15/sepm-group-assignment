@@ -8,7 +8,7 @@
 
 .tab .tab-label {
 	-fx-background-color: transparent;
-	-fx-text-fill: #EBEAF0;
+	-fx-text-fill: #f0f0f0;
 	-fx-font: 18px Helvetica;
 }
 
@@ -17,7 +17,7 @@
     -fx-background-insert: 0.0;
     -fx-background-radius: 0.0;
     -fx-padding: 10 99 10 99;
-} 
+}
 
 .tab:selected {
 	-fx-background-color: #EE6566;

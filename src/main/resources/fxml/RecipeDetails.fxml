@@ -64,7 +64,7 @@
                         <String fx:value="font-white" />
                      </styleClass>
                   </Label>
-                  <AnchorPane prefHeight="180.0" prefWidth="564.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="70.0">
+                  <AnchorPane prefHeight="180.0" prefWidth="565.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="70.0">
                      <children>
                         <Label text="PREPARATION TIME" AnchorPane.topAnchor="80.0">
                            <styleClass>
@@ -102,7 +102,7 @@
                         </CheckBox>
                      </children>
                   </AnchorPane>
-                  <AnchorPane prefHeight="234.0" prefWidth="565.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="250.0">
+                  <AnchorPane layoutY="258.0" prefHeight="234.0" prefWidth="565.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="258.0">
                      <children>
                         <Label text="INGREDIENTS" AnchorPane.leftAnchor="0.0" AnchorPane.topAnchor="30.0">
                            <styleClass>
@@ -186,7 +186,7 @@
                         <Button layoutX="504.0" layoutY="169.0" mnemonicParsing="false" onAction="#onAddButtonClicked" prefHeight="38.0" prefWidth="59.0" styleClass="button-rounded" text="Add" AnchorPane.bottomAnchor="27.0" AnchorPane.rightAnchor="2.0" />
                      </children>
                   </AnchorPane>
-                  <GridPane fx:id="ingredientsGridPane" layoutX="1.0" layoutY="514.0" maxHeight="352.0" maxWidth="565.0" minHeight="164.0" minWidth="564.0" prefHeight="282.0" prefWidth="564.0" vgap="10.0">
+                  <GridPane fx:id="ingredientsGridPane" layoutX="1.0" layoutY="510.0" maxHeight="352.0" maxWidth="565.0" minHeight="164.0" minWidth="564.0" prefHeight="292.0" prefWidth="564.0" vgap="10.0">
                     <columnConstraints>
                       <ColumnConstraints hgrow="SOMETIMES" maxWidth="328.0" minWidth="10.0" prefWidth="263.0" />
                         <ColumnConstraints hgrow="SOMETIMES" maxWidth="220.0" minWidth="10.0" prefWidth="98.0" />
@@ -208,5 +208,6 @@
       <URL value="@../css/text.css" />
       <URL value="@../css/button.css" />
       <URL value="@../css/textarea.css" />
+      <URL value="@../css/checkbox.css" />
    </stylesheets>
 </AnchorPane>

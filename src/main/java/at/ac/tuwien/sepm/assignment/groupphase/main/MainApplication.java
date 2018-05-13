@@ -33,7 +33,7 @@ public final class MainApplication extends Application {
         // setup main
         primaryStage.setTitle("FoodOrca");
         primaryStage.setWidth(1068);
-        primaryStage.setHeight(884);
+        primaryStage.setHeight(910);
         primaryStage.centerOnScreen();
         primaryStage.setOnCloseRequest(event -> LOG.debug("Application shutdown initiated"));
 
