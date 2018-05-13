@@ -88,7 +88,7 @@ public class TabRecipesController {
 			final TableRow<Recipe> row = new TableRow<>();
 
 			final ContextMenu recipeContextMenu = new ContextMenu();
-			final MenuItem editMenuItem = new MenuItem("Edit");
+			final MenuItem editMenuItem = new MenuItem("Show and edit");
 			editMenuItem.setOnAction(event -> onEditRecipeClicked(row.getItem()));
 			recipeContextMenu.getItems().add(editMenuItem);
 
