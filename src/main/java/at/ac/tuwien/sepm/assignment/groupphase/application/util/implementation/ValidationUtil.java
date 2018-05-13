@@ -16,13 +16,25 @@ public class ValidationUtil {
 
 	public static void validateDoubleLimits(String fieldName, Double value, Double lowerBound, Double upperBound,
 			ServiceInvokationContext context) {
-		if (lowerBound != null && value <= lowerBound) {
+		if (lowerBound != null && Double.compare(value, lowerBound) <= 0) {
 			context.addError(
 					String.format("Enter a value that is greater than %s in the field '%s'", lowerBound, fieldName));
 		}
-		if (upperBound != null && value >= upperBound) {
+		if (upperBound != null && Double.compare(value, upperBound) >= 0) {
 			context.addError(
 					String.format("Enter a value that is smaller than %s in the field '%s'", upperBound, fieldName));
+		}
+	}
+
+	public static void validateDoubleLimitsInclusive(String fieldName, Double value, Double minValue, Double maxValue,
+			ServiceInvokationContext context) {
+		if (minValue != null && Double.compare(value, minValue) < 0) {
+			context.addError(String.format("Enter a value that is greater than or equal to %s in the field '%s'",
+					minValue, fieldName));
+		}
+		if (maxValue != null && Double.compare(value, maxValue) > 0) {
+			context.addError(String.format("Enter a value that is smaller than or equal to %s in the field '%s'",
+					maxValue, fieldName));
 		}
 	}
 
