@@ -129,8 +129,10 @@ public class RecipeController implements Initializable {
                 lunchCheckBox.setSelected(true);
             if (r.getTags().contains(RecipeTag.D))
                 dinnerCheckBox.setSelected(true);
-        } else
+        } else {
+            isInEditMode = false;
             r = new Recipe();
+        }
         this.r = r;
     }
 
