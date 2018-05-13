@@ -25,13 +25,33 @@ public class RecipeValidator implements Validator<Recipe> {
 
 	@Override
 	public boolean validateForReading(Recipe recipe, ServiceInvokationContext context) {
-		return false;
+        ValidationUtil.validateId(recipe.getId(), context);
+        ValidationUtil.validateStringLength("Recipe name", recipe.getName().trim(), 1, 255, context);
+        ValidationUtil.validateDoubleLimits("Duration", recipe.getDuration(), 0d, 255d, context);
+        ValidationUtil.validateStringLength("Description", recipe.getDescription().trim(), 1, null, context);
+
+	    ValidationUtil.validateNull("tags", recipe.getTags(), context);
+	    ValidationUtil.validateNull("deleted", recipe.getDeleted(), context);
+	    ValidationUtil.validateNull("calories", recipe.getCalories(), context);
+	    ValidationUtil.validateNull("carbohydrates", recipe.getCarbohydrates(), context);
+	    ValidationUtil.validateNull("proteins", recipe.getProteins(), context);
+	    ValidationUtil.validateNull("fats", recipe.getFats(), context);
+
+	    recipeIngredientsValidator.validateForReading(recipe.getRecipeIngredients(), context);
+		return context.isValid();
 	}
 
 	@Override
 	public boolean validateForUpdate(Recipe recipe, ServiceInvokationContext context) {
 		ValidationUtil.validateId(recipe.getId(), context);
-		validateForCreation(recipe, context);
+        ValidationUtil.validateStringLength("Recipe name", recipe.getName().trim(), 1, 255, context);
+        ValidationUtil.validateDoubleLimits("Duration", recipe.getDuration(), 0d, 255d, context);
+        ValidationUtil.validateStringLength("Description", recipe.getDescription().trim(), 1, null, context);
+
+        if (recipe.getTags() == null || recipe.getTags().size() == 0)
+            context.addError("Select at least one tag (breakfast, lunch or dinner)");
+
+        recipeIngredientsValidator.validateForUpdate(recipe.getRecipeIngredients(), context);
 		return context.isValid();
 	}
 }

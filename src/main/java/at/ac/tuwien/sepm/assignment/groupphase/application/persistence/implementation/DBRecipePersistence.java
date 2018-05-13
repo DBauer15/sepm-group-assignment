@@ -41,7 +41,7 @@ public class DBRecipePersistence implements RecipePersistence {
 
 	private static final String SELECT_R_I_WHERE = "SELECT * FROM RECIPE_INGREDIENT r_i JOIN INGREDIENT i ON r_i.INGREDIENT_ID = i.ID JOIN RECIPE r ON r_i.RECIPE_ID = r.ID WHERE r.ID = ?;";
 	private static final String DELETE_R_I_WHERE = "DELETE FROM RECIPE_INGREDIENT WHERE RECIPE_ID = ?;";
-	private static final String INSERT_R_I_WHERE = "INSERT INTO RECIPE_INGREDIENT (INGREDIENT_ID, RECIPE_ID, AMOUNT) VALUES (?, ?, ?);";
+	//private static final String INSERT_R_I_WHERE = "INSERT INTO RECIPE_INGREDIENT (INGREDIENT_ID, RECIPE_ID, AMOUNT) VALUES (?, ?, ?);";
 
 	private static final String CREATE_RECIPE_INGREDIENT = "INSERT INTO recipe_ingredient (ingredient_id, recipe_id, amount) VALUES (?,?,?);";
 
@@ -265,13 +265,19 @@ public class DBRecipePersistence implements RecipePersistence {
 			ps.setInt(1, recipe.getId());
 			ps.executeUpdate();
 
-			for (RecipeIngredient i : recipe.getRecipeIngredients()) {
-				ps = JDBCConnectionManager.getConnection().prepareStatement(INSERT_R_I_WHERE);
-				ps.setInt(1, i.getId());
-				ps.setInt(2, recipe.getId());
-				ps.setDouble(3, i.getAmount());
-				ps.executeUpdate();
-			}
+            List<RecipeIngredient> newUserSpecificRecipeIngredients = recipe.getRecipeIngredients().stream()
+                .filter(ri -> ri.getId() == null).collect(Collectors.toList());
+            List<RecipeIngredient> commonRecipeIngredients = recipe.getRecipeIngredients().stream()
+                .filter(ri -> ri.getId() != null).collect(Collectors.toList());
+
+            for (RecipeIngredient ri : newUserSpecificRecipeIngredients) {
+                Integer userIngredientId = createUserSpecificIngredientTuple(ri);
+                createRecipeIngredientTuple(ri, userIngredientId, recipe.getId());
+            }
+
+            for (RecipeIngredient ri : commonRecipeIngredients)
+                createRecipeIngredientTuple(ri, ri.getId(), recipe.getId());
+
 		} catch (SQLException e) {
 			JDBCConnectionManager.rollbackTransaction();
 			throw new PersistenceException(e);

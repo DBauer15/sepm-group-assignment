@@ -10,6 +10,7 @@ import java.util.List;
 import java.util.stream.Collectors;
 
 import org.junit.Assert;
+import org.junit.Rule;
 import org.junit.Test;
 
 import at.ac.tuwien.sepm.assignment.groupphase.application.dto.IngredientSearchParam;
@@ -21,6 +22,7 @@ import at.ac.tuwien.sepm.assignment.groupphase.application.persistence.RecipePer
 import at.ac.tuwien.sepm.assignment.groupphase.application.util.BaseTest;
 import at.ac.tuwien.sepm.assignment.groupphase.application.util.implementation.CloseUtil;
 import at.ac.tuwien.sepm.assignment.groupphase.application.util.implementation.JDBCConnectionManager;
+import org.junit.rules.ExpectedException;
 
 public class DBRecipePersistenceTest extends BaseTest {
 
@@ -28,6 +30,9 @@ public class DBRecipePersistenceTest extends BaseTest {
 	private static final String SQL_CHECK_RECIPE_INGREDIENT_CREATION = "select ingredient_id, recipe_id, amount from recipe_ingredient where recipe_id=?;";
 	private static final String SQL_CHECK_USER_SPECIFIC_INGREDIENT_CREATION = "select ID, NAME, ENERG_KCAL, LIPID, PROTEIN, CARBOHYDRT, UNIT_NAME, "
 			+ "UNIT_GRAM_NORMALISED from ingredient where user_specific=true;";
+	private static final String SQL_CHECK_RECIPE_UPDATE = "SELECT * FROM RECIPE WHERE ID = ?;";
+    private static final String SQL_CHECK_RECIPE_INGREDIENT_UPDATE = "SELECT * FROM RECIPE_INGREDIENT r_i JOIN INGREDIENT i ON r_i.INGREDIENT_ID = i.ID WHERE r_i.RECIPE_ID = ?;";
+    private static final String SQL_DROP_EXAMPLE_RECIPES = "DELETE FROM recipe_ingredient; DELETE FROM recipe;";
 
 	public DBRecipePersistenceTest() {
 		// valid recipe ingredient list
@@ -228,4 +233,191 @@ public class DBRecipePersistenceTest extends BaseTest {
 					+ "correct from resultset or ingredient data is incomplete.");
 		}
 	}
+
+    @Test
+    public void testGetRecipe_idIsValid_successWithRecipeSet() throws PersistenceException {
+        RecipePersistence recipePersistence = new DBRecipePersistence();
+
+        Recipe recipe = recipePersistence.get(1);
+
+        Assert.assertEquals(1, (int) recipe.getId());
+        Assert.assertEquals("Fresh salmon with Thai noodle salad", recipe.getName());
+        Assert.assertEquals(20, recipe.getDuration(), 0.0);
+        Assert.assertEquals("Put a pan of water on to boil. Line a steamer with baking parchment, add the salmon " +
+            "fillets and scatter with a little of the orange zest. When the water is boiling, add the beans to the " +
+            "pan, put the salmon in the steamer on top and cook for 5 mins. Take the salmon off, and if it is " +
+            "cooked, set aside but add the peas and mange tout to the pan and cook for 1 min more, or if not quite " +
+            "cooked leave on top for the extra min. Drain the veg, but return the boiling water to the pan, add the " +
+            "noodles and leave to soak for 5 mins.&#10;Put the curry paste and fish sauce in a salad bowl with the " +
+            "orange juice and a little of the remaining zest and the spring onions. Drain the noodles when they are " +
+            "ready and add to the salad bowl, toss well, then add the chopped orange with the basil or coriander and " +
+            "the cooked vegetables. Tip in the juice from the fish, then toss well and serve in bowls with the " +
+            "salmon on top.", recipe.getDescription());
+        Assert.assertEquals(EnumSet.of(RecipeTag.D, RecipeTag.L), recipe.getTags());
+        Assert.assertEquals("DL", recipe.getTagsAsString());
+        Assert.assertTrue(!recipe.getDeleted());
+        Assert.assertEquals(9, recipe.getRecipeIngredients().size());
+    }
+
+    @Rule
+    public ExpectedException expectedEx = ExpectedException.none();
+
+    @Test
+    public void testGetRecipe_idIsInvalid_throwsPersistenceException() throws PersistenceException {
+        expectedEx.expect(PersistenceException.class);
+        expectedEx.expectMessage("No recipe found for given id");
+
+        new DBRecipePersistence().get(-1);
+    }
+
+    @Test
+    public void testUpdateRecipe_recipeIsValidWithUserSpecificIngredients_successWithRecipeValuesUpdated() throws PersistenceException, SQLException {
+        RecipePersistence recipePersistence = new DBRecipePersistence();
+
+        Recipe toUpdate = new Recipe(1,
+            "Updated recipe",
+            33.3,
+            "This recipe has been updated.",
+            EnumSet.of(RecipeTag.B),
+            true);
+
+        List<RecipeIngredient> ingredients = new ArrayList<>();
+        ingredients.add(new RecipeIngredient(1d, 1d, 1d, 1d, 1d, "A", 1d, true, "A"));
+        ingredients.add(new RecipeIngredient(2d, 2d, 2d, 2d, 2d, "B", 2d, true, "B"));
+        toUpdate.setRecipeIngredients(ingredients);
+
+        recipePersistence.update(toUpdate);
+
+        PreparedStatement checkRecipeUpdate = JDBCConnectionManager.getConnection().prepareStatement(SQL_CHECK_RECIPE_UPDATE);
+        checkRecipeUpdate.setInt(1, 1);
+        ResultSet rs = checkRecipeUpdate.executeQuery();
+        if (!rs.next()) {
+            Assert.fail("Recipe update failed because no recipe with given id exists.");
+        }
+
+        Assert.assertEquals((int) toUpdate.getId(), rs.getInt("ID"));
+        Assert.assertEquals(toUpdate.getName(), rs.getString("NAME"));
+        Assert.assertEquals(toUpdate.getDuration(), rs.getDouble("DURATION"), 0.0);
+        Assert.assertEquals(toUpdate.getDescription(), rs.getString("DESCRIPTION"));
+        Assert.assertEquals(toUpdate.getTagsAsString(), rs.getString("TAGS"));
+        Assert.assertEquals(toUpdate.getDeleted(), rs.getBoolean("DELETED"));
+
+        CloseUtil.closeStatement(checkRecipeUpdate);
+
+        PreparedStatement checkIngredientsUpdate = JDBCConnectionManager.getConnection().prepareStatement(SQL_CHECK_RECIPE_INGREDIENT_UPDATE);
+        checkIngredientsUpdate.setInt(1, 1);
+        rs = checkIngredientsUpdate.executeQuery();
+
+        int countIngredients = 0;
+        while (rs.next()) {
+            RecipeIngredient ingredient = toUpdate.getRecipeIngredients().get(countIngredients++);
+
+            Assert.assertEquals(ingredient.getAmount(), rs.getDouble("AMOUNT"), 0.0);
+            Assert.assertEquals(ingredient.getEnergyKcal(), rs.getDouble("ENERG_KCAL"), 0.0);
+            Assert.assertEquals(ingredient.getLipid(), rs.getDouble("LIPID"), 0.0);
+            Assert.assertEquals(ingredient.getProtein(), rs.getDouble("PROTEIN"), 0.0);
+            Assert.assertEquals(ingredient.getCarbohydrate(), rs.getDouble("CARBOHYDRT"), 0.0);
+            Assert.assertEquals(ingredient.getUnitName(), rs.getString("UNIT_NAME"));
+            Assert.assertEquals(ingredient.getUnitGramNormalised(), rs.getDouble("UNIT_GRAM_NORMALISED"), 0.0);
+            Assert.assertEquals(ingredient.getUserSpecific(), rs.getBoolean("USER_SPECIFIC"));
+            Assert.assertEquals(ingredient.getIngredientName(), rs.getString("NAME"));
+        }
+
+        Assert.assertEquals(toUpdate.getRecipeIngredients().size(), countIngredients);
+        CloseUtil.closeStatement(checkIngredientsUpdate);
+    }
+
+    @Test
+    public void testUpdateRecipe_recipeIsValidWithCommonIngredients_successWithRecipeValuesUpdated() throws PersistenceException, SQLException {
+        RecipePersistence recipePersistence = new DBRecipePersistence();
+
+        Recipe toUpdate = new Recipe(1,
+            "Updated recipe",
+            33.3,
+            "This recipe has been updated.",
+            EnumSet.of(RecipeTag.B),
+            true);
+
+        List<RecipeIngredient> ingredients = new ArrayList<>();
+        ingredients.add(new RecipeIngredient(1, 1d, false));
+        ingredients.add(new RecipeIngredient(2, 2d, false));
+        toUpdate.setRecipeIngredients(ingredients);
+
+        recipePersistence.update(toUpdate);
+
+        PreparedStatement checkRecipeUpdate = JDBCConnectionManager.getConnection().prepareStatement(SQL_CHECK_RECIPE_UPDATE);
+        checkRecipeUpdate.setInt(1, 1);
+        ResultSet rs = checkRecipeUpdate.executeQuery();
+        if (!rs.next()) {
+            Assert.fail("Recipe update failed because no recipe with given id exists.");
+        }
+
+        Assert.assertEquals((int) toUpdate.getId(), rs.getInt("ID"));
+        Assert.assertEquals(toUpdate.getName(), rs.getString("NAME"));
+        Assert.assertEquals(toUpdate.getDuration(), rs.getDouble("DURATION"), 0.0);
+        Assert.assertEquals(toUpdate.getDescription(), rs.getString("DESCRIPTION"));
+        Assert.assertEquals(toUpdate.getTagsAsString(), rs.getString("TAGS"));
+        Assert.assertEquals(toUpdate.getDeleted(), rs.getBoolean("DELETED"));
+
+        CloseUtil.closeStatement(checkRecipeUpdate);
+
+        PreparedStatement checkIngredientsUpdate = JDBCConnectionManager.getConnection().prepareStatement(SQL_CHECK_RECIPE_INGREDIENT_UPDATE);
+        checkIngredientsUpdate.setInt(1, 1);
+        rs = checkIngredientsUpdate.executeQuery();
+
+        int countIngredients = 0;
+        while (rs.next()) {
+            RecipeIngredient ingredient = toUpdate.getRecipeIngredients().get(countIngredients++);
+
+            Assert.assertEquals((int) ingredient.getId(), rs.getInt("ID"));
+            Assert.assertEquals(ingredient.getAmount(), rs.getDouble("AMOUNT"), 0.0);
+            Assert.assertEquals(ingredient.getUserSpecific(), rs.getBoolean("USER_SPECIFIC"));
+        }
+
+        Assert.assertEquals(toUpdate.getRecipeIngredients().size(), countIngredients);
+        CloseUtil.closeStatement(checkIngredientsUpdate);
+    }
+
+    @Test
+    public void testgetRecipes_databaseHasRecipeEntries_successWithEntriesReturned() throws PersistenceException {
+        RecipePersistence recipePersistence = new DBRecipePersistence();
+        List<Recipe> recipes = recipePersistence.getRecipes();
+        Assert.assertEquals(20, recipes.size());
+
+        for (Recipe r : recipes) {
+            Assert.assertNotNull(r.getId());
+            Assert.assertNotNull(r.getName());
+            Assert.assertNotNull(r.getDuration());
+            Assert.assertNotNull(r.getDescription());
+            Assert.assertNotNull(r.getTags());
+            Assert.assertNotNull(r.getDeleted());
+
+            for (RecipeIngredient i : r.getRecipeIngredients()) {
+                Assert.assertNotNull(i.getId());
+                Assert.assertNotNull(i.getAmount());
+                Assert.assertNotNull(i.getUserSpecific());
+                Assert.assertNotNull(i.getAmount());
+                Assert.assertNotNull(i.getEnergyKcal());
+                Assert.assertNotNull(i.getLipid());
+                Assert.assertNotNull(i.getProtein());
+                Assert.assertNotNull(i.getCarbohydrate());
+                Assert.assertNotNull(i.getUnitName());
+                Assert.assertNotNull(i.getUnitGramNormalised());
+                Assert.assertNotNull(i.getUserSpecific());
+                Assert.assertNotNull(i.getIngredientName());
+            }
+        }
+    }
+
+    @Test
+    public void testgetRecipes_databaseIsEmpty_successWithListEmpty() throws PersistenceException, SQLException {
+        PreparedStatement dropExampleRecipes = JDBCConnectionManager.getConnection().prepareStatement(SQL_DROP_EXAMPLE_RECIPES);
+        dropExampleRecipes.execute();
+        CloseUtil.closeStatement(dropExampleRecipes);
+
+        RecipePersistence recipePersistence = new DBRecipePersistence();
+        List<Recipe> recipes = recipePersistence.getRecipes();
+        Assert.assertNotNull(recipes);
+        Assert.assertEquals(0, recipes.size());
+    }
 }

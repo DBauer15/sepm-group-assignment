@@ -71,6 +71,11 @@ public class SimpleRecipeService implements RecipeService {
         try {
             Recipe r = recipePersistence.get(id);
             r =  NutritionUtil.fillNutritionValues(r);
+
+            ServiceInvokationContext context = new ServiceInvokationContext();
+            if (!recipeValidator.validateForReading(r, context))
+                throw new ServiceInvokationException(context);
+
             return r;
         } catch (PersistenceException e) {
             throw new ServiceInvokationException(e);
@@ -94,6 +99,12 @@ public class SimpleRecipeService implements RecipeService {
         try {
             List<Recipe> recipes = recipePersistence.getRecipes();
             recipes.forEach(NutritionUtil::fillNutritionValues);
+
+            ServiceInvokationContext context = new ServiceInvokationContext();
+            for (Recipe r : recipes)
+                if (!recipeValidator.validateForReading(r, context))
+                    throw new ServiceInvokationException(context);
+
             return recipes;
         } catch (PersistenceException e) {
             throw new ServiceInvokationException(e);
