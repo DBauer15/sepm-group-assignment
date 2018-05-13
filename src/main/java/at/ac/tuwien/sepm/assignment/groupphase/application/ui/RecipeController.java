@@ -7,6 +7,8 @@ import at.ac.tuwien.sepm.assignment.groupphase.application.dto.RecipeTag;
 import at.ac.tuwien.sepm.assignment.groupphase.application.service.RecipeService;
 import at.ac.tuwien.sepm.assignment.groupphase.application.service.ServiceInvokationException;
 import at.ac.tuwien.sepm.assignment.groupphase.application.util.implementation.UserInterfaceUtility;
+import at.ac.tuwien.sepm.assignment.groupphase.application.util.implementation.ValidationUtil;
+import at.ac.tuwien.sepm.assignment.groupphase.application.util.implementation.ValidationUtilUi;
 import javafx.collections.FXCollections;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
@@ -18,6 +20,8 @@ import javafx.scene.layout.AnchorPane;
 import javafx.scene.layout.GridPane;
 import javafx.stage.Stage;
 import javafx.util.StringConverter;
+
+import org.apache.commons.validator.routines.DoubleValidator;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.stereotype.Controller;
@@ -185,14 +189,15 @@ public class RecipeController implements Initializable {
 
 	@FXML
 	public void onAddButtonClicked(ActionEvent event) {
+
 		if (!isCustomIngredientMode()) {
 			RecipeIngredient recipeIngredient = ingredientComboBox.getSelectionModel().getSelectedItem();
-			if (recipeIngredient != null && validateSearchIngredientInputs()) {
-				recipeIngredient.setAmount(Double.parseDouble(ingredientAmountTextField.getText()));
+			if (validateSearchIngredientInputs(recipeIngredient) == true) {
+				recipeIngredient.setAmount(ValidationUtilUi.validateAndGet(ingredientAmountTextField.getText()));
 				addIngredient(recipeIngredient);
 			}
 		} else {
-			if (validateCustomIngredientInputs()) {
+			if (validateCustomIngredientInputs() == true) {
 				RecipeIngredient recipeIngredient = createCustomIngredient();
 				addIngredient(recipeIngredient);
 			}
@@ -238,6 +243,17 @@ public class RecipeController implements Initializable {
 	public void onCancelButtonClicked() {
 		LOG.debug("Recipe dialog cancelled.");
 		((Stage) saveButton.getScene().getWindow()).close();
+	}
+
+	private boolean isCommonIngredientAlreadyPresent(RecipeIngredient newRi) {
+		// checks if an common ingredient was already added - must be checked because
+		// ingredient ids must be unique for every recipe (tuple key constraint)
+		for (RecipeIngredient ri : ingredients) {
+			if (ri.getId() == newRi.getId()) {
+				return true;
+			}
+		}
+		return false;
 	}
 
 	private void updateIngredientSearch(IngredientSearchParam searchParam) {
@@ -303,34 +319,100 @@ public class RecipeController implements Initializable {
 		ingredients.remove(ingredient);
 	}
 
-	private boolean validateSearchIngredientInputs() {
-		// TODO Berni und co
-		if (ingredientAmountTextField.getText() == null) {
-			showAlert(Alert.AlertType.ERROR, "Information", "Ingredient amount needs to be set.");
+	private boolean validateSearchIngredientInputs(RecipeIngredient recipeIngredient) {
+		if (recipeIngredient == null) {
+			showAlert(Alert.AlertType.ERROR, "Invalid Input",
+					"Enter and choose a ingredient name, hit enter and then give me an amount to continue.");
 			return false;
 		}
 
-		try {
-			Double.parseDouble(ingredientAmountTextField.getText());
-		} catch (NumberFormatException e) {
-			showAlert(Alert.AlertType.ERROR, "Information", "Ingredient amount needs to be a decimal number.");
+		String amount = ingredientAmountTextField.getText();
+		if (amount == null || amount.trim().length() == 0) {
+			showAlert(Alert.AlertType.ERROR, "Information", "Ingredient amount must be set to a number.");
 			return false;
 		}
+		Double amountDouble = ValidationUtilUi.validateAndGet(ingredientAmountTextField.getText());
+		if (amountDouble == null || amountDouble <= 0) {
+			showAlert(Alert.AlertType.ERROR, "Information",
+					"Ingredient amount needs to be a true positive decimal number.");
+			return false;
+		}
+
+		if (isCommonIngredientAlreadyPresent(recipeIngredient) == true) {
+			showAlert(Alert.AlertType.ERROR, "Information",
+					"This Ingredient has already been added to the recipe. If you want to change the amount, please correct your added ingredient.");
+			return false;
+		}
+
 		return true;
 	}
 
 	private boolean validateCustomIngredientInputs() {
-		// TODO Berni und co
+		Double amount = ValidationUtilUi.validateAndGet(customIngredientAmountTextField.getText());
+		Double kcal = ValidationUtilUi.validateAndGet(customIngredientKcalTextField.getText());
+		Double fat = ValidationUtilUi.validateAndGet(customIngredientFatTextField.getText());
+		Double carbs = ValidationUtilUi.validateAndGet(customIngredientCarbsTextField.getText());
+		Double protein = ValidationUtilUi.validateAndGet(customIngredientProteinTextField.getText());
+		Double unitGrams = ValidationUtilUi.validateAndGet(customIngredientUnitGramsTextField.getText());
+		String unitName = customIngredientUnitChoiceBox.getValue();
+		String name = customIngredientNameTextField.getText();
+
+		if (amount == null || amount <= 0) {
+			showAlert(Alert.AlertType.ERROR, "Invalid Input", "Ingredient Amount must be a true positve number.");
+			return false;
+		}
+		if (kcal == null || kcal < 0) {
+			showAlert(Alert.AlertType.ERROR, "Invalid Input", "Ingredient Energy (kcal) must be a positve number.");
+			return false;
+		}
+		if (validateNutrientRange(fat, "fat") == false) {
+			return false;
+		}
+		if (validateNutrientRange(carbs, "carbohydrates") == false) {
+			return false;
+		}
+		if (validateNutrientRange(protein, "protein") == false) {
+			return false;
+		}
+		if (unitGrams == null || unitGrams <= 0) {
+			showAlert(Alert.AlertType.ERROR, "Invalid Input", "Ingredient Unit Grams must be a positve number.");
+			return false;
+		}
+		if (unitName == null || unitName.trim().length() <= 0) {
+			showAlert(Alert.AlertType.ERROR, "Invalid Input", "Ingredient Unit Name must be selected.");
+			return false;
+		}
+		if (name == null || name.trim().length() <= 0) {
+			showAlert(Alert.AlertType.ERROR, "Invalid Input", "Ingredient Name must have at least 1 character.");
+			return false;
+		}
+
+		final Double sumOfNutrients = fat + carbs + protein;
+		if (sumOfNutrients > 100) {
+			showAlert(Alert.AlertType.ERROR, "Invalid Input",
+					"Sum of proteins, carbohydrates and fats per 100g must be lower than 100.");
+			return false;
+		}
+
+		return true;
+	}
+
+	private boolean validateNutrientRange(Double nutrient, String name) {
+		if (nutrient == null || nutrient < 0 || nutrient > 100) {
+			showAlert(Alert.AlertType.ERROR, "Invalid Input",
+					String.format("Ingredient %s/100g must be a a number between [0,100].", name));
+			return false;
+		}
 		return true;
 	}
 
 	private RecipeIngredient createCustomIngredient() {
-		Double amount = Double.parseDouble(customIngredientAmountTextField.getText());
-		Double kcal = Double.parseDouble(customIngredientKcalTextField.getText());
-		Double fat = Double.parseDouble(customIngredientFatTextField.getText());
-		Double carbs = Double.parseDouble(customIngredientCarbsTextField.getText());
-		Double protein = Double.parseDouble(customIngredientProteinTextField.getText());
-		Double unitGrams = Double.parseDouble(customIngredientUnitGramsTextField.getText());
+		Double amount = ValidationUtilUi.validateAndGet(customIngredientAmountTextField.getText());
+		Double kcal = ValidationUtilUi.validateAndGet(customIngredientKcalTextField.getText());
+		Double fat = ValidationUtilUi.validateAndGet(customIngredientFatTextField.getText());
+		Double carbs = ValidationUtilUi.validateAndGet(customIngredientCarbsTextField.getText());
+		Double protein = ValidationUtilUi.validateAndGet(customIngredientProteinTextField.getText());
+		Double unitGrams = ValidationUtilUi.validateAndGet(customIngredientUnitGramsTextField.getText());
 		String unitName = customIngredientUnitChoiceBox.getValue();
 		String name = customIngredientNameTextField.getText();
 

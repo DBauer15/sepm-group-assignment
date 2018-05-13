@@ -83,6 +83,12 @@
             <version>${mockito.version}</version>
             <scope>test</scope>
         </dependency>
+        <!-- apache commons validator for validating ui data -->
+		<dependency>
+			<groupId>commons-validator</groupId>
+			<artifactId>commons-validator</artifactId>
+			<version>1.6</version>
+		</dependency>
     </dependencies>
 
     <build>
