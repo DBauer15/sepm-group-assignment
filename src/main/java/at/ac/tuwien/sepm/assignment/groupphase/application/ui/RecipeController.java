@@ -123,7 +123,9 @@ public class RecipeController implements Initializable {
 
 			recipeNameTextField.setText(r.getName());
 			preparationTimeSlider.setValue(r.getDuration());
-			directionsTextArea.setText(r.getDescription());
+            /* "&#10" is a linefeed character, but for whatever reason this doesn't work when reading the string, therefor it has to be enforced manually.
+                2 line separators guarantee an empty line between paragraphs*/
+            directionsTextArea.setText(r.getDescription().replace("&#10;", System.lineSeparator() + System.lineSeparator()));
 
 			for (RecipeIngredient i : r.getRecipeIngredients())
 				addIngredient(i);
