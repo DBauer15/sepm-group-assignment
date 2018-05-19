@@ -12,6 +12,7 @@ import org.slf4j.LoggerFactory;
 import org.springframework.stereotype.Service;
 
 import java.lang.invoke.MethodHandles;
+import java.util.ArrayList;
 import java.util.List;
 
 @Service
@@ -30,13 +31,14 @@ public class SimpleMealRecommendationsService implements MealRecommendationsServ
     @Override
     public List<Recipe> getRecommendedMeals() {
 
+        List<Recipe> optimumMeals = new ArrayList<>();
+        List<Recipe> all_recipes = new ArrayList<>();
+
         try {
-            DietPlan dietPlan = dietPlanPersistence.readActive();
-            double[] limits = calculateLimits(dietPlan);
-
-
-
-
+            DietPlan currentDietPlan = dietPlanPersistence.readActive();
+            double[] limits = calculateLimits(currentDietPlan);
+            all_recipes = recipePersistence.getRecipes();
+            optimumMeals = calculateOptimum(limits, all_recipes);
 
 
         } catch (PersistenceException e) {
@@ -46,9 +48,9 @@ public class SimpleMealRecommendationsService implements MealRecommendationsServ
         }
 
 
-        return null;
+        return optimumMeals;
     }
-    
+
     private double[] calculateLimits(DietPlan dietPlan) {
         //@TODO: needs real caluclations
         double[] limits = new double[2];
@@ -59,5 +61,15 @@ public class SimpleMealRecommendationsService implements MealRecommendationsServ
         limits[1] = upper_limit;
 
         return limits;
+    }
+
+    private List calculateOptimum(double[] limits, List<Recipe> recipes){
+
+        List<Recipe> optimum_meals = new ArrayList<>();
+
+
+
+
+        return optimum_meals;
     }
 }
