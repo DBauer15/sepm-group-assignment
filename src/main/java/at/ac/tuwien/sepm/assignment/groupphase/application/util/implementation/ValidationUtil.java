@@ -4,6 +4,8 @@ import at.ac.tuwien.sepm.assignment.groupphase.application.service.ServiceInvoka
 
 public class ValidationUtil {
 
+    private ValidationUtil() {}
+
 	public static void validateStringLength(String fieldName, String value, Integer minLength, Integer maxLength,
 			ServiceInvokationContext context) {
 		if (maxLength != null && value != null && value.length() > maxLength) {

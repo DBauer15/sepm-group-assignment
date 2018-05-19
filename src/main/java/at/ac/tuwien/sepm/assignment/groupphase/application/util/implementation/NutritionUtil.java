@@ -5,6 +5,8 @@ import at.ac.tuwien.sepm.assignment.groupphase.application.dto.RecipeIngredient;
 
 public class NutritionUtil {
 
+    private NutritionUtil() {}
+
     public static Recipe fillNutritionValues(Recipe r){
 
         double ingredientWeight;

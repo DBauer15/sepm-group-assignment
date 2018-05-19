@@ -13,6 +13,8 @@ public class UserInterfaceUtility {
 
 	private static final Logger LOG = LoggerFactory.getLogger(MethodHandles.lookup().lookupClass());
 
+	private UserInterfaceUtility() {}
+
 	/**
 	 * Method to show a "pop-up" Window containing information in the User interface
 	 * @param alertType The alert type that the created window will have

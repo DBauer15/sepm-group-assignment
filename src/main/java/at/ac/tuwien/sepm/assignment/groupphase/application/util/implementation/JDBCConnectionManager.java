@@ -31,6 +31,9 @@ public class JDBCConnectionManager {
 	private static final String INIT_SCRIPT_TEST = "INIT=runscript from 'classpath:db/restoreDbBeforeTest.sql'";
 	private static final String INIT_SCRIPT = "";
 
+	private JDBCConnectionManager() {
+    }
+
 	public static Connection getConnection() throws SQLException {
 		if (connection == null) {
 			connection = DriverManager.getConnection(
