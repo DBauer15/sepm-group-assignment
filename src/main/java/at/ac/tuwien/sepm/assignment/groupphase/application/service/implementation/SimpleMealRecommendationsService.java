@@ -2,6 +2,7 @@ package at.ac.tuwien.sepm.assignment.groupphase.application.service.implementati
 
 import at.ac.tuwien.sepm.assignment.groupphase.application.dto.DietPlan;
 import at.ac.tuwien.sepm.assignment.groupphase.application.dto.Recipe;
+import at.ac.tuwien.sepm.assignment.groupphase.application.dto.RecipeTag;
 import at.ac.tuwien.sepm.assignment.groupphase.application.persistence.DietPlanPersistence;
 import at.ac.tuwien.sepm.assignment.groupphase.application.persistence.NoEntryFoundException;
 import at.ac.tuwien.sepm.assignment.groupphase.application.persistence.PersistenceException;
@@ -12,8 +13,7 @@ import org.slf4j.LoggerFactory;
 import org.springframework.stereotype.Service;
 
 import java.lang.invoke.MethodHandles;
-import java.util.ArrayList;
-import java.util.List;
+import java.util.*;
 
 @Service
 public class SimpleMealRecommendationsService implements MealRecommendationsService{
@@ -29,17 +29,17 @@ public class SimpleMealRecommendationsService implements MealRecommendationsServ
     }
 
     @Override
-    public List<Recipe> getRecommendedMeals() {
-
-        List<Recipe> optimumMeals = new ArrayList<>();
-        List<Recipe> all_recipes = new ArrayList<>();
+    public Map<RecipeTag, Recipe> getRecommendedMeals() {
+        Map<RecipeTag, Recipe> optimumMeals = new HashMap<>();
+        List<Recipe> allRecipes;
 
         try {
             DietPlan currentDietPlan = dietPlanPersistence.readActive();
-            double[] limits = calculateLimits(currentDietPlan);
-            all_recipes = recipePersistence.getRecipes();
-            optimumMeals = calculateOptimum(limits, all_recipes);
+            allRecipes = recipePersistence.getRecipes();
 
+            optimumMeals.put(RecipeTag.B, calculateOptimumForTag(currentDietPlan, allRecipes, RecipeTag.B));
+            optimumMeals.put(RecipeTag.L, calculateOptimumForTag(currentDietPlan, allRecipes, RecipeTag.L));
+            optimumMeals.put(RecipeTag.D, calculateOptimumForTag(currentDietPlan, allRecipes, RecipeTag.D));
 
         } catch (PersistenceException e) {
             e.printStackTrace();
@@ -47,29 +47,55 @@ public class SimpleMealRecommendationsService implements MealRecommendationsServ
             e.printStackTrace();
         }
 
-
         return optimumMeals;
     }
 
-    private double[] calculateLimits(DietPlan dietPlan) {
-        //@TODO: needs real caluclations
-        double[] limits = new double[2];
-        double lower_limit = dietPlan.getEnergy_kcal() - 100;
-        double upper_limit = dietPlan.getEnergy_kcal() + 100;
+    private Recipe calculateOptimumForTag(DietPlan currentDietPlan, List<Recipe> allRecipes, RecipeTag tag) throws NoEntryFoundException {
+        double threshold = 0.5;
+        Map limits = calculateLimits(currentDietPlan);
+        List<Recipe> potentialRecipes = new ArrayList<>();
 
-        limits[0] = lower_limit;
-        limits[1] = upper_limit;
+        for(Recipe r : allRecipes){
+            if(r.getTags().contains(tag)) {
+                if(calculateScoreFor(r, limits) <= threshold) {
+                    potentialRecipes.add(r);
+                }
+            }
+        }
+
+        if(potentialRecipes.size() > 0){
+            return potentialRecipes.get((int) Math.round(Math.random() * (potentialRecipes.size() - 1)));
+        } else {
+            throw new NoEntryFoundException("No optimal recipes found for tag " + tag);
+        }
+    }
+
+    private Map calculateLimits(DietPlan dietPlan) {
+        Map<String, double> limits = new HashMap();
+
+        limits.put("limitKcal", dietPlan.getEnergy_kcal() / 4);
+        limits.put("limitCarbohydrates", dietPlan.getCarbohydrate() / 4);
+        limits.put("limitProteins", dietPlan.getProtein() / 4);
+        limits.put("limitFats", dietPlan.getLipid() / 4);
 
         return limits;
     }
 
-    private List calculateOptimum(double[] limits, List<Recipe> recipes){
+    private double calculateScoreFor(Recipe r, Map<String, double> limits) {
+        //weights for final calculation between 0 and 1, less means less important
+        double weightKcal = 1;
+        double weightCarbohydrates = 1;
+        double weightProteins = 1;
+        double weightFats = 1;
 
-        List<Recipe> optimum_meals = new ArrayList<>();
+        double scoreKcal = Math.abs((r.getCalories() / limits.get("limitKcal")) - 1);
+        double scoreCarbohydrates = Math.abs((r.getCarbohydrates() / limits.get("limitCarbohydrates")) - 1);
+        double scoreProteins = Math.abs((r.getProteins() / limits.get("limitProteins")) - 1);
+        double scoreFats = Math.abs((r.getFats() / limits.get("limitFats")) - 1);
 
+        //the closer the score is to 0, the better a recipes is
+        double score = (scoreKcal * weightKcal) + (scoreCarbohydrates * weightCarbohydrates) + (scoreProteins * weightProteins) + (scoreFats * weightFats);
 
-
-
-        return optimum_meals;
+        return score;
     }
 }
