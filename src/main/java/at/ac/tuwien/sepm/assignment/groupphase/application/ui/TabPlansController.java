@@ -9,6 +9,7 @@ import org.springframework.stereotype.Controller;
 import at.ac.tuwien.sepm.assignment.groupphase.application.dto.Recipe;
 import at.ac.tuwien.sepm.assignment.groupphase.application.dto.RecipeTag;
 import at.ac.tuwien.sepm.assignment.groupphase.application.service.MealRecommendationsService;
+import at.ac.tuwien.sepm.assignment.groupphase.application.service.ServiceInvokationException;
 import at.ac.tuwien.sepm.assignment.groupphase.application.util.implementation.UserInterfaceUtility;
 import javafx.fxml.FXML;
 import javafx.scene.control.Label;
@@ -65,12 +66,11 @@ public class TabPlansController {
 	}
 
 	private void updatePlan() {
-		// TODO handle ServiceInvokationException?
 		try {
 			Recipe breakfast = null;
 			Recipe lunch = null;
 			Recipe dinner = null;
-			
+
 			for (Recipe recipe : this.mealRecommendationsService.getRecommendedMeals()) {
 				if (recipe.getTags().contains(RecipeTag.B)) {
 					if (breakfast == null) {
@@ -86,7 +86,7 @@ public class TabPlansController {
 					}
 				}
 			}
-			
+
 			if (breakfast != null) {
 				this.breakfastRecipeNameLabel.setText(breakfast.getName());
 				this.breakfastPreparationTimeLabel.setText(breakfast.getDuration() + "'");
@@ -95,31 +95,29 @@ public class TabPlansController {
 				this.breakfastProteinsLabel.setText(breakfast.getProteins() + " Proteins");
 				this.breakfastFatsLabel.setText(breakfast.getFats() + " Fats");
 			}
-			
+
 			if (dinner != null) {
 				this.dinnerRecipeNameLabel.setText(dinner.getName());
 				this.dinnerPreparationTimeLabel.setText(dinner.getDuration() + "'");
 				this.dinnerCaloriesLabel.setText(dinner.getCalories() + " kcal");
 				this.dinnerCarbohydratesLabel.setText(dinner.getCarbohydrates() + " Carbohydrates");
 				this.dinnerProteinsLabel.setText(dinner.getProteins() + " Proteins");
-				this.dinnerFatsLabel.setText(dinner.getFats() + " Fats");				
+				this.dinnerFatsLabel.setText(dinner.getFats() + " Fats");
 			}
-			
+
 			if (lunch != null) {
 				this.lunchRecipeNameLabel.setText(dinner.getName());
 				this.lunchPreparationTimeLabel.setText(dinner.getDuration() + "'");
 				this.lunchCaloriesLabel.setText(dinner.getCalories() + " kcal");
 				this.lunchCarbohydratesLabel.setText(dinner.getCarbohydrates() + " Carbohydrates");
 				this.lunchProteinsLabel.setText(dinner.getProteins() + " Proteins");
-				this.lunchFatsLabel.setText(dinner.getFats() + " Fats");	
+				this.lunchFatsLabel.setText(dinner.getFats() + " Fats");
 			}
-			
+
 			// TODO handle no recommendation case
-		} /*
-			 * catch (ServiceInvokationException e) {
-			 * UserInterfaceUtility.handleFaults(e.getContext()); }
-			 */
-		catch (Exception e) {
+		} catch (ServiceInvokationException e) {
+			UserInterfaceUtility.handleFaults(e.getContext());
+		} catch (Exception e) {
 			UserInterfaceUtility.handleFault(e);
 		}
 	}

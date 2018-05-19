@@ -7,6 +7,8 @@ import at.ac.tuwien.sepm.assignment.groupphase.application.persistence.NoEntryFo
 import at.ac.tuwien.sepm.assignment.groupphase.application.persistence.PersistenceException;
 import at.ac.tuwien.sepm.assignment.groupphase.application.persistence.RecipePersistence;
 import at.ac.tuwien.sepm.assignment.groupphase.application.service.MealRecommendationsService;
+import at.ac.tuwien.sepm.assignment.groupphase.application.service.ServiceInvokationException;
+
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.stereotype.Service;
@@ -29,7 +31,7 @@ public class SimpleMealRecommendationsService implements MealRecommendationsServ
     }
 
     @Override
-    public List<Recipe> getRecommendedMeals() {
+    public List<Recipe> getRecommendedMeals() throws ServiceInvokationException {
 
         List<Recipe> optimumMeals = new ArrayList<>();
         List<Recipe> all_recipes = new ArrayList<>();
