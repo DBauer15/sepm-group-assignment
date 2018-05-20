@@ -1,6 +1,7 @@
 package at.ac.tuwien.sepm.assignment.groupphase.application.ui;
 
 import java.lang.invoke.MethodHandles;
+import java.util.Map.Entry;
 
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -71,18 +72,18 @@ public class TabPlansController {
 			Recipe lunch = null;
 			Recipe dinner = null;
 
-			for (Recipe recipe : this.mealRecommendationsService.getRecommendedMeals()) {
-				if (recipe.getTags().contains(RecipeTag.B)) {
+			for (Entry<RecipeTag, Recipe> entry : this.mealRecommendationsService.getRecommendedMeals().entrySet()) {
+				if (RecipeTag.B.equals(entry.getKey())) {
 					if (breakfast == null) {
-						breakfast = recipe;
+						breakfast = entry.getValue();
 					}
-				} else if (recipe.getTags().contains(RecipeTag.L)) {
+				} else if (RecipeTag.L.equals(entry.getKey())) {
 					if (lunch == null) {
-						lunch = recipe;
+						lunch = entry.getValue();
 					}
-				} else if (recipe.getTags().contains(RecipeTag.D)) {
+				} else if (RecipeTag.D.equals(entry.getKey())) {
 					if (dinner == null) {
-						dinner = recipe;
+						dinner = entry.getValue();
 					}
 				}
 			}
