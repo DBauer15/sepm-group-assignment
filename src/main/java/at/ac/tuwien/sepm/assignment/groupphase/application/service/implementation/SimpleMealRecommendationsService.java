@@ -55,8 +55,8 @@ public class SimpleMealRecommendationsService implements MealRecommendationsServ
         LOG.debug("Calculating Optimum for tag: " + tag);
 
         //threshold showing what recipe scores are acceptable
-        double threshold = 20;
-        Map limits = calculateLimits(currentDietPlan);
+        double threshold = 2.5;
+        Map<String, Double> limits = calculateLimits(currentDietPlan);
         List<Recipe> potentialRecipes = new ArrayList<>();
 
         for (Recipe r : allRecipes) {
@@ -75,15 +75,15 @@ public class SimpleMealRecommendationsService implements MealRecommendationsServ
         }
     }
 
-    private Map calculateLimits(DietPlan dietPlan) {
+    private Map<String, Double> calculateLimits(DietPlan dietPlan) {
         LOG.debug("Calculation limits for plan: " + dietPlan.toString());
 
-        Map<String, Double> limits = new HashMap();
+        Map<String, Double> limits = new HashMap<>();
 
-        limits.put("limitKcal", dietPlan.getEnergy_kcal() / 4);
-        limits.put("limitCarbohydrates", dietPlan.getCarbohydrate() / 4);
-        limits.put("limitProteins", dietPlan.getProtein() / 4);
-        limits.put("limitFats", dietPlan.getLipid() / 4);
+        limits.put("limitKcal", dietPlan.getEnergy_kcal()/3);
+        limits.put("limitCarbohydrates", dietPlan.getCarbohydrate()/3);
+        limits.put("limitProteins", dietPlan.getProtein()/3);
+        limits.put("limitFats", dietPlan.getLipid()/3);
 
         return limits;
     }

@@ -3,6 +3,7 @@ package at.ac.tuwien.sepm.assignment.groupphase.application.service.implementati
 import at.ac.tuwien.sepm.assignment.groupphase.application.dto.DietPlan;
 import at.ac.tuwien.sepm.assignment.groupphase.application.dto.Recipe;
 import at.ac.tuwien.sepm.assignment.groupphase.application.dto.RecipeIngredient;
+import at.ac.tuwien.sepm.assignment.groupphase.application.dto.RecipeTag;
 import at.ac.tuwien.sepm.assignment.groupphase.application.persistence.DietPlanPersistence;
 import at.ac.tuwien.sepm.assignment.groupphase.application.persistence.NoEntryFoundException;
 import at.ac.tuwien.sepm.assignment.groupphase.application.persistence.PersistenceException;
@@ -44,7 +45,7 @@ public class SimpleMealRecommendationsServiceTest {
     @Test
     public void testGetRecommendedMeals_optimalSolutionPossible_returnedRecommendedMealsNotEmpty() throws PersistenceException, NoEntryFoundException, ServiceInvokationException {
         //mock our plan Build Muscle
-        DietPlan mockedActiveDietplan = new DietPlan(1, "Testplan", 2500.0, 20.0, 25.0, 50.0, LocalDate.now(), null);
+        DietPlan mockedActiveDietplan = new DietPlan(1, "Testplan", 2000.0, 60.0, 100.0, 150.0, LocalDate.now(), null);
         when(mockedDietPlanRepo.readActive()).thenReturn(mockedActiveDietplan);
 
         //mock all recipes in test db
@@ -60,7 +61,7 @@ public class SimpleMealRecommendationsServiceTest {
         }
     }
 
-    @Test (expected = NoOptimalSolutionException.class)
+    @Test(expected = NoOptimalSolutionException.class)
     public void testGetRecommendedMeals_noOptimumBecauseOfPlan_throwException() throws PersistenceException, NoEntryFoundException, ServiceInvokationException, NoOptimalSolutionException {
         //mock a plan where there cannot be optimal recipes
         DietPlan mockedActiveDietplan = new DietPlan(1, "Testplan", 0.0, 0.0, 0.0, 0.0, LocalDate.now(), null);
@@ -75,11 +76,80 @@ public class SimpleMealRecommendationsServiceTest {
         mealRecommendationsService.getRecommendedMeals();
     }
 
-    @Test (expected = NoOptimalSolutionException.class)
+    @Test(expected = NoOptimalSolutionException.class)
     public void testGetRecommendedMeals_noOptimumBecauseNoRecipes_throwException() throws PersistenceException, NoEntryFoundException, ServiceInvokationException, NoOptimalSolutionException {
-        //mock our plan Build Muscle
         DietPlan mockedActiveDietplan = new DietPlan(1, "Testplan", 2500.0, 20.0, 25.0, 50.0, LocalDate.now(), null);
         when(mockedDietPlanRepo.readActive()).thenReturn(mockedActiveDietplan);
+
+        MealRecommendationsService mealRecommendationsService = new SimpleMealRecommendationsService(mockedRecipeRepo, mockedDietPlanRepo);
+        mealRecommendationsService.getRecommendedMeals();
+    }
+
+    @Test(expected = NoOptimalSolutionException.class)
+    public void testGetRecommendedMeals_noBreakfastRecipes_throwException() throws PersistenceException, NoEntryFoundException, ServiceInvokationException, NoOptimalSolutionException {
+        //mock a plan where there cannot be optimal recipes
+        DietPlan mockedActiveDietplan = new DietPlan(1, "Testplan", 2000.0, 60.0, 100.0, 150.0, LocalDate.now(), null);
+        when(mockedDietPlanRepo.readActive()).thenReturn(mockedActiveDietplan);
+
+        //mock all recipes in test db
+        List<Recipe> allRecipes = getRecipes();
+
+        //remove all recipes which are labeled as breakfast
+        allRecipes.removeIf(recipe -> recipe.getTags().contains(RecipeTag.B));
+        allRecipes.forEach(NutritionUtil::fillNutritionValues);
+        when(mockedRecipeRepo.getRecipes()).thenReturn(allRecipes);
+
+        MealRecommendationsService mealRecommendationsService = new SimpleMealRecommendationsService(mockedRecipeRepo, mockedDietPlanRepo);
+        mealRecommendationsService.getRecommendedMeals();
+    }
+
+    @Test(expected = NoOptimalSolutionException.class)
+    public void testGetRecommendedMeals_noLunchRecipes_throwException() throws PersistenceException, NoEntryFoundException, ServiceInvokationException, NoOptimalSolutionException {
+        //mock a plan where there cannot be optimal recipes
+        DietPlan mockedActiveDietplan = new DietPlan(1, "Testplan", 2000.0, 60.0, 100.0, 150.0, LocalDate.now(), null);
+        when(mockedDietPlanRepo.readActive()).thenReturn(mockedActiveDietplan);
+
+        //mock all recipes in test db
+        List<Recipe> allRecipes = getRecipes();
+
+        //remove all recipes which are labeled as lunch
+        allRecipes.removeIf(recipe -> recipe.getTags().contains(RecipeTag.L));
+        allRecipes.forEach(NutritionUtil::fillNutritionValues);
+        when(mockedRecipeRepo.getRecipes()).thenReturn(allRecipes);
+
+        MealRecommendationsService mealRecommendationsService = new SimpleMealRecommendationsService(mockedRecipeRepo, mockedDietPlanRepo);
+        mealRecommendationsService.getRecommendedMeals();
+    }
+
+    @Test(expected = NoOptimalSolutionException.class)
+    public void testGetRecommendedMeals_noDinnerRecipes_throwException() throws PersistenceException, NoEntryFoundException, ServiceInvokationException, NoOptimalSolutionException {
+        //mock a plan where there cannot be optimal recipes
+        DietPlan mockedActiveDietplan = new DietPlan(1, "Testplan", 2000.0, 60.0, 100.0, 150.0, LocalDate.now(), null);
+        when(mockedDietPlanRepo.readActive()).thenReturn(mockedActiveDietplan);
+
+        //mock all recipes in test db
+        List<Recipe> allRecipes = getRecipes();
+
+        //remove all recipes which are labeled as dinner
+        allRecipes.removeIf(recipe -> recipe.getTags().contains(RecipeTag.D));
+        allRecipes.forEach(NutritionUtil::fillNutritionValues);
+        when(mockedRecipeRepo.getRecipes()).thenReturn(allRecipes);
+
+        MealRecommendationsService mealRecommendationsService = new SimpleMealRecommendationsService(mockedRecipeRepo, mockedDietPlanRepo);
+        mealRecommendationsService.getRecommendedMeals();
+    }
+
+    @Test(expected = ServiceInvokationException.class)
+    public void testGetRecommendedMeals_noActivePlanSet_throwException() throws PersistenceException, NoEntryFoundException, ServiceInvokationException, NoOptimalSolutionException {
+        //mock a plan where there cannot be optimal recipes
+        DietPlan mockedActiveDietplan = new DietPlan(1, "Testplan", 2000.0, 60.0, 100.0, 150.0, LocalDate.now(), null);
+        when(mockedDietPlanRepo.readActive()).thenThrow(NoEntryFoundException.class);
+
+        //mock all recipes in test db
+        List<Recipe> allRecipes = getRecipes();
+
+        allRecipes.forEach(NutritionUtil::fillNutritionValues);
+        when(mockedRecipeRepo.getRecipes()).thenReturn(allRecipes);
 
         MealRecommendationsService mealRecommendationsService = new SimpleMealRecommendationsService(mockedRecipeRepo, mockedDietPlanRepo);
         mealRecommendationsService.getRecommendedMeals();
