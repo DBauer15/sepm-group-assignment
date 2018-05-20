@@ -13,10 +13,14 @@ public class DietPlanValidator implements Validator<DietPlan> {
         ValidationUtil.validateStringLength("Diet plan name", dietPlan.getName(), 5, 255, context);
 
         // TODO was sind sinnvolle schranken?
-//        ValidationUtil.validateDoubleLimits("Energy Kcal", dietPlan.getEnergy_kcal(), 0d, 50d, context);
-//        ValidationUtil.validateDoubleLimits("Lipid", dietPlan.getLipid(), 0d, 50d, context);
-//        ValidationUtil.validateDoubleLimits("Protein", dietPlan.getProtein(), 0d, 50d, context);
-//        ValidationUtil.validateDoubleLimits("Carbohydrate", dietPlan.getCarbohydrate(), 0d, 50d, context);
+        ValidationUtil.validateDoubleLimits("Energy Kcal", dietPlan.getEnergy_kcal(), 0d, 10000d, context);
+        ValidationUtil.validateDoubleLimits("Lipid", dietPlan.getLipid(), 0d, 100d, context);
+        ValidationUtil.validateDoubleLimits("Protein", dietPlan.getProtein(), 0d, 100d, context);
+        ValidationUtil.validateDoubleLimits("Carbohydrate", dietPlan.getCarbohydrate(), 0d, 100d, context);
+
+        if (dietPlan.getLipid() + dietPlan.getProtein() +  dietPlan.getCarbohydrate() > 100)
+            context.addError("The sum of 'Lipid', 'Protein' and 'Carbohydrate' has to be smaller than or equal to 100%");
+
         return context.isValid();
     }
 
