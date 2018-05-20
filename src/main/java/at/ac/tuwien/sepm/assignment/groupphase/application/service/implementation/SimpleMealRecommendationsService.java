@@ -6,9 +6,9 @@ import at.ac.tuwien.sepm.assignment.groupphase.application.dto.RecipeTag;
 import at.ac.tuwien.sepm.assignment.groupphase.application.persistence.DietPlanPersistence;
 import at.ac.tuwien.sepm.assignment.groupphase.application.persistence.NoEntryFoundException;
 import at.ac.tuwien.sepm.assignment.groupphase.application.persistence.PersistenceException;
-import at.ac.tuwien.sepm.assignment.groupphase.application.persistence.RecipePersistence;
 import at.ac.tuwien.sepm.assignment.groupphase.application.service.MealRecommendationsService;
 import at.ac.tuwien.sepm.assignment.groupphase.application.service.NoOptimalSolutionException;
+import at.ac.tuwien.sepm.assignment.groupphase.application.service.RecipeService;
 import at.ac.tuwien.sepm.assignment.groupphase.application.service.ServiceInvokationException;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -22,11 +22,11 @@ public class SimpleMealRecommendationsService implements MealRecommendationsServ
 
     private static final Logger LOG = LoggerFactory.getLogger(MethodHandles.lookup().lookupClass());
 
-    private final RecipePersistence recipePersistence;
+    private final RecipeService recipeService;
     private final DietPlanPersistence dietPlanPersistence;
 
-    public SimpleMealRecommendationsService(RecipePersistence recipePersistence, DietPlanPersistence dietPlanPersistence) {
-        this.recipePersistence = recipePersistence;
+    public SimpleMealRecommendationsService(RecipeService recipeService, DietPlanPersistence dietPlanPersistence) {
+        this.recipeService = recipeService;
         this.dietPlanPersistence = dietPlanPersistence;
     }
 
@@ -36,10 +36,10 @@ public class SimpleMealRecommendationsService implements MealRecommendationsServ
 
         Map<RecipeTag, Recipe> optimumMeals = new HashMap<>();
         List<Recipe> allRecipes;
-
+        
         try {
             DietPlan currentDietPlan = dietPlanPersistence.readActive();
-            allRecipes = recipePersistence.getRecipes();
+            allRecipes = recipeService.getRecipes();
 
             optimumMeals.put(RecipeTag.B, calculateOptimumForTag(currentDietPlan, allRecipes, RecipeTag.B));
             optimumMeals.put(RecipeTag.L, calculateOptimumForTag(currentDietPlan, allRecipes, RecipeTag.L));

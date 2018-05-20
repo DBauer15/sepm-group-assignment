@@ -12,6 +12,7 @@ import at.ac.tuwien.sepm.assignment.groupphase.application.persistence.implement
 import at.ac.tuwien.sepm.assignment.groupphase.application.persistence.implementation.DBRecipePersistence;
 import at.ac.tuwien.sepm.assignment.groupphase.application.service.MealRecommendationsService;
 import at.ac.tuwien.sepm.assignment.groupphase.application.service.NoOptimalSolutionException;
+import at.ac.tuwien.sepm.assignment.groupphase.application.service.RecipeService;
 import at.ac.tuwien.sepm.assignment.groupphase.application.service.ServiceInvokationException;
 import at.ac.tuwien.sepm.assignment.groupphase.application.util.implementation.CloseUtil;
 import at.ac.tuwien.sepm.assignment.groupphase.application.util.implementation.JDBCConnectionManager;
@@ -52,8 +53,9 @@ public class SimpleMealRecommendationsServiceTest {
         List<Recipe> allRecipes = getRecipes();
         allRecipes.forEach(NutritionUtil::fillNutritionValues);
         when(mockedRecipeRepo.getRecipes()).thenReturn(allRecipes);
-
-        MealRecommendationsService mealRecommendationsService = new SimpleMealRecommendationsService(mockedRecipeRepo, mockedDietPlanRepo);
+        
+        RecipeService recipeService = new SimpleRecipeService(mockedRecipeRepo);
+        MealRecommendationsService mealRecommendationsService = new SimpleMealRecommendationsService(recipeService, mockedDietPlanRepo);
         try {
             Assert.assertFalse(mealRecommendationsService.getRecommendedMeals().isEmpty());
         } catch (NoOptimalSolutionException e) {
@@ -72,7 +74,8 @@ public class SimpleMealRecommendationsServiceTest {
         allRecipes.forEach(NutritionUtil::fillNutritionValues);
         when(mockedRecipeRepo.getRecipes()).thenReturn(allRecipes);
 
-        MealRecommendationsService mealRecommendationsService = new SimpleMealRecommendationsService(mockedRecipeRepo, mockedDietPlanRepo);
+        RecipeService recipeService = new SimpleRecipeService(mockedRecipeRepo);
+        MealRecommendationsService mealRecommendationsService = new SimpleMealRecommendationsService(recipeService, mockedDietPlanRepo);
         mealRecommendationsService.getRecommendedMeals();
     }
 
@@ -81,7 +84,8 @@ public class SimpleMealRecommendationsServiceTest {
         DietPlan mockedActiveDietplan = new DietPlan(1, "Testplan", 2500.0, 20.0, 25.0, 50.0, LocalDate.now(), null);
         when(mockedDietPlanRepo.readActive()).thenReturn(mockedActiveDietplan);
 
-        MealRecommendationsService mealRecommendationsService = new SimpleMealRecommendationsService(mockedRecipeRepo, mockedDietPlanRepo);
+        RecipeService recipeService = new SimpleRecipeService(mockedRecipeRepo);
+        MealRecommendationsService mealRecommendationsService = new SimpleMealRecommendationsService(recipeService, mockedDietPlanRepo);
         mealRecommendationsService.getRecommendedMeals();
     }
 
@@ -99,7 +103,8 @@ public class SimpleMealRecommendationsServiceTest {
         allRecipes.forEach(NutritionUtil::fillNutritionValues);
         when(mockedRecipeRepo.getRecipes()).thenReturn(allRecipes);
 
-        MealRecommendationsService mealRecommendationsService = new SimpleMealRecommendationsService(mockedRecipeRepo, mockedDietPlanRepo);
+        RecipeService recipeService = new SimpleRecipeService(mockedRecipeRepo);
+        MealRecommendationsService mealRecommendationsService = new SimpleMealRecommendationsService(recipeService, mockedDietPlanRepo);
         mealRecommendationsService.getRecommendedMeals();
     }
 
@@ -116,8 +121,9 @@ public class SimpleMealRecommendationsServiceTest {
         allRecipes.removeIf(recipe -> recipe.getTags().contains(RecipeTag.L));
         allRecipes.forEach(NutritionUtil::fillNutritionValues);
         when(mockedRecipeRepo.getRecipes()).thenReturn(allRecipes);
-
-        MealRecommendationsService mealRecommendationsService = new SimpleMealRecommendationsService(mockedRecipeRepo, mockedDietPlanRepo);
+        
+        RecipeService recipeService = new SimpleRecipeService(mockedRecipeRepo);
+        MealRecommendationsService mealRecommendationsService = new SimpleMealRecommendationsService(recipeService, mockedDietPlanRepo);
         mealRecommendationsService.getRecommendedMeals();
     }
 
@@ -135,7 +141,8 @@ public class SimpleMealRecommendationsServiceTest {
         allRecipes.forEach(NutritionUtil::fillNutritionValues);
         when(mockedRecipeRepo.getRecipes()).thenReturn(allRecipes);
 
-        MealRecommendationsService mealRecommendationsService = new SimpleMealRecommendationsService(mockedRecipeRepo, mockedDietPlanRepo);
+        RecipeService recipeService = new SimpleRecipeService(mockedRecipeRepo);
+        MealRecommendationsService mealRecommendationsService = new SimpleMealRecommendationsService(recipeService, mockedDietPlanRepo);
         mealRecommendationsService.getRecommendedMeals();
     }
 
@@ -151,7 +158,8 @@ public class SimpleMealRecommendationsServiceTest {
         allRecipes.forEach(NutritionUtil::fillNutritionValues);
         when(mockedRecipeRepo.getRecipes()).thenReturn(allRecipes);
 
-        MealRecommendationsService mealRecommendationsService = new SimpleMealRecommendationsService(mockedRecipeRepo, mockedDietPlanRepo);
+        RecipeService recipeService = new SimpleRecipeService(mockedRecipeRepo);
+        MealRecommendationsService mealRecommendationsService = new SimpleMealRecommendationsService(recipeService, mockedDietPlanRepo);
         mealRecommendationsService.getRecommendedMeals();
     }
 

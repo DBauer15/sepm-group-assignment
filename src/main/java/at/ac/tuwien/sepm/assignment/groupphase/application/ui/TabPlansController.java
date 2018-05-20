@@ -67,6 +67,27 @@ public class TabPlansController {
 	}
 
 	private void updatePlan() {
+		this.breakfastRecipeNameLabel.setText(null);
+		this.breakfastPreparationTimeLabel.setText(null);
+		this.breakfastCaloriesLabel.setText(null);
+		this.breakfastCarbohydratesLabel.setText(null);
+		this.breakfastProteinsLabel.setText(null);
+		this.breakfastFatsLabel.setText(null);
+		
+		this.lunchRecipeNameLabel.setText(null);
+		this.lunchPreparationTimeLabel.setText(null);
+		this.lunchCaloriesLabel.setText(null);
+		this.lunchCarbohydratesLabel.setText(null);
+		this.lunchProteinsLabel.setText(null);
+		this.lunchFatsLabel.setText(null);
+		
+		this.dinnerRecipeNameLabel.setText(null);
+		this.dinnerPreparationTimeLabel.setText(null);
+		this.dinnerCaloriesLabel.setText(null);
+		this.dinnerCarbohydratesLabel.setText(null);
+		this.dinnerProteinsLabel.setText(null);
+		this.dinnerFatsLabel.setText(null);
+		
 		try {
 			Recipe breakfast = null;
 			Recipe lunch = null;
@@ -90,29 +111,29 @@ public class TabPlansController {
 
 			if (breakfast != null) {
 				this.breakfastRecipeNameLabel.setText(breakfast.getName());
-				this.breakfastPreparationTimeLabel.setText(breakfast.getDuration() + "'");
-				this.breakfastCaloriesLabel.setText(breakfast.getCalories() + " kcal");
-				this.breakfastCarbohydratesLabel.setText(breakfast.getCarbohydrates() + " Carbohydrates");
-				this.breakfastProteinsLabel.setText(breakfast.getProteins() + " Proteins");
-				this.breakfastFatsLabel.setText(breakfast.getFats() + " Fats");
+				this.breakfastPreparationTimeLabel.setText((int) Math.ceil(breakfast.getDuration()) + "'");
+				this.breakfastCaloriesLabel.setText((int) Math.ceil(breakfast.getCalories()) + " kcal");
+				this.breakfastCarbohydratesLabel.setText((int) Math.ceil(breakfast.getCarbohydrates()) + " Carbohydrates");
+				this.breakfastProteinsLabel.setText((int) Math.ceil(breakfast.getProteins()) + " Proteins");
+				this.breakfastFatsLabel.setText((int) Math.ceil(breakfast.getFats()) + " Fats");
 			}
 
 			if (dinner != null) {
 				this.dinnerRecipeNameLabel.setText(dinner.getName());
-				this.dinnerPreparationTimeLabel.setText(dinner.getDuration() + "'");
-				this.dinnerCaloriesLabel.setText(dinner.getCalories() + " kcal");
-				this.dinnerCarbohydratesLabel.setText(dinner.getCarbohydrates() + " Carbohydrates");
-				this.dinnerProteinsLabel.setText(dinner.getProteins() + " Proteins");
-				this.dinnerFatsLabel.setText(dinner.getFats() + " Fats");
+				this.dinnerPreparationTimeLabel.setText((int) Math.ceil(dinner.getDuration()) + "'");
+				this.dinnerCaloriesLabel.setText((int) Math.ceil(dinner.getCalories()) + " kcal");
+				this.dinnerCarbohydratesLabel.setText((int) Math.ceil(dinner.getCarbohydrates()) + " Carbohydrates");
+				this.dinnerProteinsLabel.setText((int) Math.ceil(dinner.getProteins()) + " Proteins");
+				this.dinnerFatsLabel.setText((int) Math.ceil(dinner.getFats()) + " Fats");
 			}
 
 			if (lunch != null) {
 				this.lunchRecipeNameLabel.setText(dinner.getName());
-				this.lunchPreparationTimeLabel.setText(dinner.getDuration() + "'");
-				this.lunchCaloriesLabel.setText(dinner.getCalories() + " kcal");
-				this.lunchCarbohydratesLabel.setText(dinner.getCarbohydrates() + " Carbohydrates");
-				this.lunchProteinsLabel.setText(dinner.getProteins() + " Proteins");
-				this.lunchFatsLabel.setText(dinner.getFats() + " Fats");
+				this.lunchPreparationTimeLabel.setText((int) Math.ceil(dinner.getDuration()) + "'");
+				this.lunchCaloriesLabel.setText((int) Math.ceil(dinner.getCalories()) + " kcal");
+				this.lunchCarbohydratesLabel.setText((int) Math.ceil(dinner.getCarbohydrates()) + " Carbohydrates");
+				this.lunchProteinsLabel.setText((int) Math.ceil(dinner.getProteins()) + " Proteins");
+				this.lunchFatsLabel.setText((int) Math.ceil(dinner.getFats()) + " Fats");
 			}
 
 			// TODO handle no recommendation case
