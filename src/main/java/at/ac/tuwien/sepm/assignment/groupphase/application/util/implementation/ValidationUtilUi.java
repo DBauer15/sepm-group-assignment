@@ -8,6 +8,8 @@ public class ValidationUtilUi {
 
 	private static final Locale defaultLocale = Locale.US;
 
+	private ValidationUtilUi() {}
+
 	/**
 	 * Validates the given value as Double with default Locale and
 	 * if valid returns the parsed Double value, otherwise returns null.
