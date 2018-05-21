@@ -31,12 +31,12 @@ public class SimpleMealRecommendationsService implements MealRecommendationsServ
     }
 
     @Override
-    public Map<RecipeTag, Recipe> getRecommendedMeals() throws ServiceInvokationException, NoOptimalSolutionException {
+    public Map<RecipeTag, Recipe> getRecommendedMeals() throws ServiceInvokationException, NoOptimalSolutionException, NoEntryFoundException {
         LOG.debug("Requested recommended meals");
 
         Map<RecipeTag, Recipe> optimumMeals = new HashMap<>();
         List<Recipe> allRecipes;
-        
+
         try {
             DietPlan currentDietPlan = dietPlanPersistence.readActive();
             allRecipes = recipeService.getRecipes();
@@ -44,7 +44,7 @@ public class SimpleMealRecommendationsService implements MealRecommendationsServ
             optimumMeals.put(RecipeTag.B, calculateOptimumForTag(currentDietPlan, allRecipes, RecipeTag.B));
             optimumMeals.put(RecipeTag.L, calculateOptimumForTag(currentDietPlan, allRecipes, RecipeTag.L));
             optimumMeals.put(RecipeTag.D, calculateOptimumForTag(currentDietPlan, allRecipes, RecipeTag.D));
-        } catch (PersistenceException | NoEntryFoundException e) {
+        } catch (PersistenceException e) {
             throw new ServiceInvokationException(e.getMessage());
         }
 
