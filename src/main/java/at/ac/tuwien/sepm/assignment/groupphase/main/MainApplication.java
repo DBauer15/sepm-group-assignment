@@ -1,5 +1,6 @@
 package at.ac.tuwien.sepm.assignment.groupphase.main;
 
+import at.ac.tuwien.sepm.assignment.groupphase.application.ui.MainController;
 import at.ac.tuwien.sepm.assignment.groupphase.application.util.implementation.JDBCConnectionManager;
 import at.ac.tuwien.sepm.assignment.groupphase.application.util.implementation.SpringFXMLLoader;
 import javafx.application.Application;
@@ -40,9 +41,11 @@ public final class MainApplication extends Application {
         // load files
         context = new AnnotationConfigApplicationContext(MainApplication.class);
         final var fxmlLoader = context.getBean(SpringFXMLLoader.class);
-        URL location = getClass().getResource("/fxml/Main.fxml");
-        fxmlLoader.setLocation(location);
-        primaryStage.setScene(new Scene((Parent) fxmlLoader.load(getClass().getResourceAsStream("/fxml/Main.fxml"))));
+        fxmlLoader.setLocation(getClass().getResource("/fxml/Main.fxml"));
+
+        var load = fxmlLoader.loadAndWrap(getClass().getResourceAsStream("/fxml/Main.fxml"), MainController.class);
+        primaryStage.setScene(new Scene((Parent) load.getLoadedObject()));
+        load.getController().initializeView();
 
         // show application
         primaryStage.show();
