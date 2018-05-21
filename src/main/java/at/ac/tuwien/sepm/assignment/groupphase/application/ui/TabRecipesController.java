@@ -60,7 +60,7 @@ public class TabRecipesController {
 	TableColumn<Recipe, Integer> fatsTableColumn;
 
 	@FXML
-	TableColumn<Recipe, Double> preparationTimeTableColumn;
+	TableColumn<Recipe, Integer> preparationTimeTableColumn;
 
 	@FXML
 	private ObservableList<Recipe> recipeObservableList = FXCollections.observableArrayList();
@@ -82,7 +82,8 @@ public class TabRecipesController {
 				(x -> new SimpleIntegerProperty((int) Math.ceil(x.getValue().getProteins())).asObject()));
 		fatsTableColumn.setCellValueFactory(
 				x -> new SimpleIntegerProperty((int) Math.ceil(x.getValue().getFats())).asObject());
-		preparationTimeTableColumn.setCellValueFactory(new PropertyValueFactory<>("duration"));
+        preparationTimeTableColumn.setCellValueFactory(
+            (x -> new SimpleIntegerProperty((int) Math.ceil(x.getValue().getDuration())).asObject()));
 
 		recipeTableView.setRowFactory(tableView -> {
 			final TableRow<Recipe> row = new TableRow<>();
@@ -98,7 +99,6 @@ public class TabRecipesController {
 		});
 
 		updateRecipeTableView();
-
 	}
 
 	private void onEditRecipeClicked(Recipe recipe) {
