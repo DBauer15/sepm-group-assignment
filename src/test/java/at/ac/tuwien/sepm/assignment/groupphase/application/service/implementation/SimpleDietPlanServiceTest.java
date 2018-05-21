@@ -63,10 +63,10 @@ public class SimpleDietPlanServiceTest extends BaseTest {
 			ArrayList<String> errors = e.getContext().getErrors();
 			Assert.assertEquals(5, errors.size());
 			Assert.assertEquals("Enter only 255 characters in the field 'Diet plan name'", errors.get(0));
-			Assert.assertEquals("Enter a value that is smaller than 50.0 in the field 'Energy Kcal'", errors.get(1));
-			Assert.assertEquals("Enter a value that is smaller than 50.0 in the field 'Lipid'", errors.get(2));
-			Assert.assertEquals("Enter a value that is smaller than 50.0 in the field 'Protein'", errors.get(3));
-			Assert.assertEquals("Enter a value that is smaller than 50.0 in the field 'Carbohydrate'", errors.get(4));
+			Assert.assertEquals("Enter a value that is smaller than 100.0 in the field 'Lipid'", errors.get(1));
+			Assert.assertEquals("Enter a value that is smaller than 100.0 in the field 'Protein'", errors.get(2));
+			Assert.assertEquals("Enter a value that is smaller than 100.0 in the field 'Carbohydrate'", errors.get(3));
+			Assert.assertEquals("The sum of 'Lipid', 'Protein' and 'Carbohydrate' has to be smaller than or equal to 100%", errors.get(4));
 			return;
 		}
 		Assert.fail("Should throw ServiceInvokationException!");
@@ -123,10 +123,10 @@ public class SimpleDietPlanServiceTest extends BaseTest {
             Assert.assertEquals(6, errors.size());
             Assert.assertEquals("ID needs to be set", errors.get(0));
             Assert.assertEquals("Enter only 255 characters in the field 'Diet plan name'", errors.get(1));
-            Assert.assertEquals("Enter a value that is smaller than 50.0 in the field 'Energy Kcal'", errors.get(2));
-            Assert.assertEquals("Enter a value that is smaller than 50.0 in the field 'Lipid'", errors.get(3));
-            Assert.assertEquals("Enter a value that is smaller than 50.0 in the field 'Protein'", errors.get(4));
-            Assert.assertEquals("Enter a value that is smaller than 50.0 in the field 'Carbohydrate'", errors.get(5));
+            Assert.assertEquals("Enter a value that is smaller than 100.0 in the field 'Lipid'", errors.get(2));
+            Assert.assertEquals("Enter a value that is smaller than 100.0 in the field 'Protein'", errors.get(3));
+            Assert.assertEquals("Enter a value that is smaller than 100.0 in the field 'Carbohydrate'", errors.get(4));
+            Assert.assertEquals("The sum of 'Lipid', 'Protein' and 'Carbohydrate' has to be smaller than or equal to 100%", errors.get(5));
             return;
         }
         Assert.fail("Should throw NoEntryFoundException!");
@@ -175,10 +175,10 @@ public class SimpleDietPlanServiceTest extends BaseTest {
             Assert.assertEquals(6, errors.size());
             Assert.assertEquals("ID needs to be set", errors.get(0));
             Assert.assertEquals("Enter only 255 characters in the field 'Diet plan name'", errors.get(1));
-            Assert.assertEquals("Enter a value that is smaller than 50.0 in the field 'Energy Kcal'", errors.get(2));
-            Assert.assertEquals("Enter a value that is smaller than 50.0 in the field 'Lipid'", errors.get(3));
-            Assert.assertEquals("Enter a value that is smaller than 50.0 in the field 'Protein'", errors.get(4));
-            Assert.assertEquals("Enter a value that is smaller than 50.0 in the field 'Carbohydrate'", errors.get(5));
+            Assert.assertEquals("Enter a value that is smaller than 100.0 in the field 'Lipid'", errors.get(2));
+            Assert.assertEquals("Enter a value that is smaller than 100.0 in the field 'Protein'", errors.get(3));
+            Assert.assertEquals("Enter a value that is smaller than 100.0 in the field 'Carbohydrate'", errors.get(4));
+            Assert.assertEquals("The sum of 'Lipid', 'Protein' and 'Carbohydrate' has to be smaller than or equal to 100%", errors.get(5));
             return;
         }
         Assert.fail("Should throw NoEntryFoundException!");

@@ -53,7 +53,7 @@ public class SimpleMealRecommendationsServiceTest {
         List<Recipe> allRecipes = getRecipes();
         allRecipes.forEach(NutritionUtil::fillNutritionValues);
         when(mockedRecipeRepo.getRecipes()).thenReturn(allRecipes);
-        
+
         RecipeService recipeService = new SimpleRecipeService(mockedRecipeRepo);
         MealRecommendationsService mealRecommendationsService = new SimpleMealRecommendationsService(recipeService, mockedDietPlanRepo);
         try {
@@ -121,7 +121,7 @@ public class SimpleMealRecommendationsServiceTest {
         allRecipes.removeIf(recipe -> recipe.getTags().contains(RecipeTag.L));
         allRecipes.forEach(NutritionUtil::fillNutritionValues);
         when(mockedRecipeRepo.getRecipes()).thenReturn(allRecipes);
-        
+
         RecipeService recipeService = new SimpleRecipeService(mockedRecipeRepo);
         MealRecommendationsService mealRecommendationsService = new SimpleMealRecommendationsService(recipeService, mockedDietPlanRepo);
         mealRecommendationsService.getRecommendedMeals();
@@ -146,7 +146,7 @@ public class SimpleMealRecommendationsServiceTest {
         mealRecommendationsService.getRecommendedMeals();
     }
 
-    @Test(expected = ServiceInvokationException.class)
+    @Test(expected = NoEntryFoundException.class)
     public void testGetRecommendedMeals_noActivePlanSet_throwException() throws PersistenceException, NoEntryFoundException, ServiceInvokationException, NoOptimalSolutionException {
         //mock a plan where there cannot be optimal recipes
         DietPlan mockedActiveDietplan = new DietPlan(1, "Testplan", 2000.0, 60.0, 100.0, 150.0, LocalDate.now(), null);
