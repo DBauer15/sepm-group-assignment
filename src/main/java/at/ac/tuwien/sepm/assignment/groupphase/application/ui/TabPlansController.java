@@ -1,6 +1,8 @@
 package at.ac.tuwien.sepm.assignment.groupphase.application.ui;
 
+import java.io.IOException;
 import java.lang.invoke.MethodHandles;
+import java.net.URL;
 import java.util.Map.Entry;
 
 import org.slf4j.Logger;
@@ -11,9 +13,15 @@ import at.ac.tuwien.sepm.assignment.groupphase.application.dto.Recipe;
 import at.ac.tuwien.sepm.assignment.groupphase.application.dto.RecipeTag;
 import at.ac.tuwien.sepm.assignment.groupphase.application.service.MealRecommendationsService;
 import at.ac.tuwien.sepm.assignment.groupphase.application.service.ServiceInvokationException;
+import at.ac.tuwien.sepm.assignment.groupphase.application.util.implementation.SpringFXMLLoader;
 import at.ac.tuwien.sepm.assignment.groupphase.application.util.implementation.UserInterfaceUtility;
+import at.ac.tuwien.sepm.assignment.groupphase.main.MainApplication;
 import javafx.fxml.FXML;
+import javafx.scene.Parent;
+import javafx.scene.Scene;
 import javafx.scene.control.Label;
+import javafx.stage.Modality;
+import javafx.stage.Stage;
 
 @Controller
 public class TabPlansController {
@@ -56,6 +64,10 @@ public class TabPlansController {
 	private Label lunchFatsLabel;
 	@FXML
 	private Label dinnerFatsLabel;
+	
+	private Recipe breakfast;
+	private Recipe lunch;
+	private Recipe dinner;
 
 	public TabPlansController(MealRecommendationsService mealRecommendationsService) {
 		this.mealRecommendationsService = mealRecommendationsService;
@@ -89,58 +101,55 @@ public class TabPlansController {
 		this.dinnerFatsLabel.setText(null);
 		
 		try {
-			Recipe breakfast = null;
-			Recipe lunch = null;
-			Recipe dinner = null;
-
 			for (Entry<RecipeTag, Recipe> entry : this.mealRecommendationsService.getRecommendedMeals().entrySet()) {
 				if (RecipeTag.B.equals(entry.getKey())) {
 					if (breakfast == null) {
 						breakfast = entry.getValue();
+						updateRecipeSuggestion(breakfast, breakfastRecipeNameLabel, breakfastPreparationTimeLabel, breakfastCaloriesLabel, breakfastCarbohydratesLabel, breakfastProteinsLabel, breakfastFatsLabel);
 					}
 				} else if (RecipeTag.L.equals(entry.getKey())) {
 					if (lunch == null) {
 						lunch = entry.getValue();
+						updateRecipeSuggestion(lunch, lunchRecipeNameLabel, lunchPreparationTimeLabel, lunchCaloriesLabel, lunchCarbohydratesLabel, lunchProteinsLabel, lunchFatsLabel);
 					}
 				} else if (RecipeTag.D.equals(entry.getKey())) {
 					if (dinner == null) {
 						dinner = entry.getValue();
+						updateRecipeSuggestion(dinner, dinnerRecipeNameLabel, dinnerPreparationTimeLabel, dinnerCaloriesLabel, dinnerCarbohydratesLabel, dinnerProteinsLabel, dinnerFatsLabel);
 					}
 				}
 			}
-
-			if (breakfast != null) {
-				this.breakfastRecipeNameLabel.setText(breakfast.getName());
-				this.breakfastPreparationTimeLabel.setText((int) Math.ceil(breakfast.getDuration()) + "'");
-				this.breakfastCaloriesLabel.setText((int) Math.ceil(breakfast.getCalories()) + " kcal");
-				this.breakfastCarbohydratesLabel.setText((int) Math.ceil(breakfast.getCarbohydrates()) + " Carbohydrates");
-				this.breakfastProteinsLabel.setText((int) Math.ceil(breakfast.getProteins()) + " Proteins");
-				this.breakfastFatsLabel.setText((int) Math.ceil(breakfast.getFats()) + " Fats");
-			}
-
-			if (dinner != null) {
-				this.dinnerRecipeNameLabel.setText(dinner.getName());
-				this.dinnerPreparationTimeLabel.setText((int) Math.ceil(dinner.getDuration()) + "'");
-				this.dinnerCaloriesLabel.setText((int) Math.ceil(dinner.getCalories()) + " kcal");
-				this.dinnerCarbohydratesLabel.setText((int) Math.ceil(dinner.getCarbohydrates()) + " Carbohydrates");
-				this.dinnerProteinsLabel.setText((int) Math.ceil(dinner.getProteins()) + " Proteins");
-				this.dinnerFatsLabel.setText((int) Math.ceil(dinner.getFats()) + " Fats");
-			}
-
-			if (lunch != null) {
-				this.lunchRecipeNameLabel.setText(dinner.getName());
-				this.lunchPreparationTimeLabel.setText((int) Math.ceil(dinner.getDuration()) + "'");
-				this.lunchCaloriesLabel.setText((int) Math.ceil(dinner.getCalories()) + " kcal");
-				this.lunchCarbohydratesLabel.setText((int) Math.ceil(dinner.getCarbohydrates()) + " Carbohydrates");
-				this.lunchProteinsLabel.setText((int) Math.ceil(dinner.getProteins()) + " Proteins");
-				this.lunchFatsLabel.setText((int) Math.ceil(dinner.getFats()) + " Fats");
-			}
-
-			// TODO handle no recommendation case
 		} catch (ServiceInvokationException e) {
 			UserInterfaceUtility.handleFaults(e.getContext());
 		} catch (Exception e) {
 			UserInterfaceUtility.handleFault(e);
 		}
+	}
+	
+	private void updateRecipeSuggestion(Recipe recipe, Label recipeName, Label preparationTime, Label calories, Label carbohydrates, Label proteins, Label fats) {
+		recipeName.setText(recipe.getName());
+		preparationTime.setText((int) Math.ceil(recipe.getDuration()) + "'");
+		calories.setText((int) Math.ceil(recipe.getCalories()) + " kcal");
+		carbohydrates.setText((int) Math.ceil(recipe.getCarbohydrates()) + " Carbohydrates");
+		proteins.setText((int) Math.ceil(recipe.getProteins()) + " Proteins");
+		fats.setText((int) Math.ceil(recipe.getFats()) + " Fats");
+	}
+	
+	@FXML
+	public void onBreakfastClick() {
+		LOG.info("View breakfast recipe");
+		UserInterfaceUtility.loadExternalController("/fxml/RecipeDetails.fxml", "Edit Recipe", breakfast, breakfastRecipeNameLabel.getScene().getWindow(), RecipeController.class);
+	}
+	
+	@FXML
+	public void onLunchClick() {
+		LOG.info("View lunch recipe");
+		UserInterfaceUtility.loadExternalController("/fxml/RecipeDetails.fxml", "Edit Recipe", lunch, lunchRecipeNameLabel.getScene().getWindow(), RecipeController.class);
+	}
+	
+	@FXML
+	public void onDinnerClick() {
+		LOG.info("View dinner recipe");
+		UserInterfaceUtility.loadExternalController("/fxml/RecipeDetails.fxml", "Edit Recipe", dinner, dinnerRecipeNameLabel.getScene().getWindow(), RecipeController.class);
 	}
 }

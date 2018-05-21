@@ -103,37 +103,15 @@ public class TabRecipesController {
 
 	private void onEditRecipeClicked(Recipe recipe) {
 		LOG.info("Edit recipe button clicked");
-		loadExternalController("/fxml/RecipeDetails.fxml", "Edit Recipe", recipe);
+		UserInterfaceUtility.loadExternalController("/fxml/RecipeDetails.fxml", "Edit Recipe", recipe, addRecipeButton.getScene().getWindow(), RecipeController.class);
 		updateRecipeTableView();
 	}
 
 	@FXML
 	public void onAddRecipeButtonClicked(ActionEvent actionEvent) {
 		LOG.info("Add recipe button clicked");
-		loadExternalController("/fxml/RecipeDetails.fxml", "Add Recipe", null);
+		UserInterfaceUtility.loadExternalController("/fxml/RecipeDetails.fxml", "Add Recipe", null, addRecipeButton.getScene().getWindow(), RecipeController.class);
 		updateRecipeTableView();
-	}
-
-	private void loadExternalController(String Path, String Title, Recipe recipe) {
-		try {
-			final var fxmlLoader = MainApplication.context.getBean(SpringFXMLLoader.class);
-			URL location = getClass().getResource(Path);
-			fxmlLoader.setLocation(location);
-			Stage stage = new Stage();
-
-			stage.initModality(Modality.WINDOW_MODAL);
-			stage.initOwner(addRecipeButton.getScene().getWindow());
-			stage.setTitle(Title);
-
-			var load = fxmlLoader.loadAndWrap(getClass().getResourceAsStream(Path), RecipeController.class);
-			load.getController().initializeView(recipe);
-			stage.setScene(new Scene((Parent) load.getLoadedObject()));
-
-			stage.showAndWait();
-		} catch (IOException e) {
-			LOG.error(e.getMessage());
-		}
-
 	}
 
 	private void updateRecipeTableView() {
