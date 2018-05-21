@@ -96,6 +96,7 @@ public class MainController {
             stage.setTitle("Choose Plan");
             stage.setScene(new Scene((Parent) fxmlLoader.load(getClass().getResourceAsStream(path))));
             stage.showAndWait();
+            stage.setResizable(false);
         } catch (IOException e) {
             UserInterfaceUtility.handleFault(e);
         }

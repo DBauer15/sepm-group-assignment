@@ -124,6 +124,7 @@ public class TabRecipesController {
 			stage.initModality(Modality.WINDOW_MODAL);
 			stage.initOwner(addRecipeButton.getScene().getWindow());
 			stage.setTitle(Title);
+			stage.setResizable(false);
 
 			var load = fxmlLoader.loadAndWrap(getClass().getResourceAsStream(Path), RecipeController.class);
 			load.getController().initializeView(recipe);
