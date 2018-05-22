@@ -22,6 +22,13 @@ public class SimpleMealRecommendationsService implements MealRecommendationsServ
 
     private static final Logger LOG = LoggerFactory.getLogger(MethodHandles.lookup().lookupClass());
 
+    //threshold showing what recipe scores are acceptable
+    private static final double THRESHOLD = 1.35;
+    //fraction to use to split up total diet plan calories
+    private static final double LIMIT_FRACTION = 1.0/4.0;
+    //bias to be used for consecutive calculations
+    private static double BIAS = 0;
+
     private final RecipeService recipeService;
     private final DietPlanPersistence dietPlanPersistence;
 
@@ -31,7 +38,7 @@ public class SimpleMealRecommendationsService implements MealRecommendationsServ
     }
 
     @Override
-    public Map<RecipeTag, Recipe> getRecommendedMeals() throws ServiceInvokationException, NoOptimalSolutionException, NoEntryFoundException {
+    public Map<RecipeTag, Recipe> getRecommendedMeals() throws ServiceInvokationException, NoEntryFoundException {
         LOG.debug("Requested recommended meals");
 
         Map<RecipeTag, Recipe> optimumMeals = new HashMap<>();
@@ -41,9 +48,10 @@ public class SimpleMealRecommendationsService implements MealRecommendationsServ
             DietPlan currentDietPlan = dietPlanPersistence.readActive();
             allRecipes = recipeService.getRecipes();
 
-            optimumMeals.put(RecipeTag.B, calculateOptimumForTag(currentDietPlan, allRecipes, RecipeTag.B));
-            optimumMeals.put(RecipeTag.L, calculateOptimumForTag(currentDietPlan, allRecipes, RecipeTag.L));
-            optimumMeals.put(RecipeTag.D, calculateOptimumForTag(currentDietPlan, allRecipes, RecipeTag.D));
+            BIAS = 0;
+            optimumMeals.put(RecipeTag.B, calculateOptimumForTag(currentDietPlan, allRecipes, RecipeTag.B,1));
+            optimumMeals.put(RecipeTag.L, calculateOptimumForTag(currentDietPlan, allRecipes, RecipeTag.L,2));
+            optimumMeals.put(RecipeTag.D, calculateOptimumForTag(currentDietPlan, allRecipes, RecipeTag.D,1));
         } catch (PersistenceException e) {
             throw new ServiceInvokationException(e.getMessage());
         }
@@ -51,44 +59,49 @@ public class SimpleMealRecommendationsService implements MealRecommendationsServ
         return optimumMeals;
     }
 
-    private Recipe calculateOptimumForTag(DietPlan currentDietPlan, List<Recipe> allRecipes, RecipeTag tag) throws NoOptimalSolutionException {
+    private Recipe calculateOptimumForTag(DietPlan currentDietPlan, List<Recipe> allRecipes, RecipeTag tag, double fractionFactor) {
         LOG.debug("Calculating Optimum for tag: " + tag);
 
-        //threshold showing what recipe scores are acceptable
-        double threshold = 2.5;
-        Map<String, Double> limits = calculateLimits(currentDietPlan);
-        List<Recipe> potentialRecipes = new ArrayList<>();
+        Map<Recipe, Double> scoredRecipes = new HashMap<>();
+        Map<Recipe, Double> potentialRecipes = new HashMap<>();
 
         for (Recipe r : allRecipes) {
             if (r.getTags().contains(tag)) {
-                if (calculateScoreFor(r, limits) <= threshold) {
-                    potentialRecipes.add(r);
+                double score = calculateScoreFor(currentDietPlan, r, fractionFactor);
+                scoredRecipes.put(r, score);
+                if (score <= THRESHOLD + BIAS) {
+                    potentialRecipes.put(r, score);
                 }
             }
         }
 
         //to prevent always returning the same recipes we randomly pick those that are good candidates
         if (potentialRecipes.size() > 0) {
-            return potentialRecipes.get((int) Math.round(Math.random() * (potentialRecipes.size() - 1)));
+            Recipe response = potentialRecipes.keySet().toArray(new Recipe[potentialRecipes.keySet().size()])
+                [(int) Math.round(Math.random() * (potentialRecipes.size() - 1))];
+            //Calculate a bias based on how good or poor the current choice was.
+            //Bias is based on half the bias+threshold value for midpoint reference
+            //New bias is based on how good or bad the chosen recipe performed with the current bias
+            BIAS = ((THRESHOLD+BIAS)/2) - potentialRecipes.get(response);
+            return response;
         } else {
-            throw new NoOptimalSolutionException("No optimal recipes found for tag " + tag);
+            //If there was no 'optimal' recipe, we return the next best one
+            double min = -1;
+            Recipe minRecipe = null;
+            for (Recipe r : scoredRecipes.keySet()) {
+                if (minRecipe == null) {
+                    minRecipe = r;
+                    min = scoredRecipes.get(r);
+                } else if (scoredRecipes.get(r) < min) {
+                    minRecipe = r;
+                    min = scoredRecipes.get(r);
+                }
+            }
+            return minRecipe;
         }
     }
 
-    private Map<String, Double> calculateLimits(DietPlan dietPlan) {
-        LOG.debug("Calculation limits for plan: " + dietPlan.toString());
-
-        Map<String, Double> limits = new HashMap<>();
-
-        limits.put("limitKcal", dietPlan.getEnergy_kcal()/3);
-        limits.put("limitCarbohydrates", dietPlan.getCarbohydrate()/3);
-        limits.put("limitProteins", dietPlan.getProtein()/3);
-        limits.put("limitFats", dietPlan.getLipid()/3);
-
-        return limits;
-    }
-
-    private double calculateScoreFor(Recipe r, Map<String, Double> limits) {
+    private double calculateScoreFor(DietPlan p, Recipe r, double fractionFactor) {
         LOG.debug("Calculating score for recipe: " + r.toString());
 
         //weights for final calculation between 0 and 1, less means less important
@@ -97,10 +110,10 @@ public class SimpleMealRecommendationsService implements MealRecommendationsServ
         double weightProteins = 1;
         double weightFats = 1;
 
-        double scoreKcal = Math.abs((r.getCalories() / limits.get("limitKcal")) - 1);
-        double scoreCarbohydrates = Math.abs((r.getCarbohydrates() / limits.get("limitCarbohydrates")) - 1);
-        double scoreProteins = Math.abs((r.getProteins() / limits.get("limitProteins")) - 1);
-        double scoreFats = Math.abs((r.getFats() / limits.get("limitFats")) - 1);
+        double scoreKcal = Math.abs((r.getCalories() / (p.getEnergy_kcal()*LIMIT_FRACTION*fractionFactor)) - 1);
+        double scoreCarbohydrates = Math.abs((r.getCarbohydratePercent() / p.getCarbohydrate()) - 1);
+        double scoreProteins = Math.abs((r.getProteinPercent() / p.getProtein()) - 1);
+        double scoreFats = Math.abs((r.getFatPercent() / p.getLipid()) - 1);
 
         //the closer the score is to 0, the better a recipes is
         double score = (scoreKcal * weightKcal) + (scoreCarbohydrates * weightCarbohydrates) + (scoreProteins * weightProteins) + (scoreFats * weightFats);

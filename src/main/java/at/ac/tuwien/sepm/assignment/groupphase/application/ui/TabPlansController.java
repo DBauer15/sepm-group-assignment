@@ -132,9 +132,7 @@ public class TabPlansController implements Notifiable {
 			}
 		} catch (ServiceInvokationException e) {
 			UserInterfaceUtility.handleFaults(e.getContext());
-		} catch (NoEntryFoundException e) {
-		    LOG.warn("Not diet plan was set. Cannot get meal recommendations.");
-        } catch (Exception e) {
+		} catch (Exception e) {
 			UserInterfaceUtility.handleFault(e);
 		}
 	}

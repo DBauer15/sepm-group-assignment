@@ -170,6 +170,22 @@ public class Recipe {
         this.fats = fats;
     }
 
+    public Double getCarbohydratePercent() {
+        return (getCarbohydrates() / getNutritionTotal()) * 100;
+    }
+
+    public Double getProteinPercent() {
+        return (getProteins() / getNutritionTotal()) * 100;
+    }
+
+    public Double getFatPercent() {
+        return (getFats() / getNutritionTotal()) * 100;
+    }
+
+    private Double getNutritionTotal() {
+        return getCarbohydrates() + getProteins() + getFats();
+    }
+
 	@Override
 	public String toString() {
 		return "Recipe{" + "id=" + id + ", name='" + name + '\'' + ", duration=" + duration + ", description='"
