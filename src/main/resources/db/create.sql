@@ -75,7 +75,7 @@ CREATE TABLE IF NOT EXISTS `DIET_PLAN_SUGGESTION` (
   `tag` ENUM('B', 'D', 'L') NOT NULL,
   `DIET_PLAN_id` INT NOT NULL,
   `created_timestamp` TIMESTAMP NOT NULL,
-  PRIMARY KEY (`recipe`, `date`),
+  PRIMARY KEY (`recipe`, `created_timestamp`),
   CONSTRAINT `fk_DIET_PLAN_SUGGESTION_RECIPE1`
     FOREIGN KEY (`recipe`)
     REFERENCES `RECIPE` (`id`)
