@@ -114,25 +114,21 @@ public class TabPlansController implements Notifiable {
 		try {
 			for (Entry<RecipeTag, Recipe> entry : this.mealRecommendationsService.getRecommendedMeals().entrySet()) {
 				if (RecipeTag.B.equals(entry.getKey())) {
-					if (breakfast == null) {
 						breakfast = entry.getValue();
 						updateRecipeSuggestion(breakfast, breakfastRecipeNameLabel, breakfastPreparationTimeLabel, breakfastCaloriesLabel, breakfastCarbohydratesLabel, breakfastProteinsLabel, breakfastFatsLabel);
-					}
 				} else if (RecipeTag.L.equals(entry.getKey())) {
-					if (lunch == null) {
 						lunch = entry.getValue();
 						updateRecipeSuggestion(lunch, lunchRecipeNameLabel, lunchPreparationTimeLabel, lunchCaloriesLabel, lunchCarbohydratesLabel, lunchProteinsLabel, lunchFatsLabel);
-					}
 				} else if (RecipeTag.D.equals(entry.getKey())) {
-					if (dinner == null) {
 						dinner = entry.getValue();
 						updateRecipeSuggestion(dinner, dinnerRecipeNameLabel, dinnerPreparationTimeLabel, dinnerCaloriesLabel, dinnerCarbohydratesLabel, dinnerProteinsLabel, dinnerFatsLabel);
-					}
 				}
 			}
 		} catch (ServiceInvokationException e) {
 			UserInterfaceUtility.handleFaults(e.getContext());
-		} catch (Exception e) {
+		} catch (NoEntryFoundException e) {
+		    LOG.warn("No active diet plan set. Skipping meal recommendations");
+        } catch (Exception e) {
 			UserInterfaceUtility.handleFault(e);
 		}
 	}
@@ -141,9 +137,9 @@ public class TabPlansController implements Notifiable {
 		recipeName.setText(recipe.getName());
 		preparationTime.setText((int) Math.ceil(recipe.getDuration()) + "'");
 		calories.setText((int) Math.ceil(recipe.getCalories()) + " kcal");
-		carbohydrates.setText((int) Math.ceil(recipe.getCarbohydrates()) + " Carbohydrates");
-		proteins.setText((int) Math.ceil(recipe.getProteins()) + " Proteins");
-		fats.setText((int) Math.ceil(recipe.getFats()) + " Fats");
+		carbohydrates.setText((int) Math.ceil(recipe.getCarbohydrates()) + "g Carbohydrates");
+		proteins.setText((int) Math.ceil(recipe.getProteins()) + "g Proteins");
+		fats.setText((int) Math.ceil(recipe.getFats()) + "g Fats");
 	}
 
 	@FXML
