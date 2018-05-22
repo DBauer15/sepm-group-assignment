@@ -81,23 +81,21 @@ public class RecipeIngredientsValidator implements Validator<List<RecipeIngredie
 
 	@Override
 	public boolean validateForReading(List<RecipeIngredient> dto, ServiceInvokationContext context) {
-        validateForCreation(dto, context);
-
-        for (RecipeIngredient ri : dto) {
-            ValidationUtil.validateId(ri.getId(), context);
-            ValidationUtil.validateNull("userSpecific", ri.getUserSpecific(), context);
-        }
+        if (validateForCreation(dto, context))
+            for (RecipeIngredient ri : dto) {
+                ValidationUtil.validateId(ri.getId(), context);
+                ValidationUtil.validateNull("userSpecific", ri.getUserSpecific(), context);
+            }
 
         return context.isValid();
 	}
 
 	@Override
 	public boolean validateForUpdate(List<RecipeIngredient> dto, ServiceInvokationContext context) {
-	    validateForCreation(dto, context);
-
-        for (RecipeIngredient ri : dto)
-            if (!ri.getUserSpecific())
-                ValidationUtil.validateId(ri.getId(), context);
+	    if (validateForCreation(dto, context))
+            for (RecipeIngredient ri : dto)
+                if (!ri.getUserSpecific())
+                    ValidationUtil.validateId(ri.getId(), context);
 
         return context.isValid();
 	}
