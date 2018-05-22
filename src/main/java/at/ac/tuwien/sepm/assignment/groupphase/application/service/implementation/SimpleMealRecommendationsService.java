@@ -38,7 +38,7 @@ public class SimpleMealRecommendationsService implements MealRecommendationsServ
     }
 
     @Override
-    public Map<RecipeTag, Recipe> getRecommendedMeals() throws ServiceInvokationException, NoEntryFoundException {
+    public Map<RecipeTag, Recipe> getRecommendedMeals() throws ServiceInvokationException, NoEntryFoundException, NoOptimalSolutionException {
         LOG.debug("Requested recommended meals");
 
         Map<RecipeTag, Recipe> optimumMeals = new HashMap<>();
@@ -59,7 +59,7 @@ public class SimpleMealRecommendationsService implements MealRecommendationsServ
         return optimumMeals;
     }
 
-    private Recipe calculateOptimumForTag(DietPlan currentDietPlan, List<Recipe> allRecipes, RecipeTag tag, double fractionFactor) {
+    private Recipe calculateOptimumForTag(DietPlan currentDietPlan, List<Recipe> allRecipes, RecipeTag tag, double fractionFactor) throws NoOptimalSolutionException {
         LOG.debug("Calculating Optimum for tag: " + tag);
 
         Map<Recipe, Double> scoredRecipes = new HashMap<>();
@@ -73,6 +73,10 @@ public class SimpleMealRecommendationsService implements MealRecommendationsServ
                     potentialRecipes.put(r, score);
                 }
             }
+        }
+
+        if (scoredRecipes.keySet().size() <= 0) {
+            throw new NoOptimalSolutionException("No " + tag.toString() + " recipes in the cookbook found. Cannot generate recommendations.");
         }
 
         //to prevent always returning the same recipes we randomly pick those that are good candidates
