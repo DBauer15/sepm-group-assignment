@@ -254,7 +254,7 @@ public class DBRecipePersistenceTest extends BaseTest {
             "the cooked vegetables. Tip in the juice from the fish, then toss well and serve in bowls with the " +
             "salmon on top.", recipe.getDescription());
         Assert.assertEquals(EnumSet.of(RecipeTag.D, RecipeTag.L), recipe.getTags());
-        Assert.assertEquals("DL", recipe.getTagsAsString());
+        Assert.assertEquals("LD", recipe.getTagsAsString());
         Assert.assertTrue(!recipe.getDeleted());
         Assert.assertEquals(9, recipe.getRecipeIngredients().size());
     }

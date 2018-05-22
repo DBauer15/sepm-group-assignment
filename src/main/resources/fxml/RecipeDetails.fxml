@@ -17,7 +17,7 @@
 <?import javafx.scene.shape.Line?>
 <?import javafx.scene.text.Font?>
 
-<AnchorPane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="878.0" prefWidth="1248.0" xmlns="http://javafx.com/javafx/9.0.4" xmlns:fx="http://javafx.com/fxml/1" fx:controller="at.ac.tuwien.sepm.assignment.groupphase.application.ui.RecipeController">
+<AnchorPane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="878.0" prefWidth="1248.0" xmlns="http://javafx.com/javafx/8.0.121" xmlns:fx="http://javafx.com/fxml/1" fx:controller="at.ac.tuwien.sepm.assignment.groupphase.application.ui.RecipeController">
    <children>
       <AnchorPane prefHeight="878.0" prefWidth="624.0" styleClass="background-white" AnchorPane.bottomAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0">
          <children>
@@ -169,7 +169,7 @@
                         </AnchorPane>
                         <AnchorPane fx:id="searchIngredientAnchorPane" prefHeight="200.0" prefWidth="200.0" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0">
                            <children>
-                              <ComboBox fx:id="ingredientComboBox" editable="true" maxHeight="27.0" onKeyPressed="#onIngredientComboBoxKeyPressed" prefHeight="27.0" prefWidth="329.0" promptText="Placeholder" styleClass="combobox-rounded" AnchorPane.leftAnchor="0.0" AnchorPane.topAnchor="70.0" />
+                              <ComboBox fx:id="ingredientComboBox" editable="true" maxHeight="27.0" onKeyPressed="#onIngredientComboBoxKeyPressed" prefHeight="27.0" prefWidth="329.0" promptText="Search for Ingredient" styleClass="combobox-rounded" AnchorPane.leftAnchor="0.0" AnchorPane.topAnchor="70.0" />
                               <Label fx:id="ingredientUnitLabel" prefHeight="27.0" prefWidth="165.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="70.0">
                                  <font>
                                     <Font size="16.0" />

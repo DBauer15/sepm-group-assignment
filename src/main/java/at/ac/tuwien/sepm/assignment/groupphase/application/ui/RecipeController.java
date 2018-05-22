@@ -33,7 +33,7 @@ import java.util.*;
 import static at.ac.tuwien.sepm.assignment.groupphase.application.util.implementation.UserInterfaceUtility.showAlert;
 
 @Controller
-public class RecipeController implements Initializable {
+public class RecipeController implements Initializable, ExternalController<Recipe> {
 	private static final Logger LOG = LoggerFactory.getLogger(MethodHandles.lookup().lookupClass());
 
 	@FXML
@@ -113,7 +113,7 @@ public class RecipeController implements Initializable {
 		this.recipeService = recipeService;
 	}
 
-	void initializeView(Recipe r) {
+	public void initializeView(Recipe r) {
 		this.ingredients = new ArrayList<>();
 
 		if (r != null) {
