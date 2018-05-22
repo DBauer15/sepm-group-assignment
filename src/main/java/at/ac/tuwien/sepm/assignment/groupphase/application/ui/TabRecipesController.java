@@ -16,6 +16,7 @@ import javafx.fxml.FXMLLoader;
 import javafx.scene.Parent;
 import javafx.scene.Scene;
 import javafx.scene.control.*;
+import javafx.scene.control.Alert.AlertType;
 import javafx.scene.control.cell.PropertyValueFactory;
 import javafx.scene.input.MouseButton;
 import javafx.scene.input.MouseEvent;
@@ -29,6 +30,7 @@ import org.springframework.stereotype.Controller;
 import java.io.IOException;
 import java.lang.invoke.MethodHandles;
 import java.net.URL;
+import java.util.Optional;
 
 import static at.ac.tuwien.sepm.assignment.groupphase.application.util.implementation.UserInterfaceUtility.showAlert;
 
@@ -93,12 +95,39 @@ public class TabRecipesController {
 			editMenuItem.setOnAction(event -> onEditRecipeClicked(row.getItem()));
 			recipeContextMenu.getItems().add(editMenuItem);
 
+			final MenuItem deleteMenuItem = new MenuItem("Delete");
+			deleteMenuItem.setOnAction(event -> onDeleteRecipeClicked(row.getItem()));
+			recipeContextMenu.getItems().add(deleteMenuItem);
+
 			row.contextMenuProperty()
 					.bind(Bindings.when(row.emptyProperty()).then((ContextMenu) null).otherwise(recipeContextMenu));
 			return row;
 		});
 
 		updateRecipeTableView();
+	}
+
+	private void onDeleteRecipeClicked(Recipe recipe) {
+		LOG.info("Delete recipe button clicked");
+		
+		Alert alert = new Alert(AlertType.CONFIRMATION);
+		alert.setTitle("Confirm recipe deletion");
+		alert.setHeaderText("Confirm recipe deletion");
+		alert.setContentText("Do you really want to delete recipe '" + recipe.getName() + "'?");
+
+		Optional<ButtonType> result = alert.showAndWait();
+		
+		if (result.get() == ButtonType.OK) {			
+			try {
+				recipeService.delete(recipe.getId());
+			} catch (ServiceInvokationException e) {
+				UserInterfaceUtility.handleFaults(e.getContext());
+			} catch (Exception e) {
+				UserInterfaceUtility.handleFault(e);
+			}
+			
+			updateRecipeTableView();
+		}
 	}
 
 	private void onEditRecipeClicked(Recipe recipe) {

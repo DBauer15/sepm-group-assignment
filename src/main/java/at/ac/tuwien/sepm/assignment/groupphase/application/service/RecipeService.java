@@ -17,6 +17,12 @@ public interface RecipeService {
 	 * @param recipe {@link Recipe}
 	 */
 	public void create(Recipe recipe) throws ServiceInvokationException;
+	
+	/**
+	 * Deletes a recipe.
+     * @param id An id for a storage entry
+	 */
+	public void delete(int id) throws ServiceInvokationException;
 
 	/**
 	 * Search for an ingredient in the persistence layer.

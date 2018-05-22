@@ -110,4 +110,13 @@ public class SimpleRecipeService implements RecipeService {
             throw new ServiceInvokationException(e);
         }
     }
+
+	@Override
+	public void delete(int id) throws ServiceInvokationException {
+        try {
+            recipePersistence.delete(id);
+        } catch (PersistenceException e) {
+            throw new ServiceInvokationException(e);
+        }
+	}
 }

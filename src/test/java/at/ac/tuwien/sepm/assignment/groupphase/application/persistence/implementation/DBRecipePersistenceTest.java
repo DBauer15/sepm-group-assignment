@@ -269,6 +269,31 @@ public class DBRecipePersistenceTest extends BaseTest {
 
         new DBRecipePersistence().get(-1);
     }
+    
+    @Test
+    public void testDeleteRecipe_idIsInvalid_throwsPersistenceException() throws PersistenceException {
+        expectedEx.expect(PersistenceException.class);
+        expectedEx.expectMessage("No recipe found for given id");
+        
+    	new DBRecipePersistence().delete(-1);
+    }
+    
+    @Test
+    public void testDeleteRecipe_idIsValid_success() throws PersistenceException, SQLException {
+    	RecipePersistence recipePersistence = new DBRecipePersistence();
+    	
+    	recipePersistence.delete(1);
+    	
+        PreparedStatement checkRecipeUpdate = JDBCConnectionManager.getConnection().prepareStatement(SQL_CHECK_RECIPE_UPDATE);
+        checkRecipeUpdate.setInt(1, 1);
+        ResultSet rs = checkRecipeUpdate.executeQuery();
+        if (!rs.next()) {
+            Assert.fail("Recipe update failed because no recipe with given id exists.");
+        }
+
+        Assert.assertEquals((int) 1, rs.getInt("ID"));
+        Assert.assertTrue(rs.getBoolean("DELETED"));
+    }
 
     @Test
     public void testUpdateRecipe_recipeIsValidWithUserSpecificIngredients_successWithRecipeValuesUpdated() throws PersistenceException, SQLException {
@@ -279,7 +304,7 @@ public class DBRecipePersistenceTest extends BaseTest {
             33.3,
             "This recipe has been updated.",
             EnumSet.of(RecipeTag.B),
-            true);
+            false);
 
         List<RecipeIngredient> ingredients = new ArrayList<>();
         ingredients.add(new RecipeIngredient(1d, 1d, 1d, 1d, 1d, "A", 1d, true, "A"));
@@ -336,7 +361,7 @@ public class DBRecipePersistenceTest extends BaseTest {
             33.3,
             "This recipe has been updated.",
             EnumSet.of(RecipeTag.B),
-            true);
+            false);
 
         List<RecipeIngredient> ingredients = new ArrayList<>();
         ingredients.add(new RecipeIngredient(1, 1d, false));
