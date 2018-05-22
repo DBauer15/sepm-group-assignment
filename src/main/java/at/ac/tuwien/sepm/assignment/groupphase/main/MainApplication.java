@@ -37,6 +37,7 @@ public final class MainApplication extends Application {
         primaryStage.setHeight(910);
         primaryStage.centerOnScreen();
         primaryStage.setOnCloseRequest(event -> LOG.debug("Application shutdown initiated"));
+        primaryStage.setResizable(false);
 
         // load files
         context = new AnnotationConfigApplicationContext(MainApplication.class);
