@@ -33,7 +33,7 @@ public class DBMealRecommendationsPersistenceTest extends BaseTest {
 
         mealRecommendationsPersistence.createRecommendationFor(nonStandardIDRecipe, dietPlan, RecipeTag.B);
 
-        Recipe readRecipe = mealRecommendationsPersistence.readRecommednationFor(dietPlan, RecipeTag.B);
+        Recipe readRecipe = mealRecommendationsPersistence.readRecommendationFor(dietPlan, RecipeTag.B);
 
         Assert.assertEquals(nonStandardIDRecipe.getId(), readRecipe.getId());
     }
@@ -45,13 +45,13 @@ public class DBMealRecommendationsPersistenceTest extends BaseTest {
         mealRecommendationsPersistence.createRecommendationFor(breakfastRecipe, dietPlan, RecipeTag.B);
         mealRecommendationsPersistence.createRecommendationFor(nonStandardIDRecipe, dietPlan, RecipeTag.B);
 
-        Recipe readRecipe = mealRecommendationsPersistence.readRecommednationFor(dietPlan, RecipeTag.B);
+        Recipe readRecipe = mealRecommendationsPersistence.readRecommendationFor(dietPlan, RecipeTag.B);
 
         Assert.assertEquals(nonStandardIDRecipe.getId(), readRecipe.getId());
     }
 
     @Test (expected = NoEntryFoundException.class)
     public void testReadRecommendationFor_withoutValidData_throwsNoEntryFoundExcpetion() throws NoEntryFoundException, PersistenceException {
-        mealRecommendationsPersistence.readRecommednationFor(dietPlan, RecipeTag.B);
+        mealRecommendationsPersistence.readRecommendationFor(dietPlan, RecipeTag.B);
     }
 }

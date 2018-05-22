@@ -56,21 +56,21 @@ public class DBMealRecommendationsPersistence implements MealRecommendationsPers
     }
 
     @Override
-    public Recipe readRecommednationFor(DietPlan dietPlan, RecipeTag recipeTag) throws PersistenceException, NoEntryFoundException {
+    public Recipe readRecommendationFor(DietPlan dietPlan, RecipeTag recipeTag) throws PersistenceException, NoEntryFoundException {
         LOG.debug("Reading a diet plan suggestion for {} with tag {}", dietPlan, recipeTag);
 
-        PreparedStatement readRecommandationStmt = null;
+        PreparedStatement readRecommendationStmt = null;
         ResultSet readResult = null;
 
         try {
-            readRecommandationStmt = JDBCConnectionManager.getConnection().prepareStatement(SQL_READ_MEAL_RECOMMANDATION);
+            readRecommendationStmt = JDBCConnectionManager.getConnection().prepareStatement(SQL_READ_MEAL_RECOMMANDATION);
 
-            readRecommandationStmt.setInt(1, dietPlan.getId());
-            readRecommandationStmt.setString(2, recipeTag.toString());
-            readRecommandationStmt.setInt(3, dietPlan.getId());
-            readRecommandationStmt.setString(4, recipeTag.toString());
+            readRecommendationStmt.setInt(1, dietPlan.getId());
+            readRecommendationStmt.setString(2, recipeTag.toString());
+            readRecommendationStmt.setInt(3, dietPlan.getId());
+            readRecommendationStmt.setString(4, recipeTag.toString());
 
-            readResult = readRecommandationStmt.executeQuery();
+            readResult = readRecommendationStmt.executeQuery();
 
             if (readResult.next()) {
                 int recipe_id = readResult.getInt("recipe");
@@ -86,7 +86,7 @@ public class DBMealRecommendationsPersistence implements MealRecommendationsPers
         } catch (SQLException e) {
             throw new PersistenceException("There was an error while reading a diet plan suggestion from the database. " + e.getMessage());
         } finally {
-            CloseUtil.closeStatement(readRecommandationStmt);
+            CloseUtil.closeStatement(readRecommendationStmt);
             CloseUtil.closeResultSet(readResult);
         }
     }

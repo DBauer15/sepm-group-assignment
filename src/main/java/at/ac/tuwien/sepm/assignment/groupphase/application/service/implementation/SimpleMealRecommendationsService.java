@@ -4,12 +4,14 @@ import at.ac.tuwien.sepm.assignment.groupphase.application.dto.DietPlan;
 import at.ac.tuwien.sepm.assignment.groupphase.application.dto.Recipe;
 import at.ac.tuwien.sepm.assignment.groupphase.application.dto.RecipeTag;
 import at.ac.tuwien.sepm.assignment.groupphase.application.persistence.DietPlanPersistence;
+import at.ac.tuwien.sepm.assignment.groupphase.application.persistence.MealRecommendationsPersistence;
 import at.ac.tuwien.sepm.assignment.groupphase.application.persistence.NoEntryFoundException;
 import at.ac.tuwien.sepm.assignment.groupphase.application.persistence.PersistenceException;
 import at.ac.tuwien.sepm.assignment.groupphase.application.service.MealRecommendationsService;
 import at.ac.tuwien.sepm.assignment.groupphase.application.service.NoOptimalSolutionException;
 import at.ac.tuwien.sepm.assignment.groupphase.application.service.RecipeService;
 import at.ac.tuwien.sepm.assignment.groupphase.application.service.ServiceInvokationException;
+import at.ac.tuwien.sepm.assignment.groupphase.application.util.implementation.NutritionUtil;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.stereotype.Service;
@@ -28,11 +30,15 @@ public class SimpleMealRecommendationsService implements MealRecommendationsServ
     private static final double LIMIT_FRACTION = 1.0/4.0;
     //bias to be used for consecutive calculations
     private static double BIAS = 0;
+    //fraction factors for kcal score
+    private static final double[] FRACTION_FACTORS = new double[]{1, 2, 1};
 
+    private final MealRecommendationsPersistence mealRecommendationsPersistence;
     private final RecipeService recipeService;
     private final DietPlanPersistence dietPlanPersistence;
 
-    public SimpleMealRecommendationsService(RecipeService recipeService, DietPlanPersistence dietPlanPersistence) {
+    public SimpleMealRecommendationsService(MealRecommendationsPersistence mealRecommendationsPersistence, RecipeService recipeService, DietPlanPersistence dietPlanPersistence) {
+        this.mealRecommendationsPersistence = mealRecommendationsPersistence;
         this.recipeService = recipeService;
         this.dietPlanPersistence = dietPlanPersistence;
     }
@@ -42,16 +48,24 @@ public class SimpleMealRecommendationsService implements MealRecommendationsServ
         LOG.debug("Requested recommended meals");
 
         Map<RecipeTag, Recipe> optimumMeals = new HashMap<>();
-        List<Recipe> allRecipes;
+        List<Recipe> allRecipes = null;
 
         try {
             DietPlan currentDietPlan = dietPlanPersistence.readActive();
-            allRecipes = recipeService.getRecipes();
-
             BIAS = 0;
-            optimumMeals.put(RecipeTag.B, calculateOptimumForTag(currentDietPlan, allRecipes, RecipeTag.B,1));
-            optimumMeals.put(RecipeTag.L, calculateOptimumForTag(currentDietPlan, allRecipes, RecipeTag.L,2));
-            optimumMeals.put(RecipeTag.D, calculateOptimumForTag(currentDietPlan, allRecipes, RecipeTag.D,1));
+
+            for (int i = 0; i < FRACTION_FACTORS.length; i++) {
+                RecipeTag tag = RecipeTag.values()[i];
+                try {
+                    optimumMeals.put(tag, NutritionUtil.fillNutritionValues(mealRecommendationsPersistence.readRecommendationFor(currentDietPlan, tag)));
+                } catch (NoEntryFoundException e) {
+                    if (allRecipes == null)
+                        allRecipes = recipeService.getRecipes();
+                    Recipe r = calculateOptimumForTag(currentDietPlan, allRecipes, tag, FRACTION_FACTORS[i]);
+                    mealRecommendationsPersistence.createRecommendationFor(r, currentDietPlan, tag);
+                    optimumMeals.put(tag, r);
+                }
+            }
         } catch (PersistenceException e) {
             throw new ServiceInvokationException(e.getMessage());
         }

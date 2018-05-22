@@ -24,5 +24,5 @@ public interface MealRecommendationsPersistence {
      * @throws PersistenceException
      * @throws NoEntryFoundException Thrown when there is no according recommendation for today
      */
-    public Recipe readRecommednationFor(DietPlan dietPlan, RecipeTag recipeTag) throws PersistenceException, NoEntryFoundException;
+    public Recipe readRecommendationFor(DietPlan dietPlan, RecipeTag recipeTag) throws PersistenceException, NoEntryFoundException;
 }
