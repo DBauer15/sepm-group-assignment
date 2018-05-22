@@ -58,16 +58,6 @@ public class SimpleMealRecommendationsServiceTest {
         RecipeService recipeService = new SimpleRecipeService(mockedRecipeRepo);
         MealRecommendationsService mealRecommendationsService = new SimpleMealRecommendationsService(recipeService, mockedDietPlanRepo);
         try {
-            /*Map<RecipeTag, Recipe> recs = mealRecommendationsService.getRecommendedMeals();
-            double kcal = 0, carbs = 0, proteins = 0, fats = 0;
-            for (Recipe r : recs.values()) {
-                kcal += r.getCalories();
-                carbs += r.getCarbohydratePercent();
-                proteins += r.getProteinPercent();
-                fats += r.getFatPercent();
-            }
-            System.out.println("Kcal: 2500.0 fats: 20 prot: 25 carbs: 50");
-            System.out.println("Kcal: " + kcal + " fats: " + (fats/3) + " prot: " + (proteins/3) + " carbs: " + (carbs/3));*/
             Assert.assertFalse(mealRecommendationsService.getRecommendedMeals().isEmpty());
         } catch (Exception e) {
             Assert.fail();
@@ -88,16 +78,6 @@ public class SimpleMealRecommendationsServiceTest {
         RecipeService recipeService = new SimpleRecipeService(mockedRecipeRepo);
         MealRecommendationsService mealRecommendationsService = new SimpleMealRecommendationsService(recipeService, mockedDietPlanRepo);
         try {
-            /*Map<RecipeTag, Recipe> recs = mealRecommendationsService.getRecommendedMeals();
-            double kcal = 0, carbs = 0, proteins = 0, fats = 0;
-            for (Recipe r : recs.values()) {
-                kcal += r.getCalories();
-                carbs += r.getCarbohydratePercent();
-                proteins += r.getProteinPercent();
-                fats += r.getFatPercent();
-            }
-            System.out.println("Kcal: 1900.0 fats: 30 prot: 40 carbs: 30");
-            System.out.println("Kcal: " + kcal + " fats: " + (fats/3) + " prot: " + (proteins/3) + " carbs: " + (carbs/3));*/
             Assert.assertFalse(mealRecommendationsService.getRecommendedMeals().isEmpty());
         } catch (Exception e) {
             Assert.fail();
@@ -118,36 +98,10 @@ public class SimpleMealRecommendationsServiceTest {
         RecipeService recipeService = new SimpleRecipeService(mockedRecipeRepo);
         MealRecommendationsService mealRecommendationsService = new SimpleMealRecommendationsService(recipeService, mockedDietPlanRepo);
         try {
-            /*Map<RecipeTag, Recipe> recs = mealRecommendationsService.getRecommendedMeals();
-            double kcal = 0, carbs = 0, proteins = 0, fats = 0;
-            for (Recipe r : recs.values()) {
-                kcal += r.getCalories();
-                carbs += r.getCarbohydratePercent();
-                proteins += r.getProteinPercent();
-                fats += r.getFatPercent();
-            }
-            System.out.println("Kcal: 3000.0 fats: 30 prot: 10 carbs: 60");
-            System.out.println("Kcal: " + kcal + " fats: " + (fats/3) + " prot: " + (proteins/3) + " carbs: " + (carbs/3));*/
             Assert.assertFalse(mealRecommendationsService.getRecommendedMeals().isEmpty());
         } catch (Exception e) {
             Assert.fail();
         }
-    }
-
-    @Test(expected = NoOptimalSolutionException.class)
-    public void testGetRecommendedMeals_noOptimumBecauseOfPlan_throwException() throws PersistenceException, NoEntryFoundException, ServiceInvokationException, NoOptimalSolutionException {
-        //mock a plan where there cannot be optimal recipes
-        DietPlan mockedActiveDietplan = new DietPlan(1, "Testplan", 0.0, 0.0, 0.0, 0.0, LocalDate.now(), null);
-        when(mockedDietPlanRepo.readActive()).thenReturn(mockedActiveDietplan);
-
-        //mock all recipes in test db
-        List<Recipe> allRecipes = getRecipes();
-        allRecipes.forEach(NutritionUtil::fillNutritionValues);
-        when(mockedRecipeRepo.getRecipes()).thenReturn(allRecipes);
-
-        RecipeService recipeService = new SimpleRecipeService(mockedRecipeRepo);
-        MealRecommendationsService mealRecommendationsService = new SimpleMealRecommendationsService(recipeService, mockedDietPlanRepo);
-        mealRecommendationsService.getRecommendedMeals();
     }
 
     @Test(expected = NoOptimalSolutionException.class)
