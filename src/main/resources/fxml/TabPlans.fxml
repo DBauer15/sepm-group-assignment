@@ -4,6 +4,7 @@
 <?import java.net.URL?>
 <?import javafx.scene.control.Button?>
 <?import javafx.scene.control.Label?>
+<?import javafx.scene.image.Image?>
 <?import javafx.scene.image.ImageView?>
 <?import javafx.scene.layout.AnchorPane?>
 <?import javafx.scene.text.Font?>
@@ -16,13 +17,16 @@
             <String fx:value="background-white" />
          </styleClass>
          <children>
-            <ImageView fitHeight="164.0" fitWidth="292.0" layoutX="51.0" layoutY="39.0" pickOnBounds="true" preserveRatio="true" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0" />
-            <Label fx:id="breakfastRecipeNameLabel" layoutX="82.0" layoutY="203.0" maxHeight="73.0" styleClass="text-recipe-name" text="Name" wrapText="true" AnchorPane.leftAnchor="30.0" AnchorPane.rightAnchor="30.0" AnchorPane.topAnchor="170.0" />
-            <Label fx:id="breakfastCaloriesLabel" layoutX="30.0" layoutY="223.0" prefHeight="23.0" prefWidth="127.0" styleClass="text-medium" text="2000 kcal" AnchorPane.leftAnchor="30.0" AnchorPane.rightAnchor="135.0" AnchorPane.topAnchor="240.0" />
+            <ImageView fitHeight="164.0" fitWidth="292.0" layoutX="51.0" layoutY="39.0" pickOnBounds="true" preserveRatio="true" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0">
+               <image>
+                  <Image url="@../img/recipe_placeholder.png" />
+               </image></ImageView>
+            <Label fx:id="breakfastRecipeNameLabel" alignment="TOP_CENTER" layoutX="82.0" layoutY="203.0" maxHeight="73.0" prefHeight="60.0" styleClass="text-recipe-name" text="Name" textAlignment="CENTER" wrapText="true" AnchorPane.leftAnchor="30.0" AnchorPane.rightAnchor="30.0" AnchorPane.topAnchor="175.0" />
+            <Label fx:id="breakfastCaloriesLabel" layoutX="30.0" layoutY="223.0" prefHeight="23.0" prefWidth="127.0" styleClass="text-medium" text="2000 kcal" AnchorPane.leftAnchor="30.0" AnchorPane.rightAnchor="135.0" AnchorPane.topAnchor="245.0" />
             <Label fx:id="breakfastCarbohydratesLabel" layoutX="30.0" layoutY="256.0" styleClass="text-medium" text="33 % Carbohydrates" textFill="#767676" AnchorPane.leftAnchor="30.0" AnchorPane.rightAnchor="30.0" AnchorPane.topAnchor="290.0" />
             <Label fx:id="breakfastProteinsLabel" layoutX="30.0" layoutY="327.0" styleClass="text-medium" text="33 % Proteins" textFill="#767676" AnchorPane.leftAnchor="30.0" AnchorPane.rightAnchor="30.0" AnchorPane.topAnchor="325.0" />
             <Label fx:id="breakfastFatsLabel" layoutX="39.0" layoutY="322.0" styleClass="text-medium" text="33 % Fats" textFill="#767676" AnchorPane.leftAnchor="30.0" AnchorPane.rightAnchor="30.0" AnchorPane.topAnchor="360.0" />
-            <Label fx:id="breakfastPreparationTimeLabel" alignment="CENTER_RIGHT" layoutX="40.0" layoutY="250.0" prefHeight="23.0" prefWidth="127.0" styleClass="text-medium" text="30'" AnchorPane.rightAnchor="30.0" AnchorPane.topAnchor="240.0" />
+            <Label fx:id="breakfastPreparationTimeLabel" alignment="CENTER_RIGHT" layoutX="40.0" layoutY="250.0" prefHeight="23.0" prefWidth="127.0" styleClass="text-medium" text="30'" AnchorPane.rightAnchor="30.0" AnchorPane.topAnchor="245.0" />
          </children>
       </AnchorPane>
       <AnchorPane layoutX="389.0" layoutY="62.0" onMouseClicked="#onLunchClick" prefHeight="437.0" prefWidth="292.0" AnchorPane.leftAnchor="388.0" AnchorPane.rightAnchor="388.0" AnchorPane.topAnchor="90.0">
@@ -31,13 +35,16 @@
             <String fx:value="background-white" />
          </styleClass>
          <children>
-            <ImageView fitHeight="164.0" fitWidth="292.0" layoutX="51.0" layoutY="39.0" pickOnBounds="true" preserveRatio="true" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0" />
-            <Label fx:id="lunchRecipeNameLabel" layoutX="82.0" layoutY="203.0" styleClass="text-recipe-name" text="Name" wrapText="true" AnchorPane.leftAnchor="30.0" AnchorPane.rightAnchor="30.0" AnchorPane.topAnchor="170.0" />
-            <Label fx:id="lunchCaloriesLabel" layoutX="30.0" layoutY="223.0" prefHeight="23.0" prefWidth="127.0" styleClass="text-medium" text="2000 kcal" AnchorPane.leftAnchor="30.0" AnchorPane.rightAnchor="135.0" AnchorPane.topAnchor="240.0" />
+            <ImageView fitHeight="164.0" fitWidth="292.0" layoutX="51.0" layoutY="39.0" pickOnBounds="true" preserveRatio="true" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0">
+               <image>
+                  <Image url="@../img/recipe_placeholder.png" />
+               </image></ImageView>
+            <Label fx:id="lunchRecipeNameLabel" alignment="TOP_CENTER" layoutX="82.0" layoutY="203.0" prefHeight="60.0" styleClass="text-recipe-name" text="Name" textAlignment="CENTER" wrapText="true" AnchorPane.leftAnchor="30.0" AnchorPane.rightAnchor="30.0" AnchorPane.topAnchor="175.0" />
+            <Label fx:id="lunchCaloriesLabel" layoutX="30.0" layoutY="223.0" prefHeight="23.0" prefWidth="127.0" styleClass="text-medium" text="2000 kcal" AnchorPane.leftAnchor="30.0" AnchorPane.rightAnchor="135.0" AnchorPane.topAnchor="245.0" />
             <Label fx:id="lunchCarbohydratesLabel" layoutX="30.0" layoutY="256.0" styleClass="text-medium" text="33 % Carbohydrates" textFill="#767676" AnchorPane.leftAnchor="30.0" AnchorPane.rightAnchor="30.0" AnchorPane.topAnchor="290.0" />
             <Label fx:id="lunchProteinsLabel" layoutX="33.0" layoutY="290.0" styleClass="text-medium" text="33 % Proteins" textFill="#767676" AnchorPane.leftAnchor="30.0" AnchorPane.rightAnchor="30.0" AnchorPane.topAnchor="325.0" />
             <Label fx:id="lunchFatsLabel" layoutX="39.0" layoutY="322.0" styleClass="text-medium" text="33 % Fats" textFill="#767676" AnchorPane.leftAnchor="30.0" AnchorPane.rightAnchor="30.0" AnchorPane.topAnchor="360.0" />
-            <Label fx:id="lunchPreparationTimeLabel" alignment="CENTER_RIGHT" layoutX="186.0" layoutY="244.0" prefHeight="23.0" prefWidth="127.0" styleClass="text-medium" text="30'" AnchorPane.rightAnchor="30.0" AnchorPane.topAnchor="240.0" />
+            <Label fx:id="lunchPreparationTimeLabel" alignment="CENTER_RIGHT" layoutX="186.0" layoutY="244.0" prefHeight="23.0" prefWidth="127.0" styleClass="text-medium" text="30'" AnchorPane.rightAnchor="30.0" AnchorPane.topAnchor="245.0" />
          </children>
       </AnchorPane>
       <Button disable="true" layoutX="470.0" layoutY="561.0" mnemonicParsing="false" prefHeight="50.0" prefWidth="50.0" styleClass="button-circular" text="&lt;" AnchorPane.bottomAnchor="36.0" />
@@ -53,13 +60,16 @@
             <String fx:value="background-white" />
          </styleClass>
          <children>
-            <ImageView fitHeight="164.0" fitWidth="292.0" layoutX="51.0" layoutY="39.0" pickOnBounds="true" preserveRatio="true" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0" />
-            <Label fx:id="dinnerRecipeNameLabel" layoutX="82.0" layoutY="203.0" styleClass="text-recipe-name" text="Name" wrapText="true" AnchorPane.leftAnchor="30.0" AnchorPane.rightAnchor="30.0" AnchorPane.topAnchor="170.0" />
-            <Label fx:id="dinnerCaloriesLabel" layoutX="30.0" layoutY="223.0" prefHeight="23.0" prefWidth="127.0" styleClass="text-medium" text="2000 kcal" AnchorPane.leftAnchor="30.0" AnchorPane.rightAnchor="135.0" AnchorPane.topAnchor="240.0" />
+            <ImageView fitHeight="164.0" fitWidth="292.0" layoutX="51.0" layoutY="39.0" pickOnBounds="true" preserveRatio="true" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0">
+               <image>
+                  <Image url="@../img/recipe_placeholder.png" />
+               </image></ImageView>
+            <Label fx:id="dinnerRecipeNameLabel" alignment="TOP_CENTER" layoutX="82.0" layoutY="203.0" prefHeight="60.0" prefWidth="232.0" styleClass="text-recipe-name" text="Name" textAlignment="CENTER" wrapText="true" AnchorPane.leftAnchor="30.0" AnchorPane.rightAnchor="30.0" AnchorPane.topAnchor="175.0" />
+            <Label fx:id="dinnerCaloriesLabel" layoutX="30.0" layoutY="223.0" prefHeight="23.0" prefWidth="127.0" styleClass="text-medium" text="2000 kcal" AnchorPane.leftAnchor="30.0" AnchorPane.rightAnchor="135.0" AnchorPane.topAnchor="245.0" />
             <Label fx:id="dinnerCarbohydratesLabel" layoutX="30.0" layoutY="256.0" styleClass="text-medium" text="33 % Carbohydrates" textFill="#767676" AnchorPane.leftAnchor="30.0" AnchorPane.rightAnchor="30.0" AnchorPane.topAnchor="290.0" />
             <Label fx:id="dinnerProteinsLabel" layoutX="33.0" layoutY="290.0" styleClass="text-medium" text="33 % Proteins" textFill="#767676" AnchorPane.leftAnchor="30.0" AnchorPane.rightAnchor="30.0" AnchorPane.topAnchor="325.0" />
             <Label fx:id="dinnerFatsLabel" layoutX="39.0" layoutY="322.0" styleClass="text-medium" text="33 % Fats" textFill="#767676" AnchorPane.leftAnchor="30.0" AnchorPane.rightAnchor="30.0" AnchorPane.topAnchor="360.0" />
-            <Label fx:id="dinnerPreparationTimeLabel" alignment="CENTER_RIGHT" layoutX="146.0" layoutY="240.0" prefHeight="23.0" prefWidth="127.0" styleClass="text-medium" text="30'" AnchorPane.rightAnchor="30.0" AnchorPane.topAnchor="240.0" />
+            <Label fx:id="dinnerPreparationTimeLabel" alignment="CENTER_RIGHT" layoutX="146.0" layoutY="240.0" prefHeight="23.0" prefWidth="127.0" styleClass="text-medium" text="30'" AnchorPane.rightAnchor="30.0" AnchorPane.topAnchor="245.0" />
          </children>
       </AnchorPane>
       <Button disable="true" layoutX="134.0" layoutY="561.0" mnemonicParsing="false" prefHeight="50.0" prefWidth="50.0" styleClass="button-circular" text="&lt;" AnchorPane.bottomAnchor="36.0" />
