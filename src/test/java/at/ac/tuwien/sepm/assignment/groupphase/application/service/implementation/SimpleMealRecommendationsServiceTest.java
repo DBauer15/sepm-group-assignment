@@ -14,6 +14,7 @@ import at.ac.tuwien.sepm.assignment.groupphase.application.service.MealRecommend
 import at.ac.tuwien.sepm.assignment.groupphase.application.service.NoOptimalSolutionException;
 import at.ac.tuwien.sepm.assignment.groupphase.application.service.RecipeService;
 import at.ac.tuwien.sepm.assignment.groupphase.application.service.ServiceInvokationException;
+import at.ac.tuwien.sepm.assignment.groupphase.application.util.BaseTest;
 import at.ac.tuwien.sepm.assignment.groupphase.application.util.implementation.CloseUtil;
 import at.ac.tuwien.sepm.assignment.groupphase.application.util.implementation.JDBCConnectionManager;
 import at.ac.tuwien.sepm.assignment.groupphase.application.util.implementation.NutritionUtil;
@@ -34,7 +35,7 @@ import static org.mockito.Mockito.when;
 /**
  * Test class for {@link SimpleMealRecommendationsService}
  */
-public class SimpleMealRecommendationsServiceTest {
+public class SimpleMealRecommendationsServiceTest extends BaseTest {
 
     //mocking
     private final RecipePersistence mockedRecipeRepo = mock(DBRecipePersistence.class);
