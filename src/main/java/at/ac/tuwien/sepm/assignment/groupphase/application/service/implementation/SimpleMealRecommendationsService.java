@@ -76,7 +76,7 @@ public class SimpleMealRecommendationsService implements MealRecommendationsServ
         }
 
         if (scoredRecipes.keySet().size() <= 0) {
-            throw new NoOptimalSolutionException("No " + tag.toString() + " recipes in the cookbook found. Cannot generate recommendations.");
+            throw new NoOptimalSolutionException("No recipes tagged for meal " + tag + " found in the cookbook. Cannot generate recommendations.");
         }
 
         //to prevent always returning the same recipes we randomly pick those that are good candidates
