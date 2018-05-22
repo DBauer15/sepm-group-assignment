@@ -28,7 +28,7 @@
                   <String fx:value="text-medium" />
                </styleClass>
             </Label>
-            <AnchorPane fx:id="dietPlanPane1" onMouseClicked="#onDietPlanClicked" layoutX="14.0" layoutY="158.0" prefHeight="158.0" prefWidth="366.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="150.0">
+            <AnchorPane fx:id="dietPlanPane1" layoutX="14.0" layoutY="158.0" onMouseClicked="#onDietPlanClicked" prefHeight="158.0" prefWidth="366.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="150.0">
                <styleClass>
                   <String fx:value="background-white" />
                   <String fx:value="card" />
@@ -46,7 +46,7 @@
                   <Label layoutX="157.0" layoutY="46.0" styleClass="text-small" text="2000 kcal" AnchorPane.leftAnchor="164.0" AnchorPane.rightAnchor="20.0" AnchorPane.topAnchor="50.0" />
                </children>
             </AnchorPane>
-            <AnchorPane fx:id="dietPlanPane2" onMouseClicked="#onDietPlanClicked" layoutX="10.0" layoutY="168.0" prefHeight="158.0" prefWidth="366.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="338.0">
+            <AnchorPane fx:id="dietPlanPane2" layoutX="10.0" layoutY="168.0" onMouseClicked="#onDietPlanClicked" prefHeight="158.0" prefWidth="366.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="338.0">
                <styleClass>
                   <String fx:value="background-white" />
                   <String fx:value="card" />
@@ -64,7 +64,7 @@
                   <Label layoutX="157.0" layoutY="46.0" styleClass="text-small" text="2000 kcal" AnchorPane.leftAnchor="164.0" AnchorPane.rightAnchor="20.0" AnchorPane.topAnchor="50.0" />
                </children>
             </AnchorPane>
-            <AnchorPane fx:id="dietPlanPane3" onMouseClicked="#onDietPlanClicked" layoutX="20.0" layoutY="178.0" prefHeight="158.0" prefWidth="366.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="526.0">
+            <AnchorPane fx:id="dietPlanPane3" layoutX="20.0" layoutY="178.0" onMouseClicked="#onDietPlanClicked" prefHeight="158.0" prefWidth="366.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="526.0">
                <styleClass>
                   <String fx:value="background-white" />
                   <String fx:value="background-blue" />
@@ -90,6 +90,13 @@
                </styleClass></Button>
          </children>
       </AnchorPane>
+      <Label fx:id="exitLabel" alignment="CENTER" onMouseClicked="#onExitClicked" prefHeight="30.0" prefWidth="30.0" text="X" textAlignment="JUSTIFY" wrapText="true" AnchorPane.rightAnchor="10.0" AnchorPane.topAnchor="10.0">
+         <styleClass>
+            <String fx:value="label-exit" />
+            <String fx:value="text-white" />
+            <String fx:value="text-medium" />
+         </styleClass>
+      </Label>
    </children>
    <stylesheets>
       <URL value="@../css/text.css" />

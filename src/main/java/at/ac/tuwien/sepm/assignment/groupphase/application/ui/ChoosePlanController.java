@@ -1,6 +1,7 @@
 package at.ac.tuwien.sepm.assignment.groupphase.application.ui;
 
 import at.ac.tuwien.sepm.assignment.groupphase.application.dto.DietPlan;
+import at.ac.tuwien.sepm.assignment.groupphase.application.persistence.NoEntryFoundException;
 import at.ac.tuwien.sepm.assignment.groupphase.application.service.DietPlanService;
 import at.ac.tuwien.sepm.assignment.groupphase.application.service.NotificationService;
 import at.ac.tuwien.sepm.assignment.groupphase.application.service.ServiceInvokationException;
@@ -26,6 +27,8 @@ public class ChoosePlanController {
     private static final Logger LOG = LoggerFactory.getLogger(MethodHandles.lookup().lookupClass());
 
     @FXML
+    public Label exitLabel;
+    @FXML
     private AnchorPane dietPlanPane1;
     @FXML
     private AnchorPane dietPlanPane2;
@@ -44,6 +47,15 @@ public class ChoosePlanController {
 
     @FXML
     public void initialize() {
+        try {
+            dietPlanService.readActive();
+            exitLabel.setManaged(true);
+        } catch (ServiceInvokationException e) {
+            UserInterfaceUtility.handleFaults(e.getContext());
+        } catch (NoEntryFoundException e) {
+            exitLabel.setManaged(false);
+        }
+
         try {
             dietPlans = dietPlanService.readAll();
             List<AnchorPane> dietPlanPanes = Arrays.asList(dietPlanPane1, dietPlanPane2, dietPlanPane3);
@@ -99,5 +111,9 @@ public class ChoosePlanController {
         } catch (Exception e) {
             UserInterfaceUtility.handleFault(e);
         }
+    }
+
+    public void onExitClicked() {
+        ((Stage) dietPlanPane1.getScene().getWindow()).close();
     }
 }
