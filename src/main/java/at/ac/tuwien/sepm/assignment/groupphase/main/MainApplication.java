@@ -33,7 +33,7 @@ public final class MainApplication extends Application {
     public void start(Stage primaryStage) throws Exception {
         // setup main
         primaryStage.setTitle("FoodOrca");
-        primaryStage.setWidth(1068);
+        primaryStage.setWidth(1084);
         primaryStage.setHeight(910);
         primaryStage.centerOnScreen();
         primaryStage.setOnCloseRequest(event -> LOG.debug("Application shutdown initiated"));
