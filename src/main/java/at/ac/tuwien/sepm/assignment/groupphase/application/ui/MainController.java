@@ -12,7 +12,9 @@ import javafx.scene.Parent;
 import javafx.scene.Scene;
 import javafx.scene.control.Button;
 import javafx.scene.control.Label;
+import javafx.scene.control.TabPane;
 import javafx.scene.image.ImageView;
+import javafx.scene.layout.AnchorPane;
 import javafx.stage.Modality;
 import javafx.stage.Stage;
 import javafx.stage.StageStyle;
@@ -44,6 +46,10 @@ public class MainController {
     private Label kcalLabel;
 
     @FXML
+    private AnchorPane mainAnchorPane;
+    @FXML
+    private TabPane mainTabPane;
+    @FXML
     private TabPlansController tabPlansController;
     @FXML
     private TabRecipesController tabRecipesController;
@@ -60,6 +66,9 @@ public class MainController {
     }
 
     public void initializeView() {
+
+        mainTabPane.tabMinWidthProperty().bind(mainAnchorPane.widthProperty().divide(mainTabPane.getTabs().size()).subtract(20));
+
         try {
             DietPlan active = dietPlanService.readActive();
 

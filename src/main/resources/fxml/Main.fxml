@@ -10,7 +10,7 @@
 <?import javafx.scene.layout.AnchorPane?>
 <?import javafx.scene.text.Font?>
 
-<AnchorPane maxHeight="-Infinity" maxWidth="1068.0" minHeight="-Infinity" minWidth="1068.0" prefHeight="884.0" prefWidth="1068.0" xmlns="http://javafx.com/javafx/9.0.1" xmlns:fx="http://javafx.com/fxml/1" fx:controller="at.ac.tuwien.sepm.assignment.groupphase.application.ui.MainController">
+<AnchorPane fx:id="mainAnchorPane" maxHeight="-Infinity" maxWidth="1068.0" minHeight="-Infinity" minWidth="1068.0" prefHeight="884.0" prefWidth="1068.0" xmlns="http://javafx.com/javafx/9.0.4" xmlns:fx="http://javafx.com/fxml/1" fx:controller="at.ac.tuwien.sepm.assignment.groupphase.application.ui.MainController">
    <children>
       <AnchorPane layoutX="-79.0" layoutY="-15.0" maxHeight="190.0" maxWidth="1084.0" minHeight="190.0" minWidth="1084.0" prefHeight="190.0" prefWidth="1086.0" style="-fx-background-color: #ED3A40#ED3A40;" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0">
          <children>
@@ -48,16 +48,16 @@
             <Button fx:id="changePlanButton" layoutX="928.0" layoutY="82.0" mnemonicParsing="false" onAction="#onChangeDietPlanClicked" text="Change Plan" AnchorPane.rightAnchor="44.5" AnchorPane.topAnchor="82.0" />
          </children>
       </AnchorPane>
-      <TabPane layoutX="38.0" layoutY="228.0" prefHeight="701.0" prefWidth="1000.0" styleClass="tab.css" tabClosingPolicy="UNAVAILABLE" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="190.0">
+      <TabPane fx:id="mainTabPane" layoutX="38.0" layoutY="228.0" prefHeight="701.0" prefWidth="1000.0" styleClass="tab.css" tabClosingPolicy="UNAVAILABLE" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="190.0">
         <tabs>
-          <Tab closable="false" text="Placeholder Plan">
+          <Tab closable="false" text="My Diet Plan">
             <content>
               <AnchorPane minHeight="0.0" minWidth="0.0" prefHeight="180.0" prefWidth="200.0">
                 <fx:include fx:id="TabPlans" source="TabPlans.fxml" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0" />
               </AnchorPane>
             </content>
           </Tab>
-          <Tab closable="false" text="Placeholder Recipes">
+          <Tab closable="false" text="Recipes">
             <content>
               <AnchorPane minHeight="0.0" minWidth="0.0" prefHeight="180.0" prefWidth="200.0">
                 <fx:include fx:id="TabRecipes" source="TabRecipes.fxml" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0" />
@@ -65,7 +65,7 @@
 
             </content>
           </Tab>
-            <Tab closable="false" text="Placeholder Search">
+            <Tab closable="false" text="Search">
                <content>
                   <AnchorPane minHeight="0.0" minWidth="0.0" prefHeight="180.0" prefWidth="200.0">
                       <fx:include fx:id="TabSearch" source="TabSearch.fxml" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0" />
