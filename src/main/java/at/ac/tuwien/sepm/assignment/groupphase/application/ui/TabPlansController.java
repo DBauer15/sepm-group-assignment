@@ -82,6 +82,7 @@ public class TabPlansController implements Notifiable {
 	public void initialize() {
 		updatePlan();
 		notificationService.subscribeTo(ChoosePlanController.class, this);
+		notificationService.subscribeTo(RecipeController.class, this);
     }
 
 	@Override

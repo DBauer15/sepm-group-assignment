@@ -4,6 +4,7 @@ import at.ac.tuwien.sepm.assignment.groupphase.application.dto.IngredientSearchP
 import at.ac.tuwien.sepm.assignment.groupphase.application.dto.Recipe;
 import at.ac.tuwien.sepm.assignment.groupphase.application.dto.RecipeIngredient;
 import at.ac.tuwien.sepm.assignment.groupphase.application.dto.RecipeTag;
+import at.ac.tuwien.sepm.assignment.groupphase.application.service.NotificationService;
 import at.ac.tuwien.sepm.assignment.groupphase.application.service.RecipeService;
 import at.ac.tuwien.sepm.assignment.groupphase.application.service.ServiceInvokationException;
 import at.ac.tuwien.sepm.assignment.groupphase.application.util.implementation.UserInterfaceUtility;
@@ -105,12 +106,14 @@ public class RecipeController implements Initializable, ExternalController<Recip
 	ChoiceBox<String> customIngredientUnitChoiceBox;
 
 	private RecipeService recipeService;
+	private NotificationService notificationService;
 	private Recipe r;
 	private boolean isInEditMode = false;
 	private List<RecipeIngredient> ingredients;
 
-	public RecipeController(RecipeService recipeService) {
+	public RecipeController(RecipeService recipeService, NotificationService notificationService) {
 		this.recipeService = recipeService;
+		this.notificationService = notificationService;
 	}
 
 	public void initializeView(Recipe r) {
@@ -232,6 +235,7 @@ public class RecipeController implements Initializable, ExternalController<Recip
 			}
 
 			showAlert(Alert.AlertType.INFORMATION, "Saving successful.", "Recipe successfully saved.");
+			notificationService.notify(RecipeController.class);
 			LOG.debug("Recipe successfully saved.");
 			((Stage) saveButton.getScene().getWindow()).close();
 		} catch (ServiceInvokationException e) {

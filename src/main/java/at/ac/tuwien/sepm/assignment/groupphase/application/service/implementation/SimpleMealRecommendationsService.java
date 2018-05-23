@@ -54,8 +54,9 @@ public class SimpleMealRecommendationsService implements MealRecommendationsServ
             DietPlan currentDietPlan = dietPlanPersistence.readActive();
             BIAS = 0;
 
+            RecipeTag[] values = {RecipeTag.B, RecipeTag.L, RecipeTag.D};
             for (int i = 0; i < FRACTION_FACTORS.length; i++) {
-                RecipeTag tag = RecipeTag.values()[i];
+                RecipeTag tag = values[i];
                 try {
                     optimumMeals.put(tag, NutritionUtil.fillNutritionValues(mealRecommendationsPersistence.readRecommendationFor(currentDietPlan, tag)));
                 } catch (NoEntryFoundException e) {
@@ -95,8 +96,9 @@ public class SimpleMealRecommendationsService implements MealRecommendationsServ
 
         //to prevent always returning the same recipes we randomly pick those that are good candidates
         if (potentialRecipes.size() > 0) {
+            int index = (int) Math.round(Math.random() * (potentialRecipes.size() - 1));
             Recipe response = potentialRecipes.keySet().toArray(new Recipe[potentialRecipes.keySet().size()])
-                [(int) Math.round(Math.random() * (potentialRecipes.size() - 1))];
+                [index];
             //Calculate a bias based on how good or poor the current choice was.
             //Bias is based on half the bias+threshold value for midpoint reference
             //New bias is based on how good or bad the chosen recipe performed with the current bias
