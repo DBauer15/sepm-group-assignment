@@ -1,6 +1,8 @@
 package at.ac.tuwien.sepm.assignment.groupphase.application.ui;
 
 import at.ac.tuwien.sepm.assignment.groupphase.application.dto.Recipe;
+import at.ac.tuwien.sepm.assignment.groupphase.application.service.Notifiable;
+import at.ac.tuwien.sepm.assignment.groupphase.application.service.NotificationService;
 import at.ac.tuwien.sepm.assignment.groupphase.application.service.RecipeService;
 import at.ac.tuwien.sepm.assignment.groupphase.application.service.ServiceInvokationException;
 import at.ac.tuwien.sepm.assignment.groupphase.application.util.implementation.SpringFXMLLoader;
@@ -33,10 +35,11 @@ import java.net.URL;
 import static at.ac.tuwien.sepm.assignment.groupphase.application.util.implementation.UserInterfaceUtility.showAlert;
 
 @Controller
-public class TabRecipesController {
+public class TabRecipesController implements Notifiable {
 	private static final Logger LOG = LoggerFactory.getLogger(MethodHandles.lookup().lookupClass());
 
 	private RecipeService recipeService;
+	private NotificationService notificationService;
 
 	@FXML
 	Button addRecipeButton;
@@ -65,8 +68,9 @@ public class TabRecipesController {
 	@FXML
 	private ObservableList<Recipe> recipeObservableList = FXCollections.observableArrayList();
 
-	public TabRecipesController(RecipeService recipeService) {
+	public TabRecipesController(RecipeService recipeService, NotificationService notificationService) {
 		this.recipeService = recipeService;
+		this.notificationService = notificationService;
 	}
 
 	@FXML
@@ -98,8 +102,15 @@ public class TabRecipesController {
 			return row;
 		});
 
+        notificationService.subscribeTo(RecipeController.class, this);
+
 		updateRecipeTableView();
 	}
+
+    @Override
+    public void onNotify() {
+        updateRecipeTableView();
+    }
 
 	private void onEditRecipeClicked(Recipe recipe) {
 		LOG.info("Edit recipe button clicked");
