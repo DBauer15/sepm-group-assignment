@@ -47,6 +47,8 @@ public class DBRecipePersistence implements RecipePersistence {
 
 	private static final String CREATE_RECIPE_INGREDIENT = "INSERT INTO recipe_ingredient (ingredient_id, recipe_id, amount) VALUES (?,?,?);";
 
+	private static final String IS_RECIPE_CURRENTLY_SUGGESTED = "SELECT 1 FROM diet_plan_suggestion x WHERE recipe = ? AND date = TRUNC(NOW()) AND NOT EXISTS (SELECT 1 FROM diet_plan_suggestion WHERE tag = x.tag AND date = x.date AND created_timestamp > x.created_timestamp)";
+	
 	@Override
 	public void create(Recipe recipe) throws PersistenceException {
 		LOG.debug("Creating a new Recipe {}", recipe);
@@ -318,10 +320,21 @@ public class DBRecipePersistence implements RecipePersistence {
 		LOG.debug("Deleting recipe with ID {}");
 
 		PreparedStatement createRecipe = null;
+		PreparedStatement isRecipeCurrentlySuggested = null; 
+		ResultSet rs = null;
 
 		try {
 			Connection connection = JDBCConnectionManager.getConnection();
 			JDBCConnectionManager.startTransaction();
+			
+			isRecipeCurrentlySuggested = connection.prepareStatement(IS_RECIPE_CURRENTLY_SUGGESTED);
+			isRecipeCurrentlySuggested.setInt(1, id);
+			
+			rs = isRecipeCurrentlySuggested.executeQuery();
+			
+			if (rs.next()) {
+				throw new PersistenceException("The recipe has been suggested for today. You must change today's recipe proposal before you can delete the recipe.");
+			}
 
 			createRecipe = connection.prepareStatement(DELETE_RECIPE);
 			createRecipe.setInt(1, id);
@@ -337,6 +350,8 @@ public class DBRecipePersistence implements RecipePersistence {
 					"There was an error while deleting the recipe in the database. " + e.getMessage());
 		} finally {
 			JDBCConnectionManager.finalizeTransaction();
+			CloseUtil.closeResultSet(rs);
+			CloseUtil.closeStatement(isRecipeCurrentlySuggested);
 			CloseUtil.closeStatement(createRecipe);
 		}
 	}
