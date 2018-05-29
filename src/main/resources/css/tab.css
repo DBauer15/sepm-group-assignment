@@ -1,11 +1,3 @@
-#tabPane{
-	-fx-tab-min-height: 50em;
-	-fx-tab-max-height: 100em;
-
-	-fx-tab-min-width: 50em;
-	-fx-tab-max-width: 100em;
-}
-
 .tab .tab-label {
 	-fx-background-color: transparent;
 	-fx-text-fill: #f0f0f0;
@@ -16,7 +8,7 @@
     -fx-background-color: #F38484;
     -fx-background-insert: 0.0;
     -fx-background-radius: 0.0;
-    -fx-padding: 10 99 10 99;
+    -fx-padding: 10 8 10 8;
 }
 
 .tab:selected {
@@ -41,4 +33,12 @@
 .tab:selected .focus-indicator {
 	-fx-focus-color:transparent;
 	-fx-border-color: transparent;
+}
+
+.tab-down-button {
+    -fx-padding: 0;
+}
+
+.tab-down-button .arrow {
+    -fx-padding: 0;
 }

@@ -1,6 +1,8 @@
 package at.ac.tuwien.sepm.assignment.groupphase.application.ui;
 
 import at.ac.tuwien.sepm.assignment.groupphase.application.dto.Recipe;
+import at.ac.tuwien.sepm.assignment.groupphase.application.service.Notifiable;
+import at.ac.tuwien.sepm.assignment.groupphase.application.service.NotificationService;
 import at.ac.tuwien.sepm.assignment.groupphase.application.service.RecipeService;
 import at.ac.tuwien.sepm.assignment.groupphase.application.service.ServiceInvokationException;
 import at.ac.tuwien.sepm.assignment.groupphase.application.util.implementation.SpringFXMLLoader;
@@ -35,10 +37,11 @@ import java.util.Optional;
 import static at.ac.tuwien.sepm.assignment.groupphase.application.util.implementation.UserInterfaceUtility.showAlert;
 
 @Controller
-public class TabRecipesController {
+public class TabRecipesController implements Notifiable {
 	private static final Logger LOG = LoggerFactory.getLogger(MethodHandles.lookup().lookupClass());
 
 	private RecipeService recipeService;
+	private NotificationService notificationService;
 
 	@FXML
 	Button addRecipeButton;
@@ -67,8 +70,9 @@ public class TabRecipesController {
 	@FXML
 	private ObservableList<Recipe> recipeObservableList = FXCollections.observableArrayList();
 
-	public TabRecipesController(RecipeService recipeService) {
+	public TabRecipesController(RecipeService recipeService, NotificationService notificationService) {
 		this.recipeService = recipeService;
+		this.notificationService = notificationService;
 	}
 
 	@FXML
@@ -104,20 +108,22 @@ public class TabRecipesController {
 			return row;
 		});
 
+        notificationService.subscribeTo(RecipeController.class, this);
+
 		updateRecipeTableView();
 	}
 
 	private void onDeleteRecipeClicked(Recipe recipe) {
 		LOG.info("Delete recipe button clicked");
-		
+
 		Alert alert = new Alert(AlertType.CONFIRMATION);
 		alert.setTitle("Confirm recipe deletion");
 		alert.setHeaderText("Confirm recipe deletion");
 		alert.setContentText("Do you really want to delete recipe '" + recipe.getName() + "'?");
 
 		Optional<ButtonType> result = alert.showAndWait();
-		
-		if (result.get() == ButtonType.OK) {			
+
+		if (result.get() == ButtonType.OK) {
 			try {
 				recipeService.delete(recipe.getId());
 			} catch (ServiceInvokationException e) {
@@ -125,45 +131,27 @@ public class TabRecipesController {
 			} catch (Exception e) {
 				UserInterfaceUtility.handleFault(e);
 			}
-			
+
 			updateRecipeTableView();
 		}
 	}
 
+    @Override
+    public void onNotify() {
+        updateRecipeTableView();
+    }
+
 	private void onEditRecipeClicked(Recipe recipe) {
 		LOG.info("Edit recipe button clicked");
-		loadExternalController("/fxml/RecipeDetails.fxml", "Edit Recipe", recipe);
+		UserInterfaceUtility.loadExternalController("/fxml/RecipeDetails.fxml", "Edit Recipe", recipe, addRecipeButton.getScene().getWindow(), RecipeController.class);
 		updateRecipeTableView();
 	}
 
 	@FXML
 	public void onAddRecipeButtonClicked(ActionEvent actionEvent) {
 		LOG.info("Add recipe button clicked");
-		loadExternalController("/fxml/RecipeDetails.fxml", "Add Recipe", null);
+		UserInterfaceUtility.loadExternalController("/fxml/RecipeDetails.fxml", "Add Recipe", null, addRecipeButton.getScene().getWindow(), RecipeController.class);
 		updateRecipeTableView();
-	}
-
-	private void loadExternalController(String Path, String Title, Recipe recipe) {
-		try {
-			final var fxmlLoader = MainApplication.context.getBean(SpringFXMLLoader.class);
-			URL location = getClass().getResource(Path);
-			fxmlLoader.setLocation(location);
-			Stage stage = new Stage();
-
-			stage.initModality(Modality.WINDOW_MODAL);
-			stage.initOwner(addRecipeButton.getScene().getWindow());
-			stage.setTitle(Title);
-			stage.setResizable(false);
-
-			var load = fxmlLoader.loadAndWrap(getClass().getResourceAsStream(Path), RecipeController.class);
-			load.getController().initializeView(recipe);
-			stage.setScene(new Scene((Parent) load.getLoadedObject()));
-
-			stage.showAndWait();
-		} catch (IOException e) {
-			LOG.error(e.getMessage());
-		}
-
 	}
 
 	private void updateRecipeTableView() {

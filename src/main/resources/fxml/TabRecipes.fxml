@@ -15,7 +15,7 @@
             <TableColumn fx:id="carbohydratesTableColumn" prefWidth="110.0" resizable="false" text="Carbohydrates (g)" />
             <TableColumn fx:id="proteinsTableColumn" prefWidth="110.0" resizable="false" text="Proteins (g)" />
             <TableColumn fx:id="fatsTableColumn" prefWidth="110.0" resizable="false" text="Fats (g)" />
-            <TableColumn fx:id="preparationTimeTableColumn" prefWidth="182.0" resizable="false" text="Preparation Time (min)" />
+            <TableColumn fx:id="preparationTimeTableColumn" prefWidth="197.0" resizable="false" text="Preparation Time (min)" />
         </columns>
       </TableView>
       <Button fx:id="addRecipeButton" mnemonicParsing="false" onAction="#onAddRecipeButtonClicked" prefHeight="50.0" prefWidth="50.0" styleClass="button-circular" text="+" AnchorPane.bottomAnchor="36.0" AnchorPane.rightAnchor="36.0" />

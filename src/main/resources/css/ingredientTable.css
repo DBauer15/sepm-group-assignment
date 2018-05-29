@@ -1,0 +1,40 @@
+.table-view .column-header-background {
+    -fx-max-height: 0;
+    -fx-pref-height: 0;
+    -fx-min-height: 0;
+}
+
+.table-view {
+    -fx-table-cell-border-color: transparent;
+    -fx-base:transparent;
+    -fx-background-color: transparent;
+}
+.table-view .table-column {
+    -fx-alignment: CENTER-LEFT;
+}
+
+.table-row-cell{
+    -fx-background-color:transparent;
+}
+
+.table-cell{
+    -fx-text-fill: white;
+    -fx-font-size: 14px;
+}
+
+.table-row-cell:filled:selected, .table-row-cell:filled > .table-cell:selected{
+    -fx-table-cell-border-color: transparent;
+}
+
+.table-view .scroll-bar{
+    -fx-background-color: transparent;
+}
+
+.table-view .scroll-bar .thumb {
+    -fx-background-color: #037F97;
+}
+
+#buttonColumn{
+    -fx-alignment: CENTER-RIGHT;
+}
+

@@ -9,15 +9,15 @@
 <?import javafx.scene.control.ComboBox?>
 <?import javafx.scene.control.Label?>
 <?import javafx.scene.control.Slider?>
+<?import javafx.scene.control.TableColumn?>
+<?import javafx.scene.control.TableView?>
 <?import javafx.scene.control.TextArea?>
 <?import javafx.scene.control.TextField?>
 <?import javafx.scene.layout.AnchorPane?>
-<?import javafx.scene.layout.ColumnConstraints?>
-<?import javafx.scene.layout.GridPane?>
 <?import javafx.scene.shape.Line?>
 <?import javafx.scene.text.Font?>
 
-<AnchorPane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="878.0" prefWidth="1248.0" xmlns="http://javafx.com/javafx/9.0.4" xmlns:fx="http://javafx.com/fxml/1" fx:controller="at.ac.tuwien.sepm.assignment.groupphase.application.ui.RecipeController">
+<AnchorPane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="878.0" prefWidth="1248.0" xmlns="http://javafx.com/javafx/9.0.1" xmlns:fx="http://javafx.com/fxml/1" fx:controller="at.ac.tuwien.sepm.assignment.groupphase.application.ui.RecipeController">
    <children>
       <AnchorPane prefHeight="878.0" prefWidth="624.0" styleClass="background-white" AnchorPane.bottomAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0">
          <children>
@@ -169,7 +169,7 @@
                         </AnchorPane>
                         <AnchorPane fx:id="searchIngredientAnchorPane" prefHeight="200.0" prefWidth="200.0" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0">
                            <children>
-                              <ComboBox fx:id="ingredientComboBox" editable="true" maxHeight="27.0" onKeyPressed="#onIngredientComboBoxKeyPressed" prefHeight="27.0" prefWidth="329.0" promptText="Placeholder" styleClass="combobox-rounded" AnchorPane.leftAnchor="0.0" AnchorPane.topAnchor="70.0" />
+                              <ComboBox fx:id="ingredientComboBox" editable="true" maxHeight="27.0" onKeyPressed="#onIngredientComboBoxKeyPressed" prefHeight="27.0" prefWidth="329.0" promptText="Search for Ingredient" styleClass="combobox-rounded" AnchorPane.leftAnchor="0.0" AnchorPane.topAnchor="70.0" />
                               <Label fx:id="ingredientUnitLabel" prefHeight="27.0" prefWidth="165.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="70.0">
                                  <font>
                                     <Font size="16.0" />
@@ -186,14 +186,14 @@
                         <Button layoutX="504.0" layoutY="169.0" mnemonicParsing="false" onAction="#onAddButtonClicked" prefHeight="38.0" prefWidth="59.0" styleClass="button-rounded" text="Add" AnchorPane.bottomAnchor="27.0" AnchorPane.rightAnchor="2.0" />
                      </children>
                   </AnchorPane>
-                  <GridPane fx:id="ingredientsGridPane" layoutX="1.0" layoutY="510.0" maxHeight="352.0" maxWidth="565.0" minHeight="164.0" minWidth="564.0" prefHeight="292.0" prefWidth="564.0" vgap="10.0">
-                    <columnConstraints>
-                      <ColumnConstraints hgrow="SOMETIMES" maxWidth="328.0" minWidth="10.0" prefWidth="263.0" />
-                        <ColumnConstraints hgrow="SOMETIMES" maxWidth="220.0" minWidth="10.0" prefWidth="98.0" />
-                      <ColumnConstraints hgrow="SOMETIMES" maxWidth="194.0" minWidth="10.0" prefWidth="166.0" />
-                        <ColumnConstraints hgrow="SOMETIMES" maxWidth="184.0" minWidth="10.0" prefWidth="42.0" />
-                    </columnConstraints>
-                  </GridPane>
+                  <TableView fx:id="ingredientsTableView" layoutX="3.0" layoutY="509.0" prefHeight="299.0" prefWidth="564.0">
+                    <columns>
+                      <TableColumn fx:id="nameTableColumn" maxWidth="250.0" minWidth="250.0" prefWidth="250.0" text="Name" />
+                      <TableColumn fx:id="amountTableColumn" maxWidth="100.0" minWidth="100.0" prefWidth="100.0" text="Amount" />
+                        <TableColumn fx:id="unitTableColumn" maxWidth="100.0" minWidth="100.0" prefWidth="100.0" text="Unit" />
+                        <TableColumn id="buttonColumn" fx:id="buttonTableColumn" maxWidth="-1.0" minWidth="80.0" prefWidth="-1.0" text="Button" />
+                    </columns>
+                  </TableView>
                </children>
             </AnchorPane>
          </children>
@@ -209,5 +209,6 @@
       <URL value="@../css/button.css" />
       <URL value="@../css/textarea.css" />
       <URL value="@../css/checkbox.css" />
+      <URL value="@../css/ingredientTable.css" />
    </stylesheets>
 </AnchorPane>

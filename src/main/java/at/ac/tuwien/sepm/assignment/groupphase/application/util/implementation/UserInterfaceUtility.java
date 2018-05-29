@@ -1,13 +1,22 @@
 package at.ac.tuwien.sepm.assignment.groupphase.application.util.implementation;
 
+import java.io.IOException;
 import java.lang.invoke.MethodHandles;
+import java.net.URL;
 
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
 import at.ac.tuwien.sepm.assignment.groupphase.application.service.ServiceInvokationContext;
+import at.ac.tuwien.sepm.assignment.groupphase.application.ui.ExternalController;
+import at.ac.tuwien.sepm.assignment.groupphase.main.MainApplication;
+import javafx.scene.Parent;
+import javafx.scene.Scene;
 import javafx.scene.control.Alert;
 import javafx.scene.control.Alert.AlertType;
+import javafx.stage.Modality;
+import javafx.stage.Stage;
+import javafx.stage.Window;
 
 public class UserInterfaceUtility {
 
@@ -63,5 +72,35 @@ public class UserInterfaceUtility {
 		LOG.debug("Unexpected Errors occured: \r\n", e);
 		showAlert(AlertType.ERROR, "An unexpected error occured.",
 				String.format("An unexpected error occured :-( \nMessage: %s", e.getMessage()));
+	}
+		
+	/**
+	 * Open external controller
+	 * 
+	 * @param Path FXML file path
+	 * @param Title window title
+	 * @param object is the object that is viewed in the external controller (e.g. a Recipe)
+	 * @param owner defines the window that has opened the external controller
+	 * @param controller defines the class of the controller that should be opened (e.g. RecipeController)
+	 */
+	public static <T, TController extends ExternalController<T>> void loadExternalController(String Path, String Title, T object, Window owner, Class<TController> controller) {
+		try {
+			final var fxmlLoader = MainApplication.context.getBean(SpringFXMLLoader.class);
+			URL location = controller.getResource(Path);
+			fxmlLoader.setLocation(location);
+			Stage stage = new Stage();
+
+			stage.initModality(Modality.WINDOW_MODAL);
+			stage.initOwner(owner);
+			stage.setTitle(Title);
+
+			var load = fxmlLoader.loadAndWrap(controller.getResourceAsStream(Path), controller);
+			load.getController().initializeView(object);
+			stage.setScene(new Scene((Parent) load.getLoadedObject()));
+
+			stage.showAndWait();
+		} catch (IOException e) {
+			LOG.error(e.getMessage());
+		}
 	}
 }
