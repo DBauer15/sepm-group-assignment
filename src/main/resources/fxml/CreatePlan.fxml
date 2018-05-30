@@ -1,0 +1,92 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import java.lang.String?>
+<?import java.net.URL?>
+<?import javafx.scene.control.Button?>
+<?import javafx.scene.control.Label?>
+<?import javafx.scene.control.TextField?>
+<?import javafx.scene.image.Image?>
+<?import javafx.scene.image.ImageView?>
+<?import javafx.scene.layout.AnchorPane?>
+<?import javafx.scene.text.Font?>
+
+<AnchorPane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="419.0" prefWidth="466.0" styleClass="background-blue" xmlns="http://javafx.com/javafx/9.0.4" xmlns:fx="http://javafx.com/fxml/1" fx:controller="at.ac.tuwien.sepm.assignment.groupphase.application.ui.CreatePlanController">
+   <children>
+      <AnchorPane prefHeight="343.0" prefWidth="366.0" AnchorPane.bottomAnchor="90.0" AnchorPane.leftAnchor="50.0" AnchorPane.rightAnchor="50.0" AnchorPane.topAnchor="50.0">
+         <children>
+            <Label alignment="CENTER" text="Create plan" textFill="WHITE" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0">
+               <font>
+                  <Font name="Helvetica" size="40.0" />
+               </font>
+               <styleClass>
+                  <String fx:value="text-heading" />
+                  <String fx:value="text-white" />
+               </styleClass>
+            </Label>
+            <AnchorPane layoutY="84.0" prefHeight="196.0" prefWidth="366.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="84.0">
+               <children>
+                  <ImageView fitHeight="124.0" fitWidth="124.0" layoutX="-24.0" layoutY="4.0" pickOnBounds="true" preserveRatio="true" AnchorPane.bottomAnchor="20.0" AnchorPane.leftAnchor="20.0" AnchorPane.topAnchor="20.0">
+                     <image>
+                        <Image url="@../img/plan_placeholder.png" />
+                     </image>
+                  </ImageView>
+                  <Label layoutX="166.0" layoutY="22.0" styleClass="text-medium" text="Placeholder Title" AnchorPane.leftAnchor="164.0" AnchorPane.rightAnchor="20.0" AnchorPane.topAnchor="20.0" />
+                  <Label layoutX="212.0" layoutY="104.0" prefHeight="15.0" prefWidth="124.0" styleClass="text-small" text="\% Carbohydrates" textFill="#767676" AnchorPane.leftAnchor="212.0" AnchorPane.rightAnchor="30.0" AnchorPane.topAnchor="104.0" />
+                  <Label layoutX="212.0" layoutY="132.0" prefHeight="15.0" prefWidth="124.0" styleClass="text-small" text="\% Proteins" textFill="#767676" AnchorPane.leftAnchor="212.0" AnchorPane.rightAnchor="30.0" AnchorPane.topAnchor="132.0" />
+                  <TextField fx:id="dietPlanNameTextField" layoutX="164.0" layoutY="19.0" maxHeight="28.0" minHeight="28.0" prefHeight="28.0" prefWidth="182.0" promptText="My diet plan">
+                     <font>
+                        <Font name="System Bold" size="15.0" />
+                     </font>
+                  </TextField>
+                  <TextField fx:id="kcalTextField" layoutX="164.0" layoutY="56.0" maxHeight="25.0" minHeight="25.0" prefHeight="25.0" prefWidth="152.0" promptText="2000" />
+                  <Label layoutX="325.0" layoutY="61.0" styleClass="text-small" text="kcal" />
+                  <TextField fx:id="carbohydratesTextField" alignment="CENTER" layoutX="164.0" layoutY="101.0" maxHeight="20.0" minHeight="20.0" prefHeight="20.0" prefWidth="42.0" promptText="33">
+                     <font>
+                        <Font size="12.0" />
+                     </font>
+                  </TextField>
+                  <TextField fx:id="proteinsTextField" alignment="CENTER" layoutX="164.0" layoutY="129.0" maxHeight="20.0" minHeight="20.0" prefHeight="20.0" prefWidth="42.0" promptText="33">
+                     <font>
+                        <Font size="12.0" />
+                     </font>
+                  </TextField>
+                  <Label layoutX="212.0" layoutY="160.0" prefHeight="15.0" prefWidth="124.0" styleClass="text-small" text="\% Fats" textFill="#767676" />
+                  <TextField fx:id="fatsTextField" alignment="CENTER" layoutX="163.0" layoutY="157.0" maxHeight="20.0" minHeight="20.0" prefHeight="20.0" prefWidth="42.0" promptText="33">
+                     <font>
+                        <Font size="12.0" />
+                     </font>
+                  </TextField>
+               </children>
+               <styleClass>
+                  <String fx:value="background-white" />
+                  <String fx:value="card-pane" />
+               </styleClass>
+            </AnchorPane>
+            <Button fx:id="createButton" layoutX="272.0" layoutY="302.0" mnemonicParsing="false" onMouseClicked="#onCreateClicked" prefHeight="36.0" prefWidth="94.0" text="Create" AnchorPane.leftAnchor="272.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="302.0">
+               <styleClass>
+                  <String fx:value="button" />
+                  <String fx:value="button-rounded" />
+               </styleClass>
+            </Button>
+            <Button fx:id="cancelButton" layoutY="302.0" mnemonicParsing="false" onMouseClicked="#onCancelClicked" prefHeight="36.0" prefWidth="94.0" text="Cancel">
+               <styleClass>
+                  <String fx:value="button-rounded" />
+                  <String fx:value="button-cancel" />
+               </styleClass>
+            </Button>
+         </children>
+      </AnchorPane>
+      <Label fx:id="exitLabel" alignment="CENTER" onMouseClicked="#onExitClicked" prefHeight="30.0" prefWidth="30.0" text="X" textAlignment="JUSTIFY" wrapText="true" AnchorPane.rightAnchor="10.0" AnchorPane.topAnchor="10.0">
+         <styleClass>
+            <String fx:value="label-exit" />
+            <String fx:value="text-white" />
+            <String fx:value="text-medium" />
+         </styleClass>
+      </Label>
+   </children>
+   <stylesheets>
+      <URL value="@../css/text.css" />
+      <URL value="@../css/main.css" />
+      <URL value="@../css/button.css" />
+   </stylesheets>
+</AnchorPane>
