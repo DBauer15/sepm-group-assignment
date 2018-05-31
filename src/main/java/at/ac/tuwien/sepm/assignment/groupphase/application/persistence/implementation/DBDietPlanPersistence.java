@@ -22,7 +22,7 @@ public class DBDietPlanPersistence implements DietPlanPersistence {
 	private static final Logger LOG = LoggerFactory.getLogger(MethodHandles.lookup().lookupClass());
 
 	private static final String SQL_CREATE_DIET_PLAN = "INSERT INTO diet_plan (name, energ_kcal, lipid, protein, carbohydrt) VALUES (?,?,?,?,?);";
-	private static final String SQL_READ_ALL = "SELECT * FROM diet_plan;";
+	private static final String SQL_READ_ALL = "SELECT * FROM diet_plan WHERE id <= 3;";
 	private static final String SQL_READ_ACTIVE = "SELECT * FROM diet_plan WHERE to_dt IS NULL AND from_dt=(SELECT max(from_dt) FROM diet_plan);";
 	private static final String SQL_DEACTIVATE_DIET_PLAN = "UPDATE diet_plan SET to_dt=NOW() WHERE from_dt=(SELECT max(from_dt) FROM diet_plan WHERE from_dt IS NOT NULL);";
 	private static final String SQL_ACTIVATE_DIET_PLAN = "UPDATE diet_plan SET from_dt=NOW(), to_dt=NULL WHERE id=?;";
