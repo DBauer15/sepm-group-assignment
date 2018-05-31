@@ -18,7 +18,6 @@ import at.ac.tuwien.sepm.assignment.groupphase.application.service.ServiceInvoka
 
 @Service
 public class SimpleDietPlanService implements DietPlanService {
-
 	private static final Logger LOG = LoggerFactory.getLogger(MethodHandles.lookup().lookupClass());
 	private DietPlanPersistence dietPlanRepository;
 	private DietPlanValidator dietPlanValidator;
@@ -91,4 +90,19 @@ public class SimpleDietPlanService implements DietPlanService {
             throw new ServiceInvokationException(e.getMessage());
         }
     }
+
+	@Override
+	public void update(DietPlan dietPlan) throws ServiceInvokationException {
+        ServiceInvokationContext context = new ServiceInvokationContext();
+        
+        if (!dietPlanValidator.validateForUpdate(dietPlan, context)) {
+            throw new ServiceInvokationException(context);
+        }
+        
+        try {
+        	dietPlanRepository.update(dietPlan);
+        } catch (PersistenceException e) {
+            throw new ServiceInvokationException(e);
+        }
+	}
 }

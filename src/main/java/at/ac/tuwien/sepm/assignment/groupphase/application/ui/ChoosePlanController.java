@@ -24,6 +24,7 @@ import org.springframework.stereotype.Controller;
 
 import java.io.IOException;
 import java.lang.invoke.MethodHandles;
+import java.net.URL;
 import java.text.DecimalFormat;
 import java.text.NumberFormat;
 import java.util.Arrays;
@@ -47,6 +48,7 @@ public class ChoosePlanController {
     private NotificationService notificationService;
 
     private List<DietPlan> dietPlans;
+    private DietPlan customDietPlan;
 
     public ChoosePlanController(DietPlanService dietPlanService, NotificationService notificationService) {
         this.dietPlanService = dietPlanService;
@@ -73,6 +75,12 @@ public class ChoosePlanController {
 
             for (int i = 0; i < dietPlans.size(); i++) {
                 DietPlan dp = dietPlans.get(i);
+                
+                if (dp.getId() > 3) {
+                	customDietPlan = dp;
+                	continue;
+                }
+                
                 AnchorPane ap = dietPlanPanes.get(i);
 
                 // ImageView image = ((ImageView) ap.getChildren().get(0));
@@ -131,8 +139,11 @@ public class ChoosePlanController {
             String path = "/fxml/CreatePlan.fxml";
             fxmlLoader.setLocation(getClass().getResource(path));
             Stage stage = (Stage) exitLabel.getScene().getWindow();
-            stage.setTitle("Create plan");
-            stage.setScene(new Scene((Parent) fxmlLoader.load(getClass().getResourceAsStream(path))));
+            stage.setTitle("Custom diet plan");
+            
+			var load = fxmlLoader.loadAndWrap(DietPlanController.class.getResourceAsStream(path), DietPlanController.class);
+			load.getController().initializeView(customDietPlan);
+			stage.setScene(new Scene((Parent) load.getLoadedObject()));
         } catch (IOException e) {
             UserInterfaceUtility.handleFault(e);
         }

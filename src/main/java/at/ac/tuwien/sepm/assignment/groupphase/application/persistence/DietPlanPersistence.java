@@ -19,6 +19,14 @@ public interface DietPlanPersistence {
 	public void create(DietPlan dietPlan) throws PersistenceException;
 
     /**
+     * Updates a diet plan entry in the storage.
+     *
+     * @param recipe A DietPlan object with its unique id referencing an existing storage entry
+     * @throws PersistenceException if any persistence errors occur
+     */
+	public void update(DietPlan dietPlan) throws PersistenceException;
+
+    /**
      * Reads all available diet plans.
      * @return {@link List<DietPlan>} of all diet plans
      * @throws PersistenceException

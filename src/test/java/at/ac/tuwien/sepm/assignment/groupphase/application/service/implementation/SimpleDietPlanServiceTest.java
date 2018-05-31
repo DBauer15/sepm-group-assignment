@@ -2,16 +2,20 @@ package at.ac.tuwien.sepm.assignment.groupphase.application.service.implementati
 
 import java.util.ArrayList;
 import java.util.Arrays;
+import java.util.List;
 
 import at.ac.tuwien.sepm.assignment.groupphase.application.persistence.NoEntryFoundException;
 import org.junit.Assert;
 import org.junit.Test;
 
 import at.ac.tuwien.sepm.assignment.groupphase.application.dto.DietPlan;
+import at.ac.tuwien.sepm.assignment.groupphase.application.dto.Recipe;
+import at.ac.tuwien.sepm.assignment.groupphase.application.dto.RecipeIngredient;
 import at.ac.tuwien.sepm.assignment.groupphase.application.persistence.DietPlanPersistence;
 import at.ac.tuwien.sepm.assignment.groupphase.application.persistence.PersistenceException;
 import at.ac.tuwien.sepm.assignment.groupphase.application.persistence.implementation.DBDietPlanPersistence;
 import at.ac.tuwien.sepm.assignment.groupphase.application.service.DietPlanService;
+import at.ac.tuwien.sepm.assignment.groupphase.application.service.RecipeService;
 import at.ac.tuwien.sepm.assignment.groupphase.application.service.ServiceInvokationException;
 import at.ac.tuwien.sepm.assignment.groupphase.application.util.BaseTest;
 
@@ -35,6 +39,9 @@ public class SimpleDietPlanServiceTest extends BaseTest {
 	private DietPlan dietPlanValid = new DietPlan("Jeden Tag Sorgenfrei", 10d, 15d, 54.50d, 30.50d);
 	private DietPlan dietPlanInvalid1 = new DietPlan(EXAMPLE_TEXT_256CHARS, 50000d, 6000d, 8000d, 9999.99);
 	private DietPlan dietPlanInvalid2 = new DietPlan("Abnehmen", 0d, -1d, 0d, -2.33);
+	private DietPlan dietPlanInvalid3 = new DietPlan(15, "My custom diet plan", 0d, -1d, -1d, -2.33, null, null);
+	private DietPlan dietPlanForUpdate = new DietPlan(4, "My custom diet plan", 10d, 15d, 54.50d, 30.50d, null, null);
+
 
 	@Test
 	public void testCreate_validData_callsPersistenceCreateOnce()
@@ -217,5 +224,54 @@ public class SimpleDietPlanServiceTest extends BaseTest {
         }
         Assert.fail("Should throw ServiceInvokationException!");
     }
+    
 
+    @Test
+    public void testUpdate_dietPlanIsValid_callsPersistenceUpdateOnce() throws ServiceInvokationException, PersistenceException {
+        DietPlanService dietPlanService = new SimpleDietPlanService(mockedDietPlanRepo);
+        dietPlanService.update(dietPlanForUpdate);
+        
+        verify(mockedDietPlanRepo, times(1)).update(dietPlanForUpdate);
+    }
+
+    @Test
+    public void testUpdate_dietPlanHasNoId_throwsValidationError() {
+    	DietPlanService dietPlanService = new SimpleDietPlanService(mockedDietPlanRepo);
+        DietPlan dietPlanNotValidForUpdate = dietPlanValidWithoutId;
+
+        try {
+        	dietPlanService.update(dietPlanNotValidForUpdate);
+        } catch (ServiceInvokationException e) {
+            verifyZeroInteractions(mockedDietPlanRepo);
+
+            ArrayList<String> errors = e.getContext().getErrors();
+            Assert.assertEquals(1, errors.size());
+            Assert.assertEquals("ID needs to be set", errors.get(0));
+            return;
+        }
+        
+        Assert.fail("Should throw ServiceInvokationException!");
+    }
+
+    @Test
+    public void testUpdate_dietPlanIsInvalid_throwsValidationError() {
+    	DietPlanService dietPlanService = new SimpleDietPlanService(mockedDietPlanRepo);
+        DietPlan recipeNotValidForUpdate = dietPlanInvalid3;
+
+        try {
+        	dietPlanService.update(recipeNotValidForUpdate);
+        } catch (ServiceInvokationException e) {
+            verifyZeroInteractions(mockedDietPlanRepo);
+
+            ArrayList<String> errors = e.getContext().getErrors();
+            Assert.assertEquals(4, errors.size());
+            Assert.assertEquals("Enter a value that is greater than or equal to 0.0 in the field 'Fats'", errors.get(0));
+            Assert.assertEquals("Enter a value that is greater than or equal to 0.0 in the field 'Proteins'", errors.get(1));
+            Assert.assertEquals("Enter a value that is greater than or equal to 0.0 in the field 'Carbohydrates'", errors.get(2));
+            Assert.assertEquals("The sum of 'Carbohydrates', 'Proteins' and 'Fats' has to be equal to 100%", errors.get(3));
+            return;
+        }
+        
+        Assert.fail("Should throw ServiceInvokationException!");
+    }
 }

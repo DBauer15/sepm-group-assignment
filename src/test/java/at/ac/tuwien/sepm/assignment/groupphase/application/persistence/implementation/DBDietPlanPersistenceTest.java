@@ -1,24 +1,32 @@
 package at.ac.tuwien.sepm.assignment.groupphase.application.persistence.implementation;
 
 import at.ac.tuwien.sepm.assignment.groupphase.application.persistence.NoEntryFoundException;
+import at.ac.tuwien.sepm.assignment.groupphase.application.util.implementation.CloseUtil;
 import at.ac.tuwien.sepm.assignment.groupphase.application.util.implementation.JDBCConnectionManager;
 import org.junit.Assert;
 import org.junit.Test;
 
 import at.ac.tuwien.sepm.assignment.groupphase.application.dto.DietPlan;
+import at.ac.tuwien.sepm.assignment.groupphase.application.dto.Recipe;
+import at.ac.tuwien.sepm.assignment.groupphase.application.dto.RecipeIngredient;
+import at.ac.tuwien.sepm.assignment.groupphase.application.dto.RecipeTag;
 import at.ac.tuwien.sepm.assignment.groupphase.application.persistence.DietPlanPersistence;
 import at.ac.tuwien.sepm.assignment.groupphase.application.persistence.PersistenceException;
+import at.ac.tuwien.sepm.assignment.groupphase.application.persistence.RecipePersistence;
 import at.ac.tuwien.sepm.assignment.groupphase.application.util.BaseTest;
 
 import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
+import java.util.ArrayList;
+import java.util.EnumSet;
 import java.util.List;
 
 import static org.hamcrest.core.Is.is;
 
 public class DBDietPlanPersistenceTest extends BaseTest{
+	private static final String SQL_CHECK_DIET_PLAN_UPDATE = "SELECT * FROM Diet_Plan WHERE ID = ?;";
 
 	@Test
 	public void testCreate_withDietPlan_successWithSetDietPlanId() throws PersistenceException {
@@ -111,6 +119,31 @@ public class DBDietPlanPersistenceTest extends BaseTest{
         getOldStatement.close();
 
         JDBCConnectionManager.closeConnection();
-	}
+	}	
 
+    @Test
+    public void testUpdateDietPlan_dietPlanIsValid_successWithDietPlanValuesUpdated() throws PersistenceException, SQLException {
+        DietPlanPersistence dietPlanPersistence = new DBDietPlanPersistence();
+
+        DietPlan toUpdate = new DietPlan("My custom plan", 4000d, 20d, 30d, 50d);
+        dietPlanPersistence.create(toUpdate);
+        dietPlanPersistence.update(toUpdate);
+
+        PreparedStatement checkDietPlanUpdate = JDBCConnectionManager.getConnection().prepareStatement(SQL_CHECK_DIET_PLAN_UPDATE);
+        checkDietPlanUpdate.setInt(1, toUpdate.getId());
+        ResultSet rs = checkDietPlanUpdate.executeQuery();
+        
+        if (!rs.next()) {
+            Assert.fail("Diet plan update failed because no diet plan with given id exists.");
+        }
+
+        Assert.assertEquals((int) toUpdate.getId(), rs.getInt("ID"));
+        Assert.assertEquals(toUpdate.getName(), rs.getString("NAME"));
+        Assert.assertEquals(toUpdate.getEnergy_kcal(), Double.valueOf(rs.getDouble("ENERG_KCAL")));
+        Assert.assertEquals(toUpdate.getLipid(), Double.valueOf(rs.getDouble("LIPID")));
+        Assert.assertEquals(toUpdate.getProtein(), Double.valueOf(rs.getDouble("PROTEIN")));
+        Assert.assertEquals(toUpdate.getCarbohydrate(), Double.valueOf(rs.getDouble("CARBOHYDRT")));
+
+        CloseUtil.closeStatement(checkDietPlanUpdate);
+    }
 }

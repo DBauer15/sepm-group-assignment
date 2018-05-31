@@ -15,6 +15,7 @@ import javafx.fxml.FXML;
 import javafx.scene.Parent;
 import javafx.scene.Scene;
 import javafx.scene.control.Alert;
+import javafx.scene.control.Button;
 import javafx.scene.control.Label;
 import javafx.scene.control.TextField;
 import javafx.scene.input.MouseEvent;
@@ -45,6 +46,9 @@ public class DietPlanController implements ExternalController<DietPlan> {
 
 	@FXML
 	public Label exitLabel;
+	
+	@FXML
+	public Button createButton;
 
 	@FXML
 	public TextField dietPlanNameTextField;
@@ -82,9 +86,9 @@ public class DietPlanController implements ExternalController<DietPlan> {
 
 		try {
 			Integer kcal = integerValidator.validate(this.kcalTextField.getText());
-			Double carbohydrate = doubleValidator.validate(this.carbohydratesTextField.getText());
-			Double protein = doubleValidator.validate(this.proteinsTextField.getText());
-			Double fats = doubleValidator.validate(this.fatsTextField.getText());
+			Double carbohydrate = doubleValidator.validate(this.carbohydratesTextField.getText().replace('.', ','));
+			Double protein = doubleValidator.validate(this.proteinsTextField.getText().replace('.', ','));
+			Double fats = doubleValidator.validate(this.fatsTextField.getText().replace('.', ','));
 
 			if (kcal == null) {
 				context.addError("Enter a value that is an integer in the field 'Energy Kcal'");
@@ -109,18 +113,21 @@ public class DietPlanController implements ExternalController<DietPlan> {
 			if (dp == null) {
 				dp = new DietPlan(dietPlanNameTextField.getText(), kcal.doubleValue(), fats,
 						protein, carbohydrate);
+				
+				dietPlanService.create(dp);
 			} else {
 				dp.setName(dietPlanNameTextField.getText());
 				dp.setEnergy_kcal(kcal.doubleValue());
 				dp.setLipid(fats);
 				dp.setProtein(protein);
 				dp.setCarbohydrate(carbohydrate);
+				
+				dietPlanService.update(dp);
 			}
 
-			dietPlanService.create(dp);
             dietPlanService.switchTo(dp);
 
-			notificationService.notify(DietPlanController.class);
+			notificationService.notify(ChoosePlanController.class);
 			LOG.debug("Diet plan successfully saved.");
 
 			this.onExitClicked();
@@ -154,6 +161,25 @@ public class DietPlanController implements ExternalController<DietPlan> {
 	public void initializeView(DietPlan object) {
 		if (object != null) {
 			dp = object;
+			
+			this.dietPlanNameTextField.setText(dp.getName());
+			this.kcalTextField.setText(formatDouble(dp.getEnergy_kcal()));
+			this.carbohydratesTextField.setText(formatDouble(dp.getCarbohydrate()));
+			this.proteinsTextField.setText(formatDouble(dp.getProtein()));
+			this.fatsTextField.setText(formatDouble(dp.getLipid()));
+			
+			this.createButton.setText("Save");
+		} else {
+			this.createButton.setText("Create");
 		}
+	}
+	
+	public static String formatDouble(double d)
+	{
+	    if (d == (long) d) {
+	        return String.format("%d", (long) d);
+	    } else {
+	        return String.format("%s", d);
+	    }
 	}
 }
