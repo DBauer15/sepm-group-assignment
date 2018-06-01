@@ -87,7 +87,7 @@ public class TabRecipesController implements Notifiable {
 		fatsTableColumn.setCellValueFactory(
 				x -> new SimpleIntegerProperty((int) Math.ceil(x.getValue().getFats())).asObject());
         preparationTimeTableColumn.setCellValueFactory(
-            (x -> new SimpleIntegerProperty((int) Math.ceil(x.getValue().getDuration())).asObject()));
+            (x -> new SimpleIntegerProperty((int) Math.floor(x.getValue().getDuration())).asObject()));
 
 		recipeTableView.setRowFactory(tableView -> {
 			final TableRow<Recipe> row = new TableRow<>();

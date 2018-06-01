@@ -451,3 +451,85 @@ INSERT INTO RECIPE_INGREDIENT(INGREDIENT_ID, RECIPE_ID, AMOUNT)
 VALUES(2848,20, 0.25); /* Carrots */
 INSERT INTO RECIPE_INGREDIENT(INGREDIENT_ID, RECIPE_ID, AMOUNT)
 VALUES(111,20, 0.25); /* Eggs */
+
+INSERT INTO RECIPE(ID, NAME, DURATION, DESCRIPTION, TAGS, DELETED) VALUES(21, 'Salmon with beetroot, feta & lime salsa', 10.39426523297491, STRINGDECODE('Chop the beetroot and feta into small cubes and mix with the juice and zest of one lime and some seasoning.\n\nSeason the salmon. Heat 2 tbsp of oil in a nonstick frying pan over a high heat. When hot add the salmon, skin-side down, and cook for 3 mins. Flip over, turn the heat down and cook for a further 4-5 mins. Serve with the beetroot salsa and the remaining lime, cut into wedges.'), 2, FALSE);
+INSERT INTO RECIPE_INGREDIENT(INGREDIENT_ID, RECIPE_ID, AMOUNT) VALUES(2814, 21, 0.5);
+INSERT INTO RECIPE_INGREDIENT(INGREDIENT_ID, RECIPE_ID, AMOUNT) VALUES(19, 21, 0.25);
+INSERT INTO RECIPE_INGREDIENT(INGREDIENT_ID, RECIPE_ID, AMOUNT) VALUES(2252, 21, 1.0);
+INSERT INTO RECIPE_INGREDIENT(INGREDIENT_ID, RECIPE_ID, AMOUNT) VALUES(7628, 21, 1.0);
+
+INSERT INTO RECIPE(ID, NAME, DURATION, DESCRIPTION, TAGS, DELETED) VALUES(22, 'Basic omelette recipe', 5.376344086021505, STRINGDECODE('Season the beaten eggs well with salt and pepper. Heat the oil and butter in a non-stick frying pan over a medium-low heat until the butter has melted and is foaming. \n\nPour the eggs into the pan, tilt the pan ever so slightly from one side to another to allow the eggs to swirl and cover the surface of the pan completely. Let the mixture cook for about 20 seconds then scrape a line through the middle with a spatula. \n\nTilt the pan again to allow it to fill back up with the runny egg. Repeat once or twice more until the egg has just set. \n\nAt this point you can fill the omelette with whatever you like \u2013 some grated cheese, sliced ham, fresh herbs, saut\u00e9ed mushrooms or smoked salmon all work well. Scatter the filling over the top of the omelette and fold gently in half with the spatula. Slide onto a plate to serve.'), 6, FALSE);
+INSERT INTO RECIPE_INGREDIENT(INGREDIENT_ID, RECIPE_ID, AMOUNT) VALUES(111, 22, 0.75);
+INSERT INTO RECIPE_INGREDIENT(INGREDIENT_ID, RECIPE_ID, AMOUNT) VALUES(624, 22, 1.0);
+INSERT INTO RECIPE_INGREDIENT(INGREDIENT_ID, RECIPE_ID, AMOUNT) VALUES(1, 22, 0.15);
+
+INSERT INTO RECIPE(ID, NAME, DURATION, DESCRIPTION, TAGS, DELETED) VALUES(23, 'Nutty chicken satay strips', 20.07168458781362, STRINGDECODE('Heat oven to 200C, 180C fan, gas 4 and line a baking tray with non-stick paper.\n\nMix the peanut butter with the garlic, curry powder, soy sauce and lime in a bowl. Some nut butters are thicker than others, so if necessary, add a dash of boiling water to get a coating consistency. Add the chicken strips, mix well then arrange on the baking sheet, spaced apart, and bake in the oven for 8-10 mins until cooked, but still juicy.\n\nEat warm with the cucumber sticks and chilli sauce, or leave to cool then keep in the fridge for up to 2 days.'), 5, FALSE);
+INSERT INTO RECIPE_INGREDIENT(INGREDIENT_ID, RECIPE_ID, AMOUNT) VALUES(4669, 23, 1.0);
+INSERT INTO RECIPE_INGREDIENT(INGREDIENT_ID, RECIPE_ID, AMOUNT) VALUES(2915, 23, 0.1);
+INSERT INTO RECIPE_INGREDIENT(INGREDIENT_ID, RECIPE_ID, AMOUNT) VALUES(4649, 23, 0.5);
+INSERT INTO RECIPE_INGREDIENT(INGREDIENT_ID, RECIPE_ID, AMOUNT) VALUES(2253, 23, 0.1);
+INSERT INTO RECIPE_INGREDIENT(INGREDIENT_ID, RECIPE_ID, AMOUNT) VALUES(1002, 23, 2.0);
+INSERT INTO RECIPE_INGREDIENT(INGREDIENT_ID, RECIPE_ID, AMOUNT) VALUES(2906, 23, 0.25);
+INSERT INTO RECIPE_INGREDIENT(INGREDIENT_ID, RECIPE_ID, AMOUNT) VALUES(1196, 23, 1.0);
+
+INSERT INTO RECIPE(ID, NAME, DURATION, DESCRIPTION, TAGS, DELETED) VALUES(24, 'Cottage cheese fritters', 20.78853046594982, STRINGDECODE('In a bowl, combine all ingredients except the flour and oil. Mix well, then stir in the flour.\n\nHeat the oil in a large frying pan over a medium heat. Working in batches of two or three (the mixture should make six fritters), spoon large blobs into the pan and flatten with the back of the spoon to make thick discs. Turn when crisp and golden on the bottom. When both sides are cooked, remove from the pan and keep warm in a low oven while you fry the next batch.\n\nServe hot, sprinkled with parmesan and herbs.'), 4, FALSE);
+INSERT INTO RECIPE_INGREDIENT(INGREDIENT_ID, RECIPE_ID, AMOUNT) VALUES(15, 24, 1.5);
+INSERT INTO RECIPE_INGREDIENT(INGREDIENT_ID, RECIPE_ID, AMOUNT) VALUES(3157, 24, 0.25);
+INSERT INTO RECIPE_INGREDIENT(INGREDIENT_ID, RECIPE_ID, AMOUNT) VALUES(2247, 24, 0.3);
+INSERT INTO RECIPE_INGREDIENT(INGREDIENT_ID, RECIPE_ID, AMOUNT) VALUES(33, 24, 1.0);
+INSERT INTO RECIPE_INGREDIENT(INGREDIENT_ID, RECIPE_ID, AMOUNT) VALUES(3102, 24, 0.25);
+INSERT INTO RECIPE_INGREDIENT(INGREDIENT_ID, RECIPE_ID, AMOUNT) VALUES(604, 24, 1.0);
+
+INSERT INTO RECIPE(ID, NAME, DURATION, DESCRIPTION, TAGS, DELETED) VALUES(53, 'Teriyaki salmon with sesame pak choi', 20.07168458781362, STRINGDECODE('Heat oven to 200C/180C fan/gas 6 and put the salmon in a shallow baking dish. Mix the sweet chilli, honey, sesame oil, mirin, soy and ginger in a small bowl and pour over the salmon so the steaks are completely covered. Bake for 10 mins while you cook the pak choi.\n\nCut a slice across the base of the pak choi so the leaves separate. Heat the oils in a wok, add the garlic and stir-fry briefly to soften. Add the pak choi and fry until the leaves start to wilt. Pour over the stock, tightly cover the pan and allow to cook for 5 mins \u2013 you are aiming for the stems of the pak choi to be tender but still have a bit of bite.\n\nServe the pak choi in shallow bowls, top with the salmon steaks and spoon over the juices. Scatter with the toasted sesame seeds and serve on its own or with brown rice or noodles.'), 5, FALSE);
+INSERT INTO RECIPE_INGREDIENT(INGREDIENT_ID, RECIPE_ID, AMOUNT) VALUES(7628, 53, 1.0);
+INSERT INTO RECIPE_INGREDIENT(INGREDIENT_ID, RECIPE_ID, AMOUNT) VALUES(5960, 53, 0.1);
+INSERT INTO RECIPE_INGREDIENT(INGREDIENT_ID, RECIPE_ID, AMOUNT) VALUES(606, 53, 1.0);
+INSERT INTO RECIPE_INGREDIENT(INGREDIENT_ID, RECIPE_ID, AMOUNT) VALUES(4649, 53, 1.0);
+INSERT INTO RECIPE_INGREDIENT(INGREDIENT_ID, RECIPE_ID, AMOUNT) VALUES(2916, 53, 1.0);
+INSERT INTO RECIPE_INGREDIENT(INGREDIENT_ID, RECIPE_ID, AMOUNT) VALUES(2837, 53, 1.0);
+INSERT INTO RECIPE_INGREDIENT(INGREDIENT_ID, RECIPE_ID, AMOUNT) VALUES(739, 53, 1.0);
+INSERT INTO RECIPE_INGREDIENT(INGREDIENT_ID, RECIPE_ID, AMOUNT) VALUES(2915, 53, 0.1);
+INSERT INTO RECIPE_INGREDIENT(INGREDIENT_ID, RECIPE_ID, AMOUNT) VALUES(3525, 53, 0.5);
+
+INSERT INTO RECIPE(ID, NAME, DURATION, DESCRIPTION, TAGS, DELETED) VALUES(54, 'Soba noodles with wasabi garlic prawns', 15.053763440860216, STRINGDECODE('Mix the wasabi, soy sauce and garlic in a small bowl. Bring a large pan of water to the boil and cook the noodles following pack instructions.\n\nMeanwhile, heat the butter in a frying pan. Once foaming, stir in the prawns and cook for a few mins until pink. Stir in the wasabi mixture with a couple of spoonfuls of the noodle cooking water and heat through. Add the noodles to the pan with the spring onions, toss together and divide between two plates.'), 5, FALSE);
+INSERT INTO RECIPE_INGREDIENT(INGREDIENT_ID, RECIPE_ID, AMOUNT) VALUES(3504, 54, 0.1);
+INSERT INTO RECIPE_INGREDIENT(INGREDIENT_ID, RECIPE_ID, AMOUNT) VALUES(4649, 54, 1.5);
+INSERT INTO RECIPE_INGREDIENT(INGREDIENT_ID, RECIPE_ID, AMOUNT) VALUES(2915, 54, 0.2);
+INSERT INTO RECIPE_INGREDIENT(INGREDIENT_ID, RECIPE_ID, AMOUNT) VALUES(6243, 54, 1.0);
+INSERT INTO RECIPE_INGREDIENT(INGREDIENT_ID, RECIPE_ID, AMOUNT) VALUES(1, 54, 0.1);
+INSERT INTO RECIPE_INGREDIENT(INGREDIENT_ID, RECIPE_ID, AMOUNT) VALUES(4425, 54, 4.0);
+INSERT INTO RECIPE_INGREDIENT(INGREDIENT_ID, RECIPE_ID, AMOUNT) VALUES(2975, 54, 1.0);
+
+INSERT INTO RECIPE(ID, NAME, DURATION, DESCRIPTION, TAGS, DELETED) VALUES(55, 'Jerk prawn & coconut rice bowls', 8.602150537634405, STRINGDECODE('Heat 1 tbsp flavourless oil in a large frying pan. Add the prawns and the jerk seasoning, and cook for 1-2 mins. Drain the beans, reserving 3 tbsp of the chilli sauce.\n\nAdd the beans to the pan along with the reserved sauce and the coconut rice. Fry for 3-4 mins, then season with salt to taste and spoon into two bowls to serve.'), 5, FALSE);
+INSERT INTO RECIPE_INGREDIENT(INGREDIENT_ID, RECIPE_ID, AMOUNT) VALUES(250, 55, 1.5);
+INSERT INTO RECIPE_INGREDIENT(INGREDIENT_ID, RECIPE_ID, AMOUNT) VALUES(4559, 55, 2.0);
+INSERT INTO RECIPE_INGREDIENT(INGREDIENT_ID, RECIPE_ID, AMOUNT) VALUES(6173, 55, 1.0);
+INSERT INTO RECIPE_INGREDIENT(INGREDIENT_ID, RECIPE_ID, AMOUNT) VALUES(4425, 55, 2.0);
+
+INSERT INTO RECIPE(ID, NAME, DURATION, DESCRIPTION, TAGS, DELETED) VALUES(56, 'Rice noodles with sundried tomatoes, Parmesan & basil', 15.053763440860218, 'Prepare the noodles according to pack instructions, then drain. Heat the oil, then fry the tomatoes and garlic for 3 mins. Toss the noodles and most of the cheese and basil into the pan, season, then scatter over the remaining cheese and basil.', 2, FALSE);
+INSERT INTO RECIPE_INGREDIENT(INGREDIENT_ID, RECIPE_ID, AMOUNT) VALUES(6257, 56, 2.5);
+INSERT INTO RECIPE_INGREDIENT(INGREDIENT_ID, RECIPE_ID, AMOUNT) VALUES(3472, 56, 0.25);
+INSERT INTO RECIPE_INGREDIENT(INGREDIENT_ID, RECIPE_ID, AMOUNT) VALUES(2915, 56, 0.1);
+INSERT INTO RECIPE_INGREDIENT(INGREDIENT_ID, RECIPE_ID, AMOUNT) VALUES(33, 56, 0.3);
+INSERT INTO RECIPE_INGREDIENT(INGREDIENT_ID, RECIPE_ID, AMOUNT) VALUES(259, 56, 1.0);
+
+INSERT INTO RECIPE(ID, NAME, DURATION, DESCRIPTION, TAGS, DELETED) VALUES(57, 'Lemon chicken with spring veg noodles', 20.07168458781362, STRINGDECODE('Heat the oil in a non-stick pan, then fry the chicken for 5 mins until almost cooked. Tip onto a plate. Pour 250ml water into the pan with the lemon zest and juice, sugar and ginger. In a bowl, mix the cornflour with a little water until smooth, then whisk into the pan. Bring to the boil, stirring, then add the chicken to the sauce. Reduce the heat. Bubble for a few mins until chicken is cooked and the sauce thickened.\n\nMeanwhile, cook the noodles and veg together in boiling water for 4 mins, then drain. Toss together the chicken, noodles, veg and spring onions; serve scattered with nuts.'), 1, FALSE);
+INSERT INTO RECIPE_INGREDIENT(INGREDIENT_ID, RECIPE_ID, AMOUNT) VALUES(624, 57, 1.0);
+INSERT INTO RECIPE_INGREDIENT(INGREDIENT_ID, RECIPE_ID, AMOUNT) VALUES(1002, 57, 2.0);
+INSERT INTO RECIPE_INGREDIENT(INGREDIENT_ID, RECIPE_ID, AMOUNT) VALUES(2248, 57, 0.1);
+INSERT INTO RECIPE_INGREDIENT(INGREDIENT_ID, RECIPE_ID, AMOUNT) VALUES(6135, 57, 0.5);
+INSERT INTO RECIPE_INGREDIENT(INGREDIENT_ID, RECIPE_ID, AMOUNT) VALUES(2916, 57, 1.0);
+INSERT INTO RECIPE_INGREDIENT(INGREDIENT_ID, RECIPE_ID, AMOUNT) VALUES(6211, 57, 0.1);
+INSERT INTO RECIPE_INGREDIENT(INGREDIENT_ID, RECIPE_ID, AMOUNT) VALUES(6237, 57, 1.0);
+INSERT INTO RECIPE_INGREDIENT(INGREDIENT_ID, RECIPE_ID, AMOUNT) VALUES(2805, 57, 0.25);
+INSERT INTO RECIPE_INGREDIENT(INGREDIENT_ID, RECIPE_ID, AMOUNT) VALUES(2975, 57, 0.25);
+INSERT INTO RECIPE_INGREDIENT(INGREDIENT_ID, RECIPE_ID, AMOUNT) VALUES(3546, 57, 1.0);
+
+INSERT INTO RECIPE(ID, NAME, DURATION, DESCRIPTION, TAGS, DELETED) VALUES(58, 'Lamb cutlets with lentil & feta salad', 20.78853046594982, STRINGDECODE('Cook peas in boiling water for 3-4 mins until just tender, then drain. Mix with the lentils, vinegar, sugar and mint, then crumble in the feta and season well.\n\nHeat a griddle pan, brush the cutlets with a little oil and season. Cook in the hot pan for 4 mins on each side until browned and the middle is pink. Divide the salad between four bowls, then top with a couple of cutlets per person.'), 1, FALSE);
+INSERT INTO RECIPE_INGREDIENT(INGREDIENT_ID, RECIPE_ID, AMOUNT) VALUES(2996, 58, 0.75);
+INSERT INTO RECIPE_INGREDIENT(INGREDIENT_ID, RECIPE_ID, AMOUNT) VALUES(4595, 58, 0.75);
+INSERT INTO RECIPE_INGREDIENT(INGREDIENT_ID, RECIPE_ID, AMOUNT) VALUES(275, 58, 0.1);
+INSERT INTO RECIPE_INGREDIENT(INGREDIENT_ID, RECIPE_ID, AMOUNT) VALUES(6135, 58, 1.0);
+INSERT INTO RECIPE_INGREDIENT(INGREDIENT_ID, RECIPE_ID, AMOUNT) VALUES(19, 58, 0.75);
+INSERT INTO RECIPE_INGREDIENT(INGREDIENT_ID, RECIPE_ID, AMOUNT) VALUES(604, 58, 0.5);
+INSERT INTO RECIPE_INGREDIENT(INGREDIENT_ID, RECIPE_ID, AMOUNT) VALUES(5103, 58, 4.0);
