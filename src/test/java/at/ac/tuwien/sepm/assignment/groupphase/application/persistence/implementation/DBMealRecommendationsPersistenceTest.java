@@ -19,7 +19,7 @@ public class DBMealRecommendationsPersistenceTest extends BaseTest {
     RecipePersistence recipePersistence = new DBRecipePersistence();
     MealRecommendationsPersistence mealRecommendationsPersistence = new DBMealRecommendationsPersistence(recipePersistence);
 
-    DietPlan dietPlan = new DietPlan(1, "Build Muscle", 2500.0, 20.0, 25.0, 50.0, LocalDate.now(), null);
+    DietPlan dietPlan = new DietPlan(1, "Build Muscle", 2500.0, 25.0, 25.0, 50.0, LocalDate.now(), null);
     Recipe breakfastRecipe = new Recipe(1, "My recipe", 120d, "Test", EnumSet.of(RecipeTag.B), false);
 
     @Test

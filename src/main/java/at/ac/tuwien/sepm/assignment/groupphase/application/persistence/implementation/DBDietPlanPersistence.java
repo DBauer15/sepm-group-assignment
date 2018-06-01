@@ -14,19 +14,20 @@ import org.springframework.stereotype.Repository;
 import at.ac.tuwien.sepm.assignment.groupphase.application.dto.DietPlan;
 import at.ac.tuwien.sepm.assignment.groupphase.application.persistence.DietPlanPersistence;
 import at.ac.tuwien.sepm.assignment.groupphase.application.persistence.PersistenceException;
+import at.ac.tuwien.sepm.assignment.groupphase.application.util.implementation.CloseUtil;
 import at.ac.tuwien.sepm.assignment.groupphase.application.util.implementation.JDBCConnectionManager;
 
 @Repository
 public class DBDietPlanPersistence implements DietPlanPersistence {
-
 	private static final Logger LOG = LoggerFactory.getLogger(MethodHandles.lookup().lookupClass());
 
 	private static final String SQL_CREATE_DIET_PLAN = "INSERT INTO diet_plan (name, energ_kcal, lipid, protein, carbohydrt) VALUES (?,?,?,?,?);";
-	private static final String SQL_READ_ALL = "SELECT * FROM diet_plan;";
+	private static final String SQL_READ_ALL = "SELECT * FROM diet_plan ORDER BY id;";
 	private static final String SQL_READ_ACTIVE = "SELECT * FROM diet_plan WHERE to_dt IS NULL AND from_dt=(SELECT max(from_dt) FROM diet_plan);";
 	private static final String SQL_DEACTIVATE_DIET_PLAN = "UPDATE diet_plan SET to_dt=NOW() WHERE from_dt=(SELECT max(from_dt) FROM diet_plan WHERE from_dt IS NOT NULL);";
 	private static final String SQL_ACTIVATE_DIET_PLAN = "UPDATE diet_plan SET from_dt=NOW(), to_dt=NULL WHERE id=?;";
-
+	private static final String SQL_UPDATE_CUSTOM_DIET_PLAN = "UPDATE diet_plan SET name = ?, energ_kcal = ?, lipid = ?, protein = ?, carbohydrt = ? WHERE id = ? AND id > 3;";
+	
 	@Override
 	public void create(DietPlan dietPlan) throws PersistenceException {
 
@@ -156,4 +157,32 @@ public class DBDietPlanPersistence implements DietPlanPersistence {
 		}
 	}
 
+	@Override
+	public void update(DietPlan dietPlan) throws PersistenceException {
+		JDBCConnectionManager.startTransaction();
+		PreparedStatement ps = null;
+		
+		try {
+			ps = JDBCConnectionManager.getConnection().prepareStatement(SQL_UPDATE_CUSTOM_DIET_PLAN);
+
+			ps.setString(1, dietPlan.getName());
+			ps.setDouble(2, dietPlan.getEnergy_kcal());
+			ps.setDouble(3, dietPlan.getLipid());
+			ps.setDouble(4, dietPlan.getProtein());
+			ps.setDouble(5, dietPlan.getCarbohydrate());
+			ps.setInt(6, dietPlan.getId());
+			
+			if (ps.executeUpdate() == 0) {
+				throw new PersistenceException("No diet plan found");			
+			}
+
+			JDBCConnectionManager.commitTransaction();
+		} catch (SQLException e) {
+			JDBCConnectionManager.rollbackTransaction();
+			throw new PersistenceException(e);
+		} finally {
+			JDBCConnectionManager.finalizeTransaction();
+			CloseUtil.closeStatement(ps);
+		}
+	}
 }

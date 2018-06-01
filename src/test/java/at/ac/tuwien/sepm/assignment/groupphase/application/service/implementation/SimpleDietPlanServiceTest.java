@@ -2,16 +2,20 @@ package at.ac.tuwien.sepm.assignment.groupphase.application.service.implementati
 
 import java.util.ArrayList;
 import java.util.Arrays;
+import java.util.List;
 
 import at.ac.tuwien.sepm.assignment.groupphase.application.persistence.NoEntryFoundException;
 import org.junit.Assert;
 import org.junit.Test;
 
 import at.ac.tuwien.sepm.assignment.groupphase.application.dto.DietPlan;
+import at.ac.tuwien.sepm.assignment.groupphase.application.dto.Recipe;
+import at.ac.tuwien.sepm.assignment.groupphase.application.dto.RecipeIngredient;
 import at.ac.tuwien.sepm.assignment.groupphase.application.persistence.DietPlanPersistence;
 import at.ac.tuwien.sepm.assignment.groupphase.application.persistence.PersistenceException;
 import at.ac.tuwien.sepm.assignment.groupphase.application.persistence.implementation.DBDietPlanPersistence;
 import at.ac.tuwien.sepm.assignment.groupphase.application.service.DietPlanService;
+import at.ac.tuwien.sepm.assignment.groupphase.application.service.RecipeService;
 import at.ac.tuwien.sepm.assignment.groupphase.application.service.ServiceInvokationException;
 import at.ac.tuwien.sepm.assignment.groupphase.application.util.BaseTest;
 
@@ -30,11 +34,14 @@ public class SimpleDietPlanServiceTest extends BaseTest {
 	// example data
 	private static final String EXAMPLE_TEXT_256CHARS = "Lorem ipsum dolor sit amet, consetetur sadipscing elitr, sed diam nonumy eirmod tempor invidunt ut labore et dolore magna aliquyam erat, sed diam voluptua. At vero eos et accusam et justo duo dolores et ea rebum. Stet clita kasd gubergren, no sea takimatad";
 
-	private DietPlan dietPlanValidWithId = new DietPlan(1, "Jeden Tag Sorgenfrei", 10d, 15d, 20d, 30.50, null, null);
-	private DietPlan dietPlanValidWithoutId = new DietPlan(null, "Jeden Tag Sorgenfrei", 10d, 15d, 20d, 30.50, null, null);
-	private DietPlan dietPlanValid = new DietPlan("Jeden Tag Sorgenfrei", 10d, 15d, 20d, 30.50);
+	private DietPlan dietPlanValidWithId = new DietPlan(1, "Jeden Tag Sorgenfrei", 10d, 15d, 54.50d, 30.50d, null, null);
+	private DietPlan dietPlanValidWithoutId = new DietPlan(null, "Jeden Tag Sorgenfrei", 10d, 15d, 54.50d, 30.50d, null, null);
+	private DietPlan dietPlanValid = new DietPlan("Jeden Tag Sorgenfrei", 10d, 15d, 54.50d, 30.50d);
 	private DietPlan dietPlanInvalid1 = new DietPlan(EXAMPLE_TEXT_256CHARS, 50000d, 6000d, 8000d, 9999.99);
 	private DietPlan dietPlanInvalid2 = new DietPlan("Abnehmen", 0d, -1d, 0d, -2.33);
+	private DietPlan dietPlanInvalid3 = new DietPlan(15, "My custom diet plan", 0d, -1d, -1d, -2.33, null, null);
+	private DietPlan dietPlanForUpdate = new DietPlan(4, "My custom diet plan", 10d, 15d, 54.50d, 30.50d, null, null);
+
 
 	@Test
 	public void testCreate_validData_callsPersistenceCreateOnce()
@@ -63,11 +70,11 @@ public class SimpleDietPlanServiceTest extends BaseTest {
 			ArrayList<String> errors = e.getContext().getErrors();
 			Assert.assertEquals(6, errors.size());
 			Assert.assertEquals("Enter only 255 characters in the field 'Diet plan name'", errors.get(0));
-			Assert.assertEquals("Enter a value that is smaller than 10000.0 in the field 'Energy Kcal'", errors.get(1));
-			Assert.assertEquals("Enter a value that is smaller than 100.0 in the field 'Lipid'", errors.get(2));
-			Assert.assertEquals("Enter a value that is smaller than 100.0 in the field 'Protein'", errors.get(3));
-			Assert.assertEquals("Enter a value that is smaller than 100.0 in the field 'Carbohydrate'", errors.get(4));
-      Assert.assertEquals("The sum of 'Lipid', 'Protein' and 'Carbohydrate' has to be smaller than or equal to 100%", errors.get(5));
+            Assert.assertEquals("Enter a value that is smaller than or equal to 10000.0 in the field 'Energy Kcal'", errors.get(1));
+            Assert.assertEquals("Enter a value that is smaller than or equal to 100.0 in the field 'Fats'", errors.get(2));
+            Assert.assertEquals("Enter a value that is smaller than or equal to 100.0 in the field 'Proteins'", errors.get(3));
+            Assert.assertEquals("Enter a value that is smaller than or equal to 100.0 in the field 'Carbohydrates'", errors.get(4));
+            Assert.assertEquals("The sum of 'Carbohydrates', 'Proteins' and 'Fats' has to be equal to 100%", errors.get(5));
 			return;
 		}
 		Assert.fail("Should throw ServiceInvokationException!");
@@ -87,11 +94,10 @@ public class SimpleDietPlanServiceTest extends BaseTest {
 
 			// verify validations
 			ArrayList<String> errors = e.getContext().getErrors();
-			Assert.assertEquals(4, errors.size());
-			Assert.assertEquals("Enter a value that is greater than 0.0 in the field 'Energy Kcal'", errors.get(0));
-			Assert.assertEquals("Enter a value that is greater than 0.0 in the field 'Lipid'", errors.get(1));
-			Assert.assertEquals("Enter a value that is greater than 0.0 in the field 'Protein'", errors.get(2));
-			Assert.assertEquals("Enter a value that is greater than 0.0 in the field 'Carbohydrate'", errors.get(3));
+			Assert.assertEquals(3, errors.size());
+			Assert.assertEquals("Enter a value that is greater than or equal to 0.0 in the field 'Fats'", errors.get(0));
+			Assert.assertEquals("Enter a value that is greater than or equal to 0.0 in the field 'Carbohydrates'", errors.get(1));
+			Assert.assertEquals("The sum of 'Carbohydrates', 'Proteins' and 'Fats' has to be equal to 100%", errors.get(2));
 			return;
 		}
 		Assert.fail("Should throw ServiceInvokationException!");
@@ -124,11 +130,12 @@ public class SimpleDietPlanServiceTest extends BaseTest {
             Assert.assertEquals(7, errors.size());
             Assert.assertEquals("ID needs to be set", errors.get(0));
             Assert.assertEquals("Enter only 255 characters in the field 'Diet plan name'", errors.get(1));
-            Assert.assertEquals("Enter a value that is smaller than 10000.0 in the field 'Energy Kcal'", errors.get(2));
-            Assert.assertEquals("Enter a value that is smaller than 100.0 in the field 'Lipid'", errors.get(3));
-            Assert.assertEquals("Enter a value that is smaller than 100.0 in the field 'Protein'", errors.get(4));
-            Assert.assertEquals("Enter a value that is smaller than 100.0 in the field 'Carbohydrate'", errors.get(5));
-            Assert.assertEquals("The sum of 'Lipid', 'Protein' and 'Carbohydrate' has to be smaller than or equal to 100%", errors.get(6));
+            Assert.assertEquals("Enter a value that is smaller than or equal to 10000.0 in the field 'Energy Kcal'", errors.get(2));
+            Assert.assertEquals("Enter a value that is smaller than or equal to 100.0 in the field 'Fats'", errors.get(3));
+            Assert.assertEquals("Enter a value that is smaller than or equal to 100.0 in the field 'Proteins'", errors.get(4));
+            Assert.assertEquals("Enter a value that is smaller than or equal to 100.0 in the field 'Carbohydrates'", errors.get(5));
+            Assert.assertEquals("The sum of 'Carbohydrates', 'Proteins' and 'Fats' has to be equal to 100%", errors.get(6));
+            
             return;
         }
         Assert.fail("Should throw NoEntryFoundException!");
@@ -177,11 +184,11 @@ public class SimpleDietPlanServiceTest extends BaseTest {
             Assert.assertEquals(7, errors.size());
             Assert.assertEquals("ID needs to be set", errors.get(0));
             Assert.assertEquals("Enter only 255 characters in the field 'Diet plan name'", errors.get(1));
-            Assert.assertEquals("Enter a value that is smaller than 10000.0 in the field 'Energy Kcal'", errors.get(2));
-            Assert.assertEquals("Enter a value that is smaller than 100.0 in the field 'Lipid'", errors.get(3));
-            Assert.assertEquals("Enter a value that is smaller than 100.0 in the field 'Protein'", errors.get(4));
-            Assert.assertEquals("Enter a value that is smaller than 100.0 in the field 'Carbohydrate'", errors.get(5));
-            Assert.assertEquals("The sum of 'Lipid', 'Protein' and 'Carbohydrate' has to be smaller than or equal to 100%", errors.get(6));
+            Assert.assertEquals("Enter a value that is smaller than or equal to 10000.0 in the field 'Energy Kcal'", errors.get(2));
+            Assert.assertEquals("Enter a value that is smaller than or equal to 100.0 in the field 'Fats'", errors.get(3));
+            Assert.assertEquals("Enter a value that is smaller than or equal to 100.0 in the field 'Proteins'", errors.get(4));
+            Assert.assertEquals("Enter a value that is smaller than or equal to 100.0 in the field 'Carbohydrates'", errors.get(5));
+            Assert.assertEquals("The sum of 'Carbohydrates', 'Proteins' and 'Fats' has to be equal to 100%", errors.get(6));
             return;
         }
         Assert.fail("Should throw NoEntryFoundException!");
@@ -217,5 +224,54 @@ public class SimpleDietPlanServiceTest extends BaseTest {
         }
         Assert.fail("Should throw ServiceInvokationException!");
     }
+    
 
+    @Test
+    public void testUpdate_dietPlanIsValid_callsPersistenceUpdateOnce() throws ServiceInvokationException, PersistenceException {
+        DietPlanService dietPlanService = new SimpleDietPlanService(mockedDietPlanRepo);
+        dietPlanService.update(dietPlanForUpdate);
+        
+        verify(mockedDietPlanRepo, times(1)).update(dietPlanForUpdate);
+    }
+
+    @Test
+    public void testUpdate_dietPlanHasNoId_throwsValidationError() {
+    	DietPlanService dietPlanService = new SimpleDietPlanService(mockedDietPlanRepo);
+        DietPlan dietPlanNotValidForUpdate = dietPlanValidWithoutId;
+
+        try {
+        	dietPlanService.update(dietPlanNotValidForUpdate);
+        } catch (ServiceInvokationException e) {
+            verifyZeroInteractions(mockedDietPlanRepo);
+
+            ArrayList<String> errors = e.getContext().getErrors();
+            Assert.assertEquals(1, errors.size());
+            Assert.assertEquals("ID needs to be set", errors.get(0));
+            return;
+        }
+        
+        Assert.fail("Should throw ServiceInvokationException!");
+    }
+
+    @Test
+    public void testUpdate_dietPlanIsInvalid_throwsValidationError() {
+    	DietPlanService dietPlanService = new SimpleDietPlanService(mockedDietPlanRepo);
+        DietPlan recipeNotValidForUpdate = dietPlanInvalid3;
+
+        try {
+        	dietPlanService.update(recipeNotValidForUpdate);
+        } catch (ServiceInvokationException e) {
+            verifyZeroInteractions(mockedDietPlanRepo);
+
+            ArrayList<String> errors = e.getContext().getErrors();
+            Assert.assertEquals(4, errors.size());
+            Assert.assertEquals("Enter a value that is greater than or equal to 0.0 in the field 'Fats'", errors.get(0));
+            Assert.assertEquals("Enter a value that is greater than or equal to 0.0 in the field 'Proteins'", errors.get(1));
+            Assert.assertEquals("Enter a value that is greater than or equal to 0.0 in the field 'Carbohydrates'", errors.get(2));
+            Assert.assertEquals("The sum of 'Carbohydrates', 'Proteins' and 'Fats' has to be equal to 100%", errors.get(3));
+            return;
+        }
+        
+        Assert.fail("Should throw ServiceInvokationException!");
+    }
 }
