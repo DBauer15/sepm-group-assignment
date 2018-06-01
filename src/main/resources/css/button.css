@@ -26,6 +26,13 @@
   -fx-font-size: 24;
 }
 
+.button-filter{
+    -fx-background-radius: 50 50 50 50;
+    -fx-background-image: url('../img/magnifyingGlass.png');
+    -fx-background-repeat: no-repeat;
+    -fx-background-position:center;
+}
+
 .button-cancel {
   -fx-background-color: #767676;
 }
