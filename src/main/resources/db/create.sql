@@ -533,3 +533,108 @@ INSERT INTO RECIPE_INGREDIENT(INGREDIENT_ID, RECIPE_ID, AMOUNT) VALUES(6135, 58,
 INSERT INTO RECIPE_INGREDIENT(INGREDIENT_ID, RECIPE_ID, AMOUNT) VALUES(19, 58, 0.75);
 INSERT INTO RECIPE_INGREDIENT(INGREDIENT_ID, RECIPE_ID, AMOUNT) VALUES(604, 58, 0.5);
 INSERT INTO RECIPE_INGREDIENT(INGREDIENT_ID, RECIPE_ID, AMOUNT) VALUES(5103, 58, 4.0);
+
+INSERT INTO PUBLIC.RECIPE (ID, NAME, DURATION, DESCRIPTION, TAGS, DELETED) VALUES (59, 'Spinach & watercress soup', 10, 'Put the spinach, watercress, spring onion, vegetable stock, avocado, cooked rice, lemon juice and mixed seeds in a blender with seasoning. Whizz until smooth. Heat until piping hot. Scatter over some toasted seeds if you want added crunch.', 'DL', false);
+INSERT INTO PUBLIC.RECIPE_INGREDIENT (INGREDIENT_ID, RECIPE_ID, AMOUNT) VALUES (3102, 59, 3);
+INSERT INTO PUBLIC.RECIPE_INGREDIENT (INGREDIENT_ID, RECIPE_ID, AMOUNT) VALUES (3190, 59, 3);
+INSERT INTO PUBLIC.RECIPE_INGREDIENT (INGREDIENT_ID, RECIPE_ID, AMOUNT) VALUES (2984, 59, 1);
+INSERT INTO PUBLIC.RECIPE_INGREDIENT (INGREDIENT_ID, RECIPE_ID, AMOUNT) VALUES (1411, 59, 0.4);
+INSERT INTO PUBLIC.RECIPE_INGREDIENT (INGREDIENT_ID, RECIPE_ID, AMOUNT) VALUES (2152, 59, 0.5);
+INSERT INTO PUBLIC.RECIPE_INGREDIENT (INGREDIENT_ID, RECIPE_ID, AMOUNT) VALUES (6178, 59, 0.6);
+INSERT INTO PUBLIC.RECIPE_INGREDIENT (INGREDIENT_ID, RECIPE_ID, AMOUNT) VALUES (2248, 59, 0.1);
+INSERT INTO PUBLIC.RECIPE_INGREDIENT (INGREDIENT_ID, RECIPE_ID, AMOUNT) VALUES (3530, 59, 0.3);
+INSERT INTO PUBLIC.RECIPE_INGREDIENT (INGREDIENT_ID, RECIPE_ID, AMOUNT) VALUES (3592, 59, 0.125);
+
+INSERT INTO PUBLIC.RECIPE (ID, NAME, DURATION, DESCRIPTION, TAGS, DELETED) VALUES (60, 'Celery soup', 55, 'Peel and cut the potatoes into chunks.\n\nHeat the oil in a large saucepan over a medium heat, tip in the celery, garlic and potatoes and coat in the oil. Add a splash of water and a big pinch of salt and cook, stirring regularly for 15 mins, adding a little more water if the veg begins to stick.\n\nPour in the vegetable stock and bring to the boil, then turn the heat down and simmer for 20 mins further, until the potatoes are falling apart and the celery is soft. Use a stick blender to purée the soup, then pour in the milk and blitz again. Season to taste. Serve with crusty bread.', 'DL', false);
+INSERT INTO PUBLIC.RECIPE_INGREDIENT (INGREDIENT_ID, RECIPE_ID, AMOUNT) VALUES (604, 60, 0.5);
+INSERT INTO PUBLIC.RECIPE_INGREDIENT (INGREDIENT_ID, RECIPE_ID, AMOUNT) VALUES (2861, 60, 0.75);
+INSERT INTO PUBLIC.RECIPE_INGREDIENT (INGREDIENT_ID, RECIPE_ID, AMOUNT) VALUES (2915, 60, 0.005);
+INSERT INTO PUBLIC.RECIPE_INGREDIENT (INGREDIENT_ID, RECIPE_ID, AMOUNT) VALUES (3023, 60, 0.125);
+INSERT INTO PUBLIC.RECIPE_INGREDIENT (INGREDIENT_ID, RECIPE_ID, AMOUNT) VALUES (1411, 60, 0.5);
+INSERT INTO PUBLIC.RECIPE_INGREDIENT (INGREDIENT_ID, RECIPE_ID, AMOUNT) VALUES (180, 60, 0.1);
+INSERT INTO PUBLIC.RECIPE_INGREDIENT (INGREDIENT_ID, RECIPE_ID, AMOUNT) VALUES (5260, 60, 0.25);
+
+INSERT INTO PUBLIC.RECIPE (ID, NAME, DURATION, DESCRIPTION, TAGS, DELETED) VALUES (61, 'Cucumber, pea & lettuce soup', 20, 'Boil 1.4 litres water in a kettle. Heat the oil in a large non-stick frying pan and cook the spring onions for 5 mins, stirring frequently, or until softened. Add the cucumber, lettuce and peas, then pour in the boiled water. Stir in the bouillon, cover and simmer for 10 mins or until the vegetables are soft but still bright green.\n\nBlitz the mixture with a hand blender until smooth. Serve hot or cold, topped with yogurt (if you like), with rye bread alongside.', 'DL', false);
+INSERT INTO PUBLIC.RECIPE_INGREDIENT (INGREDIENT_ID, RECIPE_ID, AMOUNT) VALUES (663, 61, 0.25);
+INSERT INTO PUBLIC.RECIPE_INGREDIENT (INGREDIENT_ID, RECIPE_ID, AMOUNT) VALUES (2984, 61, 0.25);
+INSERT INTO PUBLIC.RECIPE_INGREDIENT (INGREDIENT_ID, RECIPE_ID, AMOUNT) VALUES (2907, 61, 0.375);
+INSERT INTO PUBLIC.RECIPE_INGREDIENT (INGREDIENT_ID, RECIPE_ID, AMOUNT) VALUES (2945, 61, 0.5);
+INSERT INTO PUBLIC.RECIPE_INGREDIENT (INGREDIENT_ID, RECIPE_ID, AMOUNT) VALUES (3002, 61, 0.425);
+INSERT INTO PUBLIC.RECIPE_INGREDIENT (INGREDIENT_ID, RECIPE_ID, AMOUNT) VALUES (1411, 61, 0.02);
+INSERT INTO PUBLIC.RECIPE_INGREDIENT (INGREDIENT_ID, RECIPE_ID, AMOUNT) VALUES (104, 61, 0.04);
+INSERT INTO PUBLIC.RECIPE_INGREDIENT (INGREDIENT_ID, RECIPE_ID, AMOUNT) VALUES (5280, 61, 0.25);
+
+INSERT INTO PUBLIC.RECIPE (ID, NAME, DURATION, DESCRIPTION, TAGS, DELETED) VALUES (62, 'Carrot & ginger soup', 10, 'Peel and chop the carrots and put in a blender with the grated ginger, turmeric, cayenne pepper, wholemeal bread, soured cream and vegetable stock. Blitz until smooth. Heat until piping hot. Swirl through some extra soured cream, or a sprinkling of cayenne, if you like.', 'DL', false);
+INSERT INTO PUBLIC.RECIPE_INGREDIENT (INGREDIENT_ID, RECIPE_ID, AMOUNT) VALUES (2848, 62, 1.5);
+INSERT INTO PUBLIC.RECIPE_INGREDIENT (INGREDIENT_ID, RECIPE_ID, AMOUNT) VALUES (2916, 62, 3);
+INSERT INTO PUBLIC.RECIPE_INGREDIENT (INGREDIENT_ID, RECIPE_ID, AMOUNT) VALUES (258, 62, 0.3);
+INSERT INTO PUBLIC.RECIPE_INGREDIENT (INGREDIENT_ID, RECIPE_ID, AMOUNT) VALUES (247, 62, 0.1);
+INSERT INTO PUBLIC.RECIPE_INGREDIENT (INGREDIENT_ID, RECIPE_ID, AMOUNT) VALUES (5259, 62, 1);
+INSERT INTO PUBLIC.RECIPE_INGREDIENT (INGREDIENT_ID, RECIPE_ID, AMOUNT) VALUES (55, 62, 0.04);
+INSERT INTO PUBLIC.RECIPE_INGREDIENT (INGREDIENT_ID, RECIPE_ID, AMOUNT) VALUES (1411, 62, 0.8);
+
+INSERT INTO PUBLIC.RECIPE (ID, NAME, DURATION, DESCRIPTION, TAGS, DELETED) VALUES (63, 'Roasted sweet potato & carrot soup', 50, 'Heat oven to 220C/200C fan/ gas 7 and put the sweet potatoes and carrots into a large roasting tin, drizzled with half a tbsp olive oil and plenty of seasoning. Roast the veg in the oven for 25-30 mins or until caramelised and tender.\n\nMeanwhile, put the remaining 1 tbsp olive oil in a large deep saucepan and fry the onion over a medium-low heat for about 10 mins until softened. Add the garlic and stir for 1 min before adding the stock. Simmer for 5-10 mins until the onions are very soft, then set aside.\n\nOnce the roasted veg is done, leave to cool a little, then transfer to the saucepan and use a hand blender to process until smooth. Stir in the crème fraîche, a little more seasoning and reheat until hot. Serve in bowls topped with a swirl of crème fraîche and a good grinding of black pepper.', 'DL', false);
+INSERT INTO PUBLIC.RECIPE_INGREDIENT (INGREDIENT_ID, RECIPE_ID, AMOUNT) VALUES (3141, 63, 0.25);
+INSERT INTO PUBLIC.RECIPE_INGREDIENT (INGREDIENT_ID, RECIPE_ID, AMOUNT) VALUES (2848, 63, 0.15);
+INSERT INTO PUBLIC.RECIPE_INGREDIENT (INGREDIENT_ID, RECIPE_ID, AMOUNT) VALUES (604, 63, 0.2);
+INSERT INTO PUBLIC.RECIPE_INGREDIENT (INGREDIENT_ID, RECIPE_ID, AMOUNT) VALUES (2975, 63, 0.0625);
+INSERT INTO PUBLIC.RECIPE_INGREDIENT (INGREDIENT_ID, RECIPE_ID, AMOUNT) VALUES (2915, 63, 0.0025);
+INSERT INTO PUBLIC.RECIPE_INGREDIENT (INGREDIENT_ID, RECIPE_ID, AMOUNT) VALUES (1411, 63, 0.875);
+INSERT INTO PUBLIC.RECIPE_INGREDIENT (INGREDIENT_ID, RECIPE_ID, AMOUNT) VALUES (55, 63, 0.0875);
+
+INSERT INTO PUBLIC.RECIPE (ID, NAME, DURATION, DESCRIPTION, TAGS, DELETED) VALUES (64, 'Broccoli & Stilton soup', 45, 'Heat the rapeseed oil in a large saucepan and then add the onions. Cook on a medium heat until soft. Add a splash of water if the onions start to catch.\n\nAdd the celery, leek, potato and a knob of butter. Stir until melted, then cover with a lid. Allow to sweat for 5 minutes. Remove the lid.\n\nPour in the stock and add any chunky bits of broccoli stalk. Cook for 10 – 15 minutes until all the vegetables are soft.\n\nAdd the rest of the broccoli and cook for a further 5 minutes. Carefully transfer to a blender and blitz until smooth. Stir in the stilton, allowing a few lumps to remain. Season with black pepper and serve.', 'DL', false);
+INSERT INTO PUBLIC.RECIPE_INGREDIENT (INGREDIENT_ID, RECIPE_ID, AMOUNT) VALUES (663, 64, 0.5);
+INSERT INTO PUBLIC.RECIPE_INGREDIENT (INGREDIENT_ID, RECIPE_ID, AMOUNT) VALUES (2975, 64, 0.125);
+INSERT INTO PUBLIC.RECIPE_INGREDIENT (INGREDIENT_ID, RECIPE_ID, AMOUNT) VALUES (2861, 64, 0.32);
+INSERT INTO PUBLIC.RECIPE_INGREDIENT (INGREDIENT_ID, RECIPE_ID, AMOUNT) VALUES (2942, 64, 1);
+INSERT INTO PUBLIC.RECIPE_INGREDIENT (INGREDIENT_ID, RECIPE_ID, AMOUNT) VALUES (3023, 64, 0.06);
+INSERT INTO PUBLIC.RECIPE_INGREDIENT (INGREDIENT_ID, RECIPE_ID, AMOUNT) VALUES (131, 64, 0.04);
+INSERT INTO PUBLIC.RECIPE_INGREDIENT (INGREDIENT_ID, RECIPE_ID, AMOUNT) VALUES (1411, 64, 0.875);
+INSERT INTO PUBLIC.RECIPE_INGREDIENT (INGREDIENT_ID, RECIPE_ID, AMOUNT) VALUES (2821, 64, 1);
+INSERT INTO PUBLIC.RECIPE_INGREDIENT (INGREDIENT_ID, RECIPE_ID, AMOUNT) VALUES (4, 64, 1.2);
+
+INSERT INTO PUBLIC.RECIPE (ID, NAME, DURATION, DESCRIPTION, TAGS, DELETED) VALUES (65, 'Creamy tomato soup', 75, 'Put the oil, onions, celery, carrots, potatoes and bay leaves in a big casserole dish, or two saucepans. Fry gently until the onions are softened – about 10-15 mins. Fill the kettle and boil it.\n\nStir in the tomato purée, sugar, vinegar, chopped tomatoes and passata, then crumble in the stock cubes. Add 1 litre boiling water and bring to a simmer. Cover and simmer for 15 mins until the potato is tender, then remove the bay leaves. Purée with a stick blender (or ladle into a blender in batches) until very smooth. Season to taste and add a pinch more sugar if it needs it. The soup can now be cooled and chilled for up to 2 days, or frozen for up to 3 months.\n\nTo serve, reheat the soup, stirring in the milk – try not to let it boil. Serve in small bowls for the children with cheesy sausage rolls then later in bowls for the adults as Hot Bloody Mary soup.', 'DL', false);
+INSERT INTO PUBLIC.RECIPE_INGREDIENT (INGREDIENT_ID, RECIPE_ID, AMOUNT) VALUES (604, 65, 0.3);
+INSERT INTO PUBLIC.RECIPE_INGREDIENT (INGREDIENT_ID, RECIPE_ID, AMOUNT) VALUES (2975, 65, 0.1);
+INSERT INTO PUBLIC.RECIPE_INGREDIENT (INGREDIENT_ID, RECIPE_ID, AMOUNT) VALUES (2861, 65, 0.25);
+INSERT INTO PUBLIC.RECIPE_INGREDIENT (INGREDIENT_ID, RECIPE_ID, AMOUNT) VALUES (2848, 65, 0.25);
+INSERT INTO PUBLIC.RECIPE_INGREDIENT (INGREDIENT_ID, RECIPE_ID, AMOUNT) VALUES (3023, 65, 0.135);
+INSERT INTO PUBLIC.RECIPE_INGREDIENT (INGREDIENT_ID, RECIPE_ID, AMOUNT) VALUES (220, 65, 0.5);
+INSERT INTO PUBLIC.RECIPE_INGREDIENT (INGREDIENT_ID, RECIPE_ID, AMOUNT) VALUES (3164, 65, 0.03);
+INSERT INTO PUBLIC.RECIPE_INGREDIENT (INGREDIENT_ID, RECIPE_ID, AMOUNT) VALUES (5992, 65, 1);
+INSERT INTO PUBLIC.RECIPE_INGREDIENT (INGREDIENT_ID, RECIPE_ID, AMOUNT) VALUES (275, 65, 0.0125);
+INSERT INTO PUBLIC.RECIPE_INGREDIENT (INGREDIENT_ID, RECIPE_ID, AMOUNT) VALUES (3238, 65, 1);
+INSERT INTO PUBLIC.RECIPE_INGREDIENT (INGREDIENT_ID, RECIPE_ID, AMOUNT) VALUES (7827, 65, 0.2);
+INSERT INTO PUBLIC.RECIPE_INGREDIENT (INGREDIENT_ID, RECIPE_ID, AMOUNT) VALUES (1164, 65, 0.3);
+INSERT INTO PUBLIC.RECIPE_INGREDIENT (INGREDIENT_ID, RECIPE_ID, AMOUNT) VALUES (180, 65, 0.15);
+
+INSERT INTO PUBLIC.RECIPE (ID, NAME, DURATION, DESCRIPTION, TAGS, DELETED) VALUES (66, 'Roasted onion soup with goat''s cheese toasts', 85, 'Heat oven to 200C/180C fan/gas 6. Put the onions in a roasting tin with the oil, salt and pepper. Give it a good stir, then roast for 45 mins, stirring halfway through, until the onions are tinged brown, but not burnt.\n\nTip the onions into a large pan with the stock, mustard and Marmite. Bring to the boil and simmer for 15 mins, then stir in the parsley. Toast 4 of the bread slices then scatter on the cheese. Ladle the soup into bowls, pop a toast into each and serve with the extra slices of bread on the side.', 'DL', false);
+INSERT INTO PUBLIC.RECIPE_INGREDIENT (INGREDIENT_ID, RECIPE_ID, AMOUNT) VALUES (2975, 66, 1.25);
+INSERT INTO PUBLIC.RECIPE_INGREDIENT (INGREDIENT_ID, RECIPE_ID, AMOUNT) VALUES (604, 66, 1);
+INSERT INTO PUBLIC.RECIPE_INGREDIENT (INGREDIENT_ID, RECIPE_ID, AMOUNT) VALUES (1411, 66, 0.875);
+INSERT INTO PUBLIC.RECIPE_INGREDIENT (INGREDIENT_ID, RECIPE_ID, AMOUNT) VALUES (261, 66, 0.75);
+INSERT INTO PUBLIC.RECIPE_INGREDIENT (INGREDIENT_ID, RECIPE_ID, AMOUNT) VALUES (7871, 66, 0.25);
+INSERT INTO PUBLIC.RECIPE_INGREDIENT (INGREDIENT_ID, RECIPE_ID, AMOUNT) VALUES (2989, 66, 0.1);
+INSERT INTO PUBLIC.RECIPE_INGREDIENT (INGREDIENT_ID, RECIPE_ID, AMOUNT) VALUES (140, 66, 0.875);
+INSERT INTO PUBLIC.RECIPE_INGREDIENT (INGREDIENT_ID, RECIPE_ID, AMOUNT) VALUES (5259, 66, 3);
+
+INSERT INTO PUBLIC.RECIPE (ID, NAME, DURATION, DESCRIPTION, TAGS, DELETED) VALUES (67, 'Chicken noodle soup', 40, 'Pour the stock into a pan and add the chicken, ginger and garlic. Bring to the boil, then reduce the heat, partly cover and simmer for 20 mins, until the chicken is tender. Remove the chicken to a board and shred into bite-size pieces using a couple of forks.\n\nReturn the chicken to the stock with the noodles, corn, mushrooms, half the spring onions and the soy sauce. Simmer for 3-4 mins until the noodles are tender. Ladle into two bowls and scatter over the remaining spring onions, herbs and chilli shreds if using. Serve with extra soy sauce for sprinkling.', 'DL', false);
+INSERT INTO PUBLIC.RECIPE_INGREDIENT (INGREDIENT_ID, RECIPE_ID, AMOUNT) VALUES (1411, 67, 1.5);
+INSERT INTO PUBLIC.RECIPE_INGREDIENT (INGREDIENT_ID, RECIPE_ID, AMOUNT) VALUES (828, 67, 1.25);
+INSERT INTO PUBLIC.RECIPE_INGREDIENT (INGREDIENT_ID, RECIPE_ID, AMOUNT) VALUES (2916, 67, 0.5);
+INSERT INTO PUBLIC.RECIPE_INGREDIENT (INGREDIENT_ID, RECIPE_ID, AMOUNT) VALUES (2915, 67, 0.01);
+INSERT INTO PUBLIC.RECIPE_INGREDIENT (INGREDIENT_ID, RECIPE_ID, AMOUNT) VALUES (6257, 67, 0.5);
+INSERT INTO PUBLIC.RECIPE_INGREDIENT (INGREDIENT_ID, RECIPE_ID, AMOUNT) VALUES (2885, 67, 0.07);
+INSERT INTO PUBLIC.RECIPE_INGREDIENT (INGREDIENT_ID, RECIPE_ID, AMOUNT) VALUES (2954, 67, 0.5);
+INSERT INTO PUBLIC.RECIPE_INGREDIENT (INGREDIENT_ID, RECIPE_ID, AMOUNT) VALUES (4649, 67, 0.3);
+INSERT INTO PUBLIC.RECIPE_INGREDIENT (INGREDIENT_ID, RECIPE_ID, AMOUNT) VALUES (259, 67, 0.5);
+INSERT INTO PUBLIC.RECIPE_INGREDIENT (INGREDIENT_ID, RECIPE_ID, AMOUNT) VALUES (225, 67, 0.5);
+
+INSERT INTO PUBLIC.RECIPE (ID, NAME, DURATION, DESCRIPTION, TAGS, DELETED) VALUES (68, 'Pumpkin soup', 45, 'Heat the olive oil in a large saucepan, then gently cook the onions for 5 mins, until soft but not coloured.\n\nAdd the pumpkin or squash to the pan, then carry on cooking for 8-10 mins, stirring occasionally until it starts to soften and turn golden.\n\nPour the stock into the pan and season with salt and pepper. Bring to the boil, then simmer for 10 mins until the squash is very soft.\n\nPour the double cream into the pan, bring back to the boil, then purée with a hand blender. For an extra-velvety consistency you can pour the soup through a fine sieve. The soup can now be frozen for up to 2 months.\n\nTo make the croutons: cut the bread into small squares. Heat the olive oil in a frying pan, then fry the bread until it starts to become crisp. Add a handful of pumpkin seeds to the pan, then cook for a few mins more until they are toasted. These can be made a day ahead and stored in an airtight container.\n\nReheat the soup if needed, taste for seasoning, then serve scattered with croutons and seeds and drizzled with more olive oil, if you want.', 'DL', false);
+INSERT INTO PUBLIC.RECIPE_INGREDIENT (INGREDIENT_ID, RECIPE_ID, AMOUNT) VALUES (604, 68, 0.7);
+INSERT INTO PUBLIC.RECIPE_INGREDIENT (INGREDIENT_ID, RECIPE_ID, AMOUNT) VALUES (2975, 68, 0.2);
+INSERT INTO PUBLIC.RECIPE_INGREDIENT (INGREDIENT_ID, RECIPE_ID, AMOUNT) VALUES (3217, 68, 1.5);
+INSERT INTO PUBLIC.RECIPE_INGREDIENT (INGREDIENT_ID, RECIPE_ID, AMOUNT) VALUES (1411, 68, 0.4);
+INSERT INTO PUBLIC.RECIPE_INGREDIENT (INGREDIENT_ID, RECIPE_ID, AMOUNT) VALUES (52, 68, 0.1);
+INSERT INTO PUBLIC.RECIPE_INGREDIENT (INGREDIENT_ID, RECIPE_ID, AMOUNT) VALUES (5259, 68, 1.3);
+INSERT INTO PUBLIC.RECIPE_INGREDIENT (INGREDIENT_ID, RECIPE_ID, AMOUNT) VALUES (3517, 68, 0.07);
