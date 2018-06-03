@@ -136,7 +136,8 @@ public class TabPlansController implements Notifiable {
 
 	private void updateRecipeSuggestion(Recipe recipe, Label recipeName, Label preparationTime, Label calories, Label carbohydrates, Label proteins, Label fats) {
 		recipeName.setText(recipe.getName());
-		preparationTime.setText((int) Math.ceil(recipe.getDuration()) + "'");
+		preparationTime.setText(recipe.getDuration() < 120 ? (int) Math.floor(recipe.getDuration()) + "'" :
+            (int) Math.floor((recipe.getDuration()/60)) + "''");
 		calories.setText((int) Math.ceil(recipe.getCalories()) + " kcal");
 		carbohydrates.setText((int) Math.ceil(recipe.getCarbohydrates()) + "g Carbohydrates");
 		proteins.setText((int) Math.ceil(recipe.getProteins()) + "g Proteins");

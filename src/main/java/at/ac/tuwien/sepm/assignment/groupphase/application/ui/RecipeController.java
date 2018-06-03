@@ -137,12 +137,14 @@ public class RecipeController implements Initializable, ExternalController<Recip
         amountTableColumn.setCellValueFactory(new PropertyValueFactory<>("amount"));
         buttonTableColumn.setCellFactory(param -> new TableCell<>() {
             Button removeButton = new Button("X");
+
             {
-                removeButton.setOnAction(x ->  {
+                removeButton.setOnAction(x -> {
                     setGraphic(null);
                     deleteIngredient(ingredientsTableView.getItems().get(getIndex()));
                 });
             }
+
             @Override
             public void updateItem(Object item, boolean empty) {
                 super.updateItem(item, empty);
@@ -156,7 +158,8 @@ public class RecipeController implements Initializable, ExternalController<Recip
             headerLabel.setText("EDIT RECIPE");
 
             recipeNameTextField.setText(r.getName());
-            preparationTimeSlider.setValue(r.getDuration());
+            preparationTimeSlider.setValue(r.getDuration() <= 120 ? r.getDuration() :
+                (r.getDuration()/60) + 118);
             /* "&#10" is a linefeed character, but for whatever reason this doesn't work when reading the string, therefor it has to be enforced manually.
                 2 line separators guarantee an empty line between paragraphs*/
             directionsTextArea.setText(r.getDescription().replace("&#10;", System.lineSeparator() + System.lineSeparator()));
@@ -181,7 +184,8 @@ public class RecipeController implements Initializable, ExternalController<Recip
     @FXML
     public void initialize(URL location, ResourceBundle resources) {
         preparationTimeSlider.valueProperty().addListener((ChangeListener) -> preparationTimeLabel.textProperty()
-            .setValue(String.valueOf((int) preparationTimeSlider.getValue()) + " minutes"));
+            .setValue(Math.floor(preparationTimeSlider.getValue()) < 120 ? String.valueOf((int)Math.floor(preparationTimeSlider.getValue())) + " minutes" :
+                String.valueOf((int)Math.floor((preparationTimeSlider.getValue() - 118))) + " hours"));
 
         ingredientComboBox.setConverter(new StringConverter<RecipeIngredient>() {
             @Override
@@ -246,7 +250,8 @@ public class RecipeController implements Initializable, ExternalController<Recip
         LOG.info("Save recipe button clicked");
 
         r.setName(recipeNameTextField.getText());
-        r.setDuration(preparationTimeSlider.getValue());
+        r.setDuration(preparationTimeSlider.getValue() < 120 ? (int)preparationTimeSlider.getValue() :
+            (Math.floor(preparationTimeSlider.getValue()) - 118) * 60);
         r.setDescription(directionsTextArea.getText());
         r.setRecipeIngredients(ingredients);
 

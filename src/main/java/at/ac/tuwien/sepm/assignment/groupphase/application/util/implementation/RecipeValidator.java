@@ -12,7 +12,7 @@ public class RecipeValidator implements Validator<Recipe> {
 	public boolean validateForCreation(Recipe recipe, ServiceInvokationContext context) {
 
 		ValidationUtil.validateStringLength("Recipe name", recipe.getName().trim(), 1, 255, context);
-		ValidationUtil.validateDoubleLimits("Duration", recipe.getDuration(), 0d, 255d, context);
+		ValidationUtil.validateDoubleLimits("Duration", recipe.getDuration(), 0d, 1441d, context);
 		ValidationUtil.validateStringLength("Description", recipe.getDescription().trim(), 1, null, context);
 
 		if (recipe.getTags() == null || recipe.getTags().size() == 0) {
@@ -27,7 +27,7 @@ public class RecipeValidator implements Validator<Recipe> {
 	public boolean validateForReading(Recipe recipe, ServiceInvokationContext context) {
         ValidationUtil.validateId(recipe.getId(), context);
         ValidationUtil.validateStringLength("Recipe name", recipe.getName().trim(), 1, 255, context);
-        ValidationUtil.validateDoubleLimits("Duration", recipe.getDuration(), 0d, 255d, context);
+        ValidationUtil.validateDoubleLimits("Duration", recipe.getDuration(), 0d, 1441d, context);
         ValidationUtil.validateStringLength("Description", recipe.getDescription().trim(), 1, null, context);
 
 	    ValidationUtil.validateNull("tags", recipe.getTags(), context);
@@ -45,7 +45,7 @@ public class RecipeValidator implements Validator<Recipe> {
 	public boolean validateForUpdate(Recipe recipe, ServiceInvokationContext context) {
 		ValidationUtil.validateId(recipe.getId(), context);
         ValidationUtil.validateStringLength("Recipe name", recipe.getName().trim(), 1, 255, context);
-        ValidationUtil.validateDoubleLimits("Duration", recipe.getDuration(), 0d, 255d, context);
+        ValidationUtil.validateDoubleLimits("Duration", recipe.getDuration(), 0d, 1441d, context);
         ValidationUtil.validateStringLength("Description", recipe.getDescription().trim(), 1, null, context);
 
         if (recipe.getTags() == null || recipe.getTags().size() == 0)
