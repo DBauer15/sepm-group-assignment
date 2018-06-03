@@ -736,3 +736,117 @@ INSERT INTO PUBLIC.RECIPE_INGREDIENT (INGREDIENT_ID, RECIPE_ID, AMOUNT) VALUES (
 INSERT INTO PUBLIC.RECIPE_INGREDIENT (INGREDIENT_ID, RECIPE_ID, AMOUNT) VALUES (2252, 78, 1);
 INSERT INTO PUBLIC.RECIPE_INGREDIENT (INGREDIENT_ID, RECIPE_ID, AMOUNT) VALUES (2984, 78, 0.5);
 INSERT INTO PUBLIC.RECIPE_INGREDIENT (INGREDIENT_ID, RECIPE_ID, AMOUNT) VALUES (7908, 78, 1);
+
+
+--
+-- Pasta Recipes
+--
+INSERT INTO PUBLIC.RECIPE (ID, NAME, DURATION, DESCRIPTION, TAGS, DELETED) VALUES (79, 'Beef stroganoff', 45, 'Heat the olive oil in a non-stick frying pan then add the sliced onion and cook on a medium heat until completely softened, so around 15 mins, adding a little splash of water if they start to stick at all. Crush in the garlic and cook for a 2-3 mins further, then add the butter. Once the butter is foaming a little, add the mushrooms and cook for around 5 mins until completely softened. Season everything well, then tip onto a plate.&#10;Tip the flour into a bowl with a big pinch of salt and pepper, then toss the steak in the seasoned flour. Add the steak pieces to the pan, splashing in a little oil if the pan looks particularly dry, and fry for 3-4 mins, until well coloured. Tip the onions and mushrooms back into the pan. Whisk the crème fraîche, mustard and beef stock together, then pour into the pan. Cook over a medium heat for around 5 mins. Scatter with parsley, then serve with pappardelle or rice.',
+                                                                                   'D', false);
+INSERT INTO PUBLIC.RECIPE_INGREDIENT (INGREDIENT_ID, RECIPE_ID, AMOUNT) VALUES (604, 79, 0.25);
+INSERT INTO PUBLIC.RECIPE_INGREDIENT (INGREDIENT_ID, RECIPE_ID, AMOUNT) VALUES (2986, 79, 0.25);
+INSERT INTO PUBLIC.RECIPE_INGREDIENT (INGREDIENT_ID, RECIPE_ID, AMOUNT) VALUES (2915, 79, 0.1);
+INSERT INTO PUBLIC.RECIPE_INGREDIENT (INGREDIENT_ID, RECIPE_ID, AMOUNT) VALUES (678, 79, 1);
+INSERT INTO PUBLIC.RECIPE_INGREDIENT (INGREDIENT_ID, RECIPE_ID, AMOUNT) VALUES (2954, 79, 1);
+INSERT INTO PUBLIC.RECIPE_INGREDIENT (INGREDIENT_ID, RECIPE_ID, AMOUNT) VALUES (3640, 79, 5);
+INSERT INTO PUBLIC.RECIPE_INGREDIENT (INGREDIENT_ID, RECIPE_ID, AMOUNT) VALUES (6211, 79, 0.01);
+INSERT INTO PUBLIC.RECIPE_INGREDIENT (INGREDIENT_ID, RECIPE_ID, AMOUNT) VALUES (49, 79, 0.3);
+INSERT INTO PUBLIC.RECIPE_INGREDIENT (INGREDIENT_ID, RECIPE_ID, AMOUNT) VALUES (261, 79, 1);
+INSERT INTO PUBLIC.RECIPE_INGREDIENT (INGREDIENT_ID, RECIPE_ID, AMOUNT) VALUES (1207, 79, 0.125);
+INSERT INTO PUBLIC.RECIPE_INGREDIENT (INGREDIENT_ID, RECIPE_ID, AMOUNT) VALUES (2989, 79, 0.125);
+
+
+INSERT INTO PUBLIC.RECIPE (ID, NAME, DURATION, DESCRIPTION, TAGS, DELETED) VALUES (80, 'Fettucine alfredo', 25, 'In a medium saucepan, stir the clotted cream, butter and cornflour over a low-ish heat and bring to a low simmer. Turn off the heat and keep warm.&#10;Meanwhile, put the cheese in a small bowl and add a good grinding of black pepper, then stir everything together (don’t add any salt at this stage).&#10;Put the pasta in another pan with 2 tsp salt, pour over some boiling water and cook following pack instructions (usually 3-4 mins). When cooked, scoop some of the cooking water into a heatproof jug or mug and drain the pasta, but not too thoroughly.&#10;Add the pasta to the pan with the clotted cream mixture, then sprinkle over the cheese and gently fold everything together over a low heat using a rubber spatula.&#10;When combined, splash in 3 tbsp of the cooking water. At first, the pasta will look wet and sloppy: keep stirring until the water is absorbed and the sauce is glossy. Check the seasoning before transferring to heated bowls. Sprinkle over some chives or parsley, then serve immediately.',
+                                                                                   'L', false);
+INSERT INTO PUBLIC.RECIPE_INGREDIENT (INGREDIENT_ID, RECIPE_ID, AMOUNT) VALUES (55, 80, 0.5);
+INSERT INTO PUBLIC.RECIPE_INGREDIENT (INGREDIENT_ID, RECIPE_ID, AMOUNT) VALUES (678, 80, 1);
+INSERT INTO PUBLIC.RECIPE_INGREDIENT (INGREDIENT_ID, RECIPE_ID, AMOUNT) VALUES (156, 80, 4);
+INSERT INTO PUBLIC.RECIPE_INGREDIENT (INGREDIENT_ID, RECIPE_ID, AMOUNT) VALUES (6268, 80, 0.5);
+INSERT INTO PUBLIC.RECIPE_INGREDIENT (INGREDIENT_ID, RECIPE_ID, AMOUNT) VALUES (2871, 80, 1);
+
+
+INSERT INTO PUBLIC.RECIPE (ID, NAME, DURATION, DESCRIPTION, TAGS, DELETED) VALUES (81, 'Linguine with avocado, tomato & lime', 30, 'Cook the pasta according to pack instructions – about 10 mins. Meanwhile, put the lime juice and zest in a medium bowl with the avocado, tomatoes, coriander, onion and mix well.&#10;Drain the pasta, toss into the bowl and mix well. Serve straight away while still warm, or cold.',
+                                                                                   'D', false);
+INSERT INTO PUBLIC.RECIPE_INGREDIENT (INGREDIENT_ID, RECIPE_ID, AMOUNT) VALUES (2252, 81, 1);
+INSERT INTO PUBLIC.RECIPE_INGREDIENT (INGREDIENT_ID, RECIPE_ID, AMOUNT) VALUES (2152, 81, 1);
+INSERT INTO PUBLIC.RECIPE_INGREDIENT (INGREDIENT_ID, RECIPE_ID, AMOUNT) VALUES (3156, 81, 0.5);
+INSERT INTO PUBLIC.RECIPE_INGREDIENT (INGREDIENT_ID, RECIPE_ID, AMOUNT) VALUES (2879, 81, 0.2);
+INSERT INTO PUBLIC.RECIPE_INGREDIENT (INGREDIENT_ID, RECIPE_ID, AMOUNT) VALUES (2986, 81, 1);
+INSERT INTO PUBLIC.RECIPE_INGREDIENT (INGREDIENT_ID, RECIPE_ID, AMOUNT) VALUES (6247, 81, 2.7);
+
+
+INSERT INTO PUBLIC.RECIPE (ID, NAME, DURATION, DESCRIPTION, TAGS, DELETED) VALUES (82, 'Creamy courgette & bacon pasta', 30, 'Heat the olive oil in a large frying pan and sizzle the pancetta or bacon for about 5 mins until starting to crisp. Turn up the heat and add the grated courgette to the pan. Cook for 5 mins or until soft and starting to brown then add the garlic and cook for a minute longer. Season and set aside.&#10;Cook the tagliatelle according to the pack instructions and scoop out a cupful of cooking water. Drain the tagliatelle and tip into the frying pan with the bacon and courgette. Over a low heat toss everything together with the cream and half the Parmesan adding a splash of pasta water too if you need to loosen the sauce. Season to taste and serve twirled into bowls with the remaining Parmesan scattered over.',
+                                                                                   'L', false);
+INSERT INTO PUBLIC.RECIPE_INGREDIENT (INGREDIENT_ID, RECIPE_ID, AMOUNT) VALUES (604, 82, 1);
+INSERT INTO PUBLIC.RECIPE_INGREDIENT (INGREDIENT_ID, RECIPE_ID, AMOUNT) VALUES (7823, 82, 4);
+INSERT INTO PUBLIC.RECIPE_INGREDIENT (INGREDIENT_ID, RECIPE_ID, AMOUNT) VALUES (2915, 82, 0.1);
+INSERT INTO PUBLIC.RECIPE_INGREDIENT (INGREDIENT_ID, RECIPE_ID, AMOUNT) VALUES (33, 82, 0.5);
+INSERT INTO PUBLIC.RECIPE_INGREDIENT (INGREDIENT_ID, RECIPE_ID, AMOUNT) VALUES (49, 82, 0.5);
+INSERT INTO PUBLIC.RECIPE_INGREDIENT (INGREDIENT_ID, RECIPE_ID, AMOUNT) VALUES (6247, 82, 2.7);
+
+
+INSERT INTO PUBLIC.RECIPE (ID, NAME, DURATION, DESCRIPTION, TAGS, DELETED) VALUES (83, 'Mac ''n'' cheese', 45, 'Heat the grill to its highest setting. In a flameproof casserole dish or metal frying pan, melt the butter and fry the garlic for 2 mins. Add the spinach and cook until it wilts, about 2 mins. Pour in the milk and bring to a gentle bubble. Add the macaroni and stir intermittently for around 20 mins until the pasta is cooked and covered in sauce.&#10;Stir in the cheddar and half the mozzarella. When it starts to melt, sprinkle the remaining mozzarella on top and put it in the oven for around 7-10 mins or until browned on top and sensational underneath.',
+                                                                                   'D', false);
+INSERT INTO PUBLIC.RECIPE_INGREDIENT (INGREDIENT_ID, RECIPE_ID, AMOUNT) VALUES (1, 83, 0.125);
+INSERT INTO PUBLIC.RECIPE_INGREDIENT (INGREDIENT_ID, RECIPE_ID, AMOUNT) VALUES (2915, 83, 0.1);
+INSERT INTO PUBLIC.RECIPE_INGREDIENT (INGREDIENT_ID, RECIPE_ID, AMOUNT) VALUES (3102, 83, 0.125);
+INSERT INTO PUBLIC.RECIPE_INGREDIENT (INGREDIENT_ID, RECIPE_ID, AMOUNT) VALUES (81, 83, 0.7);
+INSERT INTO PUBLIC.RECIPE_INGREDIENT (INGREDIENT_ID, RECIPE_ID, AMOUNT) VALUES (6229, 83, 0.5);
+INSERT INTO PUBLIC.RECIPE_INGREDIENT (INGREDIENT_ID, RECIPE_ID, AMOUNT) VALUES (9, 83, 0.3);
+INSERT INTO PUBLIC.RECIPE_INGREDIENT (INGREDIENT_ID, RECIPE_ID, AMOUNT) VALUES (7778, 83, 0.5);
+
+
+INSERT INTO PUBLIC.RECIPE (ID, NAME, DURATION, DESCRIPTION, TAGS, DELETED) VALUES (84, 'Orecchiette with anchovies & purple sprouting broccoli', 25, 'Cook the orecchiette following pack instructions. Meanwhile, heat 3 tbsp of the olive oil and 1 tbsp of the oil from the anchovies in a frying pan. Add the garlic and chilli, and sizzle for 3-4 mins until the garlic is just starting to turn golden. Add the anchovies and lemon juice, and cook for 1-2 mins more until the anchovies melt into the sauce. Put the remaining olive oil, breadcrumbs and lemon zest in another frying pan, stir together and cook until crisp.&#10;When the pasta has 4-5 mins to go, add the broccoli to the pan. When cooked, drain, reserving a cup of the pasta water, then add to the frying pan with the garlic and anchovies. Stir and cook over a low heat for a further 2 mins, adding a splash of pasta water if it looks dry. Season, then serve in pasta bowls with the lemony crumbs sprinkled over the top.',
+                                                                                   'L', false);
+INSERT INTO PUBLIC.RECIPE_INGREDIENT (INGREDIENT_ID, RECIPE_ID, AMOUNT) VALUES (6247, 84, 2.7);
+INSERT INTO PUBLIC.RECIPE_INGREDIENT (INGREDIENT_ID, RECIPE_ID, AMOUNT) VALUES (604, 84, 2);
+INSERT INTO PUBLIC.RECIPE_INGREDIENT (INGREDIENT_ID, RECIPE_ID, AMOUNT) VALUES (4279, 84, 2);
+INSERT INTO PUBLIC.RECIPE_INGREDIENT (INGREDIENT_ID, RECIPE_ID, AMOUNT) VALUES (2915, 84, 0.1);
+INSERT INTO PUBLIC.RECIPE_INGREDIENT (INGREDIENT_ID, RECIPE_ID, AMOUNT) VALUES (3349, 84, 1);
+INSERT INTO PUBLIC.RECIPE_INGREDIENT (INGREDIENT_ID, RECIPE_ID, AMOUNT) VALUES (2251, 84, 1);
+INSERT INTO PUBLIC.RECIPE_INGREDIENT (INGREDIENT_ID, RECIPE_ID, AMOUNT) VALUES (5544, 84, 1);
+INSERT INTO PUBLIC.RECIPE_INGREDIENT (INGREDIENT_ID, RECIPE_ID, AMOUNT) VALUES (3274, 84, 1);
+
+
+INSERT INTO PUBLIC.RECIPE (ID, NAME, DURATION, DESCRIPTION, TAGS, DELETED) VALUES (85, 'Broccoli & sage pasta', 17, 'Boil the spaghetti for 1 min. Add the broccoli and cook for 4 mins more.&#10;Meanwhile, heat the oil in a frying pan and add the shallots and garlic. Gently cook for 5 mins until golden. Add the chillies and sage to the pan and gently cook for 2 mins. Drain the pasta, mix with the shallot mixture in the pan, then scatter with Parmesan, if you like.',
+                                                                                   'D', false);
+INSERT INTO PUBLIC.RECIPE_INGREDIENT (INGREDIENT_ID, RECIPE_ID, AMOUNT) VALUES (6247, 85, 2.5);
+INSERT INTO PUBLIC.RECIPE_INGREDIENT (INGREDIENT_ID, RECIPE_ID, AMOUNT) VALUES (2821, 85, 0.5);
+INSERT INTO PUBLIC.RECIPE_INGREDIENT (INGREDIENT_ID, RECIPE_ID, AMOUNT) VALUES (604, 85, 1.5);
+INSERT INTO PUBLIC.RECIPE_INGREDIENT (INGREDIENT_ID, RECIPE_ID, AMOUNT) VALUES (3236, 85, 5);
+INSERT INTO PUBLIC.RECIPE_INGREDIENT (INGREDIENT_ID, RECIPE_ID, AMOUNT) VALUES (2915, 85, 0.1);
+INSERT INTO PUBLIC.RECIPE_INGREDIENT (INGREDIENT_ID, RECIPE_ID, AMOUNT) VALUES (3230, 85, 0.5);
+INSERT INTO PUBLIC.RECIPE_INGREDIENT (INGREDIENT_ID, RECIPE_ID, AMOUNT) VALUES (254, 85, 3);
+INSERT INTO PUBLIC.RECIPE_INGREDIENT (INGREDIENT_ID, RECIPE_ID, AMOUNT) VALUES (32, 85, 0.2);
+
+
+INSERT INTO PUBLIC.RECIPE (ID, NAME, DURATION, DESCRIPTION, TAGS, DELETED) VALUES (86, 'Spaghetti with artichokes', 20, 'Cook the spaghetti following pack instructions. Meanwhile, in a small bowl or jug, beat the eggs together with the milk, Parmesan, artichokes and seasoning.&#10;Heat a small pan on a medium heat and add the pine nuts. Toast for a few mins, shaking the pan occasionally, until they are pale golden. Keep your eye on them as they can catch and burn quickly.&#10;Once the pasta is cooked, drain in a colander and tip back into the pan. Put the pan onto a low heat and pour over the egg mixture, tossing together to coat all of the pasta in the sauce – take care not to heat it for too long or it will start to scramble.&#10;Toss through the toasted pine nuts and serve with extra Parmesan at the table, if you like.',
+                                                                                   'L', false);
+INSERT INTO PUBLIC.RECIPE_INGREDIENT (INGREDIENT_ID, RECIPE_ID, AMOUNT) VALUES (6247, 86, 2.5);
+INSERT INTO PUBLIC.RECIPE_INGREDIENT (INGREDIENT_ID, RECIPE_ID, AMOUNT) VALUES (112, 86, 0.25);
+INSERT INTO PUBLIC.RECIPE_INGREDIENT (INGREDIENT_ID, RECIPE_ID, AMOUNT) VALUES (81, 86, 0.1);
+INSERT INTO PUBLIC.RECIPE_INGREDIENT (INGREDIENT_ID, RECIPE_ID, AMOUNT) VALUES (33, 86, 1);
+INSERT INTO PUBLIC.RECIPE_INGREDIENT (INGREDIENT_ID, RECIPE_ID, AMOUNT) VALUES (2773, 86, 3);
+INSERT INTO PUBLIC.RECIPE_INGREDIENT (INGREDIENT_ID, RECIPE_ID, AMOUNT) VALUES (3584, 86, 0.3);
+
+
+INSERT INTO PUBLIC.RECIPE (ID, NAME, DURATION, DESCRIPTION, TAGS, DELETED) VALUES (87, 'Pizza pasta salad', 25, 'Cook the pasta following pack instructions. Drain, rinse under cold water to cool, then drain well. Toss with the oil and sundried tomato pesto, season to taste. Place in a jar or plastic box and scatter over the remaining ingredients in layers, ending with the basil.',
+                                                                                   'D', false);
+INSERT INTO PUBLIC.RECIPE_INGREDIENT (INGREDIENT_ID, RECIPE_ID, AMOUNT) VALUES (6227, 87, 3);
+INSERT INTO PUBLIC.RECIPE_INGREDIENT (INGREDIENT_ID, RECIPE_ID, AMOUNT) VALUES (604, 87, 1);
+INSERT INTO PUBLIC.RECIPE_INGREDIENT (INGREDIENT_ID, RECIPE_ID, AMOUNT) VALUES (3472, 87, 0.1);
+INSERT INTO PUBLIC.RECIPE_INGREDIENT (INGREDIENT_ID, RECIPE_ID, AMOUNT) VALUES (3156, 87, 0.5);
+INSERT INTO PUBLIC.RECIPE_INGREDIENT (INGREDIENT_ID, RECIPE_ID, AMOUNT) VALUES (7778, 87, 0.3);
+INSERT INTO PUBLIC.RECIPE_INGREDIENT (INGREDIENT_ID, RECIPE_ID, AMOUNT) VALUES (2273, 87, 3);
+INSERT INTO PUBLIC.RECIPE_INGREDIENT (INGREDIENT_ID, RECIPE_ID, AMOUNT) VALUES (1736, 87, 1);
+INSERT INTO PUBLIC.RECIPE_INGREDIENT (INGREDIENT_ID, RECIPE_ID, AMOUNT) VALUES (259, 87, 1);
+
+INSERT INTO PUBLIC.RECIPE (ID, NAME, DURATION, DESCRIPTION, TAGS, DELETED) VALUES (88, 'So-simple spaghetti Bolognese', 30, 'Heat the oil in non-stick frying pan. Tip in the carrot and cook for 5 mins to soften. Scoop out the tomatoes from the can and add to the pan, and cook for 5 mins more. Pour over the tomato juice and basil, then simmer for 15 mins. Whizz together in a blender until smooth. This sauce can be frozen for up to 3 months.&#10;Heat through with the Multi mince. Cook spaghetti according to pack instructions. Reserve some of the cooking water, drain and tip the pasta into the pan along with the sauce. Toss together, thinning with pasta water, if needed, and serve with the extra basil leaves on top and the breadcrumbs.',
+                                                                                   'L', false);
+INSERT INTO PUBLIC.RECIPE_INGREDIENT (INGREDIENT_ID, RECIPE_ID, AMOUNT) VALUES (604, 88, 1);
+INSERT INTO PUBLIC.RECIPE_INGREDIENT (INGREDIENT_ID, RECIPE_ID, AMOUNT) VALUES (2848, 88, 0.5);
+INSERT INTO PUBLIC.RECIPE_INGREDIENT (INGREDIENT_ID, RECIPE_ID, AMOUNT) VALUES (3156, 88, 1);
+INSERT INTO PUBLIC.RECIPE_INGREDIENT (INGREDIENT_ID, RECIPE_ID, AMOUNT) VALUES (259, 88, 1);
+INSERT INTO PUBLIC.RECIPE_INGREDIENT (INGREDIENT_ID, RECIPE_ID, AMOUNT) VALUES (6247, 88, 2.5);
+INSERT INTO PUBLIC.RECIPE_INGREDIENT (INGREDIENT_ID, RECIPE_ID, AMOUNT) VALUES (5293, 88, 1);
+INSERT INTO PUBLIC.RECIPE_INGREDIENT (INGREDIENT_ID, RECIPE_ID, AMOUNT) VALUES (2622, 88, 4);
