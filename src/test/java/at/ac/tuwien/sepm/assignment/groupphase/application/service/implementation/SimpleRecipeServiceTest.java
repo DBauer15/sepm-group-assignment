@@ -7,7 +7,6 @@ import static org.mockito.Mockito.times;
 import static org.mockito.Mockito.verify;
 import static org.mockito.Mockito.verifyZeroInteractions;
 
-import java.sql.SQLException;
 import java.util.ArrayList;
 import java.util.EnumSet;
 import java.util.List;
@@ -36,12 +35,11 @@ public class SimpleRecipeServiceTest extends BaseTest {
 
 	private static final String EXAMPLE_TEXT_256CHARS = "Lorem ipsum dolor sit amet, consetetur sadipscing elitr, sed diam nonumy eirmod tempor invidunt ut labore et dolore magna aliquyam erat, sed diam voluptua. At vero eos et accusam et justo duo dolores et ea rebum. Stet clita kasd gubergren, no sea takimatad";
 
-	private Recipe recipeValidForCreate = new Recipe("My recipe", 120d, "Test", validTagBreakfastSet);
+	private Recipe recipeValid = new Recipe("My recipe", 120d, "Test", validTagBreakfastSet);
 	private Recipe recipeInvalid1 = new Recipe(EXAMPLE_TEXT_256CHARS, 0d, " ", EnumSet.noneOf(RecipeTag.class));
 	private Recipe recipeInvalid2 = new Recipe(" ", 256d, "something to do", validTagBreakfastSet);
 	private Recipe recipeInvalid3 = new Recipe("My recipe", 120d, "Test", validTagBreakfastSet);
 	private Recipe recipeInvalid4 = new Recipe("My recipe", 120d, "Test", validTagBreakfastSet);
-	private Recipe recipeForUpdate = new Recipe(1, "My recipe", 120d, "Test", validTagBreakfastSet, false);
 
 	public SimpleRecipeServiceTest() {
 		validTagBreakfastSet.add(RecipeTag.B);
@@ -56,7 +54,7 @@ public class SimpleRecipeServiceTest extends BaseTest {
 		RecipeIngredient ri4 = new RecipeIngredient(101, 2d, false);
 		recipeIngredientList.add(ri3);
 		recipeIngredientList.add(ri4);
-		recipeValidForCreate.setRecipeIngredients(recipeIngredientList);
+		recipeValid.setRecipeIngredients(recipeIngredientList);
 
 		// invalid recipe ingredient list
 		List<RecipeIngredient> invalidRecipeIngredientList1 = new ArrayList<>();
@@ -98,10 +96,10 @@ public class SimpleRecipeServiceTest extends BaseTest {
 
 		// invokation
 		RecipeService dietPlanService = new SimpleRecipeService(mockedRecipeRepo);
-		dietPlanService.create(recipeValidForCreate);
+		dietPlanService.create(recipeValid);
 
 		// verification after invokation
-		verify(mockedRecipeRepo, times(1)).create(recipeValidForCreate);
+		verify(mockedRecipeRepo, times(1)).create(recipeValid);
 	}
 
 	@Test
@@ -354,102 +352,40 @@ public class SimpleRecipeServiceTest extends BaseTest {
 		Assert.fail("Should throw ServiceInvokationException.");
 	}
 
-    @Test
-    public void testUpdate_recipeIsValid_callsPersistenceUpdateOnce() throws ServiceInvokationException, PersistenceException {
-        RecipeService dietPlanService = new SimpleRecipeService(mockedRecipeRepo);
+	@Test
+	public void testUpdate_recipeIsValid_callsPersistenceUpdateOnce()
+			throws ServiceInvokationException, PersistenceException {
 
-        List<RecipeIngredient> ingredients = new ArrayList<>();
-        ingredients.add(new RecipeIngredient(1, 1d, 1d, 1d, 1d, 1d, "A", 1d, true, "A"));
-        recipeForUpdate.setRecipeIngredients(ingredients);
+		RecipeService dietPlanService = new SimpleRecipeService(mockedRecipeRepo);
+		recipeValid.setId(1);
+		dietPlanService.update(recipeValid);
+		verify(mockedRecipeRepo, times(1)).update(recipeValid);
+	}
 
-        dietPlanService.update(recipeForUpdate);
-        verify(mockedRecipeRepo, times(1)).update(recipeForUpdate);
-    }
+	@Test
+	public void testUpdate_recipeHasNoId_throwsValidationError() {
+		RecipeService recipeService = new SimpleRecipeService(mockedRecipeRepo);
+		Recipe recipeNotValidForUpdate = recipeValid;
 
-    @Test
-    public void testUpdate_recipeHasNoId_throwsValidationError() {
-        RecipeService recipeService = new SimpleRecipeService(mockedRecipeRepo);
-        Recipe recipeNotValidForUpdate = recipeValidForCreate;
+		try {
+			recipeService.update(recipeNotValidForUpdate);
+		} catch (ServiceInvokationException e) {
+			verifyZeroInteractions(mockedRecipeRepo);
 
-        try {
-            recipeService.update(recipeNotValidForUpdate);
-        } catch (ServiceInvokationException e) {
-            verifyZeroInteractions(mockedRecipeRepo);
+			ArrayList<String> errors = e.getContext().getErrors();
+			Assert.assertEquals(1, errors.size());
+			Assert.assertEquals("ID needs to be set", errors.get(0));
+			return;
+		}
+		Assert.fail("Should throw ServiceInvokationException!");
+	}
 
-            ArrayList<String> errors = e.getContext().getErrors();
-            Assert.assertEquals(1, errors.size());
-            Assert.assertEquals("ID needs to be set", errors.get(0));
-            return;
-        }
-        Assert.fail("Should throw ServiceInvokationException!");
-    }
+	@Test
+	public void testDelete_validData_callsPersistenceCreateOnce() throws ServiceInvokationException, PersistenceException {
+		RecipeService recipeService = new SimpleRecipeService(mockedRecipeRepo);
+		recipeService.delete(1);
 
-    @Test
-    public void testGet_recipeIsValid_recipeIsReturnedWithNoExceptionRaised() throws ServiceInvokationException, PersistenceException {
-        List<RecipeIngredient> ingredients = new ArrayList<>();
-        ingredients.add(new RecipeIngredient(1, 1d, 1d, 1d, 1d, 1d, "A", 1d, true, "A"));
-        ingredients.add(new RecipeIngredient(2, 2d, 2d, 2d, 2d, 2d, "B", 2d, true, "B"));
-        recipeForUpdate.setRecipeIngredients(ingredients);
-
-        when(mockedRecipeRepo.get(1)).thenReturn(recipeForUpdate);
-        RecipeService recipeService = new SimpleRecipeService(mockedRecipeRepo);
-
-        Assert.assertNotNull(recipeService.get(1));
-        verify(mockedRecipeRepo, times(1)).get(1);
-    }
-
-    @Test
-    public void testGet_persistenceThrowsException_servicePropagatesException() throws PersistenceException {
-        Recipe recipeValid2 = new Recipe(1, "My recipe", 120d, "Test", validTagBreakfastSet, false);
-        List<RecipeIngredient> ingredients = new ArrayList<>();
-        ingredients.add(new RecipeIngredient(1, 1d, 1d, 1d, 1d, 1d, "A", 1d, true, "A"));
-        ingredients.add(new RecipeIngredient(2, 2d, 2d, 2d, 2d, 2d, "B", 2d, true, "B"));
-        recipeValid2.setRecipeIngredients(ingredients);
-
-        when(mockedRecipeRepo.get(-1)).thenThrow(new PersistenceException(new SQLException()));
-        RecipeService recipeService = new SimpleRecipeService(mockedRecipeRepo);
-
-        try {
-            recipeService.get(-1);
-        } catch (ServiceInvokationException e) {
-            verify(mockedRecipeRepo, times(1)).get(-1);
-            ArrayList<String> errors = e.getContext().getErrors();
-            Assert.assertEquals(1, errors.size());
-            Assert.assertEquals("java.sql.SQLException", errors.get(0));
-            return;
-        }
-        Assert.fail("Should throw ServiceInvokationException!");
-    }
-
-    @Test
-    public void testGetRecipes_persistenceHasRecipes_listIsReturned() throws ServiceInvokationException, PersistenceException {
-        Recipe recipeValid2 = new Recipe(1, "My recipe", 120d, "Test", validTagBreakfastSet, false);
-        List<RecipeIngredient> ingredients = new ArrayList<>();
-        ingredients.add(new RecipeIngredient(1, 1d, 1d, 1d, 1d, 1d, "A", 1d, true, "A"));
-        ingredients.add(new RecipeIngredient(2, 2d, 2d, 2d, 2d, 2d, "B", 2d, true, "B"));
-        recipeValid2.setRecipeIngredients(ingredients);
-
-        List<Recipe> recipes = new ArrayList<>();
-        recipes.add(recipeValid2);
-        recipes.add(recipeValid2);
-
-        when(mockedRecipeRepo.getRecipes()).thenReturn(recipes);
-        RecipeService recipeService = new SimpleRecipeService(mockedRecipeRepo);
-
-        List<Recipe> result = recipeService.getRecipes();
-        Assert.assertNotNull(result);
-        Assert.assertEquals(2, result.size());
-        verify(mockedRecipeRepo, times(1)).getRecipes();
-    }
-
-    @Test
-    public void testGetRecipes_persistenceIsEmpty_listIsEmptyWithNoExceptionRaised() throws ServiceInvokationException, PersistenceException {
-        when(mockedRecipeRepo.getRecipes()).thenReturn(new ArrayList<>());
-        RecipeService recipeService = new SimpleRecipeService(mockedRecipeRepo);
-
-        List<Recipe> result = recipeService.getRecipes();
-        Assert.assertNotNull(result);
-        Assert.assertEquals(0, result.size());
-        verify(mockedRecipeRepo, times(1)).getRecipes();
-    }
+		// verification after invokation
+		verify(mockedRecipeRepo, times(1)).delete(1);
+	}
 }

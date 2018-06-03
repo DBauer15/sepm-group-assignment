@@ -1,6 +1,7 @@
 package at.ac.tuwien.sepm.assignment.groupphase.application.service;
 
 import at.ac.tuwien.sepm.assignment.groupphase.application.dto.DietPlan;
+import at.ac.tuwien.sepm.assignment.groupphase.application.dto.Recipe;
 import at.ac.tuwien.sepm.assignment.groupphase.application.persistence.NoEntryFoundException;
 
 import java.util.List;
@@ -40,4 +41,12 @@ public interface DietPlanService {
      * @throws ServiceInvokationException
      */
 	public void switchTo(DietPlan dietPlan) throws ServiceInvokationException;
+
+    /**
+     * Updates a custom diet plan entry in the persistence layer.
+     *
+     * @param dietPlan A DietPlan object with its unique id referencing an existing storage entry
+     * @throws ServiceInvokationException if any persistence errors occur
+     */
+    void update(DietPlan dietPlan) throws ServiceInvokationException;
 }

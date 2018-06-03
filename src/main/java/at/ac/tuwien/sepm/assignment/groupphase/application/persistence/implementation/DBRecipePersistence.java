@@ -37,14 +37,18 @@ public class DBRecipePersistence implements RecipePersistence {
 	private static final String SELECT_RECIPES = "SELECT * FROM RECIPE WHERE DELETED = FALSE;";
 
 	private static final String SELECT_RECIPE_WHERE = "SELECT * FROM RECIPE WHERE ID = ?;";
-	private static final String UPDATE_RECIPE_WHERE = "UPDATE RECIPE SET NAME = ?, DURATION = ?, DESCRIPTION = ?, TAGS = ?, DELETED = ? WHERE ID = ?;";
+	private static final String UPDATE_RECIPE_WHERE = "UPDATE RECIPE SET NAME = ?, DURATION = ?, DESCRIPTION = ?, TAGS = ? WHERE ID = ?;";
 
+	private static final String DELETE_RECIPE = "UPDATE RECIPE SET DELETED = TRUE WHERE id = ?;";
+	
 	private static final String SELECT_R_I_WHERE = "SELECT * FROM RECIPE_INGREDIENT r_i JOIN INGREDIENT i ON r_i.INGREDIENT_ID = i.ID JOIN RECIPE r ON r_i.RECIPE_ID = r.ID WHERE r.ID = ?;";
 	private static final String DELETE_R_I_WHERE = "DELETE FROM RECIPE_INGREDIENT WHERE RECIPE_ID = ?;";
 	//private static final String INSERT_R_I_WHERE = "INSERT INTO RECIPE_INGREDIENT (INGREDIENT_ID, RECIPE_ID, AMOUNT) VALUES (?, ?, ?);";
 
 	private static final String CREATE_RECIPE_INGREDIENT = "INSERT INTO recipe_ingredient (ingredient_id, recipe_id, amount) VALUES (?,?,?);";
 
+	private static final String IS_RECIPE_CURRENTLY_SUGGESTED = "SELECT 1 FROM diet_plan_suggestion x WHERE recipe = ? AND date = TRUNC(NOW()) AND NOT EXISTS (SELECT 1 FROM diet_plan_suggestion WHERE tag = x.tag AND date = x.date AND created_timestamp > x.created_timestamp)";
+	
 	@Override
 	public void create(Recipe recipe) throws PersistenceException {
 		LOG.debug("Creating a new Recipe {}", recipe);
@@ -242,8 +246,7 @@ public class DBRecipePersistence implements RecipePersistence {
 			ps.setClob(3, description);
 
 			ps.setString(4, recipe.getTagsAsString());
-			ps.setBoolean(5, recipe.getDeleted());
-			ps.setInt(6, recipe.getId());
+			ps.setInt(5, recipe.getId());
 			ps.executeUpdate();
 
 			setIngredients(recipe);
@@ -309,6 +312,47 @@ public class DBRecipePersistence implements RecipePersistence {
 		} finally {
 			CloseUtil.closeStatement(ps);
 			CloseUtil.closeResultSet(rs);
+		}
+	}
+
+	@Override
+	public void delete(int id) throws PersistenceException {
+		LOG.debug("Deleting recipe with ID {}");
+
+		PreparedStatement createRecipe = null;
+		PreparedStatement isRecipeCurrentlySuggested = null; 
+		ResultSet rs = null;
+
+		try {
+			Connection connection = JDBCConnectionManager.getConnection();
+			JDBCConnectionManager.startTransaction();
+			
+			isRecipeCurrentlySuggested = connection.prepareStatement(IS_RECIPE_CURRENTLY_SUGGESTED);
+			isRecipeCurrentlySuggested.setInt(1, id);
+			
+			rs = isRecipeCurrentlySuggested.executeQuery();
+			
+			if (rs.next()) {
+				throw new PersistenceException("The recipe has been suggested for today. You must change today's recipe proposal before you can delete the recipe.");
+			}
+
+			createRecipe = connection.prepareStatement(DELETE_RECIPE);
+			createRecipe.setInt(1, id);
+			
+			if (createRecipe.executeUpdate() == 0) {
+				throw new PersistenceException("No recipe found for given id");
+			}
+
+			JDBCConnectionManager.commitTransaction();
+		} catch (SQLException e) {
+			JDBCConnectionManager.rollbackTransaction();
+			throw new PersistenceException(
+					"There was an error while deleting the recipe in the database. " + e.getMessage());
+		} finally {
+			JDBCConnectionManager.finalizeTransaction();
+			CloseUtil.closeResultSet(rs);
+			CloseUtil.closeStatement(isRecipeCurrentlySuggested);
+			CloseUtil.closeStatement(createRecipe);
 		}
 	}
 }

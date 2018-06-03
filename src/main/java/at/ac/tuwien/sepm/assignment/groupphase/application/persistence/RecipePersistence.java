@@ -31,6 +31,14 @@ public interface RecipePersistence {
      * @throws PersistenceException if any persistence errors occur or if no matching entry is found
      */
     Recipe get(int id) throws PersistenceException;
+    
+    /**
+     * Deletes a recipe entry from the storage based on the given id.
+     *
+     * @param id An id for a storage entry
+     * @throws PersistenceException if any persistence errors occur or if no matching entry is found
+     */
+    void delete(int id) throws PersistenceException;
 
     /**
      * Updates a recipe entry in the storage.
