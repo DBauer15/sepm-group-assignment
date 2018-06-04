@@ -117,7 +117,7 @@ CREATE TABLE IF NOT EXISTS `INGREDIENT` (
 
 -- Build Muscle
 INSERT INTO `DIET_PLAN` (`id`, `NAME`, `ENERG_KCAL`, `LIPID`, `PROTEIN`, `CARBOHYDRT`, `from_dt`, `to_dt`)
-VALUES (1, 'Build Muscle', 2500, 20.0, 25.0, 50.0, NULL, NULL);
+VALUES (1, 'Build Muscle', 2500, 25.0, 25.0, 50.0, NULL, NULL);
 
 -- Lose Weight
 INSERT INTO `DIET_PLAN` (`id`, `NAME`, `ENERG_KCAL`, `LIPID`, `PROTEIN`, `CARBOHYDRT`, `from_dt`, `to_dt`)
@@ -851,3 +851,65 @@ INSERT INTO PUBLIC.RECIPE_INGREDIENT (INGREDIENT_ID, RECIPE_ID, AMOUNT) VALUES (
 INSERT INTO PUBLIC.RECIPE_INGREDIENT (INGREDIENT_ID, RECIPE_ID, AMOUNT) VALUES (5293, 88, 1);
 INSERT INTO PUBLIC.RECIPE_INGREDIENT (INGREDIENT_ID, RECIPE_ID, AMOUNT) VALUES (2622, 88, 4);
 
+INSERT INTO PUBLIC.RECIPE(ID, NAME, DURATION, DESCRIPTION, TAGS, DELETED) VALUES
+(99921, 'Broccoli baked potatoes', 40.0, STRINGDECODE('Heat oven to 200C/180C fan/gas 6. Microwave the potatoes on High for 12-15 mins until tender. Meanwhile, steam or boil the broccoli for 3 mins, then drain well. When the potatoes have cooled a little, cut them in half lengthways and scoop the insides into a bowl.\n\nPut the potato shells on a baking sheet. Mash the flesh with a fork, then stir in the mustard, egg, most of the cheese and the broccoli. Season if needed, then pile back into the shells. Sprinkle with the reserved cheese and bake for 15 mins until the tops are crisp and golden. Serve with salad and Tomato relish.'), 6, FALSE),
+(99922, 'Easy cheesy frittata', 45.0, STRINGDECODE('Ask a grown-up helper to switch the oven on to 180C/ 160C fan/gas 4. Snip or cut up the spring onions and put them in a bowl. Add the peas to the bowl.\n\nGrate the courgette using your rotary grater, one half at a time, then add it to the bowl.\n\nCut the ham into pieces with your scissors, if you do this over the bowl it will fall straight in.\n\nBreak the feta into the bowl by crumbling it with your hands.\n\nCrack the eggs into a bowl and, if any bits of shell fall in, scoop them out with a spoon. Whisk the eggs until the yolks are mixed into the white.\n\nPour the eggs into the other bowl and stir. Brush a round ovenproof dish, about 16cm across, with oil. Tip everything into the dish. Ask a helper to put the dish in the oven for 30 minutes or until the egg is set. Serve with salad and crusty bread.'), 3, FALSE),
+(99923, 'Spicy sausage & bean one-pot', 25.0, STRINGDECODE('Heat the oil in a large frying pan. Cook the onion and sausages over a fairly high heat for 8-10 mins, turning the sausages often so they brown all over.\n\nAdd the garlic to the pan with the kidney beans and their sauce. Half-fill one of the cans with water, swirl and then add this to the pan. Stir everything together and bring to the boil. Turn down to simmer and cook for 10 mins, or until the sausages are cooked through. Season and sprinkle with the parsley.'), 6, FALSE),
+(99924, 'Easy risotto with bacon & peas', 50.0, STRINGDECODE('Finely chop the onion. Heat 2 tablespoons of olive oil and a knob of butter in a pan, add the onions and fry until lightly browned (about 7 minutes). Add the bacon and fry for a further 5 minutes, until it starts to crisp.\n\nAdd the rice and stock, and bring to the boil. Stir well, then reduce the heat and cook, covered, for 15-20 minutes until the rice is almost tender.\n\nStir in the peas, add a little salt and pepper and cook for a further 3 minutes, until the peas are cooked. Serve sprinkled with freshly grated parmesan and freshly ground black pepper.'), 6, FALSE),
+(99925, 'Smoked salmon & pea frittata', 50.0, STRINGDECODE('Thickly slice the potatoes and cook in a pan of boiling salted water until just tender, about 10 minutes. Drain well and leave to cool slightly.\n\nCut the salmon into wide strips. Crack the eggs into a bowl, beat with a fork until lightly foamy, then stir in the smoked salmon, dill, peas and plenty of salt and pepper. Finally, stir in the potatoes.\n\nHeat 3 tablespoons of olive oil in a large non-stick frying pan, carefully pour in the egg mixture and cook over a fairly low heat for 10-15 minutes, until the egg is starting to set just under the surface.\n\nPut a plate that is slightly larger than the top of the pan on top and invert the frittata onto it. Slide it back into the pan and cook for a further 5 minutes to brown the underside. Slide on to a plate and leave to cool for 5 minutes before cutting into wedges. A tomato and chive salad tastes very fresh with this.'), 6, FALSE),
+(99926, 'Muddled potato & mozzarella tortilla', 30.0, STRINGDECODE('Start by frying: Heat the oil in a large frying pan. Empty the potatoes into the pan, spread them out to cover the base, then fry for 5 minutes. Pour in the beaten eggs so they completely cover the potatoes, season well and leave the tortilla to cook on a medium heat for about 15-20 minutes, or until the base and edges have set.\n\nGrill to finish: Take the tortilla off the hob and place under a hot grill until the top is firm, then remove from the grill and scatter over the tomatoes and mozzarella. Put the tortilla back under the grill for a further 3-5 minutes, or until the tomatoes are soft and the cheese has melted. To serve, cut into thick wedges.'), 6, FALSE);
+INSERT INTO PUBLIC.RECIPE(ID, NAME, DURATION, DESCRIPTION, TAGS, DELETED) VALUES
+(99927, 'Creamy tomato courgetti', 30.0, STRINGDECODE('Heat oven to 200C/fan180C/gas 6. Cook the leeks in a pan of boiling salted water for 4-5 mins or until just tender. Drain and cool under a cold tap to stop them from cooking any further, then drain again well and pat dry on kitchen paper.\n\nWrap each leek in a slice of ham, then arrange, side-by-side, in a large baking dish. Mix the cheddar in a bowl with the Dijon mustard and cr\u00e8me fra\u00eeche, until well combined. Season to taste. Spread over the leeks, then bake for 15-20 mins until bubbling and golden brown. Serve at once with plenty of crusty bread to mop up the juices.'), 6, FALSE),
+(99928, 'Cheesy mushroom omelette', 15.0, STRINGDECODE('Heat the olive oil in a small non-stick frying pan. Tip in the mushrooms and fry over a high heat, stirring occasionally for 2-3 mins until golden. Lift out of the pan into a bowl and mix with the cheese and parsley.\n\nPlace the pan back on the heat and swirl the eggs into it. Cook for 1 min or until set to your liking, swirling with a fork now and again.\n\nSpoon the mushroom mix over one half of the omelette. Using a spatula or palette knife, flip the omelette over to cover the mushrooms. Cook for a few moments more, lift onto a plate and serve with oven chips and salad.'), 6, FALSE),
+(99929, 'Sweet potatoes with mushrooms & rosemary', 30.0, STRINGDECODE('Heat oven to 200C/fan 180C/gas 6. Prick the potatoes several times with a fork, then microwave on High for 8-10 mins, turning once, until tender. Meanwhile, heat the oil in a non-stick pan, add the mushrooms and rosemary and cook over a fairly high heat, stirring, until the mushrooms are tender and lightly coloured. Season to taste.\n\nPut the potatoes in the oven and roast for 15 mins until the skins start to crisp. Split open and spoon over the mushrooms. Sprinkle with Parmesan to serve.'), 6, FALSE),
+(99930, 'Cheese & chilli melts', 21.0, STRINGDECODE('Put the cheese, tomatoes, chilli and coriander leaves into a bowl with some seasoning, then mix well.\n\nWarm tortillas in the microwave according to pack instructions \u2013 this makes them more bendable. Divide the cheese mix over one half of each tortilla. Fold over the other half to make 8 half-moons, then press down to seal.\n\nBrush the tops with a little oil, then sit, oil-side down, on a hot area of the barbecue. Cook for a couple of mins until crisp and golden, brush the uncooked side with oil, then flip over for another few mins. Slice into wedges, then pile onto a platter while you cook the rest.'), 6, FALSE);
+
+INSERT INTO PUBLIC.RECIPE_INGREDIENT(INGREDIENT_ID, RECIPE_ID, AMOUNT) VALUES
+(121, 99921, 0.25),
+(261, 99921, 0.25),
+(3366, 99921, 1.0),
+(9, 99921, 0.1479363486952715),
+(2821, 99921, 0.3170064614898675),
+(2986, 99922, 0.5),
+(2996, 99922, 0.0625),
+(1578, 99922, 0.5),
+(19, 99922, 0.1056688204966225),
+(119, 99922, 1.0),
+(739, 99923, 0.25),
+(2986, 99923, 0.25),
+(1632, 99923, 2.0),
+(2915, 99923, 1.0),
+(2989, 99923, 1.0),
+(4562, 99923, 0.84535056397298),
+(2986, 99924, 0.25),
+(2767, 99924, 1.5),
+(6187, 99924, 0.3170064614898675),
+(3002, 99924, 0.1056688204966225),
+(3062, 99925, 0.5283441024831125),
+(119, 99925, 2.0),
+(260, 99925, 0.03125),
+(7628, 99925, 1.0),
+(604, 99926, 0.33333333),
+(3044, 99926, 0.5621581250420318),
+(3156, 99926, 0.422675282),
+(26, 99926, 0.1056688204966225),
+(119, 99926, 2.0),
+(3326, 99927, 2.0),
+(1579, 99927, 4.0),
+(148, 99927, 0.1056688204966225),
+(240, 99927, 0.5),
+(604, 99928, 1.0),
+(2954, 99928, 1.0),
+(9, 99928, 0.1056688204966225),
+(2989, 99928, 1.0),
+(116, 99928, 2.0),
+(3363, 99929, 1.0),
+(604, 99929, 0.5),
+(2954, 99929, 0.42267528198649),
+(271, 99929, 0.5),
+(32, 99929, 0.0625),
+(9, 99930, 0.13208602562077812),
+(3240, 99930, 0.3170064614898675),
+(6722, 99930, 0.5),
+(2879, 99930, 0.2),
+(5702, 99930, 1.0);
