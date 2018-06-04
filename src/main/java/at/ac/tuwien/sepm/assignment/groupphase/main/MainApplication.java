@@ -7,6 +7,7 @@ import javafx.application.Application;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.Parent;
 import javafx.scene.Scene;
+import javafx.scene.image.Image;
 import javafx.stage.Stage;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -36,6 +37,7 @@ public final class MainApplication extends Application {
         primaryStage.centerOnScreen();
         primaryStage.setOnCloseRequest(event -> LOG.debug("Application shutdown initiated"));
         primaryStage.setResizable(false);
+        primaryStage.getIcons().add(new Image("/img/foodOrca.png"));
 
         // load files
         context = new AnnotationConfigApplicationContext(MainApplication.class);

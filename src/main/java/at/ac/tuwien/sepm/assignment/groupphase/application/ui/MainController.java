@@ -13,6 +13,7 @@ import javafx.scene.Scene;
 import javafx.scene.control.Button;
 import javafx.scene.control.Label;
 import javafx.scene.control.TabPane;
+import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
 import javafx.scene.layout.AnchorPane;
 import javafx.stage.Modality;
@@ -98,6 +99,7 @@ public class MainController {
             fxmlLoader.setLocation(getClass().getResource(path));
 
             Stage stage = new Stage();
+            stage.getIcons().add(new Image("/img/foodOrca.png"));
             stage.initStyle(StageStyle.UNDECORATED);
             stage.initModality(Modality.WINDOW_MODAL);
             stage.initOwner(changePlanButton.getScene().getWindow());
