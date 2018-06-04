@@ -913,3 +913,89 @@ INSERT INTO PUBLIC.RECIPE_INGREDIENT(INGREDIENT_ID, RECIPE_ID, AMOUNT) VALUES
 (6722, 99930, 0.5),
 (2879, 99930, 0.2),
 (5702, 99930, 1.0);
+
+INSERT INTO PUBLIC.RECIPE(ID, NAME, DURATION, DESCRIPTION, TAGS, DELETED) VALUES(89, 'Parmesan spring chicken', 10, 'Heat grill to medium and line the grill pan with foil. Beat the egg white on a plate with a little salt and pepper. Tip the Parmesan onto another plate. Dip the chicken first in egg white, then the cheese. Grill the coated chicken for 10-12 mins, turning once until browned and crisp.\n\nMeanwhile, boil the potatoes for 10 mins, adding the peas for the final 3 mins, then drain. Toss the vegetables with the spinach leaves, vinegar, oil and seasoning to taste. Divide between four warm plates, then serve with the chicken.', 2, FALSE);
+INSERT INTO PUBLIC.RECIPE_INGREDIENT(INGREDIENT_ID, RECIPE_ID, AMOUNT) VALUES(112, 89, 0.2);
+INSERT INTO PUBLIC.RECIPE_INGREDIENT(INGREDIENT_ID, RECIPE_ID, AMOUNT) VALUES(132, 89, 1.25);
+INSERT INTO PUBLIC.RECIPE_INGREDIENT(INGREDIENT_ID, RECIPE_ID, AMOUNT) VALUES(1003, 89, 1.0);
+INSERT INTO PUBLIC.RECIPE_INGREDIENT(INGREDIENT_ID, RECIPE_ID, AMOUNT) VALUES(3233, 89, 2.0);
+INSERT INTO PUBLIC.RECIPE_INGREDIENT(INGREDIENT_ID, RECIPE_ID, AMOUNT) VALUES(2996, 89, 0.25);
+INSERT INTO PUBLIC.RECIPE_INGREDIENT(INGREDIENT_ID, RECIPE_ID, AMOUNT) VALUES(3102, 89, 0.25);
+INSERT INTO PUBLIC.RECIPE_INGREDIENT(INGREDIENT_ID, RECIPE_ID, AMOUNT) VALUES(275, 89, 0.1);
+INSERT INTO PUBLIC.RECIPE_INGREDIENT(INGREDIENT_ID, RECIPE_ID, AMOUNT) VALUES(604, 89, 0.5);
+
+INSERT INTO PUBLIC.RECIPE(ID, NAME, DURATION, DESCRIPTION, TAGS, DELETED) VALUES(90, 'Flamb\u00e9ed chicken with asparagus', 50, 'Dust the chicken with the flour. Heat the oil and butter in a large, wide pan with a lid, add the chicken, then fry on all sides until nicely browned. Add the shallots, then fry for about 2 mins until they start to soften, but not colour. Pour in the brandy, carefully ignite, then stand well back until the flames have died down. Stir in the stock and bring to the boil. Reduce heat, cover, then cook for 15 mins until the chicken is just tender.\n\nAdd the asparagus to the sauce. Cover, then cook for 5 mins more until tender. Stir in the cr\u00e8me fra\u00eeche and tarragon and warm through. Season to taste.', 2, FALSE);
+INSERT INTO PUBLIC.RECIPE_INGREDIENT(INGREDIENT_ID, RECIPE_ID, AMOUNT) VALUES(1003, 90, 1.0);
+INSERT INTO PUBLIC.RECIPE_INGREDIENT(INGREDIENT_ID, RECIPE_ID, AMOUNT) VALUES(6197, 90, 0.1);
+INSERT INTO PUBLIC.RECIPE_INGREDIENT(INGREDIENT_ID, RECIPE_ID, AMOUNT) VALUES(604, 90, 0.5);
+INSERT INTO PUBLIC.RECIPE_INGREDIENT(INGREDIENT_ID, RECIPE_ID, AMOUNT) VALUES(1, 90, 0.1);
+INSERT INTO PUBLIC.RECIPE_INGREDIENT(INGREDIENT_ID, RECIPE_ID, AMOUNT) VALUES(3236, 90, 1.0);
+
+INSERT INTO PUBLIC.RECIPE(ID, NAME, DURATION, DESCRIPTION, TAGS, DELETED) VALUES(91, 'Spring salmon with minty veg', 20, 'Boil the potatoes in a large pan for 4 mins. Tip in the peas and beans, bring back up to a boil, then carry on cooking for another 3 mins until the potatoes and beans are tender. Whizz the olive oil, lemon zest and juice and mint in a blender to make a dressing(or finely chop the mint and whisk into the oil and lemon).\n\nPut the salmon in a microwave-proof dish, season, then pour the dressing over. Cover with cling film, pierce, then microwave on High for 4-5 mins until cooked through. Drain the veg, then mix with the hot dressing and cooking juices from the fish. Serve the fish on top of the vegetables.', 2, FALSE);
+INSERT INTO PUBLIC.RECIPE_INGREDIENT(INGREDIENT_ID, RECIPE_ID, AMOUNT) VALUES(3022, 91, 1.5);
+INSERT INTO PUBLIC.RECIPE_INGREDIENT(INGREDIENT_ID, RECIPE_ID, AMOUNT) VALUES(2996, 91, 1.0);
+INSERT INTO PUBLIC.RECIPE_INGREDIENT(INGREDIENT_ID, RECIPE_ID, AMOUNT) VALUES(604, 91, 1.0);
+INSERT INTO PUBLIC.RECIPE_INGREDIENT(INGREDIENT_ID, RECIPE_ID, AMOUNT) VALUES(2248, 91, 0.1);
+INSERT INTO PUBLIC.RECIPE_INGREDIENT(INGREDIENT_ID, RECIPE_ID, AMOUNT) VALUES(7628, 91, 1.0);
+
+INSERT INTO PUBLIC.RECIPE(ID, NAME, DURATION, DESCRIPTION, TAGS, DELETED) VALUES(92, 'Greek roast lamb', 100,'Heat oven to 240C/fan 220C/gas 9. Pound the garlic, half the oregano, lemon zest and a pinch of salt in a pestle and mortar, then add the lemon juice and a drizzle of olive oil. Stab the lamb all over with a sharp knife, then push as much of the herb paste as you can into the holes.\n\nTip the potatoes into a large roasting tin, then toss in the remaining olive oil and any remaining herb paste. Nestle the lamb amongst the potatoes, roast for 20 mins, then reduce the temperature to 180C/fan 160C/gas 4. Roast for 1 hr 15 mins for medium-rare, adding another 15 mins if you prefer your lamb medium. Baste the lamb once or twice with the juices and toss the potatoes. When the lamb is done to your liking, remove from the tin and let it rest. Throw the rest of the oregano in with the potatoes, scoop from the tin and keep warm.\n\nPlace the roasting tin over a medium flame, add the canned tomatoes and olives to the pan juices, then simmer for a few mins. Serve the lamb with the potatoes and sauce and a simple salad.', 5, FALSE);
+INSERT INTO PUBLIC.RECIPE_INGREDIENT(INGREDIENT_ID, RECIPE_ID, AMOUNT) VALUES(2915, 92, 0.1);
+INSERT INTO PUBLIC.RECIPE_INGREDIENT(INGREDIENT_ID, RECIPE_ID, AMOUNT) VALUES(243, 92, 1.0);
+INSERT INTO PUBLIC.RECIPE_INGREDIENT(INGREDIENT_ID, RECIPE_ID, AMOUNT) VALUES(2248, 92, 0.1);
+INSERT INTO PUBLIC.RECIPE_INGREDIENT(INGREDIENT_ID, RECIPE_ID, AMOUNT) VALUES(604, 92, 0.5);
+INSERT INTO PUBLIC.RECIPE_INGREDIENT(INGREDIENT_ID, RECIPE_ID, AMOUNT) VALUES(3022, 92, 1.0);
+INSERT INTO PUBLIC.RECIPE_INGREDIENT(INGREDIENT_ID, RECIPE_ID, AMOUNT) VALUES(3472, 92, 0.5);
+INSERT INTO PUBLIC.RECIPE_INGREDIENT(INGREDIENT_ID, RECIPE_ID, AMOUNT) VALUES(2271, 92, 2.0);
+INSERT INTO PUBLIC.RECIPE_INGREDIENT(INGREDIENT_ID, RECIPE_ID, AMOUNT) VALUES(5103, 92, 3.0);
+
+INSERT INTO PUBLIC.RECIPE(ID, NAME, DURATION, DESCRIPTION, TAGS, DELETED) VALUES(93, 'Rhubarb spice cake', 80, 'Heat oven to 180C/fan 160C/gas 4 and put the kettle on. Butter and line a deep 20cm square cake tin. Sift the flour and spices into a bowl. Beat together the butter and sugar until light and fluffy in the food processor, then beat in the golden syrup. Dissolve the bicarbonate of soda in 200ml boiling water, then gradually pour through the spout of the processor. Pulse in the flour, then add the eggs, mixing briefly. Remove the bowl from the processor, then gently stir in the rhubarb.\n\nPour the mixture into the tin and bake for 50-60 mins, until the cake feels firm to the touch and springs back when pressed. Cool in the tin for 5 mins, then turn out and cool on a wire rack. Dust with icing sugar.', 3, FALSE);
+INSERT INTO PUBLIC.RECIPE_INGREDIENT(INGREDIENT_ID, RECIPE_ID, AMOUNT) VALUES(1, 93, 0.2);
+INSERT INTO PUBLIC.RECIPE_INGREDIENT(INGREDIENT_ID, RECIPE_ID, AMOUNT) VALUES(6197, 93, 0.5);
+INSERT INTO PUBLIC.RECIPE_INGREDIENT(INGREDIENT_ID, RECIPE_ID, AMOUNT) VALUES(2916, 93, 1.0);
+INSERT INTO PUBLIC.RECIPE_INGREDIENT(INGREDIENT_ID, RECIPE_ID, AMOUNT) VALUES(6135, 93, 1.0);
+INSERT INTO PUBLIC.RECIPE_INGREDIENT(INGREDIENT_ID, RECIPE_ID, AMOUNT) VALUES(6002, 93, 0.1);
+INSERT INTO PUBLIC.RECIPE_INGREDIENT(INGREDIENT_ID, RECIPE_ID, AMOUNT) VALUES(121, 93, 0.5);
+INSERT INTO PUBLIC.RECIPE_INGREDIENT(INGREDIENT_ID, RECIPE_ID, AMOUNT) VALUES(2367, 93, 1.0);
+
+INSERT INTO PUBLIC.RECIPE(ID, NAME, DURATION, DESCRIPTION, TAGS, DELETED) VALUES(94, 'Spring fish pie', 40, 'Heat oven to 220C/fan 200C /gas 7. Tip the spinach into a colander sitting in the sink and tip the potatoes into a saucepan. Bring a kettle full of water to the boil and pour enough over the potatoes to cover and slowly pour the rest over the spinach to wilt it. Bring the potatoes to the boil and cook for 8-10 mins until tender, then drain and roughly mash.\n\nLeave the spinach to cool, then squeeze out excess water with your hands. Scatter the spinach over the bottom of 2 individual or 1 small ovenproof dish leaving two gaps for the eggs. Crack the eggs into the gaps, then season with salt and pepper. Distribute the fish over the spinach and eggs. Spread over the cr\u00e8me fra\u00eeche and drizzle with the lemon juice. Loosely spoon over the potatoes, drizzle over the olive oil, then bake for 20-25 mins until the top is crispy and golden and the sauce is bubbling at the sides. Leave to stand for a few mins, then serve straight from the dish.', 1, FALSE);
+INSERT INTO PUBLIC.RECIPE_INGREDIENT(INGREDIENT_ID, RECIPE_ID, AMOUNT) VALUES(3102, 94, 1.0);
+INSERT INTO PUBLIC.RECIPE_INGREDIENT(INGREDIENT_ID, RECIPE_ID, AMOUNT) VALUES(111, 94, 0.5);
+INSERT INTO PUBLIC.RECIPE_INGREDIENT(INGREDIENT_ID, RECIPE_ID, AMOUNT) VALUES(4360, 94, 2.0);
+INSERT INTO PUBLIC.RECIPE_INGREDIENT(INGREDIENT_ID, RECIPE_ID, AMOUNT) VALUES(2248, 94, 0.2);
+INSERT INTO PUBLIC.RECIPE_INGREDIENT(INGREDIENT_ID, RECIPE_ID, AMOUNT) VALUES(604, 94, 0.5);
+INSERT INTO PUBLIC.RECIPE_INGREDIENT(INGREDIENT_ID, RECIPE_ID, AMOUNT) VALUES(3022, 94, 1.0);
+
+INSERT INTO PUBLIC.RECIPE(ID, NAME, DURATION, DESCRIPTION, TAGS, DELETED) VALUES(95, 'Hot cross bread & lemon pudding', 60, 'Butter a 1-litre baking dish that will quite snugly fit the buns. Cut each bun into 3 slices, and sandwich back together with a generous spreading of curd. Arrange buns in the dish.\n\nWhisk egg, cream, milk and remaining curd, then sieve into a jug with the vanilla and 3 tbsp of the sugar. Pour over the buns and stand at room temperature for 30 mins for the custard to soak in.\n\nHeat oven to 160C/140C fan/ gas 3. Scatter the remaining sugar and lemon zest over the pudding. Bake for 30-40 mins until the top is golden and the custard gently set. Stand for 5 mins, then serve with cream or vanilla ice cream, if you like.', 0, FALSE);
+INSERT INTO PUBLIC.RECIPE_INGREDIENT(INGREDIENT_ID, RECIPE_ID, AMOUNT) VALUES(1, 95, 0.2);
+INSERT INTO PUBLIC.RECIPE_INGREDIENT(INGREDIENT_ID, RECIPE_ID, AMOUNT) VALUES(5268, 95, 2.0);
+INSERT INTO PUBLIC.RECIPE_INGREDIENT(INGREDIENT_ID, RECIPE_ID, AMOUNT) VALUES(2251, 95, 4.0);
+INSERT INTO PUBLIC.RECIPE_INGREDIENT(INGREDIENT_ID, RECIPE_ID, AMOUNT) VALUES(111, 95, 0.5);
+INSERT INTO PUBLIC.RECIPE_INGREDIENT(INGREDIENT_ID, RECIPE_ID, AMOUNT) VALUES(53, 95, 0.25);
+INSERT INTO PUBLIC.RECIPE_INGREDIENT(INGREDIENT_ID, RECIPE_ID, AMOUNT) VALUES(69, 95, 1.0);
+INSERT INTO PUBLIC.RECIPE_INGREDIENT(INGREDIENT_ID, RECIPE_ID, AMOUNT) VALUES(265, 95, 0.1);
+INSERT INTO PUBLIC.RECIPE_INGREDIENT(INGREDIENT_ID, RECIPE_ID, AMOUNT) VALUES(6135, 95, 0.5);
+
+INSERT INTO PUBLIC.RECIPE(ID, NAME, DURATION, DESCRIPTION, TAGS, DELETED) VALUES(96, 'Lamb & garlic bread salad', 55, 'Heat oven to 200C/180C fan/gas 6. Mix half the mint with 1 tbsp oil, the lemon zest and a large pinch of salt and black pepper, then rub the mixture all over the lamb cutlets.\n\nBake the garlic bread for 15 mins, then allow to cool a little. Tear into chunks and return to the oven for 5 mins to dry out.\n\nMeanwhile, put a griddle pan or large frying pan over a high heat and, once very hot, cook the lamb for 2-3 mins each side or until nicely seared outside but still pink in the middle. (You may have to do this in two batches.) Set aside to rest while you make the salad.\n\nPut the tomatoes and cucumber in the same hot pan and cook for 2 mins or until a little charred \u2013 you will need to do this in batches. Tip into a large bowl and add the\ntoasted bread, remaining mint and the parsley.\n\nMix the lemon juice with the remaining olive oil and the honey, then season. Pour the dressing over the salad and toss gently so the tomatoes don\u2019t break up too much. Serve the warm salad alongside the lamb cutlets.', 2, FALSE);
+INSERT INTO PUBLIC.RECIPE_INGREDIENT(INGREDIENT_ID, RECIPE_ID, AMOUNT) VALUES(604, 96, 0.5);
+INSERT INTO PUBLIC.RECIPE_INGREDIENT(INGREDIENT_ID, RECIPE_ID, AMOUNT) VALUES(2248, 96, 0.25);
+INSERT INTO PUBLIC.RECIPE_INGREDIENT(INGREDIENT_ID, RECIPE_ID, AMOUNT) VALUES(5103, 96, 3.0);
+INSERT INTO PUBLIC.RECIPE_INGREDIENT(INGREDIENT_ID, RECIPE_ID, AMOUNT) VALUES(3472, 96, 1.0);
+INSERT INTO PUBLIC.RECIPE_INGREDIENT(INGREDIENT_ID, RECIPE_ID, AMOUNT) VALUES(2906, 96, 0.5);
+INSERT INTO PUBLIC.RECIPE_INGREDIENT(INGREDIENT_ID, RECIPE_ID, AMOUNT) VALUES(2989, 96, 0.25);
+INSERT INTO PUBLIC.RECIPE_INGREDIENT(INGREDIENT_ID, RECIPE_ID, AMOUNT) VALUES(5960, 96, 0.1);
+
+INSERT INTO PUBLIC.RECIPE(ID, NAME, DURATION, DESCRIPTION, TAGS, DELETED) VALUES(97, 'Strawberry labneh', 20, 'Mix the yogurt with a pinch of salt. Line a sieve with muslin and sit over a deep bowl. Spoon in the yogurt and put in the fridge to strain for 4 hrs.\n\nMeanwhile, hull and quarter the strawberries, mix them with the sugar and rosewater and leave to macerate.\n\nAfter 4 hrs, turn the labneh out into a clean bowl. Gently fold through the honey. Take \u00bc of the strawberries and pur\u00e9e them in a blender, then fold into the labneh, so you have a rippled yogurt. Serve in glass bowls with the rest of the strawberries on top, scatter with pistachios, and serve with the pistachio & coriander seed biscuits on the side.', 0, FALSE);
+INSERT INTO PUBLIC.RECIPE_INGREDIENT(INGREDIENT_ID, RECIPE_ID, AMOUNT) VALUES(215, 97, 1.0);
+INSERT INTO PUBLIC.RECIPE_INGREDIENT(INGREDIENT_ID, RECIPE_ID, AMOUNT) VALUES(2374, 97, 2.0);
+INSERT INTO PUBLIC.RECIPE_INGREDIENT(INGREDIENT_ID, RECIPE_ID, AMOUNT) VALUES(6135, 97, 1.0);
+INSERT INTO PUBLIC.RECIPE_INGREDIENT(INGREDIENT_ID, RECIPE_ID, AMOUNT) VALUES(5960, 97, 0.2);
+
+INSERT INTO PUBLIC.RECIPE(ID, NAME, DURATION, DESCRIPTION, TAGS, DELETED) VALUES(98, 'Summer beans on toast with prosciutto', 20, 'Heat a medium-sized pan of water until boiling, and heat a griddle pan over a high heat. Add the broad beans and green beans to the boiling water. Cook for 2 mins or until just tender, then drain and remove the broad bean skins, if you like. Mix the vegetables with the pesto.\n\nMeanwhile, drizzle the cut side of the ciabatta with a little oil, then rub with the squashed garlic. Place, oiled-side down, in the griddle pan. Toast until charred griddle lines appear \u2013 about 2 mins.\n\nPlace a piece of toasted ciabatta on each plate, spread with the cream cheese, then top with the pesto veg, a slice of prosciutto and a handful of rocket leaves. Drizzle with some more olive oil and serve.', 6, FALSE);
+INSERT INTO PUBLIC.RECIPE_INGREDIENT(INGREDIENT_ID, RECIPE_ID, AMOUNT) VALUES(2820, 98, 2.0);
+INSERT INTO PUBLIC.RECIPE_INGREDIENT(INGREDIENT_ID, RECIPE_ID, AMOUNT) VALUES(2805, 98, 1.0);
+INSERT INTO PUBLIC.RECIPE_INGREDIENT(INGREDIENT_ID, RECIPE_ID, AMOUNT) VALUES(5258, 98, 3.0);
+INSERT INTO PUBLIC.RECIPE_INGREDIENT(INGREDIENT_ID, RECIPE_ID, AMOUNT) VALUES(604, 98, 0.5);
+INSERT INTO PUBLIC.RECIPE_INGREDIENT(INGREDIENT_ID, RECIPE_ID, AMOUNT) VALUES(2915, 98, 0.1);
+INSERT INTO PUBLIC.RECIPE_INGREDIENT(INGREDIENT_ID, RECIPE_ID, AMOUNT) VALUES(17, 98, 0.25);
+INSERT INTO PUBLIC.RECIPE_INGREDIENT(INGREDIENT_ID, RECIPE_ID, AMOUNT) VALUES(1581, 98, 1.0);
+
