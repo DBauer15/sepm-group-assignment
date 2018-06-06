@@ -46,7 +46,7 @@ public class DietPlanController implements ExternalController<DietPlan> {
 
 	@FXML
 	public Label exitLabel;
-	
+
 	@FXML
 	public Button createButton;
 
@@ -111,21 +111,24 @@ public class DietPlanController implements ExternalController<DietPlan> {
 			}
 
 			if (dp == null) {
-				dp = new DietPlan(dietPlanNameTextField.getText(), kcal.doubleValue(), fats,
-						protein, carbohydrate);
-				
-				dietPlanService.create(dp);
+				try {
+					dp = new DietPlan(dietPlanNameTextField.getText(), kcal.doubleValue(), fats, protein, carbohydrate);
+					dietPlanService.create(dp);
+				} catch (Exception ex) {
+					dp = null;
+					throw ex;
+				}
 			} else {
 				dp.setName(dietPlanNameTextField.getText());
 				dp.setEnergy_kcal(kcal.doubleValue());
 				dp.setLipid(fats);
 				dp.setProtein(protein);
 				dp.setCarbohydrate(carbohydrate);
-				
+
 				dietPlanService.update(dp);
 			}
 
-            dietPlanService.switchTo(dp);
+			dietPlanService.switchTo(dp);
 
 			notificationService.notify(ChoosePlanController.class);
 			LOG.debug("Diet plan successfully saved.");
@@ -161,25 +164,24 @@ public class DietPlanController implements ExternalController<DietPlan> {
 	public void initializeView(DietPlan object) {
 		if (object != null) {
 			dp = object;
-			
+
 			this.dietPlanNameTextField.setText(dp.getName());
 			this.kcalTextField.setText(formatDouble(dp.getEnergy_kcal()));
 			this.carbohydratesTextField.setText(formatDouble(dp.getCarbohydrate()));
 			this.proteinsTextField.setText(formatDouble(dp.getProtein()));
 			this.fatsTextField.setText(formatDouble(dp.getLipid()));
-			
+
 			this.createButton.setText("Save");
 		} else {
 			this.createButton.setText("Create");
 		}
 	}
-	
-	public static String formatDouble(double d)
-	{
-	    if (d == (long) d) {
-	        return String.format("%d", (long) d);
-	    } else {
-	        return String.format("%s", d);
-	    }
+
+	public static String formatDouble(double d) {
+		if (d == (long) d) {
+			return String.format("%d", (long) d);
+		} else {
+			return String.format("%s", d);
+		}
 	}
 }
