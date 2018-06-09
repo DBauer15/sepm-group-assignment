@@ -31,8 +31,7 @@ public class DBRecipePersistence implements RecipePersistence {
 	private static final String CREATE_RECIPE = "INSERT INTO RECIPE (name, duration, description, tags, deleted) VALUES (?, ?, ?, ?, ?)";
 	private static final String CREATE_USER_INGREDIENT = "INSERT INTO INGREDIENT (NAME, ENERG_KCAL, LIPID, PROTEIN, CARBOHYDRT, UNIT_NAME, "
 			+ "UNIT_GRAM_NORMALISED, USER_SPECIFIC) VALUES (?,?,?,?,?,?,?, true);";
-	private static final String SEARCH_INGREDIENT = "SELECT ID, NAME, ENERG_KCAL, LIPID, PROTEIN, CARBOHYDRT, "
-			+ "UNIT_NAME, UNIT_GRAM_NORMALISED, USER_SPECIFIC FROM ingredient WHERE name ILIKE ? ORDER BY LENGTH(name), name ASC";
+	private static final String SEARCH_INGREDIENT = "SELECT * FROM ingredient WHERE name ILIKE ? ORDER BY LENGTH(name), name ASC;";
 
 	private static final String SELECT_RECIPES = "SELECT * FROM RECIPE WHERE DELETED = FALSE;";
 
@@ -147,12 +146,12 @@ public class DBRecipePersistence implements RecipePersistence {
 		PreparedStatement searchIngredientStmnt = null;
 
 		try {
-			searchIngredientStmnt = JDBCConnectionManager.getConnection().prepareStatement(SEARCH_INGREDIENT);
-			searchIngredientStmnt.setString(1, searchIngredient.getIngredientName().trim() + "%");
+            searchIngredientStmnt = JDBCConnectionManager.getConnection().prepareStatement(SEARCH_INGREDIENT.replace("?",
+                "'%" + searchIngredient.getIngredientName().trim().replaceAll("\\s", "%' AND name ILIKE '%") + "%'"));
 			ResultSet resultSet = searchIngredientStmnt.executeQuery();
 			List<RecipeIngredient> searchResult = new ArrayList<>();
 
-			while (resultSet.next() != false) {
+			while (resultSet.next()) {
 				searchResult.add(transformToRecipeIngredient(resultSet));
 			}
 			return searchResult;
