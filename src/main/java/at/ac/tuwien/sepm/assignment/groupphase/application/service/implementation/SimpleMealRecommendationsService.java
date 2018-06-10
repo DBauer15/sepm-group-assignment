@@ -74,6 +74,11 @@ public class SimpleMealRecommendationsService implements MealRecommendationsServ
         return optimumMeals;
     }
 
+    @Override
+    public Recipe getRecommendedMeal(RecipeTag meal, List<Recipe> omissions) throws NoEntryFoundException {
+        throw new NoEntryFoundException("No recommendation possible with given omissions.");
+    }
+
     private Recipe calculateOptimumForTag(DietPlan currentDietPlan, List<Recipe> allRecipes, RecipeTag tag, double fractionFactor) throws NoOptimalSolutionException {
         LOG.debug("Calculating Optimum for tag: {}", tag);
 

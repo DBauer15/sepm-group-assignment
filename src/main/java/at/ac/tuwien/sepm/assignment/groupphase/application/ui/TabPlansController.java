@@ -3,19 +3,23 @@ package at.ac.tuwien.sepm.assignment.groupphase.application.ui;
 import java.io.IOException;
 import java.lang.invoke.MethodHandles;
 import java.net.URL;
+import java.util.ArrayList;
+import java.util.HashSet;
+import java.util.List;
 import java.util.Map.Entry;
+import java.util.Set;
 
+import at.ac.tuwien.sepm.assignment.groupphase.application.dto.RecipeIngredient;
 import at.ac.tuwien.sepm.assignment.groupphase.application.persistence.NoEntryFoundException;
-import at.ac.tuwien.sepm.assignment.groupphase.application.service.Notifiable;
-import at.ac.tuwien.sepm.assignment.groupphase.application.service.NotificationService;
+import at.ac.tuwien.sepm.assignment.groupphase.application.service.*;
+import javafx.event.ActionEvent;
+import javafx.scene.control.Button;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.stereotype.Controller;
 
 import at.ac.tuwien.sepm.assignment.groupphase.application.dto.Recipe;
 import at.ac.tuwien.sepm.assignment.groupphase.application.dto.RecipeTag;
-import at.ac.tuwien.sepm.assignment.groupphase.application.service.MealRecommendationsService;
-import at.ac.tuwien.sepm.assignment.groupphase.application.service.ServiceInvokationException;
 import at.ac.tuwien.sepm.assignment.groupphase.application.util.implementation.SpringFXMLLoader;
 import at.ac.tuwien.sepm.assignment.groupphase.application.util.implementation.UserInterfaceUtility;
 import at.ac.tuwien.sepm.assignment.groupphase.main.MainApplication;
@@ -68,14 +72,34 @@ public class TabPlansController implements Notifiable {
 	private Label lunchFatsLabel;
 	@FXML
 	private Label dinnerFatsLabel;
+	@FXML
+    private Button breakfastLeftButton;
+    @FXML
+    private Button breakfastRightButton;
+    @FXML
+    private Button lunchLeftButton;
+    @FXML
+    private Button lunchRightButton;
+    @FXML
+    private Button dinnerLeftButton;
+    @FXML
+    private Button dinnerRightButton;
+
 
 	private Recipe breakfast;
+	private List<Recipe> breakfasts;
 	private Recipe lunch;
+	private List<Recipe> lunches;
 	private Recipe dinner;
+	private List<Recipe> dinners;
 
 	public TabPlansController(MealRecommendationsService mealRecommendationsService, NotificationService notificationService) {
 		this.mealRecommendationsService = mealRecommendationsService;
 		this.notificationService = notificationService;
+
+		breakfasts = new ArrayList<>();
+		lunches = new ArrayList<>();
+		dinners = new ArrayList<>();
 	}
 
 	@FXML
@@ -87,6 +111,9 @@ public class TabPlansController implements Notifiable {
 
 	@Override
     public void onNotify() {
+	    breakfasts.clear();
+	    lunches.clear();
+	    dinners.clear();
 	    updatePlan();
     }
 
@@ -116,12 +143,15 @@ public class TabPlansController implements Notifiable {
 			for (Entry<RecipeTag, Recipe> entry : this.mealRecommendationsService.getRecommendedMeals().entrySet()) {
 				if (RecipeTag.B.equals(entry.getKey())) {
 						breakfast = entry.getValue();
+						breakfasts.add(breakfast);
 						updateRecipeSuggestion(breakfast, breakfastRecipeNameLabel, breakfastPreparationTimeLabel, breakfastCaloriesLabel, breakfastCarbohydratesLabel, breakfastProteinsLabel, breakfastFatsLabel);
 				} else if (RecipeTag.L.equals(entry.getKey())) {
 						lunch = entry.getValue();
+						lunches.add(lunch);
 						updateRecipeSuggestion(lunch, lunchRecipeNameLabel, lunchPreparationTimeLabel, lunchCaloriesLabel, lunchCarbohydratesLabel, lunchProteinsLabel, lunchFatsLabel);
 				} else if (RecipeTag.D.equals(entry.getKey())) {
 						dinner = entry.getValue();
+						dinners.add(dinner);
 						updateRecipeSuggestion(dinner, dinnerRecipeNameLabel, dinnerPreparationTimeLabel, dinnerCaloriesLabel, dinnerCarbohydratesLabel, dinnerProteinsLabel, dinnerFatsLabel);
 				}
 			}
@@ -161,4 +191,124 @@ public class TabPlansController implements Notifiable {
 		LOG.info("View dinner recipe");
 		UserInterfaceUtility.loadExternalController("/fxml/RecipeDetails.fxml", "Edit Recipe", dinner, dinnerRecipeNameLabel.getScene().getWindow(), RecipeController.class);
 	}
+
+	@FXML
+    public void onLeftClicked(ActionEvent event) {
+	    Button source = (Button)event.getSource();
+
+	    if (source.equals(breakfastLeftButton)) {
+	        LOG.debug("Left button on breakfast clicked");
+            int index = breakfasts.indexOf(breakfast) - 1;
+            if (index >= 0) {
+                 if (index == 0) {
+                     breakfastLeftButton.setDisable(true);
+                 }
+                 breakfast = breakfasts.get(index);
+                 updateBreakfast();
+                 breakfastRightButton.setDisable(false);
+            }
+        } else if (source.equals(lunchLeftButton)) {
+            LOG.debug("Left button on lunch clicked");
+            int index = lunches.indexOf(lunch) - 1;
+            if (index >= 0) {
+                if (index == 0) {
+                    lunchLeftButton.setDisable(true);
+                }
+                lunch = lunches.get(index);
+                updateLunch();
+                lunchRightButton.setDisable(false);
+            }
+        } else if (source.equals(dinnerLeftButton)) {
+            LOG.debug("Left button on dinner clicked");
+            int index = dinners.indexOf(dinner) - 1;
+            if (index >= 0) {
+                if (index == 0) {
+                    dinnerLeftButton.setDisable(true);
+                }
+                dinner = dinners.get(index);
+                updateDinner();
+                dinnerRightButton.setDisable(false);
+            }
+        }
+    }
+
+    @FXML
+    public void onRightClicked(ActionEvent event) {
+        Button source = (Button)event.getSource();
+
+        if (source.equals(breakfastRightButton)) {
+            LOG.debug("Right button on breakfast clicked");
+            int index = breakfasts.indexOf(breakfast) + 1;
+            if (index == breakfasts.size()) {
+                try {
+                    breakfast = mealRecommendationsService.getRecommendedMeal(RecipeTag.B, breakfasts);
+                    updateBreakfast();
+                    breakfastLeftButton.setDisable(false);
+                } catch (NoOptimalSolutionException e) {
+                    e.printStackTrace();
+                } catch (ServiceInvokationException e) {
+                    e.printStackTrace();
+                } catch (NoEntryFoundException e) {
+                    breakfastRightButton.setDisable(true);
+                }
+            } else {
+                breakfast = breakfasts.get(index);
+                updateBreakfast();
+                breakfastLeftButton.setDisable(false);
+            }
+
+        } else if (source.equals(lunchRightButton)) {
+            LOG.debug("Right button on lunch clicked");
+            int index = lunches.indexOf(lunch) + 1;
+            if (index == lunches.size()) {
+                try {
+                    lunch = mealRecommendationsService.getRecommendedMeal(RecipeTag.L, lunches);
+                    updateLunch();
+                    lunchLeftButton.setDisable(false);
+                } catch (NoOptimalSolutionException e) {
+                    e.printStackTrace();
+                } catch (ServiceInvokationException e) {
+                    e.printStackTrace();
+                } catch (NoEntryFoundException e) {
+                    lunchRightButton.setDisable(true);
+                }
+            } else {
+                lunch = lunches.get(index);
+                updateLunch();
+                lunchLeftButton.setDisable(false);
+            }
+
+        } else if (source.equals(dinnerRightButton)) {
+            LOG.debug("Right button on dinner clicked");
+            int index = dinners.indexOf(dinner) + 1;
+            if (index == dinners.size()) {
+                try {
+                    dinner = mealRecommendationsService.getRecommendedMeal(RecipeTag.D, dinners);
+                    updateDinner();
+                } catch (NoOptimalSolutionException e) {
+                    e.printStackTrace();
+                } catch (ServiceInvokationException e) {
+                    e.printStackTrace();
+                } catch (NoEntryFoundException e) {
+                    dinnerRightButton.setDisable(true);
+                }
+            } else {
+                dinner = dinners.get(index);
+                updateDinner();
+                lunchLeftButton.setDisable(false);
+            }
+        }
+    }
+
+    private void updateBreakfast() {
+        updateRecipeSuggestion(breakfast, breakfastRecipeNameLabel, breakfastPreparationTimeLabel, breakfastCaloriesLabel, breakfastCarbohydratesLabel, breakfastProteinsLabel, breakfastFatsLabel);
+    }
+
+    private void updateLunch() {
+        updateRecipeSuggestion(lunch, lunchRecipeNameLabel, lunchPreparationTimeLabel, lunchCaloriesLabel, lunchCarbohydratesLabel, lunchProteinsLabel, lunchFatsLabel);
+    }
+
+    private void updateDinner() {
+        updateRecipeSuggestion(dinner, dinnerRecipeNameLabel, dinnerPreparationTimeLabel, dinnerCaloriesLabel, dinnerCarbohydratesLabel, dinnerProteinsLabel, dinnerFatsLabel);
+    }
 }
