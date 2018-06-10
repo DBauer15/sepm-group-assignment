@@ -1,5 +1,11 @@
 package at.ac.tuwien.sepm.assignment.groupphase.application.persistence.implementation;
 
+import java.time.LocalDate;
+import java.util.EnumSet;
+
+import org.junit.Assert;
+import org.junit.Test;
+
 import at.ac.tuwien.sepm.assignment.groupphase.application.dto.DietPlan;
 import at.ac.tuwien.sepm.assignment.groupphase.application.dto.Recipe;
 import at.ac.tuwien.sepm.assignment.groupphase.application.dto.RecipeTag;
@@ -8,11 +14,6 @@ import at.ac.tuwien.sepm.assignment.groupphase.application.persistence.NoEntryFo
 import at.ac.tuwien.sepm.assignment.groupphase.application.persistence.PersistenceException;
 import at.ac.tuwien.sepm.assignment.groupphase.application.persistence.RecipePersistence;
 import at.ac.tuwien.sepm.assignment.groupphase.application.util.BaseTest;
-import org.junit.Assert;
-import org.junit.Test;
-
-import java.time.LocalDate;
-import java.util.EnumSet;
 
 public class DBMealRecommendationsPersistenceTest extends BaseTest {
 
@@ -43,6 +44,12 @@ public class DBMealRecommendationsPersistenceTest extends BaseTest {
         Recipe nonStandardIDRecipe = new Recipe(3, "Random recipe", 120d, "Test", EnumSet.of(RecipeTag.B), false);
 
         mealRecommendationsPersistence.createRecommendationFor(breakfastRecipe, dietPlan, RecipeTag.B);
+        // wait a second after insert again
+        try {
+			Thread.sleep(2000);
+		} catch (InterruptedException e) {
+			e.printStackTrace();
+		}
         mealRecommendationsPersistence.createRecommendationFor(nonStandardIDRecipe, dietPlan, RecipeTag.B);
 
         Recipe readRecipe = mealRecommendationsPersistence.readRecommendationFor(dietPlan, RecipeTag.B);
