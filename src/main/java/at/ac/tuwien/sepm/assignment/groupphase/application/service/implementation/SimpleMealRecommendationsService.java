@@ -140,7 +140,7 @@ public class SimpleMealRecommendationsService implements MealRecommendationsServ
                     min = scoredRecipes.get(r);
                 }
             }
-            LOG.debug("Selecting best out of {} recipes...", potentialRecipes.size());
+            LOG.debug("Selecting best out of {} recipes...", scoredRecipes.size());
             LOG.debug("Selected recipe with score: {}", min);
             return minRecipe;
         }

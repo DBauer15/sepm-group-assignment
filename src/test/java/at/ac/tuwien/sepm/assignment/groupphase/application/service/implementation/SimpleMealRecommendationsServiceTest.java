@@ -329,4 +329,32 @@ public class SimpleMealRecommendationsServiceTest extends BaseTest {
 
         verify(mockedRecipeRepo, times(1)).getRecipes();
     }
+
+    @Test(expected = NoOptimalSolutionException.class)
+    public void testGetRecommendedMeal_allRecipesOmitted_throwException() throws PersistenceException, NoOptimalSolutionException, ServiceInvokationException {
+
+        List<Recipe> allRecipes = getRecipes();
+        allRecipes.forEach(NutritionUtil::fillNutritionValues);
+        when(mockedRecipeRepo.getRecipes()).thenReturn(allRecipes);
+
+        RecipeService recipeService = new SimpleRecipeService(mockedRecipeRepo);
+        MealRecommendationsService mealRecommendationsService = new SimpleMealRecommendationsService(mockedMealRecommendationRepo, recipeService, mockedDietPlanRepo);
+        mealRecommendationsService.getRecommendedMeal(RecipeTag.B, allRecipes);
+    }
+
+    @Test
+    public void testGetRecommendedMeal_noRecipeOmitted_getRecipesCalledOnce() throws NoOptimalSolutionException, ServiceInvokationException, PersistenceException, NoEntryFoundException {
+        DietPlan mockedActiveDietplan = new DietPlan(1, "Build Muscle", 2500.0, 20.0, 25.0, 50.0, LocalDate.now(), null);
+        when(mockedDietPlanRepo.readActive()).thenReturn(mockedActiveDietplan);
+
+        List<Recipe> allRecipes = getRecipes();
+        allRecipes.forEach(NutritionUtil::fillNutritionValues);
+        when(mockedRecipeRepo.getRecipes()).thenReturn(allRecipes);
+
+        RecipeService recipeService = new SimpleRecipeService(mockedRecipeRepo);
+        MealRecommendationsService mealRecommendationsService = new SimpleMealRecommendationsService(mockedMealRecommendationRepo, recipeService, mockedDietPlanRepo);
+        mealRecommendationsService.getRecommendedMeal(RecipeTag.B, new ArrayList<Recipe>());
+
+        verify(mockedRecipeRepo, times(1)).getRecipes();
+    }
 }
