@@ -242,14 +242,13 @@ public class TabPlansController implements Notifiable {
             if (index == breakfasts.size()) {
                 try {
                     breakfast = mealRecommendationsService.getRecommendedMeal(RecipeTag.B, breakfasts);
+                    breakfasts.add(breakfast);
                     updateBreakfast();
                     breakfastLeftButton.setDisable(false);
                 } catch (NoOptimalSolutionException e) {
-                    e.printStackTrace();
-                } catch (ServiceInvokationException e) {
-                    e.printStackTrace();
-                } catch (NoEntryFoundException e) {
                     breakfastRightButton.setDisable(true);
+                } catch (ServiceInvokationException e) {
+                    UserInterfaceUtility.handleFaults(e.getContext());
                 }
             } else {
                 breakfast = breakfasts.get(index);
@@ -263,14 +262,13 @@ public class TabPlansController implements Notifiable {
             if (index == lunches.size()) {
                 try {
                     lunch = mealRecommendationsService.getRecommendedMeal(RecipeTag.L, lunches);
+                    lunches.add(lunch);
                     updateLunch();
                     lunchLeftButton.setDisable(false);
                 } catch (NoOptimalSolutionException e) {
-                    e.printStackTrace();
-                } catch (ServiceInvokationException e) {
-                    e.printStackTrace();
-                } catch (NoEntryFoundException e) {
                     lunchRightButton.setDisable(true);
+                } catch (ServiceInvokationException e) {
+                    UserInterfaceUtility.handleFaults(e.getContext());
                 }
             } else {
                 lunch = lunches.get(index);
@@ -284,18 +282,18 @@ public class TabPlansController implements Notifiable {
             if (index == dinners.size()) {
                 try {
                     dinner = mealRecommendationsService.getRecommendedMeal(RecipeTag.D, dinners);
+                    dinners.add(dinner);
                     updateDinner();
+                    dinnerLeftButton.setDisable(false);
                 } catch (NoOptimalSolutionException e) {
-                    e.printStackTrace();
-                } catch (ServiceInvokationException e) {
-                    e.printStackTrace();
-                } catch (NoEntryFoundException e) {
                     dinnerRightButton.setDisable(true);
+                } catch (ServiceInvokationException e) {
+                    UserInterfaceUtility.handleFaults(e.getContext());
                 }
             } else {
                 dinner = dinners.get(index);
                 updateDinner();
-                lunchLeftButton.setDisable(false);
+                dinnerLeftButton.setDisable(false);
             }
         }
     }

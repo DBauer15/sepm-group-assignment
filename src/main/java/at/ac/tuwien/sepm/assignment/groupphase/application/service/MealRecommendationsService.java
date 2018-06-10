@@ -26,5 +26,5 @@ public interface MealRecommendationsService {
      * @throws NoEntryFoundException
      * @throws NoOptimalSolutionException
      */
-    public Recipe getRecommendedMeal(RecipeTag meal, List<Recipe> omissions) throws ServiceInvokationException, NoEntryFoundException, NoOptimalSolutionException;
+    public Recipe getRecommendedMeal(RecipeTag meal, List<Recipe> omissions) throws ServiceInvokationException, NoOptimalSolutionException;
 }
