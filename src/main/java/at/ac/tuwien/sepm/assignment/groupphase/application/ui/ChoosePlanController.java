@@ -112,11 +112,11 @@ public class ChoosePlanController {
                 selected = dietPlans.get(2);
                 break;
             default:
-                LOG.debug(paneId + " doesn't exist");
+                LOG.debug("{} doesn't exist", paneId);
                 return;
         }
 
-        LOG.debug("Clicked on " + paneId);
+        LOG.debug("Clicked on {}", paneId);
 
         try {
             dietPlanService.switchTo(selected);
