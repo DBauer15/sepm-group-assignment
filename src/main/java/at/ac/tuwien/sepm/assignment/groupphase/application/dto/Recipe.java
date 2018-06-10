@@ -191,4 +191,19 @@ public class Recipe {
 		return "Recipe{" + "id=" + id + ", name='" + name + '\'' + ", duration=" + duration + ", description='"
 				+ description + '\'' + ", tags=" + tags + ", deleted=" + deleted + '}';
 	}
+
+	@Override
+    public boolean equals(Object o) {
+        if (o instanceof Recipe) {
+            Recipe r = (Recipe)o;
+            return r.getId() == this.getId();
+        }
+
+        return false;
+    }
+
+    @Override
+    public int hashCode(){
+	    return this.getId();
+    }
 }

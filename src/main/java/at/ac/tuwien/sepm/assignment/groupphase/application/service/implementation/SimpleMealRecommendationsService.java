@@ -74,6 +74,27 @@ public class SimpleMealRecommendationsService implements MealRecommendationsServ
         return optimumMeals;
     }
 
+    @Override
+    public Recipe getRecommendedMeal(RecipeTag meal, List<Recipe> omissions) throws ServiceInvokationException, NoOptimalSolutionException {
+        LOG.debug("Requested recommended meal for tag {}", meal);
+
+        try {
+            BIAS = 0;
+            List<Recipe> allRecipes = recipeService.getRecipes();
+            allRecipes.removeAll(omissions);
+            DietPlan currentDietPlan = dietPlanPersistence.readActive();
+            List<RecipeTag> tags = new ArrayList<>(Arrays.asList(RecipeTag.B, RecipeTag.L, RecipeTag.D));
+
+            Recipe recipe = calculateOptimumForTag(currentDietPlan, allRecipes, meal, FRACTION_FACTORS[tags.indexOf(meal)]);
+            mealRecommendationsPersistence.createRecommendationFor(recipe, currentDietPlan, meal);
+            return recipe;
+        } catch (PersistenceException e) {
+            throw new ServiceInvokationException(e.getMessage());
+        } catch (NoEntryFoundException e) {
+            throw new ServiceInvokationException(e.getMessage());
+        }
+    }
+
     private Recipe calculateOptimumForTag(DietPlan currentDietPlan, List<Recipe> allRecipes, RecipeTag tag, double fractionFactor) throws NoOptimalSolutionException {
         LOG.debug("Calculating Optimum for tag: {}", tag);
 
