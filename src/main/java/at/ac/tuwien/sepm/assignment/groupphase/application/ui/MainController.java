@@ -84,7 +84,7 @@ public class MainController {
             kcalLabel.setText(nf.format(active.getEnergy_kcal()) + " kcal");
 
         } catch (NoEntryFoundException e) {
-            LOG.debug(e.getMessage() + ", choose diet plan.");
+            LOG.debug("{}, choose diet plan.", e.getMessage());
             loadExternalController();
             initializeView();
         } catch (ServiceInvokationException e) {

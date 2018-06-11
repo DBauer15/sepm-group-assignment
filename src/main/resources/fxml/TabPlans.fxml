@@ -9,7 +9,7 @@
 <?import javafx.scene.layout.AnchorPane?>
 <?import javafx.scene.text.Font?>
 
-<AnchorPane maxHeight="650.0" maxWidth="1068.0" minHeight="650.0" minWidth="1068.0" prefHeight="650.0" prefWidth="1068.0" xmlns="http://javafx.com/javafx/9.0.4" xmlns:fx="http://javafx.com/fxml/1" fx:controller="at.ac.tuwien.sepm.assignment.groupphase.application.ui.TabPlansController">
+<AnchorPane maxHeight="650.0" maxWidth="1068.0" minHeight="650.0" minWidth="1068.0" prefHeight="650.0" prefWidth="1068.0" xmlns="http://javafx.com/javafx/8.0.121" xmlns:fx="http://javafx.com/fxml/1" fx:controller="at.ac.tuwien.sepm.assignment.groupphase.application.ui.TabPlansController">
    <children>
       <AnchorPane layoutX="44.0" layoutY="90.0" onMouseClicked="#onBreakfastClick" prefHeight="437.0" prefWidth="292.0" AnchorPane.leftAnchor="55.0" AnchorPane.topAnchor="90.0">
          <styleClass>
@@ -47,8 +47,8 @@
             <Label fx:id="lunchPreparationTimeLabel" alignment="CENTER_RIGHT" layoutX="186.0" layoutY="244.0" prefHeight="23.0" prefWidth="127.0" styleClass="text-medium" text="30'" AnchorPane.rightAnchor="30.0" AnchorPane.topAnchor="255.0" />
          </children>
       </AnchorPane>
-      <Button disable="true" layoutX="470.0" layoutY="561.0" mnemonicParsing="false" prefHeight="50.0" prefWidth="50.0" styleClass="button-circular" text="&lt;" AnchorPane.bottomAnchor="36.0" />
-      <Button disable="true" layoutX="555.0" layoutY="561.0" mnemonicParsing="false" prefHeight="50.0" prefWidth="50.0" styleClass="button-circular" text="&gt;" AnchorPane.bottomAnchor="36.0">
+      <Button fx:id="lunchLeftButton" disable="true" layoutX="470.0" layoutY="561.0" mnemonicParsing="false" onAction="#onLeftClicked" prefHeight="50.0" prefWidth="50.0" styleClass="button-circular" text="&lt;" AnchorPane.bottomAnchor="36.0" />
+      <Button fx:id="lunchRightButton" layoutX="555.0" layoutY="561.0" mnemonicParsing="false" onAction="#onRightClicked" prefHeight="50.0" prefWidth="50.0" styleClass="button-circular" text="&gt;" AnchorPane.bottomAnchor="36.0">
          <font>
             <Font size="64.0" />
          </font>
@@ -72,14 +72,14 @@
             <Label fx:id="dinnerPreparationTimeLabel" alignment="CENTER_RIGHT" layoutX="146.0" layoutY="240.0" prefHeight="23.0" prefWidth="127.0" styleClass="text-medium" text="30'" AnchorPane.rightAnchor="30.0" AnchorPane.topAnchor="255.0" />
          </children>
       </AnchorPane>
-      <Button disable="true" layoutX="134.0" layoutY="561.0" mnemonicParsing="false" prefHeight="50.0" prefWidth="50.0" styleClass="button-circular" text="&lt;" AnchorPane.bottomAnchor="36.0" />
-      <Button disable="true" layoutX="219.0" layoutY="561.0" mnemonicParsing="false" prefHeight="50.0" prefWidth="50.0" styleClass="button-circular" text="&gt;" AnchorPane.bottomAnchor="36.0">
+      <Button fx:id="breakfastLeftButton" disable="true" layoutX="134.0" layoutY="561.0" mnemonicParsing="false" onAction="#onLeftClicked" prefHeight="50.0" prefWidth="50.0" styleClass="button-circular" text="&lt;" AnchorPane.bottomAnchor="36.0" />
+      <Button fx:id="breakfastRightButton" layoutX="219.0" layoutY="561.0" mnemonicParsing="false" onAction="#onRightClicked" prefHeight="50.0" prefWidth="50.0" styleClass="button-circular" text="&gt;" AnchorPane.bottomAnchor="36.0">
          <font>
             <Font size="64.0" />
          </font>
       </Button>
-      <Button disable="true" layoutX="800.0" layoutY="561.0" mnemonicParsing="false" prefHeight="50.0" prefWidth="50.0" styleClass="button-circular" text="&lt;" AnchorPane.bottomAnchor="36.0" />
-      <Button disable="true" layoutX="885.0" layoutY="561.0" mnemonicParsing="false" prefHeight="50.0" prefWidth="50.0" styleClass="button-circular" text="&gt;" AnchorPane.bottomAnchor="36.0">
+      <Button fx:id="dinnerLeftButton" disable="true" layoutX="800.0" layoutY="561.0" mnemonicParsing="false" onAction="#onLeftClicked" prefHeight="50.0" prefWidth="50.0" styleClass="button-circular" text="&lt;" AnchorPane.bottomAnchor="36.0" />
+      <Button fx:id="dinnerRightButton" layoutX="885.0" layoutY="561.0" mnemonicParsing="false" onAction="#onRightClicked" prefHeight="50.0" prefWidth="50.0" styleClass="button-circular" text="&gt;" AnchorPane.bottomAnchor="36.0">
          <font>
             <Font size="64.0" />
          </font>

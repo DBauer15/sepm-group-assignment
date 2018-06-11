@@ -37,7 +37,7 @@ public class SimpleRecipeServiceTest extends BaseTest {
 
 	private Recipe recipeValid = new Recipe("My recipe", 120d, "Test", validTagBreakfastSet);
 	private Recipe recipeInvalid1 = new Recipe(EXAMPLE_TEXT_256CHARS, 0d, " ", EnumSet.noneOf(RecipeTag.class));
-	private Recipe recipeInvalid2 = new Recipe(" ", 256d, "something to do", validTagBreakfastSet);
+	private Recipe recipeInvalid2 = new Recipe(" ", 2566d, "something to do", validTagBreakfastSet);
 	private Recipe recipeInvalid3 = new Recipe("My recipe", 120d, "Test", validTagBreakfastSet);
 	private Recipe recipeInvalid4 = new Recipe("My recipe", 120d, "Test", validTagBreakfastSet);
 
@@ -143,7 +143,7 @@ public class SimpleRecipeServiceTest extends BaseTest {
 			ArrayList<String> errors = e.getContext().getErrors();
 			Assert.assertEquals(3, errors.size());
 			Assert.assertEquals("Enter at least 1 characters in the field 'Recipe name'", errors.get(0));
-			Assert.assertEquals("Enter a value that is smaller than 255.0 in the field 'Duration'", errors.get(1));
+			Assert.assertEquals("Enter a value that is smaller than 1441.0 in the field 'Duration'", errors.get(1));
 			Assert.assertEquals("The field 'Ingredient Selection' cannot be null", errors.get(2));
 			return;
 		}
