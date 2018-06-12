@@ -165,5 +165,7 @@ public class TabRecipesController implements Notifiable {
 		}
 
 		recipeTableView.setItems(recipeObservableList);
+
+		recipeTableView.sort();
 	}
 }
