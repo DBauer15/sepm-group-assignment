@@ -17,9 +17,6 @@ import at.ac.tuwien.sepm.assignment.groupphase.application.persistence.Persisten
 import at.ac.tuwien.sepm.assignment.groupphase.application.util.implementation.CloseUtil;
 import at.ac.tuwien.sepm.assignment.groupphase.application.util.implementation.JDBCConnectionManager;
 
-import static at.ac.tuwien.sepm.assignment.groupphase.application.util.implementation.CloseUtil.closeResultSet;
-import static at.ac.tuwien.sepm.assignment.groupphase.application.util.implementation.CloseUtil.closeStatement;
-
 @Repository
 public class DBDietPlanPersistence implements DietPlanPersistence {
 	private static final Logger LOG = LoggerFactory.getLogger(MethodHandles.lookup().lookupClass());
