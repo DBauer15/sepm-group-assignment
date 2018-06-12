@@ -4,6 +4,7 @@ import java.io.IOException;
 import java.lang.invoke.MethodHandles;
 import java.net.URL;
 
+import javafx.scene.image.Image;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -24,7 +25,7 @@ public class UserInterfaceUtility {
 
 	@Autowired
 	private static SpringFXMLLoader fxmlLoader;
-	
+
 	private UserInterfaceUtility() {}
 
 	/**
@@ -76,10 +77,10 @@ public class UserInterfaceUtility {
 		showAlert(AlertType.ERROR, "An unexpected error occured.",
 				String.format("An unexpected error occured :-( \nMessage: %s", e.getMessage()));
 	}
-		
+
 	/**
 	 * Open external controller
-	 * 
+	 *
 	 * @param Path FXML file path
 	 * @param Title window title
 	 * @param object is the object that is viewed in the external controller (e.g. a Recipe)
@@ -96,6 +97,7 @@ public class UserInterfaceUtility {
 			stage.initModality(Modality.WINDOW_MODAL);
 			stage.initOwner(owner);
 			stage.setTitle(Title);
+            stage.getIcons().add(new Image("/img/foodOrca.png"));
 
 			var load = fxmlLoader.loadAndWrap(controller.getResourceAsStream(Path), controller);
 			load.getController().initializeView(object);
