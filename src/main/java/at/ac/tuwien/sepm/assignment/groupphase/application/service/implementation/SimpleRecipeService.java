@@ -12,6 +12,7 @@ import org.springframework.stereotype.Service;
 import at.ac.tuwien.sepm.assignment.groupphase.application.dto.IngredientSearchParam;
 import at.ac.tuwien.sepm.assignment.groupphase.application.dto.Recipe;
 import at.ac.tuwien.sepm.assignment.groupphase.application.dto.RecipeIngredient;
+import at.ac.tuwien.sepm.assignment.groupphase.application.dto.RecipeSearchParam;
 import at.ac.tuwien.sepm.assignment.groupphase.application.persistence.PersistenceException;
 import at.ac.tuwien.sepm.assignment.groupphase.application.persistence.RecipePersistence;
 import at.ac.tuwien.sepm.assignment.groupphase.application.service.RecipeService;
@@ -111,7 +112,26 @@ public class SimpleRecipeService implements RecipeService {
         }
     }
 
-	@Override
+    @Override
+    public List<Recipe> searchRecipes(RecipeSearchParam searchParam) throws ServiceInvokationException {
+    	
+    	try {
+            List<Recipe> recipes = recipePersistence.searchRecipes(searchParam);
+            recipes.forEach(NutritionUtil::fillNutritionValues);
+
+            ServiceInvokationContext context = new ServiceInvokationContext();
+            for (Recipe r : recipes)
+                if (!recipeValidator.validateForReading(r, context))
+                    throw new ServiceInvokationException(context);
+
+            return recipes;
+        } catch (PersistenceException e) {
+            throw new ServiceInvokationException(e);
+        }
+    	
+    }
+
+    @Override
 	public void delete(int id) throws ServiceInvokationException {
         try {
             recipePersistence.delete(id);
@@ -119,4 +139,5 @@ public class SimpleRecipeService implements RecipeService {
             throw new ServiceInvokationException(e);
         }
 	}
+
 }

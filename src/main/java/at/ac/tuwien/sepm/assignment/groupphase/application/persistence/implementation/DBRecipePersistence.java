@@ -19,6 +19,7 @@ import org.springframework.stereotype.Repository;
 import at.ac.tuwien.sepm.assignment.groupphase.application.dto.IngredientSearchParam;
 import at.ac.tuwien.sepm.assignment.groupphase.application.dto.Recipe;
 import at.ac.tuwien.sepm.assignment.groupphase.application.dto.RecipeIngredient;
+import at.ac.tuwien.sepm.assignment.groupphase.application.dto.RecipeSearchParam;
 import at.ac.tuwien.sepm.assignment.groupphase.application.persistence.PersistenceException;
 import at.ac.tuwien.sepm.assignment.groupphase.application.persistence.RecipePersistence;
 import at.ac.tuwien.sepm.assignment.groupphase.application.util.implementation.CloseUtil;
@@ -47,6 +48,9 @@ public class DBRecipePersistence implements RecipePersistence {
 	private static final String CREATE_RECIPE_INGREDIENT = "INSERT INTO recipe_ingredient (ingredient_id, recipe_id, amount) VALUES (?,?,?);";
 
 	private static final String IS_RECIPE_CURRENTLY_SUGGESTED = "SELECT 1 FROM diet_plan_suggestion x WHERE recipe = ? AND date = TRUNC(NOW()) AND NOT EXISTS (SELECT 1 FROM diet_plan_suggestion WHERE tag = x.tag AND date = x.date AND created_timestamp > x.created_timestamp)";
+
+	private static final String SEARCH_RECIPES = "SELECT * FROM RECIPE WHERE DELETED = FALSE "
+			+ "AND (? IS NULL OR LOWER(v.characterization) LIKE '%' || LOWER(?) || '%') ";
 
 	@Override
 	public void create(Recipe recipe) throws PersistenceException {
@@ -354,6 +358,34 @@ public class DBRecipePersistence implements RecipePersistence {
 			CloseUtil.closeResultSet(rs);
 			CloseUtil.closeStatement(isRecipeCurrentlySuggested);
 			CloseUtil.closeStatement(createRecipe);
+		}
+	}
+
+	@Override
+	public List<Recipe> searchRecipes(RecipeSearchParam searchParam) throws PersistenceException {
+		LOG.debug("Searching Recipes with search criteria");
+		
+		PreparedStatement ps = null;
+		ResultSet rs = null;
+
+		try {
+			ps = JDBCConnectionManager.getConnection().prepareStatement(SEARCH_RECIPES);
+			rs = ps.executeQuery();
+
+			List<Recipe> recipes = new ArrayList<>();
+			while (rs.next()) {
+				Recipe r = new Recipe(rs.getInt("ID"), rs.getString("NAME"), rs.getDouble("DURATION"),
+						rs.getString("DESCRIPTION"), rs.getString("TAGS"), rs.getBoolean("DELETED"));
+				r.setRecipeIngredients(getIngredients(r.getId()));
+				recipes.add(r);
+			}
+
+			return recipes;
+		} catch (SQLException e) {
+			throw new PersistenceException(e);
+		} finally {
+			CloseUtil.closeStatement(ps);
+			CloseUtil.closeResultSet(rs);
 		}
 	}
 }
