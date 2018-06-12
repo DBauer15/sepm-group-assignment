@@ -67,77 +67,82 @@ public class SimpleRecipeService implements RecipeService {
 		return searchResult;
 	}
 
-    @Override
-    public Recipe get(int id) throws ServiceInvokationException {
-        try {
-            Recipe r = recipePersistence.get(id);
-            r =  NutritionUtil.fillNutritionValues(r);
+	@Override
+	public Recipe get(int id) throws ServiceInvokationException {
+		try {
+			Recipe r = recipePersistence.get(id);
+			r = NutritionUtil.fillNutritionValues(r);
 
-            ServiceInvokationContext context = new ServiceInvokationContext();
-            if (!recipeValidator.validateForReading(r, context))
-                throw new ServiceInvokationException(context);
+			ServiceInvokationContext context = new ServiceInvokationContext();
+			if (!recipeValidator.validateForReading(r, context))
+				throw new ServiceInvokationException(context);
 
-            return r;
-        } catch (PersistenceException e) {
-            throw new ServiceInvokationException(e);
-        }
-    }
+			return r;
+		} catch (PersistenceException e) {
+			throw new ServiceInvokationException(e);
+		}
+	}
 
-    @Override
-    public void update(Recipe r) throws ServiceInvokationException {
-        ServiceInvokationContext context = new ServiceInvokationContext();
-        if (!recipeValidator.validateForUpdate(r, context))
-            throw new ServiceInvokationException(context);
-        try {
-            recipePersistence.update(r);
-        } catch (PersistenceException e) {
-            throw new ServiceInvokationException(e);
-        }
-    }
+	@Override
+	public void update(Recipe r) throws ServiceInvokationException {
+		ServiceInvokationContext context = new ServiceInvokationContext();
+		if (!recipeValidator.validateForUpdate(r, context))
+			throw new ServiceInvokationException(context);
+		try {
+			recipePersistence.update(r);
+		} catch (PersistenceException e) {
+			throw new ServiceInvokationException(e);
+		}
+	}
 
-    @Override
-    public List<Recipe> getRecipes() throws ServiceInvokationException {
-        try {
-            List<Recipe> recipes = recipePersistence.getRecipes();
-            recipes.forEach(NutritionUtil::fillNutritionValues);
+	@Override
+	public List<Recipe> getRecipes() throws ServiceInvokationException {
+		try {
+			List<Recipe> recipes = recipePersistence.getRecipes();
+			recipes.forEach(NutritionUtil::fillNutritionValues);
 
-            ServiceInvokationContext context = new ServiceInvokationContext();
-            for (Recipe r : recipes)
-                if (!recipeValidator.validateForReading(r, context))
-                    throw new ServiceInvokationException(context);
+			ServiceInvokationContext context = new ServiceInvokationContext();
+			for (Recipe r : recipes)
+				if (!recipeValidator.validateForReading(r, context))
+					throw new ServiceInvokationException(context);
 
-            return recipes;
-        } catch (PersistenceException e) {
-            throw new ServiceInvokationException(e);
-        }
-    }
+			return recipes;
+		} catch (PersistenceException e) {
+			throw new ServiceInvokationException(e);
+		}
+	}
 
-    @Override
-    public List<Recipe> searchRecipes(RecipeSearchParam searchParam) throws ServiceInvokationException {
-    	
-    	try {
-            List<Recipe> recipes = recipePersistence.searchRecipes(searchParam);
-            recipes.forEach(NutritionUtil::fillNutritionValues);
+	@Override
+	public List<Recipe> searchRecipes(RecipeSearchParam searchParam) throws ServiceInvokationException {
 
-            ServiceInvokationContext context = new ServiceInvokationContext();
-            for (Recipe r : recipes)
-                if (!recipeValidator.validateForReading(r, context))
-                    throw new ServiceInvokationException(context);
+		ServiceInvokationContext context = new ServiceInvokationContext();
+		if (ValidationUtil.validateRecipeSearchParam(searchParam, context) == false) {
+			throw new ServiceInvokationException(context);
+		}
 
-            return recipes;
-        } catch (PersistenceException e) {
-            throw new ServiceInvokationException(e);
-        }
-    	
-    }
+		try {
+			List<Recipe> recipes = recipePersistence.searchRecipes(searchParam);
+			recipes.forEach(NutritionUtil::fillNutritionValues);
 
-    @Override
+			context = new ServiceInvokationContext();
+			for (Recipe r : recipes)
+				if (!recipeValidator.validateForReading(r, context))
+					throw new ServiceInvokationException(context);
+
+			return recipes;
+		} catch (PersistenceException e) {
+			throw new ServiceInvokationException(e);
+		}
+
+	}
+
+	@Override
 	public void delete(int id) throws ServiceInvokationException {
-        try {
-            recipePersistence.delete(id);
-        } catch (PersistenceException e) {
-            throw new ServiceInvokationException(e);
-        }
+		try {
+			recipePersistence.delete(id);
+		} catch (PersistenceException e) {
+			throw new ServiceInvokationException(e);
+		}
 	}
 
 }

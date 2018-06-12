@@ -49,9 +49,24 @@ public class DBRecipePersistence implements RecipePersistence {
 
 	private static final String IS_RECIPE_CURRENTLY_SUGGESTED = "SELECT 1 FROM diet_plan_suggestion x WHERE recipe = ? AND date = TRUNC(NOW()) AND NOT EXISTS (SELECT 1 FROM diet_plan_suggestion WHERE tag = x.tag AND date = x.date AND created_timestamp > x.created_timestamp)";
 
-	private static final String SEARCH_RECIPES = "SELECT * FROM RECIPE WHERE DELETED = FALSE "
-			+ "AND (? IS NULL OR LOWER(v.characterization) LIKE '%' || LOWER(?) || '%') ";
-
+	private static final String SEARCH_RECIPES = "select r.* from recipe r " + //
+			"inner join recipe_ingredient ri on r.id = ri.recipe_id " + //
+			"inner join ingredient i on i.id = ri.ingredient_id " + //
+			"WHERE (? IS NULL OR i.name ILIKE '%' || ? || '%') " + // 1. ingredient
+			"AND (? IS NULL OR i.name ILIKE '%' || ? || '%') " + // 2. ingredient
+			"AND (? IS NULL OR i.name ILIKE '%' || ? || '%') " + // 3. ingredient
+			"AND (? IS NULL OR i.name ILIKE '%' || ? || '%') " + // 4. ingredient
+			"AND (? IS NULL OR i.name ILIKE '%' || ? || '%') " + // 5. ingredient
+			"AND (? IS NULL OR i.name ILIKE '%' || ? || '%') " + // 6. ingredient
+			"AND (? IS NULL OR i.name ILIKE '%' || ? || '%') " + // 7. ingredient
+			"AND (? IS NULL OR i.name ILIKE '%' || ? || '%') " + // 8. ingredient
+			"AND (? IS NULL OR i.name ILIKE '%' || ? || '%') " + // 9. ingredient
+			"AND (? IS NULL OR i.name ILIKE '%' || ? || '%') " + // 10. ingredient
+			"AND (? IS NULL OR r.name ILIKE '%' || ? || '%') " + // recipe name
+			"AND (? IS NULL OR r.tags = ?) " + // recipe tags
+			"AND (? IS NULL OR r.duration >= ?) " + // recipe duration lower incl bound
+			"AND (? IS NULL OR r.duration <= ?) "; // recipe duration upper incl bound
+	
 	@Override
 	public void create(Recipe recipe) throws PersistenceException {
 		LOG.debug("Creating a new Recipe {}", recipe);

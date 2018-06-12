@@ -1,6 +1,8 @@
 package at.ac.tuwien.sepm.assignment.groupphase.application.util.implementation;
 
+import at.ac.tuwien.sepm.assignment.groupphase.application.dto.RecipeSearchParam;
 import at.ac.tuwien.sepm.assignment.groupphase.application.service.ServiceInvokationContext;
+import at.ac.tuwien.sepm.assignment.groupphase.application.service.ServiceInvokationException;
 
 public class ValidationUtil {
 
@@ -55,5 +57,12 @@ public class ValidationUtil {
 			return true;
 		}
 		return false;
+	}
+	
+	public static boolean validateRecipeSearchParam(RecipeSearchParam param, ServiceInvokationContext context) {
+		if (param.getIngredients() != null && param.getIngredients().size() > 10) {
+			context.addError("Enter only at most 10 ingredient search words.");
+		}
+		return context.isValid();
 	}
 }
