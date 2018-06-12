@@ -1,40 +1,38 @@
 package at.ac.tuwien.sepm.assignment.groupphase.application.ui;
 
-import java.io.IOException;
 import java.lang.invoke.MethodHandles;
-import java.net.URL;
 import java.util.ArrayList;
-import java.util.HashSet;
 import java.util.List;
 import java.util.Map.Entry;
-import java.util.Set;
 
-import at.ac.tuwien.sepm.assignment.groupphase.application.dto.RecipeIngredient;
-import at.ac.tuwien.sepm.assignment.groupphase.application.persistence.NoEntryFoundException;
-import at.ac.tuwien.sepm.assignment.groupphase.application.service.*;
-import javafx.event.ActionEvent;
-import javafx.scene.control.Button;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 
 import at.ac.tuwien.sepm.assignment.groupphase.application.dto.Recipe;
 import at.ac.tuwien.sepm.assignment.groupphase.application.dto.RecipeTag;
+import at.ac.tuwien.sepm.assignment.groupphase.application.persistence.NoEntryFoundException;
+import at.ac.tuwien.sepm.assignment.groupphase.application.service.MealRecommendationsService;
+import at.ac.tuwien.sepm.assignment.groupphase.application.service.NoOptimalSolutionException;
+import at.ac.tuwien.sepm.assignment.groupphase.application.service.Notifiable;
+import at.ac.tuwien.sepm.assignment.groupphase.application.service.NotificationService;
+import at.ac.tuwien.sepm.assignment.groupphase.application.service.ServiceInvokationException;
 import at.ac.tuwien.sepm.assignment.groupphase.application.util.implementation.SpringFXMLLoader;
 import at.ac.tuwien.sepm.assignment.groupphase.application.util.implementation.UserInterfaceUtility;
-import at.ac.tuwien.sepm.assignment.groupphase.main.MainApplication;
+import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
-import javafx.scene.Parent;
-import javafx.scene.Scene;
+import javafx.scene.control.Button;
 import javafx.scene.control.Label;
-import javafx.stage.Modality;
-import javafx.stage.Stage;
 
 @Controller
 public class TabPlansController implements Notifiable {
 	private static final Logger LOG = LoggerFactory.getLogger(MethodHandles.lookup().lookupClass());
 	private MealRecommendationsService mealRecommendationsService;
 	private NotificationService notificationService;
+	
+    @Autowired
+	private SpringFXMLLoader fxmlLoader;
 
 	@FXML
 	private Label breakfastRecipeNameLabel;
@@ -177,19 +175,22 @@ public class TabPlansController implements Notifiable {
 	@FXML
 	public void onBreakfastClick() {
 		LOG.info("View breakfast recipe");
-		UserInterfaceUtility.loadExternalController("/fxml/RecipeDetails.fxml", "Edit Recipe", breakfast, breakfastRecipeNameLabel.getScene().getWindow(), RecipeController.class);
+		UserInterfaceUtility.loadExternalController("/fxml/RecipeDetails.fxml", "Edit Recipe", breakfast,
+				breakfastRecipeNameLabel.getScene().getWindow(), RecipeController.class, fxmlLoader);
 	}
 
 	@FXML
 	public void onLunchClick() {
 		LOG.info("View lunch recipe");
-		UserInterfaceUtility.loadExternalController("/fxml/RecipeDetails.fxml", "Edit Recipe", lunch, lunchRecipeNameLabel.getScene().getWindow(), RecipeController.class);
+		UserInterfaceUtility.loadExternalController("/fxml/RecipeDetails.fxml", "Edit Recipe", lunch,
+				lunchRecipeNameLabel.getScene().getWindow(), RecipeController.class, fxmlLoader);
 	}
 
 	@FXML
 	public void onDinnerClick() {
 		LOG.info("View dinner recipe");
-		UserInterfaceUtility.loadExternalController("/fxml/RecipeDetails.fxml", "Edit Recipe", dinner, dinnerRecipeNameLabel.getScene().getWindow(), RecipeController.class);
+		UserInterfaceUtility.loadExternalController("/fxml/RecipeDetails.fxml", "Edit Recipe", dinner,
+				dinnerRecipeNameLabel.getScene().getWindow(), RecipeController.class, fxmlLoader);
 	}
 
 	@FXML

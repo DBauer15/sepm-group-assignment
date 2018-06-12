@@ -1,5 +1,13 @@
 package at.ac.tuwien.sepm.assignment.groupphase.application.ui;
 
+import java.lang.invoke.MethodHandles;
+import java.util.Optional;
+
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Controller;
+
 import at.ac.tuwien.sepm.assignment.groupphase.application.dto.Recipe;
 import at.ac.tuwien.sepm.assignment.groupphase.application.service.Notifiable;
 import at.ac.tuwien.sepm.assignment.groupphase.application.service.NotificationService;
@@ -7,34 +15,23 @@ import at.ac.tuwien.sepm.assignment.groupphase.application.service.RecipeService
 import at.ac.tuwien.sepm.assignment.groupphase.application.service.ServiceInvokationException;
 import at.ac.tuwien.sepm.assignment.groupphase.application.util.implementation.SpringFXMLLoader;
 import at.ac.tuwien.sepm.assignment.groupphase.application.util.implementation.UserInterfaceUtility;
-import at.ac.tuwien.sepm.assignment.groupphase.main.MainApplication;
 import javafx.beans.binding.Bindings;
 import javafx.beans.property.SimpleIntegerProperty;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
-import javafx.fxml.FXMLLoader;
-import javafx.scene.Parent;
-import javafx.scene.Scene;
-import javafx.scene.control.*;
+import javafx.scene.control.Alert;
 import javafx.scene.control.Alert.AlertType;
+import javafx.scene.control.Button;
+import javafx.scene.control.ButtonType;
+import javafx.scene.control.ContextMenu;
+import javafx.scene.control.MenuItem;
+import javafx.scene.control.SelectionMode;
+import javafx.scene.control.TableColumn;
+import javafx.scene.control.TableRow;
+import javafx.scene.control.TableView;
 import javafx.scene.control.cell.PropertyValueFactory;
-import javafx.scene.input.MouseButton;
-import javafx.scene.input.MouseEvent;
-import javafx.stage.Modality;
-import javafx.stage.Stage;
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
-import org.springframework.context.annotation.AnnotationConfigApplicationContext;
-import org.springframework.stereotype.Controller;
-
-import java.io.IOException;
-import java.lang.invoke.MethodHandles;
-import java.net.URL;
-import java.util.Optional;
-
-import static at.ac.tuwien.sepm.assignment.groupphase.application.util.implementation.UserInterfaceUtility.showAlert;
 
 @Controller
 public class TabRecipesController implements Notifiable {
@@ -42,6 +39,9 @@ public class TabRecipesController implements Notifiable {
 
 	private RecipeService recipeService;
 	private NotificationService notificationService;
+	
+    @Autowired
+	private SpringFXMLLoader fxmlLoader;
 
 	@FXML
 	Button addRecipeButton;
@@ -149,14 +149,14 @@ public class TabRecipesController implements Notifiable {
 
 	private void onEditRecipeClicked(Recipe recipe) {
 		LOG.info("Edit recipe button clicked");
-		UserInterfaceUtility.loadExternalController("/fxml/RecipeDetails.fxml", "Edit Recipe", recipe, addRecipeButton.getScene().getWindow(), RecipeController.class);
+		UserInterfaceUtility.loadExternalController("/fxml/RecipeDetails.fxml", "Edit Recipe", recipe, addRecipeButton.getScene().getWindow(), RecipeController.class, fxmlLoader);
 		updateRecipeTableView();
 	}
 
 	@FXML
 	public void onAddRecipeButtonClicked(ActionEvent actionEvent) {
 		LOG.info("Add recipe button clicked");
-		UserInterfaceUtility.loadExternalController("/fxml/RecipeDetails.fxml", "Add Recipe", null, addRecipeButton.getScene().getWindow(), RecipeController.class);
+		UserInterfaceUtility.loadExternalController("/fxml/RecipeDetails.fxml", "Add Recipe", null, addRecipeButton.getScene().getWindow(), RecipeController.class, fxmlLoader);
 		updateRecipeTableView();
 	}
 

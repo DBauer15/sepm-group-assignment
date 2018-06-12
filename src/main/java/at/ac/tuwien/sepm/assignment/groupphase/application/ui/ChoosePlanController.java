@@ -1,5 +1,18 @@
 package at.ac.tuwien.sepm.assignment.groupphase.application.ui;
 
+import java.io.IOException;
+import java.lang.invoke.MethodHandles;
+import java.text.DecimalFormat;
+import java.text.NumberFormat;
+import java.util.Arrays;
+import java.util.List;
+import java.util.Locale;
+
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Controller;
+
 import at.ac.tuwien.sepm.assignment.groupphase.application.dto.DietPlan;
 import at.ac.tuwien.sepm.assignment.groupphase.application.persistence.NoEntryFoundException;
 import at.ac.tuwien.sepm.assignment.groupphase.application.service.DietPlanService;
@@ -7,34 +20,21 @@ import at.ac.tuwien.sepm.assignment.groupphase.application.service.NotificationS
 import at.ac.tuwien.sepm.assignment.groupphase.application.service.ServiceInvokationException;
 import at.ac.tuwien.sepm.assignment.groupphase.application.util.implementation.SpringFXMLLoader;
 import at.ac.tuwien.sepm.assignment.groupphase.application.util.implementation.UserInterfaceUtility;
-import at.ac.tuwien.sepm.assignment.groupphase.main.MainApplication;
 import javafx.fxml.FXML;
 import javafx.scene.Parent;
 import javafx.scene.Scene;
 import javafx.scene.control.Label;
 import javafx.scene.input.MouseEvent;
 import javafx.scene.layout.AnchorPane;
-import javafx.stage.Modality;
 import javafx.stage.Stage;
-import javafx.stage.StageStyle;
-
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
-import org.springframework.stereotype.Controller;
-
-import java.io.IOException;
-import java.lang.invoke.MethodHandles;
-import java.net.URL;
-import java.text.DecimalFormat;
-import java.text.NumberFormat;
-import java.util.Arrays;
-import java.util.List;
-import java.util.Locale;
 
 @Controller
 public class ChoosePlanController {
     private static final Logger LOG = LoggerFactory.getLogger(MethodHandles.lookup().lookupClass());
 
+    @Autowired
+	private SpringFXMLLoader fxmlLoader;
+    
     @FXML
     public Label exitLabel;
     @FXML
@@ -135,7 +135,6 @@ public class ChoosePlanController {
 
     public void onCreateClicked() {
         try {
-            final var fxmlLoader = MainApplication.context.getBean(SpringFXMLLoader.class);
             String path = "/fxml/CreatePlan.fxml";
             fxmlLoader.setLocation(getClass().getResource(path));
             Stage stage = (Stage) exitLabel.getScene().getWindow();

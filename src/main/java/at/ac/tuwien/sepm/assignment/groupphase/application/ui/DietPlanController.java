@@ -1,49 +1,38 @@
 package at.ac.tuwien.sepm.assignment.groupphase.application.ui;
 
+import java.io.IOException;
+import java.lang.invoke.MethodHandles;
+
+import org.apache.commons.validator.routines.DoubleValidator;
+import org.apache.commons.validator.routines.IntegerValidator;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Controller;
+
 import at.ac.tuwien.sepm.assignment.groupphase.application.dto.DietPlan;
-import at.ac.tuwien.sepm.assignment.groupphase.application.dto.Recipe;
-import at.ac.tuwien.sepm.assignment.groupphase.application.dto.RecipeTag;
-import at.ac.tuwien.sepm.assignment.groupphase.application.persistence.NoEntryFoundException;
 import at.ac.tuwien.sepm.assignment.groupphase.application.service.DietPlanService;
 import at.ac.tuwien.sepm.assignment.groupphase.application.service.NotificationService;
 import at.ac.tuwien.sepm.assignment.groupphase.application.service.ServiceInvokationContext;
 import at.ac.tuwien.sepm.assignment.groupphase.application.service.ServiceInvokationException;
 import at.ac.tuwien.sepm.assignment.groupphase.application.util.implementation.SpringFXMLLoader;
 import at.ac.tuwien.sepm.assignment.groupphase.application.util.implementation.UserInterfaceUtility;
-import at.ac.tuwien.sepm.assignment.groupphase.main.MainApplication;
 import javafx.fxml.FXML;
 import javafx.scene.Parent;
 import javafx.scene.Scene;
-import javafx.scene.control.Alert;
 import javafx.scene.control.Button;
 import javafx.scene.control.Label;
 import javafx.scene.control.TextField;
-import javafx.scene.input.MouseEvent;
-import javafx.scene.layout.AnchorPane;
 import javafx.stage.Stage;
-
-import org.apache.commons.validator.routines.DoubleValidator;
-import org.apache.commons.validator.routines.IntegerValidator;
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
-import org.springframework.stereotype.Controller;
-
-import static at.ac.tuwien.sepm.assignment.groupphase.application.util.implementation.UserInterfaceUtility.showAlert;
-
-import java.io.IOException;
-import java.lang.invoke.MethodHandles;
-import java.text.DecimalFormat;
-import java.text.NumberFormat;
-import java.util.Arrays;
-import java.util.EnumSet;
-import java.util.List;
-import java.util.Locale;
 
 @Controller
 public class DietPlanController implements ExternalController<DietPlan> {
 	private static final Logger LOG = LoggerFactory.getLogger(MethodHandles.lookup().lookupClass());
 	private DietPlan dp;
 
+	@Autowired
+	private SpringFXMLLoader fxmlLoader;
+	
 	@FXML
 	public Label exitLabel;
 
@@ -145,7 +134,6 @@ public class DietPlanController implements ExternalController<DietPlan> {
 		LOG.info("Cancel diet plan creation/edit button clicked");
 
 		try {
-			final var fxmlLoader = MainApplication.context.getBean(SpringFXMLLoader.class);
 			String path = "/fxml/ChoosePlan.fxml";
 			fxmlLoader.setLocation(getClass().getResource(path));
 			Stage stage = (Stage) exitLabel.getScene().getWindow();

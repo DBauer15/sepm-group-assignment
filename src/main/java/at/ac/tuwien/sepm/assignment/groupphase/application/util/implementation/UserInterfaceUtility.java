@@ -6,10 +6,10 @@ import java.net.URL;
 
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
+import org.springframework.beans.factory.annotation.Autowired;
 
 import at.ac.tuwien.sepm.assignment.groupphase.application.service.ServiceInvokationContext;
 import at.ac.tuwien.sepm.assignment.groupphase.application.ui.ExternalController;
-import at.ac.tuwien.sepm.assignment.groupphase.main.MainApplication;
 import javafx.scene.Parent;
 import javafx.scene.Scene;
 import javafx.scene.control.Alert;
@@ -22,6 +22,9 @@ public class UserInterfaceUtility {
 
 	private static final Logger LOG = LoggerFactory.getLogger(MethodHandles.lookup().lookupClass());
 
+	@Autowired
+	private static SpringFXMLLoader fxmlLoader;
+	
 	private UserInterfaceUtility() {}
 
 	/**
@@ -83,9 +86,9 @@ public class UserInterfaceUtility {
 	 * @param owner defines the window that has opened the external controller
 	 * @param controller defines the class of the controller that should be opened (e.g. RecipeController)
 	 */
-	public static <T, TController extends ExternalController<T>> void loadExternalController(String Path, String Title, T object, Window owner, Class<TController> controller) {
+	public static <T, TController extends ExternalController<T>> void loadExternalController(String Path, String Title,
+			T object, Window owner, Class<TController> controller, SpringFXMLLoader fxmlLoader) {
 		try {
-			final var fxmlLoader = MainApplication.context.getBean(SpringFXMLLoader.class);
 			URL location = controller.getResource(Path);
 			fxmlLoader.setLocation(location);
 			Stage stage = new Stage();
