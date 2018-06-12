@@ -105,7 +105,13 @@ public class TabRecipesController implements Notifiable {
 
 			row.contextMenuProperty()
 					.bind(Bindings.when(row.emptyProperty()).then((ContextMenu) null).otherwise(recipeContextMenu));
-			return row;
+
+            row.setOnMouseClicked(event -> {
+                if (event.getClickCount() == 2)
+                    onEditRecipeClicked(row.getItem());
+            });
+
+            return row;
 		});
 
         notificationService.subscribeTo(RecipeController.class, this);
