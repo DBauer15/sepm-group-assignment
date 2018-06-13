@@ -79,19 +79,12 @@ public class TabPlansController implements Notifiable {
 
 
 	private Recipe breakfast;
-	private List<Recipe> breakfasts;
 	private Recipe lunch;
-	private List<Recipe> lunches;
 	private Recipe dinner;
-	private List<Recipe> dinners;
 
 	public TabPlansController(MealRecommendationsService mealRecommendationsService, NotificationService notificationService) {
 		this.mealRecommendationsService = mealRecommendationsService;
 		this.notificationService = notificationService;
-
-		breakfasts = new ArrayList<>();
-		lunches = new ArrayList<>();
-		dinners = new ArrayList<>();
 	}
 
 	@FXML
@@ -103,9 +96,6 @@ public class TabPlansController implements Notifiable {
 
 	@Override
     public void onNotify() {
-	    breakfasts.clear();
-	    lunches.clear();
-	    dinners.clear();
 	    updatePlan();
     }
 
@@ -135,15 +125,12 @@ public class TabPlansController implements Notifiable {
 			for (Entry<RecipeTag, Recipe> entry : this.mealRecommendationsService.getRecommendedMeals().entrySet()) {
 				if (RecipeTag.B.equals(entry.getKey())) {
 						breakfast = entry.getValue();
-						breakfasts.add(breakfast);
 						updateRecipeSuggestion(breakfast, breakfastRecipeNameLabel, breakfastPreparationTimeLabel, breakfastCaloriesLabel, breakfastCarbohydratesLabel, breakfastProteinsLabel, breakfastFatsLabel);
 				} else if (RecipeTag.L.equals(entry.getKey())) {
 						lunch = entry.getValue();
-						lunches.add(lunch);
 						updateRecipeSuggestion(lunch, lunchRecipeNameLabel, lunchPreparationTimeLabel, lunchCaloriesLabel, lunchCarbohydratesLabel, lunchProteinsLabel, lunchFatsLabel);
 				} else if (RecipeTag.D.equals(entry.getKey())) {
 						dinner = entry.getValue();
-						dinners.add(dinner);
 						updateRecipeSuggestion(dinner, dinnerRecipeNameLabel, dinnerPreparationTimeLabel, dinnerCaloriesLabel, dinnerCarbohydratesLabel, dinnerProteinsLabel, dinnerFatsLabel);
 				}
 			}
