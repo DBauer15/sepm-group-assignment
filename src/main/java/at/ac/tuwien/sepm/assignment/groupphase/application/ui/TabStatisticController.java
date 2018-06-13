@@ -2,6 +2,7 @@ package at.ac.tuwien.sepm.assignment.groupphase.application.ui;
 
 import at.ac.tuwien.sepm.assignment.groupphase.application.dto.Recipe;
 import at.ac.tuwien.sepm.assignment.groupphase.application.service.Notifiable;
+import at.ac.tuwien.sepm.assignment.groupphase.application.service.NotificationService;
 import at.ac.tuwien.sepm.assignment.groupphase.application.service.ServiceInvokationException;
 import at.ac.tuwien.sepm.assignment.groupphase.application.service.StatisticService;
 import at.ac.tuwien.sepm.assignment.groupphase.application.util.implementation.UserInterfaceUtility;
@@ -30,9 +31,11 @@ public class TabStatisticController implements Notifiable {
     private NumberAxis quantityAxis;
 
     private StatisticService statisticService;
+    private NotificationService notificationService;
 
     @FXML
     public void initialize(){
+        notificationService.subscribeTo(TabStatisticController.class, this);
         barChart.setLegendVisible(false);
         quantityAxis.setTickUnit(1);
         quantityAxis.setMinorTickVisible(false);
@@ -44,8 +47,9 @@ public class TabStatisticController implements Notifiable {
         updateLineChart();
     }
 
-    public TabStatisticController(StatisticService statisticService){
+    public TabStatisticController(StatisticService statisticService, NotificationService notificationService){
         this.statisticService = statisticService;
+        this.notificationService = notificationService;
     }
 
     private void updateLineChart(){

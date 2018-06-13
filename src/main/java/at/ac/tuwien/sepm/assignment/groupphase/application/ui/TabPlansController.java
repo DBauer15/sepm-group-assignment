@@ -214,6 +214,8 @@ public class TabPlansController implements Notifiable {
                 breakfastSwapButton.setDisable(true);
             }
         }
+
+        notificationService.notify(TabStatisticController.class);
     }
 
     private void updateBreakfast() {
