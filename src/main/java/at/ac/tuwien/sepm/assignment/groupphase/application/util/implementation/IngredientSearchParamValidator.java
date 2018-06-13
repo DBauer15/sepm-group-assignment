@@ -3,12 +3,15 @@ package at.ac.tuwien.sepm.assignment.groupphase.application.util.implementation;
 import at.ac.tuwien.sepm.assignment.groupphase.application.dto.IngredientSearchParam;
 import at.ac.tuwien.sepm.assignment.groupphase.application.service.ServiceInvokationContext;
 import at.ac.tuwien.sepm.assignment.groupphase.application.util.Validator;
+import org.springframework.stereotype.Component;
 
 /**
  * IngredientSearchParamValidator
  * @author e01529136
  *
  */
+
+@Component
 public class IngredientSearchParamValidator implements Validator<IngredientSearchParam> {
 
 	@Override

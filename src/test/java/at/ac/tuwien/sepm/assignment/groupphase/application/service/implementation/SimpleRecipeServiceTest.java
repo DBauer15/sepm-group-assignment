@@ -11,6 +11,9 @@ import java.util.ArrayList;
 import java.util.EnumSet;
 import java.util.List;
 
+import at.ac.tuwien.sepm.assignment.groupphase.application.util.implementation.IngredientSearchParamValidator;
+import at.ac.tuwien.sepm.assignment.groupphase.application.util.implementation.RecipeIngredientsValidator;
+import at.ac.tuwien.sepm.assignment.groupphase.application.util.implementation.RecipeValidator;
 import org.junit.Assert;
 import org.junit.Test;
 
@@ -95,7 +98,7 @@ public class SimpleRecipeServiceTest extends BaseTest {
 			throws ServiceInvokationException, PersistenceException {
 
 		// invokation
-		RecipeService dietPlanService = new SimpleRecipeService(mockedRecipeRepo);
+		RecipeService dietPlanService = new SimpleRecipeService(mockedRecipeRepo, new RecipeValidator(new RecipeIngredientsValidator()), new IngredientSearchParamValidator());
 		dietPlanService.create(recipeValid);
 
 		// verification after invokation
@@ -106,7 +109,7 @@ public class SimpleRecipeServiceTest extends BaseTest {
 	public void testCreate_invalidDataFallsBelowLimitsAndEmptyIngredientList_notCallsPersistenceCreateAndValidations()
 			throws PersistenceException {
 		// invokation
-		RecipeService recipeService = new SimpleRecipeService(mockedRecipeRepo);
+		RecipeService recipeService = new SimpleRecipeService(mockedRecipeRepo, new RecipeValidator(new RecipeIngredientsValidator()), new IngredientSearchParamValidator());
 		try {
 			recipeService.create(recipeInvalid1);
 		} catch (ServiceInvokationException e) {
@@ -131,7 +134,7 @@ public class SimpleRecipeServiceTest extends BaseTest {
 	public void testCreate_invalidDataDurationExceedsLimitAndIngredientListIsNull_notCallsPersistenceCreateAndValidations()
 			throws PersistenceException {
 		// invokation
-		RecipeService recipeService = new SimpleRecipeService(mockedRecipeRepo);
+		RecipeService recipeService = new SimpleRecipeService(mockedRecipeRepo, new RecipeValidator(new RecipeIngredientsValidator()), new IngredientSearchParamValidator());
 		try {
 			recipeService.create(recipeInvalid2);
 		} catch (ServiceInvokationException e) {
@@ -154,7 +157,7 @@ public class SimpleRecipeServiceTest extends BaseTest {
 	public void testCreate_invalidDataWithInvalidIngredientData_notCallsPersistenceCreateAndValidations()
 			throws PersistenceException {
 		// invokation
-		RecipeService recipeService = new SimpleRecipeService(mockedRecipeRepo);
+		RecipeService recipeService = new SimpleRecipeService(mockedRecipeRepo, new RecipeValidator(new RecipeIngredientsValidator()), new IngredientSearchParamValidator());
 		try {
 			recipeService.create(recipeInvalid3);
 		} catch (ServiceInvokationException e) {
@@ -212,7 +215,7 @@ public class SimpleRecipeServiceTest extends BaseTest {
 	public void testCreate_invalidDataMultipleIngredientsWithSameIds_notCallsPersistenceCreateAndValidations()
 			throws PersistenceException {
 		// invokation
-		RecipeService recipeService = new SimpleRecipeService(mockedRecipeRepo);
+		RecipeService recipeService = new SimpleRecipeService(mockedRecipeRepo, new RecipeValidator(new RecipeIngredientsValidator()), new IngredientSearchParamValidator());
 		try {
 			recipeService.create(recipeInvalid4);
 		} catch (ServiceInvokationException e) {
@@ -242,7 +245,7 @@ public class SimpleRecipeServiceTest extends BaseTest {
 		when(mockedRecipeRepo.searchIngredient(searchParam)).thenReturn(mockedResult);
 
 		// invokation
-		RecipeService dietPlanService = new SimpleRecipeService(mockedRecipeRepo);
+		RecipeService dietPlanService = new SimpleRecipeService(mockedRecipeRepo, new RecipeValidator(new RecipeIngredientsValidator()), new IngredientSearchParamValidator());
 		List<RecipeIngredient> actualResult = dietPlanService.searchIngredient(searchParam);
 
 		// verification after invokation
@@ -264,7 +267,7 @@ public class SimpleRecipeServiceTest extends BaseTest {
 		when(mockedRecipeRepo.searchIngredient(searchParam)).thenReturn(mockedResult);
 
 		// invokation
-		RecipeService dietPlanService = new SimpleRecipeService(mockedRecipeRepo);
+		RecipeService dietPlanService = new SimpleRecipeService(mockedRecipeRepo, new RecipeValidator(new RecipeIngredientsValidator()), new IngredientSearchParamValidator());
 		List<RecipeIngredient> actualResult = dietPlanService.searchIngredient(searchParam);
 
 		// verification after invokation
@@ -279,7 +282,7 @@ public class SimpleRecipeServiceTest extends BaseTest {
 		IngredientSearchParam searchParam = null;
 
 		// invokation
-		RecipeService dietPlanService = new SimpleRecipeService(mockedRecipeRepo);
+		RecipeService dietPlanService = new SimpleRecipeService(mockedRecipeRepo, new RecipeValidator(new RecipeIngredientsValidator()), new IngredientSearchParamValidator());
 		try {
 			dietPlanService.searchIngredient(searchParam);
 		} catch (ServiceInvokationException e) {
@@ -299,7 +302,7 @@ public class SimpleRecipeServiceTest extends BaseTest {
 		IngredientSearchParam searchParam = new IngredientSearchParam(null);
 
 		// invokation
-		RecipeService dietPlanService = new SimpleRecipeService(mockedRecipeRepo);
+		RecipeService dietPlanService = new SimpleRecipeService(mockedRecipeRepo, new RecipeValidator(new RecipeIngredientsValidator()), new IngredientSearchParamValidator());
 		try {
 			dietPlanService.searchIngredient(searchParam);
 		} catch (ServiceInvokationException e) {
@@ -318,7 +321,7 @@ public class SimpleRecipeServiceTest extends BaseTest {
 		IngredientSearchParam searchParam = new IngredientSearchParam(" Eg "); // 2 chars + 2 spaces
 
 		// invokation
-		RecipeService dietPlanService = new SimpleRecipeService(mockedRecipeRepo);
+		RecipeService dietPlanService = new SimpleRecipeService(mockedRecipeRepo, new RecipeValidator(new RecipeIngredientsValidator()), new IngredientSearchParamValidator());
 		try {
 			dietPlanService.searchIngredient(searchParam);
 		} catch (ServiceInvokationException e) {
@@ -338,7 +341,7 @@ public class SimpleRecipeServiceTest extends BaseTest {
 		IngredientSearchParam searchParam = new IngredientSearchParam(" Lorem ipsum dolor sit "); // 21 chars + 2 spaces
 
 		// invokation
-		RecipeService dietPlanService = new SimpleRecipeService(mockedRecipeRepo);
+		RecipeService dietPlanService = new SimpleRecipeService(mockedRecipeRepo, new RecipeValidator(new RecipeIngredientsValidator()), new IngredientSearchParamValidator());
 		try {
 			dietPlanService.searchIngredient(searchParam);
 		} catch (ServiceInvokationException e) {
@@ -356,7 +359,7 @@ public class SimpleRecipeServiceTest extends BaseTest {
 	public void testUpdate_recipeIsValid_callsPersistenceUpdateOnce()
 			throws ServiceInvokationException, PersistenceException {
 
-		RecipeService dietPlanService = new SimpleRecipeService(mockedRecipeRepo);
+		RecipeService dietPlanService = new SimpleRecipeService(mockedRecipeRepo, new RecipeValidator(new RecipeIngredientsValidator()), new IngredientSearchParamValidator());
 		recipeValid.setId(1);
 		dietPlanService.update(recipeValid);
 		verify(mockedRecipeRepo, times(1)).update(recipeValid);
@@ -364,7 +367,7 @@ public class SimpleRecipeServiceTest extends BaseTest {
 
 	@Test
 	public void testUpdate_recipeHasNoId_throwsValidationError() {
-		RecipeService recipeService = new SimpleRecipeService(mockedRecipeRepo);
+		RecipeService recipeService = new SimpleRecipeService(mockedRecipeRepo, new RecipeValidator(new RecipeIngredientsValidator()), new IngredientSearchParamValidator());
 		Recipe recipeNotValidForUpdate = recipeValid;
 
 		try {
@@ -382,7 +385,7 @@ public class SimpleRecipeServiceTest extends BaseTest {
 
 	@Test
 	public void testDelete_validData_callsPersistenceCreateOnce() throws ServiceInvokationException, PersistenceException {
-		RecipeService recipeService = new SimpleRecipeService(mockedRecipeRepo);
+		RecipeService recipeService = new SimpleRecipeService(mockedRecipeRepo, new RecipeValidator(new RecipeIngredientsValidator()), new IngredientSearchParamValidator());
 		recipeService.delete(1);
 
 		// verification after invokation
