@@ -6,6 +6,8 @@ import java.util.List;
 
 import at.ac.tuwien.sepm.assignment.groupphase.application.util.Validator;
 import at.ac.tuwien.sepm.assignment.groupphase.application.util.implementation.NutritionUtil;
+import at.ac.tuwien.sepm.assignment.groupphase.application.util.implementation.ValidationUtil;
+
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.stereotype.Service;
