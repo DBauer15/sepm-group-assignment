@@ -4,6 +4,7 @@ import java.lang.invoke.MethodHandles;
 import java.util.ArrayList;
 import java.util.List;
 
+import at.ac.tuwien.sepm.assignment.groupphase.application.util.Validator;
 import at.ac.tuwien.sepm.assignment.groupphase.application.util.implementation.NutritionUtil;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -18,9 +19,6 @@ import at.ac.tuwien.sepm.assignment.groupphase.application.persistence.RecipePer
 import at.ac.tuwien.sepm.assignment.groupphase.application.service.RecipeService;
 import at.ac.tuwien.sepm.assignment.groupphase.application.service.ServiceInvokationContext;
 import at.ac.tuwien.sepm.assignment.groupphase.application.service.ServiceInvokationException;
-import at.ac.tuwien.sepm.assignment.groupphase.application.util.implementation.IngredientSearchParamValidator;
-import at.ac.tuwien.sepm.assignment.groupphase.application.util.implementation.RecipeValidator;
-import at.ac.tuwien.sepm.assignment.groupphase.application.util.implementation.ValidationUtil;
 
 @Service
 public class SimpleRecipeService implements RecipeService {
@@ -28,11 +26,13 @@ public class SimpleRecipeService implements RecipeService {
 	private static final Logger LOG = LoggerFactory.getLogger(MethodHandles.lookup().lookupClass());
 
 	private final RecipePersistence recipePersistence;
-	private final RecipeValidator recipeValidator = new RecipeValidator();
-	private final IngredientSearchParamValidator ingredientSearchParamValidator = new IngredientSearchParamValidator();
+	private final Validator<Recipe> recipeValidator;
+	private final Validator<IngredientSearchParam> ingredientSearchParamValidator;
 
-	public SimpleRecipeService(RecipePersistence recipePersistence) {
+	public SimpleRecipeService(RecipePersistence recipePersistence, Validator<Recipe> recipeValidator, Validator<IngredientSearchParam> ingredientSearchParamValidator) {
 		this.recipePersistence = recipePersistence;
+		this.recipeValidator = recipeValidator;
+		this.ingredientSearchParamValidator = ingredientSearchParamValidator;
 	}
 
 	@Override

@@ -20,11 +20,11 @@ public interface MealRecommendationsService {
     /**
      * Calculates a meal recommendation for a specific meal
      * @param meal {@link RecipeTag} Meal for which to calculate
-     * @param omissions List of {@link Recipe} to omit when selecting a recommendation
+     * @param current Currently used {@link Recipe} to omit when selecting a recommendation
      * @return Recommended {@link Recipe}
      * @throws ServiceInvokationException
      * @throws NoEntryFoundException
      * @throws NoOptimalSolutionException
      */
-    public Recipe getRecommendedMeal(RecipeTag meal, List<Recipe> omissions) throws ServiceInvokationException, NoOptimalSolutionException;
+    public Recipe getRecommendedMeal(RecipeTag meal, Recipe current) throws ServiceInvokationException, NoOptimalSolutionException;
 }
