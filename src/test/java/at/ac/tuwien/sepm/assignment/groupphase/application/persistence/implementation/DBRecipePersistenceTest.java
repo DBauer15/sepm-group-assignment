@@ -16,6 +16,7 @@ import org.junit.Test;
 import at.ac.tuwien.sepm.assignment.groupphase.application.dto.IngredientSearchParam;
 import at.ac.tuwien.sepm.assignment.groupphase.application.dto.Recipe;
 import at.ac.tuwien.sepm.assignment.groupphase.application.dto.RecipeIngredient;
+import at.ac.tuwien.sepm.assignment.groupphase.application.dto.RecipeSearchParam;
 import at.ac.tuwien.sepm.assignment.groupphase.application.dto.RecipeTag;
 import at.ac.tuwien.sepm.assignment.groupphase.application.persistence.PersistenceException;
 import at.ac.tuwien.sepm.assignment.groupphase.application.persistence.RecipePersistence;
@@ -444,5 +445,82 @@ public class DBRecipePersistenceTest extends BaseTest {
         List<Recipe> recipes = recipePersistence.getRecipes();
         Assert.assertNotNull(recipes);
         Assert.assertEquals(0, recipes.size());
+    }
+    
+    @Test
+    public void testSearchRecipes_noMatchingResult_successWithEmptyList() throws PersistenceException {
+    	// uses example recipes in test db
+        RecipePersistence recipePersistence = new DBRecipePersistence();
+        
+        RecipeSearchParam searchParam = new RecipeSearchParam();
+		searchParam.addIngredient("milk");
+		searchParam.addIngredient("cheese");
+		searchParam.addIngredient("marmelade");
+		searchParam.setLowerDurationInkl(10d);
+		searchParam.setUpperDurationInkl(30d);
+		searchParam.setRecipeName("cottage");
+		EnumSet<RecipeTag> tags = EnumSet.noneOf(RecipeTag.class);
+		tags.add(RecipeTag.B);
+		tags.add(RecipeTag.L);
+		searchParam.setTags(tags);
+		
+        List<Recipe> recipes = recipePersistence.searchRecipes(searchParam);
+        Assert.assertNotNull(recipes);
+        Assert.assertEquals(0, recipes.size());
+    }
+    
+    @Test
+    public void testSearchRecipes_with2MatchingResults_success() throws PersistenceException {
+    	// uses example recipes in test db
+        RecipePersistence recipePersistence = new DBRecipePersistence();
+        
+        RecipeSearchParam searchParam = new RecipeSearchParam();
+        searchParam.addIngredient("milk");
+        searchParam.addIngredient("egg");
+        searchParam.addIngredient("butter");
+		searchParam.setLowerDurationInkl(10d);
+		searchParam.setUpperDurationInkl(80d);
+		EnumSet<RecipeTag> tags = EnumSet.noneOf(RecipeTag.class);
+		tags.add(RecipeTag.B);
+		searchParam.setTags(tags);
+		searchParam.setRecipeName("cake");
+		
+        List<Recipe> recipes = recipePersistence.searchRecipes(searchParam);
+        Assert.assertNotNull(recipes);
+        Assert.assertEquals(2, recipes.size());
+    }
+    
+    @Test
+    public void testSearchRecipes_with1MatchingResults_success() throws PersistenceException {
+    	// uses example recipes in test db
+        RecipePersistence recipePersistence = new DBRecipePersistence();
+        
+        RecipeSearchParam searchParam = new RecipeSearchParam();
+        searchParam.addIngredient("milk");
+        searchParam.addIngredient("egg");
+        searchParam.addIngredient("butter");
+		searchParam.setLowerDurationInkl(70d);
+		searchParam.setUpperDurationInkl(80d);
+		EnumSet<RecipeTag> tags = EnumSet.noneOf(RecipeTag.class);
+		tags.add(RecipeTag.B);
+		tags.add(RecipeTag.D);
+		searchParam.setTags(tags);
+		searchParam.setRecipeName("cake");
+		
+        List<Recipe> recipes = recipePersistence.searchRecipes(searchParam);
+        Assert.assertNotNull(recipes);
+        Assert.assertEquals(1, recipes.size());
+    }
+    
+    @Test
+    public void testSearchRecipes_withEmptyParam_successWithResults() throws PersistenceException {
+    	// uses example recipes in test db
+        RecipePersistence recipePersistence = new DBRecipePersistence();
+        
+        RecipeSearchParam searchParam = new RecipeSearchParam();
+		
+        List<Recipe> recipes = recipePersistence.searchRecipes(searchParam);
+        Assert.assertNotNull(recipes);
+        Assert.assertTrue(recipes.size() > 10);
     }
 }

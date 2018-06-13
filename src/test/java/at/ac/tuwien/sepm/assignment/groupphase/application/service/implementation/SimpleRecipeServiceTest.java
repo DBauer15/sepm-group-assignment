@@ -20,6 +20,7 @@ import org.junit.Test;
 import at.ac.tuwien.sepm.assignment.groupphase.application.dto.IngredientSearchParam;
 import at.ac.tuwien.sepm.assignment.groupphase.application.dto.Recipe;
 import at.ac.tuwien.sepm.assignment.groupphase.application.dto.RecipeIngredient;
+import at.ac.tuwien.sepm.assignment.groupphase.application.dto.RecipeSearchParam;
 import at.ac.tuwien.sepm.assignment.groupphase.application.dto.RecipeTag;
 import at.ac.tuwien.sepm.assignment.groupphase.application.persistence.PersistenceException;
 import at.ac.tuwien.sepm.assignment.groupphase.application.persistence.RecipePersistence;
@@ -390,5 +391,75 @@ public class SimpleRecipeServiceTest extends BaseTest {
 
 		// verification after invokation
 		verify(mockedRecipeRepo, times(1)).delete(1);
+	}
+	
+	@Test
+	public void testSearchRecipes_paramIsEmpty_callsPersistenceOnce()
+			throws ServiceInvokationException, PersistenceException {
+
+		RecipeService recipeService = new SimpleRecipeService(mockedRecipeRepo, new RecipeValidator(new RecipeIngredientsValidator()), new IngredientSearchParamValidator());
+		RecipeSearchParam searchParam = new RecipeSearchParam();
+		
+		recipeService.searchRecipes(searchParam);
+		verify(mockedRecipeRepo, times(1)).searchRecipes(searchParam);
+	}
+	
+	@Test
+	public void testSearchRecipes_paramHasValidSearchCriteria_callsPersistenceOnce()
+			throws ServiceInvokationException, PersistenceException {
+
+		RecipeService recipeService = new SimpleRecipeService(mockedRecipeRepo, new RecipeValidator(new RecipeIngredientsValidator()), new IngredientSearchParamValidator());
+		
+		RecipeSearchParam searchParam = new RecipeSearchParam();
+		searchParam.addIngredient("milk");
+		searchParam.addIngredient("cheese");
+		searchParam.setLowerDurationInkl(10d);
+		searchParam.setUpperDurationInkl(30d);
+		searchParam.setRecipeName("cottage");
+		EnumSet<RecipeTag> tags = EnumSet.noneOf(RecipeTag.class);
+		tags.add(RecipeTag.B);
+		tags.add(RecipeTag.L);
+		searchParam.setTags(tags);
+		
+		recipeService.searchRecipes(searchParam);
+		verify(mockedRecipeRepo, times(1)).searchRecipes(searchParam);
+	}
+	
+	@Test
+	public void testSearchRecipes_tooMuchIngredientsAndInvalidDurationOrder_notCallsPersistenceAndValidations()
+			throws ServiceInvokationException, PersistenceException {
+
+		RecipeService recipeService = new SimpleRecipeService(mockedRecipeRepo, new RecipeValidator(new RecipeIngredientsValidator()), new IngredientSearchParamValidator());
+		
+		RecipeSearchParam searchParam = new RecipeSearchParam();
+		searchParam.addIngredient("milk");
+		searchParam.addIngredient("cheese");
+		searchParam.addIngredient("yogurt");
+		searchParam.addIngredient("marmelade");
+		searchParam.addIngredient("alcohol");
+		searchParam.addIngredient("pudding");
+		searchParam.addIngredient("pork");
+		searchParam.addIngredient("meat");
+		searchParam.addIngredient("cream");
+		searchParam.addIngredient("apple");
+		searchParam.addIngredient("pie"); // too much ingredients, exceeding upper limit
+		searchParam.setLowerDurationInkl(30d);
+		searchParam.setUpperDurationInkl(10d); // invalid order
+		searchParam.setRecipeName("");
+		EnumSet<RecipeTag> tags = EnumSet.noneOf(RecipeTag.class);
+		searchParam.setTags(tags);
+		
+		try {
+			recipeService.searchRecipes(searchParam);
+		} catch (ServiceInvokationException e) {
+			verifyZeroInteractions(mockedRecipeRepo);
+
+			ArrayList<String> errors = e.getContext().getErrors();
+			Assert.assertEquals(2, errors.size());
+			Assert.assertEquals("Enter only at most 10 ingredient search words.", errors.get(0));
+			Assert.assertEquals("Lower Duration Limit must be smaller or equal to Upper Duration Limit.", errors.get(1));
+			return;
+		}
+		Assert.fail("Should throw ServiceInvokationException!");
 	}
 }

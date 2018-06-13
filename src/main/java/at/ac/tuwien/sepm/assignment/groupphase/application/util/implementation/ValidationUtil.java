@@ -6,7 +6,8 @@ import at.ac.tuwien.sepm.assignment.groupphase.application.service.ServiceInvoka
 
 public class ValidationUtil {
 
-    private ValidationUtil() {}
+	private ValidationUtil() {
+	}
 
 	public static void validateStringLength(String fieldName, String value, Integer minLength, Integer maxLength,
 			ServiceInvokationContext context) {
@@ -58,10 +59,14 @@ public class ValidationUtil {
 		}
 		return false;
 	}
-	
+
 	public static boolean validateRecipeSearchParam(RecipeSearchParam param, ServiceInvokationContext context) {
 		if (param.getIngredients() != null && param.getIngredients().size() > 10) {
 			context.addError("Enter only at most 10 ingredient search words.");
+		}
+		if (param.getLowerDurationInkl() != null && param.getUpperDurationInkl() != null
+				&& param.getLowerDurationInkl().compareTo(param.getUpperDurationInkl()) > 0) {
+			context.addError("Lower Duration Limit must be smaller or equal to Upper Duration Limit.");
 		}
 		return context.isValid();
 	}
