@@ -11,25 +11,36 @@ import at.ac.tuwien.sepm.assignment.groupphase.application.util.implementation.U
 import at.ac.tuwien.sepm.assignment.groupphase.application.util.implementation.ValidationUtilUi;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
+import javafx.embed.swing.SwingFXUtils;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
 import javafx.scene.Node;
 import javafx.scene.control.*;
 import javafx.scene.control.cell.PropertyValueFactory;
+import javafx.scene.image.Image;
+import javafx.scene.image.ImageView;
 import javafx.scene.input.KeyEvent;
 import javafx.scene.layout.AnchorPane;
 import javafx.scene.layout.GridPane;
+import javafx.scene.layout.VBox;
+import javafx.stage.FileChooser;
 import javafx.stage.Stage;
+import javafx.util.Callback;
 import javafx.util.StringConverter;
 
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.stereotype.Controller;
 
+import java.awt.image.BufferedImage;
+import java.io.File;
+import java.io.IOException;
 import java.lang.invoke.MethodHandles;
 import java.net.URL;
 import java.util.*;
+
+import javax.imageio.ImageIO;
 
 import static at.ac.tuwien.sepm.assignment.groupphase.application.util.implementation.UserInterfaceUtility.showAlert;
 
@@ -116,16 +127,79 @@ public class RecipeController implements Initializable, ExternalController<Recip
     Label customIngredientUnitLabel;
     @FXML
     ChoiceBox<String> customIngredientUnitChoiceBox;
+    @FXML
+    private Pagination picturePagination;
+    @FXML
+    private Label noPictureChosenLabel;
 
     private RecipeService recipeService;
     private NotificationService notificationService;
     private Recipe r;
     private boolean isInEditMode = false;
     private List<RecipeIngredient> ingredients;
+    private List<File> pictures;
 
     public RecipeController(RecipeService recipeService, NotificationService notificationService) {
         this.recipeService = recipeService;
         this.notificationService = notificationService;
+    }
+    
+    public VBox displayPicture(int pageIndex) {
+        ImageView imageView = new ImageView();
+
+        if (pictures != null && pictures.size() > pageIndex) {
+	        File file = pictures.get(pageIndex);
+	        
+	        try {
+	            BufferedImage bufferedImage = ImageIO.read(file);
+	            Image image = SwingFXUtils.toFXImage(bufferedImage, null);
+	            imageView.setImage(image);
+	            imageView.setFitHeight(200);
+	            imageView.setPreserveRatio(true);
+	            imageView.setSmooth(true);
+	            imageView.setCache(true);
+	        } catch (IOException ex) {
+	            UserInterfaceUtility.handleFault(ex);
+	        }
+        }
+        
+        VBox pictureBox = new VBox();
+        pictureBox.getChildren().add(imageView);
+        
+        return pictureBox;
+    }
+
+    public void onAddPictureButtonClicked() {
+        LOG.info("Add picture to recipe button clicked");
+
+        FileChooser fileChooser = new FileChooser();
+        FileChooser.ExtensionFilter extFilter = new FileChooser.ExtensionFilter("JPEG files (*.jpeg), PNG files (*.png)", "*.jpeg", "*.png");
+        fileChooser.getExtensionFilters().add(extFilter);
+        
+        List<File> pictures = fileChooser.showOpenMultipleDialog(saveButton.getScene().getWindow());
+
+        if (pictures != null && pictures.size() != 0) {
+        	for (File p : pictures) {
+                LOG.info("User has selected the following picture {}.", p.toString());
+        	}
+        	
+    		if (pictures.size() > 5) {
+                showAlert(Alert.AlertType.ERROR, "Too many pictures", "You can only choose up to 5 images.");
+    		} else {
+    			this.pictures = pictures;
+    			
+            	picturePagination.setPageCount(this.pictures.size());
+            	picturePagination.setVisible(true);
+        		noPictureChosenLabel.setVisible(false);
+    		}
+        } else {
+    		noPictureChosenLabel.setVisible(true);        
+    		picturePagination.setVisible(false);
+
+	        LOG.info("User has selected no picture.");
+	        
+	        this.pictures = pictures;
+        }
     }
 
     public void initializeView(Recipe r) {
@@ -149,6 +223,13 @@ public class RecipeController implements Initializable, ExternalController<Recip
             public void updateItem(Object item, boolean empty) {
                 super.updateItem(item, empty);
                 setGraphic(empty ? null : removeButton);
+            }
+        });
+        
+        picturePagination.setPageFactory(new Callback<Integer, Node>() {
+            @Override
+            public Node call(Integer pageIndex) {
+                return displayPicture(pageIndex);
             }
         });
 

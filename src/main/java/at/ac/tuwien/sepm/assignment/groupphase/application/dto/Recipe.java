@@ -14,6 +14,7 @@ public class Recipe {
 	private EnumSet<RecipeTag> tags;
 	private Boolean deleted;
 	private List<RecipeIngredient> recipeIngredients = null;
+	private List<>
     private Double calories;
     private Double carbohydrates;
     private Double proteins;
