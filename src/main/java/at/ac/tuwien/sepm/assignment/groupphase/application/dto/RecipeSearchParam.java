@@ -76,4 +76,13 @@ public class RecipeSearchParam {
 		this.setTags(Arrays.stream(tags.split("")).map(RecipeTag::valueOf)
 				.collect(Collectors.toCollection(() -> EnumSet.noneOf(RecipeTag.class))));
 	}
+	
+	@Override
+	public String toString() {
+		return String.format(
+				"%s: {recipeName: %s, lowerDurationInkl: %s, upperDurationInkl: %s, "
+						+ "ingredient-size: %s, tags-size: %s}",
+				this.getClass().getSimpleName(), recipeName, lowerDurationInkl, upperDurationInkl,
+				this.ingredients.size(), tags == null ? "null" : tags.size());
+	}
 }
