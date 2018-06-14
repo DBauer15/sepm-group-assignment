@@ -33,6 +33,13 @@
     -fx-background-position:center;
 }
 
+.button-reload{
+    -fx-background-radius: 50 50 50 50;
+    -fx-background-image: url('../img/reload.png');
+    -fx-background-repeat: no-repeat;
+    -fx-background-position:center;
+}
+
 .button-cancel {
   -fx-background-color: #767676;
 }

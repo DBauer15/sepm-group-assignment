@@ -3,7 +3,9 @@ package at.ac.tuwien.sepm.assignment.groupphase.application.util.implementation;
 import at.ac.tuwien.sepm.assignment.groupphase.application.dto.DietPlan;
 import at.ac.tuwien.sepm.assignment.groupphase.application.service.ServiceInvokationContext;
 import at.ac.tuwien.sepm.assignment.groupphase.application.util.Validator;
+import org.springframework.stereotype.Component;
 
+@Component
 public class DietPlanValidator implements Validator<DietPlan> {
     @Override
     public boolean validateForCreation(DietPlan dietPlan, ServiceInvokationContext context) {
