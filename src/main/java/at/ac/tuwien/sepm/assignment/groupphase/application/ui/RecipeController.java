@@ -181,7 +181,7 @@ public class RecipeController implements Initializable, ExternalController<Recip
 
 		FileChooser fileChooser = new FileChooser();
 		FileChooser.ExtensionFilter extFilter = new FileChooser.ExtensionFilter(
-				"JPEG files (*.jpeg), PNG files (*.png)", "*.jpeg", "*.png");
+				"JPEG files (*.jpeg), JPG files (*.jpg), PNG files (*.png)", "*.jpeg", "*.jpg", "*.png");
 		fileChooser.getExtensionFilters().add(extFilter);
 
 		List<File> pictures = fileChooser.showOpenMultipleDialog(saveButton.getScene().getWindow());

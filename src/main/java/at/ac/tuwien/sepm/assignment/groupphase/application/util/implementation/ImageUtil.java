@@ -17,7 +17,7 @@ public class ImageUtil {
 		String contentType = new MimetypesFileTypeMap().getContentType(f).toLowerCase();
 
 		if (!Arrays.asList(allowedMimeTypes).contains(contentType)) {
-			throw new ServiceInvokationException("You have selected an invalid file. Only JPEG or PNG files are allowed.");
+			throw new ServiceInvokationException("You have selected an invalid file. Only JPEG, JPG or PNG files are allowed.");
 		} else {
 			return contentType.replace("image/", "");
 		}
