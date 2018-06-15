@@ -1,5 +1,6 @@
 package at.ac.tuwien.sepm.assignment.groupphase.application.persistence.implementation;
 
+import java.awt.image.BufferedImage;
 import java.sql.Clob;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
@@ -15,6 +16,7 @@ import org.junit.Test;
 
 import at.ac.tuwien.sepm.assignment.groupphase.application.dto.IngredientSearchParam;
 import at.ac.tuwien.sepm.assignment.groupphase.application.dto.Recipe;
+import at.ac.tuwien.sepm.assignment.groupphase.application.dto.RecipeImage;
 import at.ac.tuwien.sepm.assignment.groupphase.application.dto.RecipeIngredient;
 import at.ac.tuwien.sepm.assignment.groupphase.application.dto.RecipeSearchParam;
 import at.ac.tuwien.sepm.assignment.groupphase.application.dto.RecipeTag;
@@ -204,6 +206,35 @@ public class DBRecipePersistenceTest extends BaseTest {
 		Assert.assertTrue(recipe.getId() > 0);
 
 		verifyRecipeCreation(recipe);
+	}
+
+	@Test
+	public void testCreate_withRecipeImage_successWithSetRecipeId()
+			throws PersistenceException, SQLException {
+		RecipePersistence recipePersistence = new DBRecipePersistence();
+
+		EnumSet<RecipeTag> set = EnumSet.noneOf(RecipeTag.class);
+		set.add(RecipeTag.B);
+
+		Recipe recipe = new Recipe("My recipe", 120d, "Test", set);
+
+		List<RecipeIngredient> recipeIngredientList = new ArrayList<>();
+		recipeIngredientList.addAll(getCommonRecipeIngredients());
+		recipe.setRecipeIngredients(recipeIngredientList);
+		List<RecipeImage> recipeImages = new ArrayList<>();
+		recipeImages.add(new RecipeImage(new BufferedImage(100, 100, BufferedImage.TYPE_INT_RGB), "png"));
+		
+		recipe.setRecipeImages(recipeImages);
+
+		recipePersistence.create(recipe);
+
+		Assert.assertNotNull(recipe.getId());
+		Assert.assertTrue(recipe.getId() > 0);
+
+		verifyRecipeCreation(recipe);
+		
+		Assert.assertNotNull(recipe.getRecipeImages());
+		Assert.assertNotNull(recipe.getRecipeImages().get(0).getId());
 	}
 
 	@Test

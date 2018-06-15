@@ -7,6 +7,7 @@ import static org.mockito.Mockito.times;
 import static org.mockito.Mockito.verify;
 import static org.mockito.Mockito.verifyZeroInteractions;
 
+import java.awt.image.BufferedImage;
 import java.util.ArrayList;
 import java.util.EnumSet;
 import java.util.List;
@@ -19,6 +20,7 @@ import org.junit.Test;
 
 import at.ac.tuwien.sepm.assignment.groupphase.application.dto.IngredientSearchParam;
 import at.ac.tuwien.sepm.assignment.groupphase.application.dto.Recipe;
+import at.ac.tuwien.sepm.assignment.groupphase.application.dto.RecipeImage;
 import at.ac.tuwien.sepm.assignment.groupphase.application.dto.RecipeIngredient;
 import at.ac.tuwien.sepm.assignment.groupphase.application.dto.RecipeSearchParam;
 import at.ac.tuwien.sepm.assignment.groupphase.application.dto.RecipeTag;
@@ -40,6 +42,7 @@ public class SimpleRecipeServiceTest extends BaseTest {
 	private static final String EXAMPLE_TEXT_256CHARS = "Lorem ipsum dolor sit amet, consetetur sadipscing elitr, sed diam nonumy eirmod tempor invidunt ut labore et dolore magna aliquyam erat, sed diam voluptua. At vero eos et accusam et justo duo dolores et ea rebum. Stet clita kasd gubergren, no sea takimatad";
 
 	private Recipe recipeValid = new Recipe("My recipe", 120d, "Test", validTagBreakfastSet);
+	private Recipe recipeValid2 = new Recipe("My recipe", 120d, "Test", validTagBreakfastSet);
 	private Recipe recipeInvalid1 = new Recipe(EXAMPLE_TEXT_256CHARS, 0d, " ", EnumSet.noneOf(RecipeTag.class));
 	private Recipe recipeInvalid2 = new Recipe(" ", 2566d, "something to do", validTagBreakfastSet);
 	private Recipe recipeInvalid3 = new Recipe("My recipe", 120d, "Test", validTagBreakfastSet);
@@ -59,6 +62,7 @@ public class SimpleRecipeServiceTest extends BaseTest {
 		recipeIngredientList.add(ri3);
 		recipeIngredientList.add(ri4);
 		recipeValid.setRecipeIngredients(recipeIngredientList);
+		recipeValid2.setRecipeIngredients(recipeIngredientList);
 
 		// invalid recipe ingredient list
 		List<RecipeIngredient> invalidRecipeIngredientList1 = new ArrayList<>();
@@ -94,6 +98,22 @@ public class SimpleRecipeServiceTest extends BaseTest {
 		recipeInvalid4.setRecipeIngredients(invalidRecipeIngredientList2);
 	}
 
+	@Test
+	public void testCreate_validDataWithImage_callsPersistenceCreateOnce()
+			throws ServiceInvokationException, PersistenceException {
+
+		// invokation
+		RecipeService dietPlanService = new SimpleRecipeService(mockedRecipeRepo, new RecipeValidator(new RecipeIngredientsValidator()), new IngredientSearchParamValidator());
+		List<RecipeImage> recipeImages = new ArrayList<>();
+		recipeImages.add(new RecipeImage(new BufferedImage(100, 100, BufferedImage.TYPE_BYTE_GRAY), "png"));
+		recipeValid2.setRecipeImages(recipeImages);
+		
+		dietPlanService.create(recipeValid2);
+
+		// verification after invokation
+		verify(mockedRecipeRepo, times(1)).create(recipeValid2);
+	}
+	
 	@Test
 	public void testCreate_validData_callsPersistenceCreateOnce()
 			throws ServiceInvokationException, PersistenceException {

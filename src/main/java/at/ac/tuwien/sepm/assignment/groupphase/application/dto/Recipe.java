@@ -35,6 +35,7 @@ public class Recipe {
 	 */
 	public Recipe(Integer id, String name, Double duration, String description, EnumSet<RecipeTag> tags,
 			Boolean deleted) {
+		this();
 		this.id = id;
 		this.name = name.trim();
 		this.duration = duration;
@@ -52,6 +53,7 @@ public class Recipe {
 	 * @param tags
 	 */
 	public Recipe(String name, Double duration, String description, EnumSet<RecipeTag> tags) {
+		this();
 		this.name = name.trim();
 		this.duration = duration;
 		this.description = description.trim();
@@ -67,6 +69,7 @@ public class Recipe {
 	 * @param deleted
 	 */
 	public Recipe(Integer id, String name, Double duration, String description, String tagsAsString, Boolean deleted) {
+		this();
 		this.id = id;
 		this.name = name.trim();
 		this.duration = duration;
