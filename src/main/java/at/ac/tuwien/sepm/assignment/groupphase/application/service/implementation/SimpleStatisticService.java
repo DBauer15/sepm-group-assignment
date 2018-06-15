@@ -5,6 +5,7 @@ import at.ac.tuwien.sepm.assignment.groupphase.application.persistence.Persisten
 import at.ac.tuwien.sepm.assignment.groupphase.application.persistence.StatisticPersistence;
 import at.ac.tuwien.sepm.assignment.groupphase.application.service.ServiceInvokationException;
 import at.ac.tuwien.sepm.assignment.groupphase.application.service.StatisticService;
+import at.ac.tuwien.sepm.assignment.groupphase.application.util.implementation.NutritionUtil;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.stereotype.Service;
@@ -25,7 +26,9 @@ public class SimpleStatisticService implements StatisticService {
     public Map<Recipe, Integer> getMostPopularRecipes() throws ServiceInvokationException {
         LOG.debug("Requested most popular recipes.");
         try {
-            return statisticPersistence.getMostPopularRecipes();
+            Map<Recipe, Integer> map = statisticPersistence.getMostPopularRecipes();
+            map.forEach((key, value) -> NutritionUtil.fillNutritionValues(key));
+            return map;
         } catch (PersistenceException e) {
             throw new ServiceInvokationException(e);
         }

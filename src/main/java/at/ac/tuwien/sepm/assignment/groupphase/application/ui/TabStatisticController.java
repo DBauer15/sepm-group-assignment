@@ -7,9 +7,11 @@ import at.ac.tuwien.sepm.assignment.groupphase.application.service.ServiceInvoka
 import at.ac.tuwien.sepm.assignment.groupphase.application.service.StatisticService;
 import at.ac.tuwien.sepm.assignment.groupphase.application.util.implementation.UserInterfaceUtility;
 import javafx.fxml.FXML;
-import javafx.scene.chart.StackedBarChart;
 import javafx.scene.chart.CategoryAxis;
 import javafx.scene.chart.NumberAxis;
+import javafx.scene.chart.StackedBarChart;
+import javafx.scene.control.Tooltip;
+import javafx.scene.text.Font;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.stereotype.Controller;
@@ -42,8 +44,10 @@ public class TabStatisticController implements Notifiable {
     public void initialize() {
         notificationService.subscribeTo(TabStatisticController.class, this);
         barChart.setLegendVisible(false);
+        quantityAxis.setAutoRanging(false);
         quantityAxis.setTickUnit(1);
         quantityAxis.setMinorTickVisible(false);
+        recipesAxis.setTickLabelFont(Font.font(15));
         updateBarChart();
     }
 
@@ -60,13 +64,29 @@ public class TabStatisticController implements Notifiable {
         try {
             mostPopularRecipes = statisticService.getMostPopularRecipes();
 
+            var iterator = mostPopularRecipes.entrySet().iterator();
+            if (iterator.hasNext())
+                quantityAxis.setUpperBound(iterator.next().getValue() + 1);
+            else
+                quantityAxis.setUpperBound(10);
+
             for (Map.Entry<Recipe, Integer> entry : mostPopularRecipes.entrySet()) {
                 Recipe r = entry.getKey();
                 Integer quantity = entry.getValue();
-                StackedBarChart.Series<String, Integer> series = new StackedBarChart.Series<>();
 
-                series.getData().add(new StackedBarChart.Data<>(r.getName(), quantity));
+                StackedBarChart.Series<String, Integer> series = new StackedBarChart.Series<>();
+                StackedBarChart.Data<String, Integer> data = new StackedBarChart.Data<>(r.getName(), quantity);
+
+                series.getData().add(data);
                 barChart.getData().add(series);
+
+                Tooltip tooltip = new Tooltip();
+                String sb = (int) Math.ceil(r.getCalories()) + " kcal\n" +
+                    (int) Math.ceil(r.getCarbohydrates()) + "g Carbohydrates\n" +
+                    (int) Math.ceil(r.getProteins()) + "g Proteins\n" +
+                    (int) Math.ceil(r.getFats()) + "g Fats";
+                tooltip.setText(sb);
+                Tooltip.install(data.getNode(), tooltip);
             }
         } catch (ServiceInvokationException e) {
             UserInterfaceUtility.handleFaults(e.getContext());
