@@ -20,10 +20,13 @@ import at.ac.tuwien.sepm.assignment.groupphase.application.service.NotificationS
 import at.ac.tuwien.sepm.assignment.groupphase.application.service.ServiceInvokationException;
 import at.ac.tuwien.sepm.assignment.groupphase.application.util.implementation.SpringFXMLLoader;
 import at.ac.tuwien.sepm.assignment.groupphase.application.util.implementation.UserInterfaceUtility;
+import javafx.embed.swing.SwingFXUtils;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.scene.control.Button;
 import javafx.scene.control.Label;
+import javafx.scene.image.Image;
+import javafx.scene.image.ImageView;
 
 @Controller
 public class TabPlansController implements Notifiable {
@@ -76,7 +79,12 @@ public class TabPlansController implements Notifiable {
     private Button lunchSwapButton;
     @FXML
     private Button dinnerSwapButton;
-
+    @FXML
+    private ImageView breakfastImageView;
+    @FXML
+    private ImageView dinnerImageView;
+    @FXML
+    private ImageView lunchImageView;
 
 	private Recipe breakfast;
 	private Recipe lunch;
@@ -125,13 +133,13 @@ public class TabPlansController implements Notifiable {
 			for (Entry<RecipeTag, Recipe> entry : this.mealRecommendationsService.getRecommendedMeals().entrySet()) {
 				if (RecipeTag.B.equals(entry.getKey())) {
 						breakfast = entry.getValue();
-						updateRecipeSuggestion(breakfast, breakfastRecipeNameLabel, breakfastPreparationTimeLabel, breakfastCaloriesLabel, breakfastCarbohydratesLabel, breakfastProteinsLabel, breakfastFatsLabel);
+						updateRecipeSuggestion(breakfast, breakfastRecipeNameLabel, breakfastPreparationTimeLabel, breakfastCaloriesLabel, breakfastCarbohydratesLabel, breakfastProteinsLabel, breakfastFatsLabel, breakfastImageView);
 				} else if (RecipeTag.L.equals(entry.getKey())) {
 						lunch = entry.getValue();
-						updateRecipeSuggestion(lunch, lunchRecipeNameLabel, lunchPreparationTimeLabel, lunchCaloriesLabel, lunchCarbohydratesLabel, lunchProteinsLabel, lunchFatsLabel);
+						updateRecipeSuggestion(lunch, lunchRecipeNameLabel, lunchPreparationTimeLabel, lunchCaloriesLabel, lunchCarbohydratesLabel, lunchProteinsLabel, lunchFatsLabel, lunchImageView);
 				} else if (RecipeTag.D.equals(entry.getKey())) {
 						dinner = entry.getValue();
-						updateRecipeSuggestion(dinner, dinnerRecipeNameLabel, dinnerPreparationTimeLabel, dinnerCaloriesLabel, dinnerCarbohydratesLabel, dinnerProteinsLabel, dinnerFatsLabel);
+						updateRecipeSuggestion(dinner, dinnerRecipeNameLabel, dinnerPreparationTimeLabel, dinnerCaloriesLabel, dinnerCarbohydratesLabel, dinnerProteinsLabel, dinnerFatsLabel, dinnerImageView);
 				}
 			}
 		} catch (ServiceInvokationException e) {
@@ -143,7 +151,7 @@ public class TabPlansController implements Notifiable {
 		}
 	}
 
-	private void updateRecipeSuggestion(Recipe recipe, Label recipeName, Label preparationTime, Label calories, Label carbohydrates, Label proteins, Label fats) {
+	private void updateRecipeSuggestion(Recipe recipe, Label recipeName, Label preparationTime, Label calories, Label carbohydrates, Label proteins, Label fats, ImageView imageView) {
 		recipeName.setText(recipe.getName());
 		preparationTime.setText(recipe.getDuration() < 120 ? (int) Math.floor(recipe.getDuration()) + "'" :
             (int) Math.floor((recipe.getDuration()/60)) + "''");
@@ -151,6 +159,17 @@ public class TabPlansController implements Notifiable {
 		carbohydrates.setText((int) Math.ceil(recipe.getCarbohydrates()) + "g Carbohydrates");
 		proteins.setText((int) Math.ceil(recipe.getProteins()) + "g Proteins");
 		fats.setText((int) Math.ceil(recipe.getFats()) + "g Fats");
+		
+		if (recipe.getRecipeImages().size() > 0) {
+			Image image = SwingFXUtils.toFXImage(recipe.getRecipeImages().get(0).getImage(), null);
+			imageView.setImage(image);
+			//imageView.setFitHeight(200);
+			imageView.setPreserveRatio(true);
+			imageView.setSmooth(true);
+			imageView.setCache(true);
+		} else {
+			imageView.setImage(null);
+		}
 	}
 
 	@FXML
@@ -217,14 +236,14 @@ public class TabPlansController implements Notifiable {
     }
 
     private void updateBreakfast() {
-        updateRecipeSuggestion(breakfast, breakfastRecipeNameLabel, breakfastPreparationTimeLabel, breakfastCaloriesLabel, breakfastCarbohydratesLabel, breakfastProteinsLabel, breakfastFatsLabel);
+        updateRecipeSuggestion(breakfast, breakfastRecipeNameLabel, breakfastPreparationTimeLabel, breakfastCaloriesLabel, breakfastCarbohydratesLabel, breakfastProteinsLabel, breakfastFatsLabel, breakfastImageView);
     }
 
     private void updateLunch() {
-        updateRecipeSuggestion(lunch, lunchRecipeNameLabel, lunchPreparationTimeLabel, lunchCaloriesLabel, lunchCarbohydratesLabel, lunchProteinsLabel, lunchFatsLabel);
+        updateRecipeSuggestion(lunch, lunchRecipeNameLabel, lunchPreparationTimeLabel, lunchCaloriesLabel, lunchCarbohydratesLabel, lunchProteinsLabel, lunchFatsLabel, lunchImageView);
     }
 
     private void updateDinner() {
-        updateRecipeSuggestion(dinner, dinnerRecipeNameLabel, dinnerPreparationTimeLabel, dinnerCaloriesLabel, dinnerCarbohydratesLabel, dinnerProteinsLabel, dinnerFatsLabel);
+        updateRecipeSuggestion(dinner, dinnerRecipeNameLabel, dinnerPreparationTimeLabel, dinnerCaloriesLabel, dinnerCarbohydratesLabel, dinnerProteinsLabel, dinnerFatsLabel, dinnerImageView);
     }
 }
