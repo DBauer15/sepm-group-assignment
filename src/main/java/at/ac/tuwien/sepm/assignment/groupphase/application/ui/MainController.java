@@ -36,7 +36,7 @@ public class MainController {
 
     @Autowired
 	private SpringFXMLLoader fxmlLoader;
-    
+
     @FXML
     private ImageView dietPlanImageView;
     @FXML
@@ -59,7 +59,7 @@ public class MainController {
     @FXML
     private TabRecipesController tabRecipesController;
     @FXML
-    private TabSearchController tabSearchController;
+    private TabStatisticController tabStatisticController;
 
     @FXML
     private Button changePlanButton;
