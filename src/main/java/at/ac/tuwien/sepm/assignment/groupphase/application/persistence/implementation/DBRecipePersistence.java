@@ -14,7 +14,9 @@ import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.sql.Statement;
+import java.sql.Types;
 import java.util.ArrayList;
+import java.util.Iterator;
 import java.util.List;
 import java.util.stream.Collectors;
 
@@ -28,6 +30,8 @@ import at.ac.tuwien.sepm.assignment.groupphase.application.dto.IngredientSearchP
 import at.ac.tuwien.sepm.assignment.groupphase.application.dto.Recipe;
 import at.ac.tuwien.sepm.assignment.groupphase.application.dto.RecipeImage;
 import at.ac.tuwien.sepm.assignment.groupphase.application.dto.RecipeIngredient;
+import at.ac.tuwien.sepm.assignment.groupphase.application.dto.RecipeSearchParam;
+import at.ac.tuwien.sepm.assignment.groupphase.application.dto.RecipeTag;
 import at.ac.tuwien.sepm.assignment.groupphase.application.persistence.PersistenceException;
 import at.ac.tuwien.sepm.assignment.groupphase.application.persistence.RecipePersistence;
 import at.ac.tuwien.sepm.assignment.groupphase.application.util.implementation.CloseUtil;
@@ -61,6 +65,24 @@ public class DBRecipePersistence implements RecipePersistence {
 	private static final String DELETE_RECIPE_IMAGES = "DELETE FROM Recipe_Image WHERE recipe_id = ?;";
 	
 	private static final String IS_RECIPE_CURRENTLY_SUGGESTED = "SELECT 1 FROM diet_plan_suggestion x WHERE recipe = ? AND date = TRUNC(NOW()) AND NOT EXISTS (SELECT 1 FROM diet_plan_suggestion WHERE tag = x.tag AND date = x.date AND created_timestamp > x.created_timestamp)";
+
+	private static final String SEARCH_RECIPES = "select r.* from recipe r " + //
+			"WHERE (? IS NULL OR EXISTS (select 1 from recipe_ingredient ri inner join ingredient i on i.id = ri.ingredient_id WHERE i.name ILIKE '%' || ? || '%' AND r.id = ri.recipe_id)) "
+			+ "AND (? IS NULL OR EXISTS (select 1 from recipe_ingredient ri inner join ingredient i on i.id = ri.ingredient_id WHERE i.name ILIKE '%' || ? || '%' AND r.id = ri.recipe_id)) "
+			+ "AND (? IS NULL OR EXISTS (select 1 from recipe_ingredient ri inner join ingredient i on i.id = ri.ingredient_id WHERE i.name ILIKE '%' || ? || '%' AND r.id = ri.recipe_id)) "
+			+ "AND (? IS NULL OR EXISTS (select 1 from recipe_ingredient ri inner join ingredient i on i.id = ri.ingredient_id WHERE i.name ILIKE '%' || ? || '%' AND r.id = ri.recipe_id)) "
+			+ "AND (? IS NULL OR EXISTS (select 1 from recipe_ingredient ri inner join ingredient i on i.id = ri.ingredient_id WHERE i.name ILIKE '%' || ? || '%' AND r.id = ri.recipe_id)) "
+			+ "AND (? IS NULL OR EXISTS (select 1 from recipe_ingredient ri inner join ingredient i on i.id = ri.ingredient_id WHERE i.name ILIKE '%' || ? || '%' AND r.id = ri.recipe_id)) "
+			+ "AND (? IS NULL OR EXISTS (select 1 from recipe_ingredient ri inner join ingredient i on i.id = ri.ingredient_id WHERE i.name ILIKE '%' || ? || '%' AND r.id = ri.recipe_id)) "
+			+ "AND (? IS NULL OR EXISTS (select 1 from recipe_ingredient ri inner join ingredient i on i.id = ri.ingredient_id WHERE i.name ILIKE '%' || ? || '%' AND r.id = ri.recipe_id)) "
+			+ "AND (? IS NULL OR EXISTS (select 1 from recipe_ingredient ri inner join ingredient i on i.id = ri.ingredient_id WHERE i.name ILIKE '%' || ? || '%' AND r.id = ri.recipe_id)) "
+			+ "AND (? IS NULL OR EXISTS (select 1 from recipe_ingredient ri inner join ingredient i on i.id = ri.ingredient_id WHERE i.name ILIKE '%' || ? || '%' AND r.id = ri.recipe_id)) "
+			+ "AND (? IS NULL OR r.name ILIKE '%' || ? || '%') " + // recipe name
+			"AND (? IS NULL OR r.tags ILIKE '%' || ? || '%') " + // recipe tags
+			"AND (? IS NULL OR r.tags ILIKE '%' || ? || '%') " + // recipe tags
+			"AND (? IS NULL OR r.tags ILIKE '%' || ? || '%') " + // recipe tags
+			"AND (? IS NULL OR r.duration >= ?) " + // recipe duration lower incl bound
+			"AND (? IS NULL OR r.duration <= ?) "; // recipe duration upper incl bound
 
 	@Override
 	public void create(Recipe recipe) throws PersistenceException {
@@ -451,6 +473,96 @@ public class DBRecipePersistence implements RecipePersistence {
 			CloseUtil.closeResultSet(rs);
 			CloseUtil.closeStatement(isRecipeCurrentlySuggested);
 			CloseUtil.closeStatement(createRecipe);
+		}
+	}
+
+	@Override
+	public List<Recipe> searchRecipes(RecipeSearchParam searchParam) throws PersistenceException {
+		LOG.debug("Searching Recipes with search criteria");
+
+		PreparedStatement ps = null;
+		ResultSet rs = null;
+
+		try {
+			ps = JDBCConnectionManager.getConnection().prepareStatement(SEARCH_RECIPES);
+
+			// set all 10 ingredients if available or null if not
+			Iterator<String> ingredientIterator = searchParam.getIngredients().iterator();
+
+			final int maxIngredientIdx = 20;
+			for (int i = 1; i < maxIngredientIdx; i = i + 2) {
+				// sets 2 same parameters for condition:
+				// (? IS NULL OR i.name ILIKE '%' || ? || '%')
+				if (ingredientIterator.hasNext() == false) {
+					ps.setNull(i, Types.VARCHAR);
+					ps.setNull(i + 1, Types.VARCHAR);
+				} else {
+					final String nextIngredient = ingredientIterator.next();
+					ps.setString(i, nextIngredient);
+					ps.setString(i + 1, nextIngredient);
+				}
+			}
+			// assert: last parameter index
+			int paramIdx = maxIngredientIdx;
+
+			// recipe name
+			if (searchParam.getRecipeName() != null) {
+				ps.setString(++paramIdx, searchParam.getRecipeName());
+				ps.setString(++paramIdx, searchParam.getRecipeName());
+			} else {
+				ps.setNull(++paramIdx, Types.VARCHAR);
+				ps.setNull(++paramIdx, Types.VARCHAR);
+			}
+
+			// tags
+			Iterator<RecipeTag> tagIterator = null;
+			if (searchParam.getTags() != null) {
+				tagIterator = searchParam.getTags().iterator();
+			}
+			for (int i = 0; i < 3; i++) {
+				if (tagIterator != null && tagIterator.hasNext() == true) {
+					final RecipeTag nextTag = tagIterator.next();
+					ps.setString(++paramIdx, nextTag.toString());
+					ps.setString(++paramIdx, nextTag.toString());
+				} else {
+					ps.setNull(++paramIdx, Types.VARCHAR);
+					ps.setNull(++paramIdx, Types.VARCHAR);
+				}
+			}
+			
+			
+			// duration
+			if (searchParam.getLowerDurationInkl() != null) {
+				ps.setDouble(++paramIdx, searchParam.getLowerDurationInkl());
+				ps.setDouble(++paramIdx, searchParam.getLowerDurationInkl());
+			} else {
+				ps.setNull(++paramIdx, Types.DOUBLE);
+				ps.setNull(++paramIdx, Types.DOUBLE);
+			}
+			if (searchParam.getUpperDurationInkl() != null) {
+				ps.setDouble(++paramIdx, searchParam.getUpperDurationInkl());
+				ps.setDouble(++paramIdx, searchParam.getUpperDurationInkl());
+			} else {
+				ps.setNull(++paramIdx, Types.DOUBLE);
+				ps.setNull(++paramIdx, Types.DOUBLE);
+			}
+
+			rs = ps.executeQuery();
+
+			List<Recipe> recipes = new ArrayList<>();
+			while (rs.next()) {
+				Recipe r = new Recipe(rs.getInt("ID"), rs.getString("NAME"), rs.getDouble("DURATION"),
+						rs.getString("DESCRIPTION"), rs.getString("TAGS"), rs.getBoolean("DELETED"));
+				r.setRecipeIngredients(getIngredients(r.getId()));
+				recipes.add(r);
+			}
+
+			return recipes;
+		} catch (SQLException e) {
+			throw new PersistenceException(e);
+		} finally {
+			CloseUtil.closeStatement(ps);
+			CloseUtil.closeResultSet(rs);
 		}
 	}
 }

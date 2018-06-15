@@ -1,27 +1,66 @@
 <?xml version="1.0" encoding="UTF-8"?>
 
+<?import java.lang.String?>
 <?import java.net.URL?>
 <?import javafx.scene.control.Button?>
 <?import javafx.scene.control.ButtonBar?>
+<?import javafx.scene.control.Label?>
+<?import javafx.scene.control.Slider?>
 <?import javafx.scene.control.TableColumn?>
 <?import javafx.scene.control.TableView?>
+<?import javafx.scene.control.TextField?>
+<?import javafx.scene.control.ToggleButton?>
 <?import javafx.scene.layout.AnchorPane?>
+<?import javafx.scene.layout.HBox?>
+<?import javafx.scene.layout.Pane?>
 
-<AnchorPane maxHeight="650.0" maxWidth="1068.0" minHeight="650.0" minWidth="1068.0" prefHeight="650.0" prefWidth="1068.0" style="-fx-background-color: #FFFFFF;" xmlns="http://javafx.com/javafx/9.0.1" xmlns:fx="http://javafx.com/fxml/1" fx:controller="at.ac.tuwien.sepm.assignment.groupphase.application.ui.TabRecipesController">
+<AnchorPane fx:id="anchorPane" maxHeight="650.0" maxWidth="1068.0" minHeight="650.0" minWidth="1068.0" prefHeight="650.0" prefWidth="1068.0" style="-fx-background-color: #FFFFFF;" xmlns="http://javafx.com/javafx/9.0.4" xmlns:fx="http://javafx.com/fxml/1" fx:controller="at.ac.tuwien.sepm.assignment.groupphase.application.ui.TabRecipesController">
    <children>
       <TableView fx:id="recipeTableView" prefHeight="650.0" prefWidth="1068.0" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0">
         <columns>
-          <TableColumn id="nameColumn" fx:id="nameTableColumn" prefWidth="406.0" text="Name" />
-          <TableColumn fx:id="caloriesTableColumn" prefWidth="131.0" resizable="false" text="Calories" />
+          <TableColumn id="nameColumn" fx:id="nameTableColumn" prefWidth="393.7605658173561" text="Name" />
+          <TableColumn fx:id="caloriesTableColumn" prefWidth="143.239501953125" resizable="false" text="Calories" />
             <TableColumn fx:id="carbohydratesTableColumn" prefWidth="110.0" resizable="false" text="Carbohydrates (g)" />
             <TableColumn fx:id="proteinsTableColumn" prefWidth="110.0" resizable="false" text="Proteins (g)" />
             <TableColumn fx:id="fatsTableColumn" prefWidth="110.0" resizable="false" text="Fats (g)" />
-            <TableColumn fx:id="preparationTimeTableColumn" prefWidth="197.0" resizable="false" styleClass="metricColumn" text="Preparation Time (min)" />
+            <TableColumn fx:id="preparationTimeTableColumn" prefWidth="175.240966796875" resizable="false" styleClass="metricColumn" text="Preparation Time (min)" />
         </columns>
       </TableView>
       <ButtonBar buttonMinWidth="50.0" prefHeight="51.0" prefWidth="96.0" AnchorPane.bottomAnchor="20.0" AnchorPane.rightAnchor="20.0" />
+      <Pane fx:id="paneSearch" layoutY="351.0" prefHeight="302.0" prefWidth="1068.0" style="-fx-background-color: #03D7F1 #03D7F1;">
+         <children>
+            <Slider fx:id="lowerLimit" layoutX="575.0" layoutY="119.0" max="142.0" prefHeight="23.0" prefWidth="270.0" />
+            <Label fx:id="lowerLimitLabel" layoutX="690.0" layoutY="134.0" text="0 minutes" textFill="WHITE" />
+            <TableView fx:id="ingredientWordsView" layoutX="256.0" layoutY="43.0" prefHeight="186.0" prefWidth="310.0" style="-fx-padding: 0;">
+              <columns>
+                <TableColumn fx:id="ingredientTag" prefWidth="233.40939331054688" resizable="false" text="Ingredient Search Keywords" />
+                  <TableColumn fx:id="ingredientTagRemove" minWidth="0.0" prefWidth="50.090606689453125" text="Delete" />
+              </columns>
+            </TableView>
+            <TextField fx:id="addIngredient" layoutX="15.0" layoutY="60.0" onKeyReleased="#onAddIngredient" prefHeight="27.0" prefWidth="231.0" promptText="Give Ingredient and Hit Enter" />
+            <TextField fx:id="recipeTitle" layoutX="575.0" layoutY="60.0" prefHeight="27.0" prefWidth="270.0" promptText="Enter a keyword of Recipe Title" />
+            <HBox layoutX="15.0" layoutY="105.0" prefHeight="27.0" prefWidth="231.0" styleClass="toggle-container">
+               <children>
+                  <ToggleButton fx:id="tag_b" mnemonicParsing="false" style="z-index: 0;" text="Breakfast">
+                     <styleClass>
+                        <String fx:value="toggle-button-left" />
+                        <String fx:value="jfx-toggle-button" />
+                     </styleClass>
+                  </ToggleButton>
+                  <ToggleButton fx:id="tag_l" mnemonicParsing="false" prefWidth="77.0" style="z-index: 0;" text="Lunch" />
+                  <ToggleButton fx:id="tag_d" mnemonicParsing="false" prefWidth="77.0" style="z-index: 0;" styleClass="toggle-button-right" text="Dinner" />
+               </children>
+            </HBox>
+            <Label layoutX="575.0" layoutY="165.0" text="Maximum Preparation Time:" textFill="WHITE" />
+            <Label layoutX="575.0" layoutY="102.0" text="Minimum Preparation Time:" textFill="WHITE" />
+            <Slider fx:id="upperLimit" layoutX="575.0" layoutY="181.0" max="142.0" prefHeight="23.0" prefWidth="270.0" value="142.0" />
+            <Label fx:id="upperLimitLabel" layoutX="690.0" layoutY="196.0" text="0 minutes" textFill="WHITE" />
+            <Label layoutX="575.0" layoutY="40.0" text="Recipe Title:" textFill="WHITE" />
+            <Label layoutX="15.0" layoutY="40.0" text="Add Ingredient Search Keyword:" textFill="WHITE" />
+         </children>
+      </Pane>
       <Button fx:id="addRecipeButton" minWidth="53.0" mnemonicParsing="false" onAction="#onAddRecipeButtonClicked" prefHeight="51.0" prefWidth="50.0" styleClass="button-circular" text="+" AnchorPane.bottomAnchor="15.0" AnchorPane.rightAnchor="15.0" />
-      <Button fx:id="filterRecipes" mnemonicParsing="false" prefHeight="50.0" prefWidth="50.0" styleClass="button-filter" AnchorPane.bottomAnchor="75.0" AnchorPane.rightAnchor="15.0" />
+      <Button fx:id="searchRecipesButton" mnemonicParsing="false" onAction="#onSearchRecipeButtonClicked" prefHeight="50.0" prefWidth="50.0" styleClass="button-filter" AnchorPane.bottomAnchor="75.0" AnchorPane.rightAnchor="15.0" />
    </children>
    <stylesheets>
       <URL value="@../css/table.css" />

@@ -5,6 +5,7 @@ import java.util.List;
 import at.ac.tuwien.sepm.assignment.groupphase.application.dto.IngredientSearchParam;
 import at.ac.tuwien.sepm.assignment.groupphase.application.dto.Recipe;
 import at.ac.tuwien.sepm.assignment.groupphase.application.dto.RecipeIngredient;
+import at.ac.tuwien.sepm.assignment.groupphase.application.dto.RecipeSearchParam;
 
 /**
  * Service Interface for Recipes
@@ -56,4 +57,12 @@ public interface RecipeService {
      * @throws ServiceInvokationException if any persistence errors occur
      */
     List<Recipe> getRecipes() throws ServiceInvokationException;
+    
+    /**
+     * Search for Recipes that match the search criteria of the user.
+     * @param searchParam {@link RecipeSearchParam} 
+     * @return {@link List} of {@link Recipe}
+     * @throws ServiceInvokationException if invalid data was supplied or an error in the persistence layer occured
+     */
+    public List<Recipe> searchRecipes(RecipeSearchParam searchParam) throws ServiceInvokationException;
 }
