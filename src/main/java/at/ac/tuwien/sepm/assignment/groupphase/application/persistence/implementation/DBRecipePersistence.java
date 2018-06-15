@@ -554,6 +554,7 @@ public class DBRecipePersistence implements RecipePersistence {
 				Recipe r = new Recipe(rs.getInt("ID"), rs.getString("NAME"), rs.getDouble("DURATION"),
 						rs.getString("DESCRIPTION"), rs.getString("TAGS"), rs.getBoolean("DELETED"));
 				r.setRecipeIngredients(getIngredients(r.getId()));
+				r.setRecipeImages(getImages(r.getId()));
 				recipes.add(r);
 			}
 
