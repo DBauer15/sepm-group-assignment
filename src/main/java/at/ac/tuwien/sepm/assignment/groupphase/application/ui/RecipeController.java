@@ -205,7 +205,8 @@ public class RecipeController implements Initializable, ExternalController<Recip
 				} catch (IOException ex) {
 					UserInterfaceUtility.handleFault(ex);
 				}
-
+				
+				picturePagination.setPageCount(picturePagination.getPageCount() + 1);
 				picturePagination.setPageCount(this.r.getRecipeImages().size());
 				picturePagination.setVisible(true);
 				noPictureChosenLabel.setVisible(false);
