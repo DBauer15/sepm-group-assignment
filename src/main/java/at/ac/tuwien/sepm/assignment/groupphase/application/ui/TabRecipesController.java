@@ -34,6 +34,7 @@ import javafx.scene.control.Alert.AlertType;
 import javafx.scene.control.Button;
 import javafx.scene.control.ButtonType;
 import javafx.scene.control.ContextMenu;
+import javafx.scene.control.Label;
 import javafx.scene.control.MenuItem;
 import javafx.scene.control.SelectionMode;
 import javafx.scene.control.Slider;
@@ -46,6 +47,7 @@ import javafx.scene.control.ToggleButton;
 import javafx.scene.control.cell.PropertyValueFactory;
 import javafx.scene.input.KeyCode;
 import javafx.scene.input.KeyEvent;
+import javafx.scene.layout.AnchorPane;
 import javafx.scene.layout.Pane;
 
 @Controller
@@ -92,6 +94,12 @@ public class TabRecipesController implements Notifiable {
 	Slider upperLimit;
 	
 	@FXML
+	Label lowerLimitLabel;
+	
+	@FXML
+	Label upperLimitLabel;
+	
+	@FXML
 	TextField recipeTitle;
 	
 	@FXML
@@ -116,6 +124,12 @@ public class TabRecipesController implements Notifiable {
 	TableColumn<IngredientSearchWord, Object> ingredientTagRemove;
 	
 	private Set<String> ingredientTagSet = new HashSet<>();
+	
+	@FXML
+	Pane paneSearch;
+	
+	@FXML
+	AnchorPane anchorPane;
 
 	@FXML
 	private ObservableList<Recipe> recipeObservableList = FXCollections.observableArrayList();
@@ -200,6 +214,27 @@ public class TabRecipesController implements Notifiable {
 			}
         });
 		
+		lowerLimit.valueProperty()
+				.addListener((ChangeListener) -> lowerLimitLabel.textProperty()
+						.setValue(Math.floor(lowerLimit.getValue()) < 120
+								? String.valueOf((int) Math.floor(lowerLimit.getValue())) + " minutes"
+								: String.valueOf((int) Math.floor((lowerLimit.getValue() - 118))) + " hours"));
+		
+		upperLimit.valueProperty()
+		.addListener((ChangeListener) -> upperLimitLabel.textProperty()
+				.setValue(Math.floor(upperLimit.getValue()) < 120
+						? String.valueOf((int) Math.floor(upperLimit.getValue())) + " minutes"
+						: String.valueOf((int) Math.floor((upperLimit.getValue() - 118))) + " hours"));
+		
+		upperLimit.setValue(142.0);
+		upperLimitLabel.setText("24 hours");
+		
+		this.paneSearch.setVisible(false);
+		recipeTableView.setPlaceholder(new Label("No recipes were found matching your search criteria."));
+		ingredientWordsView.setPlaceholder(new Label("No ingredient search words added yet."));
+		
+
+		
 	}
 
 	private void onDeleteRecipeClicked(Recipe recipe) {
@@ -246,12 +281,19 @@ public class TabRecipesController implements Notifiable {
 	@FXML
 	public void onSearchRecipeButtonClicked(ActionEvent actionEvent) {
 		LOG.info("On Search Recipe button clicked");
+		
+		// make search visible, but do not trigger search
+		if (this.paneSearch.isVisible() == false) {
+			togglePaneSearch();
+			return;
+		}
+		
 		//UserInterfaceUtility.loadExternalController("/fxml/RecipeDetails.fxml", "Add Recipe", null, addRecipeButton.getScene().getWindow(), RecipeController.class, fxmlLoader);
 		//updateRecipeTableView();
 		
 		param = new RecipeSearchParam();
-		param.setLowerDurationInkl(this.lowerLimit.getValue());
-		param.setUpperDurationInkl(this.upperLimit.getValue());
+		param.setLowerDurationInkl(getSliderValue(lowerLimit));
+		param.setUpperDurationInkl(getSliderValue(upperLimit));
 		param.setRecipeName(this.recipeTitle.getText());
 		EnumSet<RecipeTag> tags = EnumSet.noneOf(RecipeTag.class);
 		if (tag_b.isSelected()) {
@@ -269,6 +311,21 @@ public class TabRecipesController implements Notifiable {
 		LOG.info("Prepared new search param:\r\n{}", param.toString());
 		
 		updateRecipeTableView();
+		
+		togglePaneSearch();
+	}
+	
+	private void togglePaneSearch() {
+		if (this.paneSearch.isVisible()) {
+			AnchorPane.setBottomAnchor(recipeTableView, 0d);
+		} else {
+			AnchorPane.setBottomAnchor(recipeTableView, 270d);
+		}
+		this.paneSearch.setVisible(!this.paneSearch.isVisible());
+	}
+	
+	private double getSliderValue(Slider slider) {
+		return slider.getValue() < 120 ? (int) slider.getValue() : (Math.floor(slider.getValue()) - 118) * 60;
 	}
 
 	private List<Recipe> searchRecipes(RecipeSearchParam param) {
@@ -288,9 +345,12 @@ public class TabRecipesController implements Notifiable {
 	
 	public void onAddIngredient(KeyEvent e) {
 		if (e.getCode() == KeyCode.ENTER) {
-			LOG.info("Triggered add ingredient search word for '{}'.", addIngredient.getText());
-			ingredientTagSet.add(addIngredient.getText());
-	        ingredientWordsView.getItems().add(new IngredientSearchWord(addIngredient.getText()));
+			String inputTag = addIngredient.getText().trim();
+			LOG.info("Triggered add ingredient search word for '{}'.", inputTag);
+			if (ingredientTagSet.contains(inputTag) == false) {
+				ingredientTagSet.add(inputTag);
+				ingredientWordsView.getItems().add(new IngredientSearchWord(inputTag));
+			}
 	        addIngredient.setText("");
 		}
 	}
