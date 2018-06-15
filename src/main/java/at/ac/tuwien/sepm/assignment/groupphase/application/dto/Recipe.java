@@ -14,7 +14,7 @@ public class Recipe {
 	private EnumSet<RecipeTag> tags;
 	private Boolean deleted;
 	private List<RecipeIngredient> recipeIngredients = null;
-	private List<>
+	private List<RecipeImage> recipeImages = null;
     private Double calories;
     private Double carbohydrates;
     private Double proteins;
@@ -22,6 +22,7 @@ public class Recipe {
 
 	public Recipe() {
 		recipeIngredients = new ArrayList<>();
+		setRecipeImages(new ArrayList<>());
 	}
 
 	/**
@@ -139,7 +140,15 @@ public class Recipe {
 		this.recipeIngredients = recipeIngredients;
 	}
 
-    public Double getCalories() {
+    public List<RecipeImage> getRecipeImages() {
+		return recipeImages;
+	}
+
+	public void setRecipeImages(List<RecipeImage> recipeImages) {
+		this.recipeImages = recipeImages;
+	}
+
+	public Double getCalories() {
         return calories;
     }
 

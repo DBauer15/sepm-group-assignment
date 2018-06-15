@@ -1,5 +1,7 @@
 package at.ac.tuwien.sepm.assignment.groupphase.application.util.implementation;
 
+import java.io.IOException;
+import java.io.InputStream;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
@@ -25,6 +27,16 @@ public class CloseUtil {
 				rs.close();
 			}
 		} catch (SQLException ex) {
+			throw new PersistenceException(ex);
+		}
+	}
+
+	public static void closeInputStream(InputStream is) throws PersistenceException {
+		try {
+			if (is != null) {
+				is.close();
+			}
+		} catch (IOException ex) {
 			throw new PersistenceException(ex);
 		}
 	}
