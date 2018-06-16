@@ -97,6 +97,7 @@ public class TabPlansController implements Notifiable {
 	@Override
     public void onNotify() {
 	    updatePlan();
+        notificationService.notify(TabStatisticController.class);
     }
 
 	private void updatePlan() {

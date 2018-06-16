@@ -43,6 +43,7 @@ public class TabStatisticController implements Notifiable {
     @FXML
     public void initialize() {
         notificationService.subscribeTo(TabStatisticController.class, this);
+        notificationService.subscribeTo(TabPlansController.class, this);
         barChart.setLegendVisible(false);
         quantityAxis.setAutoRanging(false);
         quantityAxis.setTickUnit(1);
