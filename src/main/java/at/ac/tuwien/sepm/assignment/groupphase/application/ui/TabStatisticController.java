@@ -75,17 +75,16 @@ public class TabStatisticController implements Notifiable {
                 Integer quantity = entry.getValue();
 
                 StackedBarChart.Series<String, Integer> series = new StackedBarChart.Series<>();
-                StackedBarChart.Data<String, Integer> data = new StackedBarChart.Data<>(r.getName(), quantity);
+                StackedBarChart.Data<String, Integer> data = new StackedBarChart.Data<>(wrapLabelText(r.getName()), quantity);
 
                 series.getData().add(data);
                 barChart.getData().add(series);
 
                 Tooltip tooltip = new Tooltip();
-                String sb = (int) Math.ceil(r.getCalories()) + " kcal\n" +
+                tooltip.setText((int) Math.ceil(r.getCalories()) + " kcal\n" +
                     (int) Math.ceil(r.getCarbohydrates()) + "g Carbohydrates\n" +
                     (int) Math.ceil(r.getProteins()) + "g Proteins\n" +
-                    (int) Math.ceil(r.getFats()) + "g Fats";
-                tooltip.setText(sb);
+                    (int) Math.ceil(r.getFats()) + "g Fats");
                 Tooltip.install(data.getNode(), tooltip);
             }
         } catch (ServiceInvokationException e) {
@@ -93,5 +92,29 @@ public class TabStatisticController implements Notifiable {
         } catch (Exception e) {
             UserInterfaceUtility.handleFault(e);
         }
+    }
+
+    private String wrapLabelText(String str) {
+        StringBuilder wrappedLine = new StringBuilder(str.length() + 16);
+        int wrapLength = 25, offset = 0;
+
+        while ((str.length() - offset) > wrapLength) {
+            if (str.charAt(offset) == ' ')
+                offset++;
+            else {
+                int spaceToWrapAt = str.lastIndexOf(' ', wrapLength + offset);
+
+                if (spaceToWrapAt >= offset) {
+                    wrappedLine.append(str, offset, spaceToWrapAt);
+                    offset = spaceToWrapAt + 1;
+                } else {
+                    wrappedLine.append(str, offset, wrapLength + offset);
+                    offset += wrapLength;
+                }
+                wrappedLine.append(System.lineSeparator());
+            }
+        }
+        wrappedLine.append(str, offset, str.length());
+        return wrappedLine.toString();
     }
 }
