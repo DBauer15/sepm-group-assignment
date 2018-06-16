@@ -227,7 +227,7 @@ public class SimpleMealRecommendationsServiceTest extends BaseTest {
 
             return ingredients;
         } catch (SQLException e) {
-            throw new PersistenceException(e);
+            throw new PersistenceException(e.getMessage(), e);
         } finally {
             CloseUtil.closeStatement(ps);
             CloseUtil.closeResultSet(rs);
@@ -252,7 +252,7 @@ public class SimpleMealRecommendationsServiceTest extends BaseTest {
 
             return recipes;
         } catch (SQLException e) {
-            throw new PersistenceException(e);
+            throw new PersistenceException(e.getMessage(), e);
         } finally {
             CloseUtil.closeStatement(ps);
             CloseUtil.closeResultSet(rs);

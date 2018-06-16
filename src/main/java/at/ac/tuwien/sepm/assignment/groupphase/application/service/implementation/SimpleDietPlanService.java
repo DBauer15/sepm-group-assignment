@@ -42,7 +42,7 @@ public class SimpleDietPlanService implements DietPlanService {
 		try {
 			dietPlanRepository.create(dietPlan);
 		} catch (PersistenceException e) {
-			throw new ServiceInvokationException(e.getMessage());
+			throw new ServiceInvokationException(e.getMessage(), e);
 		}
 	}
 
@@ -58,7 +58,7 @@ public class SimpleDietPlanService implements DietPlanService {
             }
             return dietPlans;
         } catch (PersistenceException e) {
-            throw new ServiceInvokationException(e.getMessage());
+            throw new ServiceInvokationException(e.getMessage(), e);
         }
     }
 
@@ -72,7 +72,7 @@ public class SimpleDietPlanService implements DietPlanService {
             }
             return dietPlan;
         } catch (PersistenceException e) {
-            throw new ServiceInvokationException(e.getMessage());
+            throw new ServiceInvokationException(e.getMessage(), e);
         }
     }
 
@@ -87,7 +87,7 @@ public class SimpleDietPlanService implements DietPlanService {
         try {
             dietPlanRepository.switchTo(dietPlan);
         } catch (PersistenceException e) {
-            throw new ServiceInvokationException(e.getMessage());
+            throw new ServiceInvokationException(e.getMessage(), e);
         }
     }
 

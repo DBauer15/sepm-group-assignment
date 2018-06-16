@@ -251,7 +251,7 @@ public class TabRecipesController implements Notifiable {
 			try {
 				recipeService.delete(recipe.getId());
 			} catch (ServiceInvokationException e) {
-				UserInterfaceUtility.handleFaults(e.getContext());
+				UserInterfaceUtility.handleFaults(e);
 			} catch (Exception e) {
 				UserInterfaceUtility.handleFault(e);
 			}
@@ -334,7 +334,7 @@ public class TabRecipesController implements Notifiable {
 		try {
 			searchResult = recipeService.searchRecipes(param);
 		} catch (ServiceInvokationException e) {
-			UserInterfaceUtility.handleFaults(e.getContext());
+			UserInterfaceUtility.handleFaults(e);
 		} catch (Exception e) {
 			UserInterfaceUtility.handleFault(e);
 		}

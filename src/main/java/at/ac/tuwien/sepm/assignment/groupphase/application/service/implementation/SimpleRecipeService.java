@@ -47,7 +47,7 @@ public class SimpleRecipeService implements RecipeService {
 		try {
 			recipePersistence.create(recipe);
 		} catch (PersistenceException e) {
-			throw new ServiceInvokationException(e.getMessage());
+			throw new ServiceInvokationException(e.getMessage(), e);
 		}
 	}
 
@@ -63,7 +63,7 @@ public class SimpleRecipeService implements RecipeService {
 		try {
 			searchResult = recipePersistence.searchIngredient(searchParam);
 		} catch (PersistenceException e) {
-			throw new ServiceInvokationException(e.getMessage());
+			throw new ServiceInvokationException(e.getMessage(), e);
 		}
 
 		return searchResult;

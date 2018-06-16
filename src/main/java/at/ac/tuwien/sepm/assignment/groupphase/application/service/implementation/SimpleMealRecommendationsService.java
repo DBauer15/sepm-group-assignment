@@ -68,7 +68,7 @@ public class SimpleMealRecommendationsService implements MealRecommendationsServ
                 }
             }
         } catch (PersistenceException e) {
-            throw new ServiceInvokationException(e.getMessage());
+            throw new ServiceInvokationException(e.getMessage(), e);
         }
 
         return optimumMeals;
@@ -89,9 +89,9 @@ public class SimpleMealRecommendationsService implements MealRecommendationsServ
             mealRecommendationsPersistence.createRecommendationFor(recipe, currentDietPlan, meal);
             return recipe;
         } catch (PersistenceException e) {
-            throw new ServiceInvokationException(e.getMessage());
+            throw new ServiceInvokationException(e.getMessage(), e);
         } catch (NoEntryFoundException e) {
-            throw new ServiceInvokationException(e.getMessage());
+            throw new ServiceInvokationException(e.getMessage(), e);
         }
     }
 

@@ -17,7 +17,7 @@ public class CloseUtil {
 			if (s != null && !s.isClosed())
 				s.close();
 		} catch (SQLException e) {
-			throw new PersistenceException(e);
+			throw new PersistenceException(e.getMessage(), e);
 		}
 	}
 
@@ -27,7 +27,7 @@ public class CloseUtil {
 				rs.close();
 			}
 		} catch (SQLException ex) {
-			throw new PersistenceException(ex);
+			throw new PersistenceException(ex.getMessage(), ex);
 		}
 	}
 
@@ -37,7 +37,7 @@ public class CloseUtil {
 				is.close();
 			}
 		} catch (IOException ex) {
-			throw new PersistenceException(ex);
+			throw new PersistenceException(ex.getMessage(), ex);
 		}
 	}
 }

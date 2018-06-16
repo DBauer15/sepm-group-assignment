@@ -201,7 +201,7 @@ public class RecipeController implements Initializable, ExternalController<Recip
 						this.r.getRecipeImages().add(new RecipeImage(ImageIO.read(p), ImageUtil.getImageType(p)));
 					}
 				} catch (ServiceInvokationException ex) {
-					UserInterfaceUtility.handleFaults(ex.getContext());
+					UserInterfaceUtility.handleFaults(ex);
 				} catch (IOException ex) {
 					UserInterfaceUtility.handleFault(ex);
 				}
@@ -390,7 +390,7 @@ public class RecipeController implements Initializable, ExternalController<Recip
 			LOG.debug("Recipe successfully saved.");
 			((Stage) saveButton.getScene().getWindow()).close();
 		} catch (ServiceInvokationException e) {
-			UserInterfaceUtility.handleFaults(e.getContext());
+			UserInterfaceUtility.handleFaults(e);
 		} catch (Exception e) {
 			UserInterfaceUtility.handleFault(e);
 		}
@@ -419,7 +419,7 @@ public class RecipeController implements Initializable, ExternalController<Recip
 			ingredientComboBox.setItems(FXCollections.observableArrayList(recipeIngredients));
 			ingredientComboBox.show();
 		} catch (ServiceInvokationException e) {
-			UserInterfaceUtility.handleFaults(e.getContext());
+			UserInterfaceUtility.handleFaults(e);
 		} catch (Exception e) {
 			UserInterfaceUtility.handleFault(e);
 		}

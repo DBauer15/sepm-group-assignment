@@ -135,7 +135,7 @@ public class DBRecipePersistence implements RecipePersistence {
 		} catch (SQLException | IOException e) {
 			JDBCConnectionManager.rollbackTransaction();
 			throw new PersistenceException(
-					"There was an error while creating a recipe in the database. " + e.getMessage());
+					"There was an error while creating a recipe in the database. " + e.getMessage(), e);
 		} finally {
 			JDBCConnectionManager.finalizeTransaction();
 			CloseUtil.closeResultSet(generatedKeys);
@@ -223,7 +223,7 @@ public class DBRecipePersistence implements RecipePersistence {
 			}
 			return searchResult;
 		} catch (SQLException e) {
-			throw new PersistenceException("There was an error while searching for ingredient." + e.getMessage());
+			throw new PersistenceException("There was an error while searching for ingredient." + e.getMessage(), e);
 		} finally {
 			CloseUtil.closeStatement(searchIngredientStmnt);
 			CloseUtil.closeResultSet(resultSet);
@@ -266,7 +266,7 @@ public class DBRecipePersistence implements RecipePersistence {
 
 			throw new PersistenceException("No recipe found for given id");
 		} catch (SQLException e) {
-			throw new PersistenceException(e);
+			throw new PersistenceException(e.getMessage(), e);
 		} finally {
 			CloseUtil.closeStatement(ps);
 			CloseUtil.closeResultSet(rs);
@@ -295,7 +295,7 @@ public class DBRecipePersistence implements RecipePersistence {
 
 			return recipeImages;
 		} catch (SQLException | IOException e) {
-			throw new PersistenceException(e);
+			throw new PersistenceException(e.getMessage(), e);
 		} finally {
 			CloseUtil.closeInputStream(in);
 			CloseUtil.closeStatement(ps);
@@ -322,7 +322,7 @@ public class DBRecipePersistence implements RecipePersistence {
 
 			return ingredients;
 		} catch (SQLException e) {
-			throw new PersistenceException(e);
+			throw new PersistenceException(e.getMessage(), e);
 		} finally {
 			CloseUtil.closeStatement(ps);
 			CloseUtil.closeResultSet(rs);
@@ -353,7 +353,7 @@ public class DBRecipePersistence implements RecipePersistence {
 			JDBCConnectionManager.commitTransaction();
 		} catch (SQLException e) {
 			JDBCConnectionManager.rollbackTransaction();
-			throw new PersistenceException(e);
+			throw new PersistenceException(e.getMessage(), e);
 		} finally {
 			JDBCConnectionManager.finalizeTransaction();
 			CloseUtil.closeStatement(ps);
@@ -382,7 +382,7 @@ public class DBRecipePersistence implements RecipePersistence {
 
 		} catch (SQLException e) {
 			JDBCConnectionManager.rollbackTransaction();
-			throw new PersistenceException(e);
+			throw new PersistenceException(e.getMessage(), e);
 		} finally {
 			CloseUtil.closeStatement(ps);
 		}
@@ -401,7 +401,7 @@ public class DBRecipePersistence implements RecipePersistence {
 			}	
 		} catch (SQLException | IOException e) {
 			JDBCConnectionManager.rollbackTransaction();
-			throw new PersistenceException(e);
+			throw new PersistenceException(e.getMessage(), e);
 		} finally {
 			CloseUtil.closeStatement(ps);
 		}
@@ -427,7 +427,7 @@ public class DBRecipePersistence implements RecipePersistence {
 
 			return recipes;
 		} catch (SQLException e) {
-			throw new PersistenceException(e);
+			throw new PersistenceException(e.getMessage(), e);
 		} finally {
 			CloseUtil.closeStatement(ps);
 			CloseUtil.closeResultSet(rs);
@@ -467,7 +467,7 @@ public class DBRecipePersistence implements RecipePersistence {
 		} catch (SQLException e) {
 			JDBCConnectionManager.rollbackTransaction();
 			throw new PersistenceException(
-					"There was an error while deleting the recipe in the database. " + e.getMessage());
+					"There was an error while deleting the recipe in the database. " + e.getMessage(), e);
 		} finally {
 			JDBCConnectionManager.finalizeTransaction();
 			CloseUtil.closeResultSet(rs);
@@ -560,7 +560,7 @@ public class DBRecipePersistence implements RecipePersistence {
 
 			return recipes;
 		} catch (SQLException e) {
-			throw new PersistenceException(e);
+			throw new PersistenceException(e.getMessage(), e);
 		} finally {
 			CloseUtil.closeStatement(ps);
 			CloseUtil.closeResultSet(rs);

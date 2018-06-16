@@ -10,6 +10,7 @@ import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 
 import at.ac.tuwien.sepm.assignment.groupphase.application.service.ServiceInvokationContext;
+import at.ac.tuwien.sepm.assignment.groupphase.application.service.ServiceInvokationException;
 import at.ac.tuwien.sepm.assignment.groupphase.application.ui.ExternalController;
 import javafx.scene.Parent;
 import javafx.scene.Scene;
@@ -61,9 +62,9 @@ public class UserInterfaceUtility {
 	 *
 	 * @param context the context
 	 */
-	public static void handleFaults(ServiceInvokationContext context) {
-		String contentText = append(context);
-		LOG.error("Errors occured: \r\n{}", contentText);
+	public static void handleFaults(ServiceInvokationException e) {
+		String contentText = append(e.getContext());
+		LOG.error("Errors occured: \r\n", e);
 		showAlert(AlertType.ERROR, "An error occured.", contentText);
 	}
 

@@ -5,6 +5,7 @@ import java.util.Arrays;
 
 import javax.activation.MimetypesFileTypeMap;
 
+import at.ac.tuwien.sepm.assignment.groupphase.application.service.ServiceInvokationContext;
 import at.ac.tuwien.sepm.assignment.groupphase.application.service.ServiceInvokationException;
 
 public class ImageUtil {
@@ -17,7 +18,10 @@ public class ImageUtil {
 		String contentType = new MimetypesFileTypeMap().getContentType(f).toLowerCase();
 
 		if (!Arrays.asList(allowedMimeTypes).contains(contentType)) {
-			throw new ServiceInvokationException("You have selected an invalid file. Only JPEG, JPG or PNG files are allowed.");
+			ServiceInvokationContext context = new ServiceInvokationContext();
+			context.addError("You have selected an invalid file. Only JPEG, JPG or PNG files are allowed.");
+			
+			throw new ServiceInvokationException(context);
 		} else {
 			return contentType.replace("image/", "");
 		}

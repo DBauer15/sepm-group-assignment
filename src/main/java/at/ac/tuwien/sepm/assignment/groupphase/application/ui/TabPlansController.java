@@ -143,7 +143,7 @@ public class TabPlansController implements Notifiable {
 				}
 			}
 		} catch (ServiceInvokationException e) {
-			UserInterfaceUtility.handleFaults(e.getContext());
+			UserInterfaceUtility.handleFault(e);
 		} catch (NoEntryFoundException e) {
 		    LOG.warn("No active diet plan set. Skipping meal recommendations");
         } catch (Exception e) {
@@ -203,7 +203,7 @@ public class TabPlansController implements Notifiable {
                 breakfast = mealRecommendationsService.getRecommendedMeal(RecipeTag.B, breakfast);
                 updateBreakfast();
             } catch (ServiceInvokationException e) {
-                UserInterfaceUtility.handleFaults(e.getContext());
+                UserInterfaceUtility.handleFaults(e);
             } catch (NoOptimalSolutionException e) {
                 LOG.warn("No additional recipes found for breakfast: {}", e.getMessage());
                 breakfastSwapButton.setDisable(true);
@@ -215,7 +215,7 @@ public class TabPlansController implements Notifiable {
                 lunch = mealRecommendationsService.getRecommendedMeal(RecipeTag.L, lunch);
                 updateLunch();
             } catch (ServiceInvokationException e) {
-                UserInterfaceUtility.handleFaults(e.getContext());
+                UserInterfaceUtility.handleFaults(e);
             } catch (NoOptimalSolutionException e) {
                 LOG.warn("No additional recipes found for lunch: {}", e.getMessage());
                 breakfastSwapButton.setDisable(true);
@@ -227,7 +227,7 @@ public class TabPlansController implements Notifiable {
                 dinner = mealRecommendationsService.getRecommendedMeal(RecipeTag.D, dinner);
                 updateDinner();
             } catch (ServiceInvokationException e) {
-                UserInterfaceUtility.handleFaults(e.getContext());
+                UserInterfaceUtility.handleFaults(e);
             } catch (NoOptimalSolutionException e) {
                 LOG.warn("No additional recipes found for dinner: {}", e.getMessage());
                 breakfastSwapButton.setDisable(true);
