@@ -82,8 +82,8 @@ public class DBRecipePersistence implements RecipePersistence {
 			"AND (? IS NULL OR r.tags ILIKE '%' || ? || '%') " + // recipe tags
 			"AND (? IS NULL OR r.tags ILIKE '%' || ? || '%') " + // recipe tags
 			"AND (? IS NULL OR r.duration >= ?) " + // recipe duration lower incl bound
-			"AND (? IS NULL OR r.duration <= ?) "; // recipe duration upper incl bound
-
+			"AND (? IS NULL OR r.duration <= ?) " + // recipe duration upper incl bound
+			"AND deleted = FALSE"; 
 	@Override
 	public void create(Recipe recipe) throws PersistenceException {
 		LOG.debug("Creating a new Recipe {}", recipe);
@@ -436,7 +436,7 @@ public class DBRecipePersistence implements RecipePersistence {
 
 	@Override
 	public void delete(int id) throws PersistenceException {
-		LOG.debug("Deleting recipe with ID {}");
+		LOG.debug("Deleting recipe with ID {}", id);
 
 		PreparedStatement createRecipe = null;
 		PreparedStatement isRecipeCurrentlySuggested = null;
