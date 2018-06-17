@@ -335,7 +335,7 @@ public class SimpleRecipeServiceTest extends BaseTest {
 	@Test
 	public void testSearchIngredient_invalidDataWhereIngredientNameLengthIsGreaterThan20Chars_notCallsPersistenceAndValidation() {
 
-		IngredientSearchParam searchParam = new IngredientSearchParam(" Lorem ipsum dolor sit "); // 21 chars + 2 spaces
+		IngredientSearchParam searchParam = new IngredientSearchParam(" Lorem ipsum dolor sit Lorem ipsum dolor sit Lorem ipsum dolor sit Lorem ipsum dolor sit Lorem ipsum dolor sit Lorem ipsum dolor sit Lorem ipsum dolor sit Lorem ipsum dolor sit Lorem ipsum dolor sit Lorem ipsum dolor sit Lorem ipsum dolor sit Lorem ipsum dolor sit ");
 
 		// invokation
 		RecipeService dietPlanService = new SimpleRecipeService(mockedRecipeRepo);
@@ -345,7 +345,7 @@ public class SimpleRecipeServiceTest extends BaseTest {
 			// verification - no interaction with repo
 			verifyZeroInteractions(mockedRecipeRepo);
 			Assert.assertEquals(1, e.getContext().getErrors().size());
-			Assert.assertEquals("Enter only 20 characters in the field 'Ingredient Name'",
+			Assert.assertEquals("Enter only 255 characters in the field 'Ingredient Name'",
 					e.getContext().getErrors().get(0));
 			return;
 		}
