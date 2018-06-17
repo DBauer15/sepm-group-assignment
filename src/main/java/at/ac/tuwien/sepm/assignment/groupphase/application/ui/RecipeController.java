@@ -144,6 +144,8 @@ public class RecipeController implements Initializable, ExternalController<Recip
 	private Pagination picturePagination;
 	@FXML
 	private Label noPictureChosenLabel;
+	@FXML
+	private Button removePicturesButton;
 
 	private RecipeService recipeService;
 	private NotificationService notificationService;
@@ -154,6 +156,14 @@ public class RecipeController implements Initializable, ExternalController<Recip
 	public RecipeController(RecipeService recipeService, NotificationService notificationService) {
 		this.recipeService = recipeService;
 		this.notificationService = notificationService;
+	}
+	
+	public void onRemovePicturesButtonClicked() {
+		this.r.getRecipeImages().clear();
+		this.picturePagination.setPageCount(0);
+		this.noPictureChosenLabel.setVisible(true);
+		this.picturePagination.setVisible(false);
+		this.removePicturesButton.setVisible(false);
 	}
 
 	public VBox displayPicture(int pageIndex) {
@@ -210,14 +220,10 @@ public class RecipeController implements Initializable, ExternalController<Recip
 				picturePagination.setPageCount(this.r.getRecipeImages().size());
 				picturePagination.setVisible(true);
 				noPictureChosenLabel.setVisible(false);
+				removePicturesButton.setVisible(true);
 			}
 		} else {
-			noPictureChosenLabel.setVisible(true);
-			picturePagination.setVisible(false);
-
 			LOG.info("User has selected no picture.");
-			
-			this.r.getRecipeImages().clear();
 		}
 	}
 
@@ -287,10 +293,12 @@ public class RecipeController implements Initializable, ExternalController<Recip
 		if (this.r.getRecipeImages().size() == 0) {
 			this.noPictureChosenLabel.setVisible(true);
 			this.picturePagination.setVisible(false);
+			this.removePicturesButton.setVisible(false);
 		} else {
 			this.noPictureChosenLabel.setVisible(false);
 			this.picturePagination.setVisible(true);
 			this.picturePagination.setPageCount(this.r.getRecipeImages().size());
+			this.removePicturesButton.setVisible(true);
 		}
 	}
 

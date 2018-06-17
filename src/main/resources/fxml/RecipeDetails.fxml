@@ -58,13 +58,14 @@
                      </styleClass>
                   </Label>
                   <Line endX="544.0" layoutX="11.0" layoutY="70.0" stroke="#196674cc" />
-                  <Button layoutX="470.0" layoutY="99.0" mnemonicParsing="false" onAction="#onAddPictureButtonClicked" prefHeight="38.0" prefWidth="86.0" styleClass="button-rounded" text="Choose" />
-                  <Pagination fx:id="picturePagination" layoutX="14.0" layoutY="80.0" maxPageIndicatorCount="5" pageCount="5" prefHeight="247.0" prefWidth="423.0" />
+                  <Button layoutX="444.0" layoutY="99.0" mnemonicParsing="false" onAction="#onAddPictureButtonClicked" prefHeight="38.0" prefWidth="120.0" styleClass="button-rounded" text="Choose other" />
+                  <Pagination fx:id="picturePagination" layoutX="14.0" layoutY="80.0" maxPageIndicatorCount="5" pageCount="5" prefHeight="247.0" prefWidth="420.0" />
                   <Label fx:id="noPictureChosenLabel" alignment="TOP_LEFT" layoutX="14.0" layoutY="99.0" prefHeight="103.0" prefWidth="407.0" text="No picture has been added to the recipe yet. You can choose up to 5 images." textFill="#aaaaaa" wrapText="true">
                      <font>
                         <Font size="14.0" />
                      </font>
                   </Label>
+                  <Button fx:id="removePicturesButton" layoutX="459.0" layoutY="151.0" mnemonicParsing="false" onAction="#onRemovePicturesButtonClicked" prefHeight="38.0" prefWidth="105.0" styleClass="button-rounded" text="Remove all" />
                </children>
             </AnchorPane>
          </children>
