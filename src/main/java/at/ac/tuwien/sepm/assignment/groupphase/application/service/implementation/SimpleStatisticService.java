@@ -30,7 +30,7 @@ public class SimpleStatisticService implements StatisticService {
             map.forEach((key, value) -> NutritionUtil.fillNutritionValues(key));
             return map;
         } catch (PersistenceException e) {
-            throw new ServiceInvokationException(e);
+            throw new ServiceInvokationException(e.getMessage(), e);
         }
     }
 }

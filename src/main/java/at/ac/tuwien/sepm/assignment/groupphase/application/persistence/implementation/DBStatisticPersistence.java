@@ -46,7 +46,7 @@ public class DBStatisticPersistence implements StatisticPersistence {
 
             return mostPopular;
         } catch (SQLException e) {
-            throw new PersistenceException(e);
+            throw new PersistenceException("There was an error while fetching most popular recipes." + e.getMessage(), e);
         } finally {
             CloseUtil.closeStatement(ps);
             CloseUtil.closeResultSet(rs);

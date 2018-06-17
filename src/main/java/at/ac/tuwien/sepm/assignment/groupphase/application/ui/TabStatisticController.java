@@ -89,7 +89,7 @@ public class TabStatisticController implements Notifiable {
                 Tooltip.install(data.getNode(), tooltip);
             }
         } catch (ServiceInvokationException e) {
-            UserInterfaceUtility.handleFaults(e.getContext());
+            UserInterfaceUtility.handleFaults(e);
         } catch (Exception e) {
             UserInterfaceUtility.handleFault(e);
         }
