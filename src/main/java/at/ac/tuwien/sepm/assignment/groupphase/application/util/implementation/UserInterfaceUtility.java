@@ -4,12 +4,14 @@ import java.io.IOException;
 import java.lang.invoke.MethodHandles;
 import java.net.URL;
 
+import javafx.scene.image.Image;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
+import org.springframework.beans.factory.annotation.Autowired;
 
 import at.ac.tuwien.sepm.assignment.groupphase.application.service.ServiceInvokationContext;
+import at.ac.tuwien.sepm.assignment.groupphase.application.service.ServiceInvokationException;
 import at.ac.tuwien.sepm.assignment.groupphase.application.ui.ExternalController;
-import at.ac.tuwien.sepm.assignment.groupphase.main.MainApplication;
 import javafx.scene.Parent;
 import javafx.scene.Scene;
 import javafx.scene.control.Alert;
@@ -21,6 +23,9 @@ import javafx.stage.Window;
 public class UserInterfaceUtility {
 
 	private static final Logger LOG = LoggerFactory.getLogger(MethodHandles.lookup().lookupClass());
+
+	@Autowired
+	private static SpringFXMLLoader fxmlLoader;
 
 	private UserInterfaceUtility() {}
 
@@ -57,9 +62,9 @@ public class UserInterfaceUtility {
 	 *
 	 * @param context the context
 	 */
-	public static void handleFaults(ServiceInvokationContext context) {
-		String contentText = append(context);
-		LOG.debug("Errors occured: \r\n{}", contentText);
+	public static void handleFaults(ServiceInvokationException e) {
+		String contentText = append(e.getContext());
+		LOG.error("Errors occured: \r\n", e);
 		showAlert(AlertType.ERROR, "An error occured.", contentText);
 	}
 
@@ -69,23 +74,23 @@ public class UserInterfaceUtility {
 	 * @param e the exception
 	 */
 	public static void handleFault(Exception e) {
-		LOG.debug("Unexpected Errors occured: \r\n", e);
+		LOG.error("Unexpected Errors occured: \r\n", e);
 		showAlert(AlertType.ERROR, "An unexpected error occured.",
 				String.format("An unexpected error occured :-( \nMessage: %s", e.getMessage()));
 	}
-		
+
 	/**
 	 * Open external controller
-	 * 
+	 *
 	 * @param Path FXML file path
 	 * @param Title window title
 	 * @param object is the object that is viewed in the external controller (e.g. a Recipe)
 	 * @param owner defines the window that has opened the external controller
 	 * @param controller defines the class of the controller that should be opened (e.g. RecipeController)
 	 */
-	public static <T, TController extends ExternalController<T>> void loadExternalController(String Path, String Title, T object, Window owner, Class<TController> controller) {
+	public static <T, TController extends ExternalController<T>> void loadExternalController(String Path, String Title,
+			T object, Window owner, Class<TController> controller, SpringFXMLLoader fxmlLoader) {
 		try {
-			final var fxmlLoader = MainApplication.context.getBean(SpringFXMLLoader.class);
 			URL location = controller.getResource(Path);
 			fxmlLoader.setLocation(location);
 			Stage stage = new Stage();
@@ -93,6 +98,7 @@ public class UserInterfaceUtility {
 			stage.initModality(Modality.WINDOW_MODAL);
 			stage.initOwner(owner);
 			stage.setTitle(Title);
+            stage.getIcons().add(new Image("/img/foodOrca.png"));
 
 			var load = fxmlLoader.loadAndWrap(controller.getResourceAsStream(Path), controller);
 			load.getController().initializeView(object);

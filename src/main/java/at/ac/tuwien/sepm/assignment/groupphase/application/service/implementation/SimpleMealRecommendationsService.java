@@ -68,20 +68,20 @@ public class SimpleMealRecommendationsService implements MealRecommendationsServ
                 }
             }
         } catch (PersistenceException e) {
-            throw new ServiceInvokationException(e.getMessage());
+            throw new ServiceInvokationException(e.getMessage(), e);
         }
 
         return optimumMeals;
     }
 
     @Override
-    public Recipe getRecommendedMeal(RecipeTag meal, List<Recipe> omissions) throws ServiceInvokationException, NoOptimalSolutionException {
+    public Recipe getRecommendedMeal(RecipeTag meal, Recipe current) throws ServiceInvokationException, NoOptimalSolutionException {
         LOG.debug("Requested recommended meal for tag {}", meal);
 
         try {
             BIAS = 0;
             List<Recipe> allRecipes = recipeService.getRecipes();
-            allRecipes.removeAll(omissions);
+            allRecipes.remove(current);
             DietPlan currentDietPlan = dietPlanPersistence.readActive();
             List<RecipeTag> tags = new ArrayList<>(Arrays.asList(RecipeTag.B, RecipeTag.L, RecipeTag.D));
 
@@ -89,9 +89,9 @@ public class SimpleMealRecommendationsService implements MealRecommendationsServ
             mealRecommendationsPersistence.createRecommendationFor(recipe, currentDietPlan, meal);
             return recipe;
         } catch (PersistenceException e) {
-            throw new ServiceInvokationException(e.getMessage());
+            throw new ServiceInvokationException(e.getMessage(), e);
         } catch (NoEntryFoundException e) {
-            throw new ServiceInvokationException(e.getMessage());
+            throw new ServiceInvokationException(e.getMessage(), e);
         }
     }
 

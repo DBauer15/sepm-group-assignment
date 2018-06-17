@@ -5,7 +5,9 @@ import java.util.List;
 import at.ac.tuwien.sepm.assignment.groupphase.application.dto.RecipeIngredient;
 import at.ac.tuwien.sepm.assignment.groupphase.application.service.ServiceInvokationContext;
 import at.ac.tuwien.sepm.assignment.groupphase.application.util.Validator;
+import org.springframework.stereotype.Component;
 
+@Component
 public class RecipeIngredientsValidator implements Validator<List<RecipeIngredient>> {
 
 	@Override

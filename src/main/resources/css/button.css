@@ -33,10 +33,53 @@
     -fx-background-position:center;
 }
 
+.button-reload{
+    -fx-background-radius: 50 50 50 50;
+    -fx-background-image: url('../img/reload.png');
+    -fx-background-repeat: no-repeat;
+    -fx-background-position:center;
+}
+
 .button-cancel {
   -fx-background-color: #767676;
 }
 
 .button-cancel:pressed {
   -fx-background-color: #333333;
+}
+
+.toggle-container{
+    -fx-background-radius: 15 0 0 15;
+    -fx-background-radius: 15 0 0 15;
+}
+
+.toggle-button-left{
+    -fx-border-radius: 15 0 0 15;
+    -fx-background-radius: 15 0 0 15;
+}
+
+.toggle-button:hover{
+    -fx-background-color: 787878;
+}
+
+.toggle-button-middle{
+    -fx-border-radius: 0 0 0 0;
+    -fx-background-radius: 0 0 0 0;
+}
+
+.toggle-button-right{
+    -fx-border-radius: 0 15 15 0;
+    -fx-background-radius: 0 15 15 0;
+}
+
+.jfx-toggle-button:selected {
+    -fx-toggle-color: #009688;
+    -fx-untoggle-color: #FAFAFA;
+    -fx-toggle-line-color: derive(-jfx-toggle-color, 65%);
+    -fx-untoggle-line-color: #999999;
+    /*-jfx-size: 10;*/
+}
+
+.toggle-button:hover{
+
 }

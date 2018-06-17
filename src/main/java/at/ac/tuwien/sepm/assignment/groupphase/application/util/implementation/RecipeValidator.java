@@ -1,12 +1,21 @@
 package at.ac.tuwien.sepm.assignment.groupphase.application.util.implementation;
 
 import at.ac.tuwien.sepm.assignment.groupphase.application.dto.Recipe;
+import at.ac.tuwien.sepm.assignment.groupphase.application.dto.RecipeIngredient;
 import at.ac.tuwien.sepm.assignment.groupphase.application.service.ServiceInvokationContext;
 import at.ac.tuwien.sepm.assignment.groupphase.application.util.Validator;
+import org.springframework.stereotype.Component;
 
+import java.util.List;
+
+@Component
 public class RecipeValidator implements Validator<Recipe> {
 
-	private final RecipeIngredientsValidator recipeIngredientsValidator = new RecipeIngredientsValidator();
+	private final Validator<List<RecipeIngredient>> recipeIngredientsValidator;
+
+	public RecipeValidator(Validator<List<RecipeIngredient>> recipeIngredientsValidator) {
+	    this.recipeIngredientsValidator = recipeIngredientsValidator;
+    }
 
 	@Override
 	public boolean validateForCreation(Recipe recipe, ServiceInvokationContext context) {

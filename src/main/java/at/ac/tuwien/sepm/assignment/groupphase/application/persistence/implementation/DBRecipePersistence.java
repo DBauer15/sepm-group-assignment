@@ -1,16 +1,26 @@
 
 package at.ac.tuwien.sepm.assignment.groupphase.application.persistence.implementation;
 
+import java.awt.image.BufferedImage;
+import java.awt.image.DataBufferByte;
+import java.io.ByteArrayOutputStream;
+import java.io.IOException;
+import java.io.InputStream;
 import java.lang.invoke.MethodHandles;
+import java.sql.Blob;
 import java.sql.Clob;
 import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.sql.Statement;
+import java.sql.Types;
 import java.util.ArrayList;
+import java.util.Iterator;
 import java.util.List;
 import java.util.stream.Collectors;
+
+import javax.imageio.ImageIO;
 
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -18,7 +28,10 @@ import org.springframework.stereotype.Repository;
 
 import at.ac.tuwien.sepm.assignment.groupphase.application.dto.IngredientSearchParam;
 import at.ac.tuwien.sepm.assignment.groupphase.application.dto.Recipe;
+import at.ac.tuwien.sepm.assignment.groupphase.application.dto.RecipeImage;
 import at.ac.tuwien.sepm.assignment.groupphase.application.dto.RecipeIngredient;
+import at.ac.tuwien.sepm.assignment.groupphase.application.dto.RecipeSearchParam;
+import at.ac.tuwien.sepm.assignment.groupphase.application.dto.RecipeTag;
 import at.ac.tuwien.sepm.assignment.groupphase.application.persistence.PersistenceException;
 import at.ac.tuwien.sepm.assignment.groupphase.application.persistence.RecipePersistence;
 import at.ac.tuwien.sepm.assignment.groupphase.application.util.implementation.CloseUtil;
@@ -39,15 +52,38 @@ public class DBRecipePersistence implements RecipePersistence {
 	private static final String UPDATE_RECIPE_WHERE = "UPDATE RECIPE SET NAME = ?, DURATION = ?, DESCRIPTION = ?, TAGS = ? WHERE ID = ?;";
 
 	private static final String DELETE_RECIPE = "UPDATE RECIPE SET DELETED = TRUE WHERE id = ?;";
-	
+
 	private static final String SELECT_R_I_WHERE = "SELECT * FROM RECIPE_INGREDIENT r_i JOIN INGREDIENT i ON r_i.INGREDIENT_ID = i.ID JOIN RECIPE r ON r_i.RECIPE_ID = r.ID WHERE r.ID = ?;";
 	private static final String DELETE_R_I_WHERE = "DELETE FROM RECIPE_INGREDIENT WHERE RECIPE_ID = ?;";
-	//private static final String INSERT_R_I_WHERE = "INSERT INTO RECIPE_INGREDIENT (INGREDIENT_ID, RECIPE_ID, AMOUNT) VALUES (?, ?, ?);";
+	// private static final String INSERT_R_I_WHERE = "INSERT INTO RECIPE_INGREDIENT
+	// (INGREDIENT_ID, RECIPE_ID, AMOUNT) VALUES (?, ?, ?);";
+
+	private static final String SELECT_RECIPE_IMAGES = "SELECT * FROM RECIPE_IMAGE WHERE RECIPE_id = ?";
 
 	private static final String CREATE_RECIPE_INGREDIENT = "INSERT INTO recipe_ingredient (ingredient_id, recipe_id, amount) VALUES (?,?,?);";
-
-	private static final String IS_RECIPE_CURRENTLY_SUGGESTED = "SELECT 1 FROM diet_plan_suggestion x WHERE recipe = ? AND date = TRUNC(NOW()) AND NOT EXISTS (SELECT 1 FROM diet_plan_suggestion WHERE tag = x.tag AND date = x.date AND created_timestamp > x.created_timestamp)";
+	private static final String CREATE_RECIPE_IMAGE = "INSERT INTO Recipe_Image (recipe_id, image, image_type) VALUES (?, ?, ?);";
+	private static final String DELETE_RECIPE_IMAGES = "DELETE FROM Recipe_Image WHERE recipe_id = ?;";
 	
+	private static final String IS_RECIPE_CURRENTLY_SUGGESTED = "SELECT 1 FROM diet_plan_suggestion x WHERE recipe = ? AND date = TRUNC(NOW()) AND NOT EXISTS (SELECT 1 FROM diet_plan_suggestion WHERE tag = x.tag AND date = x.date AND created_timestamp > x.created_timestamp)";
+
+	private static final String SEARCH_RECIPES = "select r.* from recipe r " + //
+			"WHERE (? IS NULL OR EXISTS (select 1 from recipe_ingredient ri inner join ingredient i on i.id = ri.ingredient_id WHERE i.name ILIKE '%' || ? || '%' AND r.id = ri.recipe_id)) "
+			+ "AND (? IS NULL OR EXISTS (select 1 from recipe_ingredient ri inner join ingredient i on i.id = ri.ingredient_id WHERE i.name ILIKE '%' || ? || '%' AND r.id = ri.recipe_id)) "
+			+ "AND (? IS NULL OR EXISTS (select 1 from recipe_ingredient ri inner join ingredient i on i.id = ri.ingredient_id WHERE i.name ILIKE '%' || ? || '%' AND r.id = ri.recipe_id)) "
+			+ "AND (? IS NULL OR EXISTS (select 1 from recipe_ingredient ri inner join ingredient i on i.id = ri.ingredient_id WHERE i.name ILIKE '%' || ? || '%' AND r.id = ri.recipe_id)) "
+			+ "AND (? IS NULL OR EXISTS (select 1 from recipe_ingredient ri inner join ingredient i on i.id = ri.ingredient_id WHERE i.name ILIKE '%' || ? || '%' AND r.id = ri.recipe_id)) "
+			+ "AND (? IS NULL OR EXISTS (select 1 from recipe_ingredient ri inner join ingredient i on i.id = ri.ingredient_id WHERE i.name ILIKE '%' || ? || '%' AND r.id = ri.recipe_id)) "
+			+ "AND (? IS NULL OR EXISTS (select 1 from recipe_ingredient ri inner join ingredient i on i.id = ri.ingredient_id WHERE i.name ILIKE '%' || ? || '%' AND r.id = ri.recipe_id)) "
+			+ "AND (? IS NULL OR EXISTS (select 1 from recipe_ingredient ri inner join ingredient i on i.id = ri.ingredient_id WHERE i.name ILIKE '%' || ? || '%' AND r.id = ri.recipe_id)) "
+			+ "AND (? IS NULL OR EXISTS (select 1 from recipe_ingredient ri inner join ingredient i on i.id = ri.ingredient_id WHERE i.name ILIKE '%' || ? || '%' AND r.id = ri.recipe_id)) "
+			+ "AND (? IS NULL OR EXISTS (select 1 from recipe_ingredient ri inner join ingredient i on i.id = ri.ingredient_id WHERE i.name ILIKE '%' || ? || '%' AND r.id = ri.recipe_id)) "
+			+ "AND (? IS NULL OR r.name ILIKE '%' || ? || '%') " + // recipe name
+			"AND (? IS NULL OR r.tags ILIKE '%' || ? || '%') " + // recipe tags
+			"AND (? IS NULL OR r.tags ILIKE '%' || ? || '%') " + // recipe tags
+			"AND (? IS NULL OR r.tags ILIKE '%' || ? || '%') " + // recipe tags
+			"AND (? IS NULL OR r.duration >= ?) " + // recipe duration lower incl bound
+			"AND (? IS NULL OR r.duration <= ?) " + // recipe duration upper incl bound
+			"AND deleted = FALSE"; 
 	@Override
 	public void create(Recipe recipe) throws PersistenceException {
 		LOG.debug("Creating a new Recipe {}", recipe);
@@ -91,16 +127,44 @@ public class DBRecipePersistence implements RecipePersistence {
 				createRecipeIngredientTuple(ri, ri.getId(), recipe.getId());
 			}
 
+			for (RecipeImage ri : recipe.getRecipeImages()) {
+				createRecipeImage(ri, recipe.getId());
+			}
+
 			JDBCConnectionManager.commitTransaction();
-		} catch (SQLException e) {
+		} catch (SQLException | IOException e) {
 			JDBCConnectionManager.rollbackTransaction();
 			throw new PersistenceException(
-					"There was an error while creating a recipe in the database. " + e.getMessage());
+					"There was an error while creating a recipe in the database. " + e.getMessage(), e);
 		} finally {
 			JDBCConnectionManager.finalizeTransaction();
 			CloseUtil.closeResultSet(generatedKeys);
 			CloseUtil.closeStatement(createRecipe);
 		}
+	}
+
+	private void createRecipeImage(RecipeImage ri, Integer recipeId) throws SQLException, IOException {
+		LOG.debug("Creating new Recipe_Image for recipeId={}.", recipeId);
+
+		PreparedStatement createRecipeImage = JDBCConnectionManager.getConnection()
+				.prepareStatement(CREATE_RECIPE_IMAGE, Statement.RETURN_GENERATED_KEYS);
+
+		createRecipeImage.setInt(1, recipeId);
+		
+		ByteArrayOutputStream baos = new ByteArrayOutputStream();
+		ImageIO.write(ri.getImage(), ri.getImageType(), baos);
+		Blob blob = new javax.sql.rowset.serial.SerialBlob(baos.toByteArray());
+		        
+		createRecipeImage.setBlob(2, blob);
+		createRecipeImage.setString(3, ri.getImageType());
+		createRecipeImage.execute();
+		
+		ResultSet generatedKeys = createRecipeImage.getGeneratedKeys();
+		generatedKeys.next();
+		
+		ri.setId(generatedKeys.getInt(1));
+				
+		LOG.debug("Created image for recipe {} with ID {}", recipeId, ri.getId());
 	}
 
 	private void createRecipeIngredientTuple(RecipeIngredient ri, Integer ingredientId, Integer recipeId)
@@ -144,11 +208,14 @@ public class DBRecipePersistence implements RecipePersistence {
 		LOG.debug("Searching for Ingredient with name '{}'", searchIngredient.getIngredientName());
 
 		PreparedStatement searchIngredientStmnt = null;
+		ResultSet resultSet = null;
 
 		try {
-            searchIngredientStmnt = JDBCConnectionManager.getConnection().prepareStatement(SEARCH_INGREDIENT.replace("?",
-                "'%" + searchIngredient.getIngredientName().trim().replaceAll("\\s", "%' AND name ILIKE '%") + "%'"));
-			ResultSet resultSet = searchIngredientStmnt.executeQuery();
+			searchIngredientStmnt = JDBCConnectionManager.getConnection()
+					.prepareStatement(SEARCH_INGREDIENT.replace("?",
+							"'%" + searchIngredient.getIngredientName().trim().replaceAll("\\s", "%' AND name ILIKE '%")
+									+ "%'"));
+			resultSet = searchIngredientStmnt.executeQuery();
 			List<RecipeIngredient> searchResult = new ArrayList<>();
 
 			while (resultSet.next()) {
@@ -156,9 +223,10 @@ public class DBRecipePersistence implements RecipePersistence {
 			}
 			return searchResult;
 		} catch (SQLException e) {
-			throw new PersistenceException("There was an error while searching for ingredient." + e.getMessage());
+			throw new PersistenceException("There was an error while searching for ingredient." + e.getMessage(), e);
 		} finally {
 			CloseUtil.closeStatement(searchIngredientStmnt);
+			CloseUtil.closeResultSet(resultSet);
 		}
 	}
 
@@ -192,13 +260,44 @@ public class DBRecipePersistence implements RecipePersistence {
 				Recipe r = new Recipe(rs.getInt("ID"), rs.getString("NAME"), rs.getDouble("DURATION"),
 						rs.getString("DESCRIPTION"), rs.getString("TAGS"), rs.getBoolean("DELETED"));
 				r.setRecipeIngredients(getIngredients(id));
+				r.setRecipeImages(getImages(id));
 				return r;
 			}
 
 			throw new PersistenceException("No recipe found for given id");
 		} catch (SQLException e) {
-			throw new PersistenceException(e);
+			throw new PersistenceException(e.getMessage(), e);
 		} finally {
+			CloseUtil.closeStatement(ps);
+			CloseUtil.closeResultSet(rs);
+		}
+	}
+
+	private List<RecipeImage> getImages(int id) throws PersistenceException {
+		PreparedStatement ps = null;
+		ResultSet rs = null;
+		InputStream in = null;
+
+		try {
+			ps = JDBCConnectionManager.getConnection().prepareStatement(SELECT_RECIPE_IMAGES);
+			ps.setInt(1, id);
+			rs = ps.executeQuery();
+
+			List<RecipeImage> recipeImages = new ArrayList<>();
+
+			while (rs.next()) {
+				Blob blob = rs.getBlob("image");
+				in = blob.getBinaryStream();  
+	        	BufferedImage image = ImageIO.read(in);
+	        	 
+				recipeImages.add(new RecipeImage(rs.getInt("id"), image, rs.getString("image_type")));
+			}
+
+			return recipeImages;
+		} catch (SQLException | IOException e) {
+			throw new PersistenceException(e.getMessage(), e);
+		} finally {
+			CloseUtil.closeInputStream(in);
 			CloseUtil.closeStatement(ps);
 			CloseUtil.closeResultSet(rs);
 		}
@@ -223,7 +322,7 @@ public class DBRecipePersistence implements RecipePersistence {
 
 			return ingredients;
 		} catch (SQLException e) {
-			throw new PersistenceException(e);
+			throw new PersistenceException(e.getMessage(), e);
 		} finally {
 			CloseUtil.closeStatement(ps);
 			CloseUtil.closeResultSet(rs);
@@ -249,11 +348,12 @@ public class DBRecipePersistence implements RecipePersistence {
 			ps.executeUpdate();
 
 			setIngredients(recipe);
+			setImages(recipe);
 
 			JDBCConnectionManager.commitTransaction();
 		} catch (SQLException e) {
 			JDBCConnectionManager.rollbackTransaction();
-			throw new PersistenceException(e);
+			throw new PersistenceException(e.getMessage(), e);
 		} finally {
 			JDBCConnectionManager.finalizeTransaction();
 			CloseUtil.closeStatement(ps);
@@ -267,26 +367,45 @@ public class DBRecipePersistence implements RecipePersistence {
 			ps.setInt(1, recipe.getId());
 			ps.executeUpdate();
 
-            List<RecipeIngredient> newUserSpecificRecipeIngredients = recipe.getRecipeIngredients().stream()
-                .filter(ri -> ri.getId() == null).collect(Collectors.toList());
-            List<RecipeIngredient> commonRecipeIngredients = recipe.getRecipeIngredients().stream()
-                .filter(ri -> ri.getId() != null).collect(Collectors.toList());
+			List<RecipeIngredient> newUserSpecificRecipeIngredients = recipe.getRecipeIngredients().stream()
+					.filter(ri -> ri.getId() == null).collect(Collectors.toList());
+			List<RecipeIngredient> commonRecipeIngredients = recipe.getRecipeIngredients().stream()
+					.filter(ri -> ri.getId() != null).collect(Collectors.toList());
 
-            for (RecipeIngredient ri : newUserSpecificRecipeIngredients) {
-                Integer userIngredientId = createUserSpecificIngredientTuple(ri);
-                createRecipeIngredientTuple(ri, userIngredientId, recipe.getId());
-            }
+			for (RecipeIngredient ri : newUserSpecificRecipeIngredients) {
+				Integer userIngredientId = createUserSpecificIngredientTuple(ri);
+				createRecipeIngredientTuple(ri, userIngredientId, recipe.getId());
+			}
 
-            for (RecipeIngredient ri : commonRecipeIngredients)
-                createRecipeIngredientTuple(ri, ri.getId(), recipe.getId());
+			for (RecipeIngredient ri : commonRecipeIngredients)
+				createRecipeIngredientTuple(ri, ri.getId(), recipe.getId());
 
 		} catch (SQLException e) {
 			JDBCConnectionManager.rollbackTransaction();
-			throw new PersistenceException(e);
+			throw new PersistenceException(e.getMessage(), e);
 		} finally {
 			CloseUtil.closeStatement(ps);
 		}
 	}
+
+	private void setImages(Recipe recipe) throws PersistenceException {
+		PreparedStatement ps = null;
+		
+		try {
+			ps = JDBCConnectionManager.getConnection().prepareStatement(DELETE_RECIPE_IMAGES);
+			ps.setInt(1, recipe.getId());
+			ps.executeUpdate();
+
+			for (RecipeImage ri : recipe.getRecipeImages()) {
+				createRecipeImage(ri, recipe.getId());
+			}	
+		} catch (SQLException | IOException e) {
+			JDBCConnectionManager.rollbackTransaction();
+			throw new PersistenceException(e.getMessage(), e);
+		} finally {
+			CloseUtil.closeStatement(ps);
+		}
+	}	
 
 	@Override
 	public List<Recipe> getRecipes() throws PersistenceException {
@@ -302,12 +421,13 @@ public class DBRecipePersistence implements RecipePersistence {
 				Recipe r = new Recipe(rs.getInt("ID"), rs.getString("NAME"), rs.getDouble("DURATION"),
 						rs.getString("DESCRIPTION"), rs.getString("TAGS"), rs.getBoolean("DELETED"));
 				r.setRecipeIngredients(getIngredients(r.getId()));
+				r.setRecipeImages(getImages(r.getId()));
 				recipes.add(r);
 			}
 
 			return recipes;
 		} catch (SQLException e) {
-			throw new PersistenceException(e);
+			throw new PersistenceException(e.getMessage(), e);
 		} finally {
 			CloseUtil.closeStatement(ps);
 			CloseUtil.closeResultSet(rs);
@@ -316,28 +436,29 @@ public class DBRecipePersistence implements RecipePersistence {
 
 	@Override
 	public void delete(int id) throws PersistenceException {
-		LOG.debug("Deleting recipe with ID {}");
+		LOG.debug("Deleting recipe with ID {}", id);
 
 		PreparedStatement createRecipe = null;
-		PreparedStatement isRecipeCurrentlySuggested = null; 
+		PreparedStatement isRecipeCurrentlySuggested = null;
 		ResultSet rs = null;
 
 		try {
 			Connection connection = JDBCConnectionManager.getConnection();
 			JDBCConnectionManager.startTransaction();
-			
+
 			isRecipeCurrentlySuggested = connection.prepareStatement(IS_RECIPE_CURRENTLY_SUGGESTED);
 			isRecipeCurrentlySuggested.setInt(1, id);
-			
+
 			rs = isRecipeCurrentlySuggested.executeQuery();
-			
+
 			if (rs.next()) {
-				throw new PersistenceException("The recipe has been suggested for today. You must change today's recipe proposal before you can delete the recipe.");
+				throw new PersistenceException(
+						"The recipe has been suggested for today. You must change today's recipe proposal before you can delete the recipe.");
 			}
 
 			createRecipe = connection.prepareStatement(DELETE_RECIPE);
 			createRecipe.setInt(1, id);
-			
+
 			if (createRecipe.executeUpdate() == 0) {
 				throw new PersistenceException("No recipe found for given id");
 			}
@@ -346,12 +467,103 @@ public class DBRecipePersistence implements RecipePersistence {
 		} catch (SQLException e) {
 			JDBCConnectionManager.rollbackTransaction();
 			throw new PersistenceException(
-					"There was an error while deleting the recipe in the database. " + e.getMessage());
+					"There was an error while deleting the recipe in the database. " + e.getMessage(), e);
 		} finally {
 			JDBCConnectionManager.finalizeTransaction();
 			CloseUtil.closeResultSet(rs);
 			CloseUtil.closeStatement(isRecipeCurrentlySuggested);
 			CloseUtil.closeStatement(createRecipe);
+		}
+	}
+
+	@Override
+	public List<Recipe> searchRecipes(RecipeSearchParam searchParam) throws PersistenceException {
+		LOG.debug("Searching Recipes with search criteria");
+
+		PreparedStatement ps = null;
+		ResultSet rs = null;
+
+		try {
+			ps = JDBCConnectionManager.getConnection().prepareStatement(SEARCH_RECIPES);
+
+			// set all 10 ingredients if available or null if not
+			Iterator<String> ingredientIterator = searchParam.getIngredients().iterator();
+
+			final int maxIngredientIdx = 20;
+			for (int i = 1; i < maxIngredientIdx; i = i + 2) {
+				// sets 2 same parameters for condition:
+				// (? IS NULL OR i.name ILIKE '%' || ? || '%')
+				if (ingredientIterator.hasNext() == false) {
+					ps.setNull(i, Types.VARCHAR);
+					ps.setNull(i + 1, Types.VARCHAR);
+				} else {
+					final String nextIngredient = ingredientIterator.next();
+					ps.setString(i, nextIngredient);
+					ps.setString(i + 1, nextIngredient);
+				}
+			}
+			// assert: last parameter index
+			int paramIdx = maxIngredientIdx;
+
+			// recipe name
+			if (searchParam.getRecipeName() != null) {
+				ps.setString(++paramIdx, searchParam.getRecipeName());
+				ps.setString(++paramIdx, searchParam.getRecipeName());
+			} else {
+				ps.setNull(++paramIdx, Types.VARCHAR);
+				ps.setNull(++paramIdx, Types.VARCHAR);
+			}
+
+			// tags
+			Iterator<RecipeTag> tagIterator = null;
+			if (searchParam.getTags() != null) {
+				tagIterator = searchParam.getTags().iterator();
+			}
+			for (int i = 0; i < 3; i++) {
+				if (tagIterator != null && tagIterator.hasNext() == true) {
+					final RecipeTag nextTag = tagIterator.next();
+					ps.setString(++paramIdx, nextTag.toString());
+					ps.setString(++paramIdx, nextTag.toString());
+				} else {
+					ps.setNull(++paramIdx, Types.VARCHAR);
+					ps.setNull(++paramIdx, Types.VARCHAR);
+				}
+			}
+			
+			
+			// duration
+			if (searchParam.getLowerDurationInkl() != null) {
+				ps.setDouble(++paramIdx, searchParam.getLowerDurationInkl());
+				ps.setDouble(++paramIdx, searchParam.getLowerDurationInkl());
+			} else {
+				ps.setNull(++paramIdx, Types.DOUBLE);
+				ps.setNull(++paramIdx, Types.DOUBLE);
+			}
+			if (searchParam.getUpperDurationInkl() != null) {
+				ps.setDouble(++paramIdx, searchParam.getUpperDurationInkl());
+				ps.setDouble(++paramIdx, searchParam.getUpperDurationInkl());
+			} else {
+				ps.setNull(++paramIdx, Types.DOUBLE);
+				ps.setNull(++paramIdx, Types.DOUBLE);
+			}
+
+			rs = ps.executeQuery();
+
+			List<Recipe> recipes = new ArrayList<>();
+			while (rs.next()) {
+				Recipe r = new Recipe(rs.getInt("ID"), rs.getString("NAME"), rs.getDouble("DURATION"),
+						rs.getString("DESCRIPTION"), rs.getString("TAGS"), rs.getBoolean("DELETED"));
+				r.setRecipeIngredients(getIngredients(r.getId()));
+				r.setRecipeImages(getImages(r.getId()));
+				recipes.add(r);
+			}
+
+			return recipes;
+		} catch (SQLException e) {
+			throw new PersistenceException(e.getMessage(), e);
+		} finally {
+			CloseUtil.closeStatement(ps);
+			CloseUtil.closeResultSet(rs);
 		}
 	}
 }

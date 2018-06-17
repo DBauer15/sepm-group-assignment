@@ -4,7 +4,7 @@ import java.lang.invoke.MethodHandles;
 import java.util.List;
 
 import at.ac.tuwien.sepm.assignment.groupphase.application.persistence.NoEntryFoundException;
-import at.ac.tuwien.sepm.assignment.groupphase.application.util.implementation.DietPlanValidator;
+import at.ac.tuwien.sepm.assignment.groupphase.application.util.Validator;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.stereotype.Service;
@@ -20,15 +20,15 @@ import at.ac.tuwien.sepm.assignment.groupphase.application.service.ServiceInvoka
 public class SimpleDietPlanService implements DietPlanService {
 	private static final Logger LOG = LoggerFactory.getLogger(MethodHandles.lookup().lookupClass());
 	private DietPlanPersistence dietPlanRepository;
-	private DietPlanValidator dietPlanValidator;
+	private Validator<DietPlan> dietPlanValidator;
 
 	/**
 	 * Constructor
 	 * @param dietPlanRepository implementation of {@link DietPlanPersistence}
 	 */
-	public SimpleDietPlanService(DietPlanPersistence dietPlanRepository) {
+	public SimpleDietPlanService(DietPlanPersistence dietPlanRepository, Validator<DietPlan> dietPlanValidator) {
 		this.dietPlanRepository = dietPlanRepository;
-		this.dietPlanValidator = new DietPlanValidator();
+		this.dietPlanValidator = dietPlanValidator;
 	}
 
 	@Override
@@ -42,7 +42,7 @@ public class SimpleDietPlanService implements DietPlanService {
 		try {
 			dietPlanRepository.create(dietPlan);
 		} catch (PersistenceException e) {
-			throw new ServiceInvokationException(e.getMessage());
+			throw new ServiceInvokationException(e.getMessage(), e);
 		}
 	}
 
@@ -58,7 +58,7 @@ public class SimpleDietPlanService implements DietPlanService {
             }
             return dietPlans;
         } catch (PersistenceException e) {
-            throw new ServiceInvokationException(e.getMessage());
+            throw new ServiceInvokationException(e.getMessage(), e);
         }
     }
 
@@ -72,7 +72,7 @@ public class SimpleDietPlanService implements DietPlanService {
             }
             return dietPlan;
         } catch (PersistenceException e) {
-            throw new ServiceInvokationException(e.getMessage());
+            throw new ServiceInvokationException(e.getMessage(), e);
         }
     }
 
@@ -87,18 +87,18 @@ public class SimpleDietPlanService implements DietPlanService {
         try {
             dietPlanRepository.switchTo(dietPlan);
         } catch (PersistenceException e) {
-            throw new ServiceInvokationException(e.getMessage());
+            throw new ServiceInvokationException(e.getMessage(), e);
         }
     }
 
 	@Override
 	public void update(DietPlan dietPlan) throws ServiceInvokationException {
         ServiceInvokationContext context = new ServiceInvokationContext();
-        
+
         if (!dietPlanValidator.validateForUpdate(dietPlan, context)) {
             throw new ServiceInvokationException(context);
         }
-        
+
         try {
         	dietPlanRepository.update(dietPlan);
         } catch (PersistenceException e) {

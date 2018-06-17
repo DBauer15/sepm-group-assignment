@@ -5,6 +5,7 @@ import java.util.Arrays;
 import java.util.List;
 
 import at.ac.tuwien.sepm.assignment.groupphase.application.persistence.NoEntryFoundException;
+import at.ac.tuwien.sepm.assignment.groupphase.application.util.implementation.DietPlanValidator;
 import org.junit.Assert;
 import org.junit.Test;
 
@@ -47,7 +48,7 @@ public class SimpleDietPlanServiceTest extends BaseTest {
 	public void testCreate_validData_callsPersistenceCreateOnce()
 			throws PersistenceException, ServiceInvokationException {
 		// invokation
-		DietPlanService dietPlanService = new SimpleDietPlanService(mockedDietPlanRepo);
+		DietPlanService dietPlanService = new SimpleDietPlanService(mockedDietPlanRepo, new DietPlanValidator());
 		dietPlanService.create(dietPlanValid);
 
 		// verification after invokation
@@ -58,7 +59,7 @@ public class SimpleDietPlanServiceTest extends BaseTest {
 	public void testCreate_invalidDataExceedsUpperLimits_notCallsPersistenceCreateAndValidations()
 			throws PersistenceException {
 		// invokation
-		DietPlanService dietPlanService = new SimpleDietPlanService(mockedDietPlanRepo);
+		DietPlanService dietPlanService = new SimpleDietPlanService(mockedDietPlanRepo, new DietPlanValidator());
 		try {
 			dietPlanService.create(dietPlanInvalid1);
 		} catch (ServiceInvokationException e) {
@@ -84,7 +85,7 @@ public class SimpleDietPlanServiceTest extends BaseTest {
 	public void testCreate_invalidDataFallsBelowLimit_notCallsPersistenceCreateAndValidations()
 			throws PersistenceException {
 		// invokation
-		DietPlanService dietPlanService = new SimpleDietPlanService(mockedDietPlanRepo);
+		DietPlanService dietPlanService = new SimpleDietPlanService(mockedDietPlanRepo, new DietPlanValidator());
 		try {
 			dietPlanService.create(dietPlanInvalid2);
 		} catch (ServiceInvokationException e) {
@@ -106,7 +107,7 @@ public class SimpleDietPlanServiceTest extends BaseTest {
 	@Test
     public void testReadAll_none_callsPersistenceReadAllOnce() throws ServiceInvokationException, PersistenceException {
         // invocation
-        DietPlanService dietPlanService = new SimpleDietPlanService(mockedDietPlanRepo);
+        DietPlanService dietPlanService = new SimpleDietPlanService(mockedDietPlanRepo, new DietPlanValidator());
         dietPlanService.readAll();
 
         // verification after invocation
@@ -116,7 +117,7 @@ public class SimpleDietPlanServiceTest extends BaseTest {
     @Test
     public void testReadAll_none_throwsServiceInvocationException() throws PersistenceException, NoEntryFoundException {
         when(mockedDietPlanRepo.readAll()).thenReturn(new ArrayList<DietPlan>(Arrays.asList(dietPlanInvalid1)));
-        DietPlanService dietPlanService = new SimpleDietPlanService(mockedDietPlanRepo);
+        DietPlanService dietPlanService = new SimpleDietPlanService(mockedDietPlanRepo, new DietPlanValidator());
 
         try {
             dietPlanService.readAll();
@@ -135,7 +136,7 @@ public class SimpleDietPlanServiceTest extends BaseTest {
             Assert.assertEquals("Enter a value that is smaller than or equal to 100.0 in the field 'Proteins'", errors.get(4));
             Assert.assertEquals("Enter a value that is smaller than or equal to 100.0 in the field 'Carbohydrates'", errors.get(5));
             Assert.assertEquals("The sum of 'Carbohydrates', 'Proteins' and 'Fats' has to be equal to 100%", errors.get(6));
-            
+
             return;
         }
         Assert.fail("Should throw NoEntryFoundException!");
@@ -145,7 +146,7 @@ public class SimpleDietPlanServiceTest extends BaseTest {
     public void testReadActive_withActiveDietPlan_callsPersistenceReadActiveOnce() throws NoEntryFoundException, PersistenceException, ServiceInvokationException {
         // invocation
         when(mockedDietPlanRepo.readActive()).thenReturn(dietPlanValidWithId);
-        DietPlanService dietPlanService = new SimpleDietPlanService(mockedDietPlanRepo);
+        DietPlanService dietPlanService = new SimpleDietPlanService(mockedDietPlanRepo, new DietPlanValidator());
         dietPlanService.readActive();
 
         // verification after invocation
@@ -155,7 +156,7 @@ public class SimpleDietPlanServiceTest extends BaseTest {
     @Test
     public void testReadActive_withoutActiveDietPlan_throwsNoEntryException() throws PersistenceException, ServiceInvokationException, NoEntryFoundException {
 	    when(mockedDietPlanRepo.readActive()).thenThrow(NoEntryFoundException.class);
-        DietPlanService dietPlanService = new SimpleDietPlanService(mockedDietPlanRepo);
+        DietPlanService dietPlanService = new SimpleDietPlanService(mockedDietPlanRepo, new DietPlanValidator());
 
         try {
             dietPlanService.readActive();
@@ -170,7 +171,7 @@ public class SimpleDietPlanServiceTest extends BaseTest {
     @Test
     public void testReadActive_withInvalidActiveDietPlan_throwsServiceInvocationException() throws PersistenceException, ServiceInvokationException, NoEntryFoundException {
         when(mockedDietPlanRepo.readActive()).thenReturn(dietPlanInvalid1);
-        DietPlanService dietPlanService = new SimpleDietPlanService(mockedDietPlanRepo);
+        DietPlanService dietPlanService = new SimpleDietPlanService(mockedDietPlanRepo, new DietPlanValidator());
 
         try {
             dietPlanService.readActive();
@@ -198,7 +199,7 @@ public class SimpleDietPlanServiceTest extends BaseTest {
 	@Test
     public void testSwitchTo_validData_callsPersistenceSwitchToOnce() throws ServiceInvokationException, PersistenceException {
         // invocation
-        DietPlanService dietPlanService = new SimpleDietPlanService(mockedDietPlanRepo);
+        DietPlanService dietPlanService = new SimpleDietPlanService(mockedDietPlanRepo, new DietPlanValidator());
         dietPlanService.switchTo(dietPlanValidWithId);
 
         // verification after invokation
@@ -208,7 +209,7 @@ public class SimpleDietPlanServiceTest extends BaseTest {
     @Test
     public void testSwitchTo_invalidDataHasNoId_notCallsPersistenceSwitchToAndValidation() {
         // invocation
-        DietPlanService dietPlanService = new SimpleDietPlanService(mockedDietPlanRepo);
+        DietPlanService dietPlanService = new SimpleDietPlanService(mockedDietPlanRepo, new DietPlanValidator());
         try {
             dietPlanService.switchTo(dietPlanValidWithoutId);
         } catch (ServiceInvokationException e) {
@@ -224,19 +225,19 @@ public class SimpleDietPlanServiceTest extends BaseTest {
         }
         Assert.fail("Should throw ServiceInvokationException!");
     }
-    
+
 
     @Test
     public void testUpdate_dietPlanIsValid_callsPersistenceUpdateOnce() throws ServiceInvokationException, PersistenceException {
-        DietPlanService dietPlanService = new SimpleDietPlanService(mockedDietPlanRepo);
+        DietPlanService dietPlanService = new SimpleDietPlanService(mockedDietPlanRepo, new DietPlanValidator());
         dietPlanService.update(dietPlanForUpdate);
-        
+
         verify(mockedDietPlanRepo, times(1)).update(dietPlanForUpdate);
     }
 
     @Test
     public void testUpdate_dietPlanHasNoId_throwsValidationError() {
-    	DietPlanService dietPlanService = new SimpleDietPlanService(mockedDietPlanRepo);
+    	DietPlanService dietPlanService = new SimpleDietPlanService(mockedDietPlanRepo, new DietPlanValidator());
         DietPlan dietPlanNotValidForUpdate = dietPlanValidWithoutId;
 
         try {
@@ -249,13 +250,13 @@ public class SimpleDietPlanServiceTest extends BaseTest {
             Assert.assertEquals("ID needs to be set", errors.get(0));
             return;
         }
-        
+
         Assert.fail("Should throw ServiceInvokationException!");
     }
 
     @Test
     public void testUpdate_dietPlanIsInvalid_throwsValidationError() {
-    	DietPlanService dietPlanService = new SimpleDietPlanService(mockedDietPlanRepo);
+    	DietPlanService dietPlanService = new SimpleDietPlanService(mockedDietPlanRepo, new DietPlanValidator());
         DietPlan recipeNotValidForUpdate = dietPlanInvalid3;
 
         try {
@@ -271,7 +272,7 @@ public class SimpleDietPlanServiceTest extends BaseTest {
             Assert.assertEquals("The sum of 'Carbohydrates', 'Proteins' and 'Fats' has to be equal to 100%", errors.get(3));
             return;
         }
-        
+
         Assert.fail("Should throw ServiceInvokationException!");
     }
 }

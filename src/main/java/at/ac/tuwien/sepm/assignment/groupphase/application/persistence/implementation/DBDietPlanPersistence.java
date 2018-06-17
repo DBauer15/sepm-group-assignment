@@ -27,7 +27,7 @@ public class DBDietPlanPersistence implements DietPlanPersistence {
 	private static final String SQL_DEACTIVATE_DIET_PLAN = "UPDATE diet_plan SET to_dt=NOW() WHERE from_dt=(SELECT max(from_dt) FROM diet_plan WHERE from_dt IS NOT NULL);";
 	private static final String SQL_ACTIVATE_DIET_PLAN = "UPDATE diet_plan SET from_dt=NOW(), to_dt=NULL WHERE id=?;";
 	private static final String SQL_UPDATE_CUSTOM_DIET_PLAN = "UPDATE diet_plan SET name = ?, energ_kcal = ?, lipid = ?, protein = ?, carbohydrt = ? WHERE id = ? AND id > 3;";
-	
+
 	@Override
 	public void create(DietPlan dietPlan) throws PersistenceException {
 
@@ -49,9 +49,9 @@ public class DBDietPlanPersistence implements DietPlanPersistence {
 
 		} catch (SQLException e) {
 			throw new PersistenceException(
-					"There was an error while creating the diet plan in the database. " + e.getMessage());
+					"There was an error while creating the diet plan in the database. " + e.getMessage(), e);
 		} finally {
-			closePreparedStmnt(createDietPlanStmnt);
+			CloseUtil.closeStatement(createDietPlanStmnt);
 		}
 	}
 
@@ -60,10 +60,11 @@ public class DBDietPlanPersistence implements DietPlanPersistence {
         LOG.debug("Reading all diet plans.");
 
         PreparedStatement readAllDietPlans = null;
+        ResultSet resultSet = null;
 
         try {
             readAllDietPlans = JDBCConnectionManager.getConnection().prepareStatement(SQL_READ_ALL);
-            ResultSet resultSet = readAllDietPlans.executeQuery();
+            resultSet = readAllDietPlans.executeQuery();
 
             List<DietPlan> dietPlans = new ArrayList<>();
 
@@ -75,9 +76,10 @@ public class DBDietPlanPersistence implements DietPlanPersistence {
             LOG.debug("Successfully read all diet plans.");
             return dietPlans;
         } catch (SQLException e) {
-            throw new PersistenceException("There was an error while reading all diet plans. " + e.getMessage());
+            throw new PersistenceException("There was an error while reading all diet plans. " + e.getMessage(), e);
         } finally {
-            closePreparedStmnt(readAllDietPlans);
+            CloseUtil.closeStatement(readAllDietPlans);
+            CloseUtil.closeResultSet(resultSet);
         }
     }
 
@@ -86,10 +88,11 @@ public class DBDietPlanPersistence implements DietPlanPersistence {
         LOG.debug("Reading active diet plan.");
 
         PreparedStatement readActiveDietPlan = null;
+        ResultSet resultSet = null;
 
         try {
             readActiveDietPlan = JDBCConnectionManager.getConnection().prepareStatement(SQL_READ_ACTIVE);
-            ResultSet resultSet = readActiveDietPlan.executeQuery();
+            resultSet = readActiveDietPlan.executeQuery();
 
             if (resultSet.next() == false) {
                 throw new NoEntryFoundException("No active diet plan set");
@@ -97,9 +100,10 @@ public class DBDietPlanPersistence implements DietPlanPersistence {
             return readOneFrom(resultSet);
 
         } catch (SQLException e) {
-            throw new PersistenceException("There was an error while reading the current diet plan. " + e.getMessage());
+            throw new PersistenceException("There was an error while reading the current diet plan. " + e.getMessage(), e);
         } finally {
-            closePreparedStmnt(readActiveDietPlan);
+            CloseUtil.closeStatement(readActiveDietPlan);
+            CloseUtil.closeResultSet(resultSet);
         }
     }
 
@@ -124,11 +128,11 @@ public class DBDietPlanPersistence implements DietPlanPersistence {
 	        LOG.debug("Successfully switched to new diet plan. {}", dietPlan);
         } catch (SQLException e) {
 	        JDBCConnectionManager.rollbackTransaction();
-            throw new PersistenceException("There was an error while switching the current diet plan. " + e.getMessage());
+            throw new PersistenceException("There was an error while switching the current diet plan. " + e.getMessage(), e);
         } finally {
 	        JDBCConnectionManager.finalizeTransaction();
-            closePreparedStmnt(deactivateDietPlan);
-            closePreparedStmnt(activateDietPlan);
+	        CloseUtil.closeStatement(deactivateDietPlan);
+            CloseUtil.closeStatement(activateDietPlan);
         }
     }
 
@@ -147,21 +151,11 @@ public class DBDietPlanPersistence implements DietPlanPersistence {
         return new DietPlan(id, name, energKcal, lipid, protein, carbohydrt, fromDt, toDt);
 	}
 
-	private void closePreparedStmnt(PreparedStatement stmnt) {
-		try {
-			if (stmnt != null && stmnt.isClosed() == false) {
-				stmnt.close();
-			}
-		} catch (SQLException e) {
-			LOG.error("Closing used Prepared Statement instance failed. {}", e);
-		}
-	}
-
 	@Override
 	public void update(DietPlan dietPlan) throws PersistenceException {
 		JDBCConnectionManager.startTransaction();
 		PreparedStatement ps = null;
-		
+
 		try {
 			ps = JDBCConnectionManager.getConnection().prepareStatement(SQL_UPDATE_CUSTOM_DIET_PLAN);
 
@@ -171,15 +165,15 @@ public class DBDietPlanPersistence implements DietPlanPersistence {
 			ps.setDouble(4, dietPlan.getProtein());
 			ps.setDouble(5, dietPlan.getCarbohydrate());
 			ps.setInt(6, dietPlan.getId());
-			
+
 			if (ps.executeUpdate() == 0) {
-				throw new PersistenceException("No diet plan found");			
+				throw new PersistenceException("No diet plan found");
 			}
 
 			JDBCConnectionManager.commitTransaction();
 		} catch (SQLException e) {
 			JDBCConnectionManager.rollbackTransaction();
-			throw new PersistenceException(e);
+			throw new PersistenceException(e.getMessage(), e);
 		} finally {
 			JDBCConnectionManager.finalizeTransaction();
 			CloseUtil.closeStatement(ps);
