@@ -49,7 +49,7 @@ public class DBDietPlanPersistence implements DietPlanPersistence {
 
 		} catch (SQLException e) {
 			throw new PersistenceException(
-					"There was an error while creating the diet plan in the database. " + e.getMessage());
+					"There was an error while creating the diet plan in the database. " + e.getMessage(), e);
 		} finally {
 			CloseUtil.closeStatement(createDietPlanStmnt);
 		}
@@ -76,7 +76,7 @@ public class DBDietPlanPersistence implements DietPlanPersistence {
             LOG.debug("Successfully read all diet plans.");
             return dietPlans;
         } catch (SQLException e) {
-            throw new PersistenceException("There was an error while reading all diet plans. " + e.getMessage());
+            throw new PersistenceException("There was an error while reading all diet plans. " + e.getMessage(), e);
         } finally {
             CloseUtil.closeStatement(readAllDietPlans);
             CloseUtil.closeResultSet(resultSet);
@@ -100,7 +100,7 @@ public class DBDietPlanPersistence implements DietPlanPersistence {
             return readOneFrom(resultSet);
 
         } catch (SQLException e) {
-            throw new PersistenceException("There was an error while reading the current diet plan. " + e.getMessage());
+            throw new PersistenceException("There was an error while reading the current diet plan. " + e.getMessage(), e);
         } finally {
             CloseUtil.closeStatement(readActiveDietPlan);
             CloseUtil.closeResultSet(resultSet);
@@ -128,7 +128,7 @@ public class DBDietPlanPersistence implements DietPlanPersistence {
 	        LOG.debug("Successfully switched to new diet plan. {}", dietPlan);
         } catch (SQLException e) {
 	        JDBCConnectionManager.rollbackTransaction();
-            throw new PersistenceException("There was an error while switching the current diet plan. " + e.getMessage());
+            throw new PersistenceException("There was an error while switching the current diet plan. " + e.getMessage(), e);
         } finally {
 	        JDBCConnectionManager.finalizeTransaction();
 	        CloseUtil.closeStatement(deactivateDietPlan);
@@ -173,7 +173,7 @@ public class DBDietPlanPersistence implements DietPlanPersistence {
 			JDBCConnectionManager.commitTransaction();
 		} catch (SQLException e) {
 			JDBCConnectionManager.rollbackTransaction();
-			throw new PersistenceException(e);
+			throw new PersistenceException(e.getMessage(), e);
 		} finally {
 			JDBCConnectionManager.finalizeTransaction();
 			CloseUtil.closeStatement(ps);

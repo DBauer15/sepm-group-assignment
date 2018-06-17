@@ -49,7 +49,7 @@ public class DBMealRecommendationsPersistence implements MealRecommendationsPers
 
             LOG.debug("Successfully created diet plan suggestion");
         } catch (SQLException e) {
-            throw new PersistenceException("There was an error while creating a diet plan suggestion in the database. " + e.getMessage());
+            throw new PersistenceException("There was an error while creating a diet plan suggestion in the database. " + e.getMessage(), e);
         } finally {
             CloseUtil.closeStatement(createRecommendationStmt);
         }
@@ -84,7 +84,7 @@ public class DBMealRecommendationsPersistence implements MealRecommendationsPers
             throw new NoEntryFoundException("No recipe found for given diet plan and tag");
 
         } catch (SQLException e) {
-            throw new PersistenceException("There was an error while reading a diet plan suggestion from the database. " + e.getMessage());
+            throw new PersistenceException("There was an error while reading a diet plan suggestion from the database. " + e.getMessage(), e);
         } finally {
             CloseUtil.closeStatement(readRecommendationStmt);
             CloseUtil.closeResultSet(readResult);

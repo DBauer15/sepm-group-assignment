@@ -6,7 +6,6 @@ package at.ac.tuwien.sepm.assignment.groupphase.application.service;
  *
  */
 public class ServiceInvokationException extends Exception {
-
 	private static final long serialVersionUID = -983319879804160537L;
 	private ServiceInvokationContext context;
 
@@ -22,13 +21,15 @@ public class ServiceInvokationException extends Exception {
 	 * Constructor
 	 * @param errorMessage {@link String}
 	 */
-	public ServiceInvokationException(String errorMessage) {
+	public ServiceInvokationException(String errorMessage, Throwable cause) {
+		super(errorMessage, cause);
+		
 		context = new ServiceInvokationContext();
 		context.addError(errorMessage);
 	}
 
     public ServiceInvokationException(Throwable cause) {
-        this(cause.getMessage());
+        this(cause.getMessage(), cause);
     }
 
 	/**

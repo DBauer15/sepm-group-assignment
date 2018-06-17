@@ -92,7 +92,7 @@ public class MainController {
             loadExternalController();
             initializeView();
         } catch (ServiceInvokationException e) {
-            UserInterfaceUtility.handleFaults(e.getContext());
+            UserInterfaceUtility.handleFaults(e);
         }
     }
 

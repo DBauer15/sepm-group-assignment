@@ -61,7 +61,7 @@ public class ChoosePlanController {
             dietPlanService.readActive();
             exitLabel.setManaged(true);
         } catch (ServiceInvokationException e) {
-            UserInterfaceUtility.handleFaults(e.getContext());
+            UserInterfaceUtility.handleFaults(e);
         } catch (NoEntryFoundException e) {
             exitLabel.setManaged(false);
         }
@@ -91,7 +91,7 @@ public class ChoosePlanController {
                 ((Label) ap.getChildren().get(5)).setText(nf.format(dp.getEnergy_kcal()) + " kcal");
             }
         } catch (ServiceInvokationException e) {
-            UserInterfaceUtility.handleFaults(e.getContext());
+            UserInterfaceUtility.handleFaults(e);
         } catch (Exception e) {
             UserInterfaceUtility.handleFault(e);
         }
@@ -123,7 +123,7 @@ public class ChoosePlanController {
             notificationService.notify(ChoosePlanController.class);
             ((Stage) dietPlanPane1.getScene().getWindow()).close();
         } catch (ServiceInvokationException e) {
-            UserInterfaceUtility.handleFaults(e.getContext());
+            UserInterfaceUtility.handleFaults(e);
         } catch (Exception e) {
             UserInterfaceUtility.handleFault(e);
         }

@@ -124,7 +124,7 @@ public class DietPlanController implements ExternalController<DietPlan> {
 
 			this.onExitClicked();
 		} catch (ServiceInvokationException e) {
-			UserInterfaceUtility.handleFaults(e.getContext());
+			UserInterfaceUtility.handleFaults(e);
 		} catch (Exception e) {
 			UserInterfaceUtility.handleFault(e);
 		}
