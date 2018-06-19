@@ -160,7 +160,7 @@ public class TabPlansController implements Notifiable {
 		carbohydrates.setText((int) Math.ceil(recipe.getCarbohydrates()) + "g Carbohydrates");
 		proteins.setText((int) Math.ceil(recipe.getProteins()) + "g Proteins");
 		fats.setText((int) Math.ceil(recipe.getFats()) + "g Fats");
-		
+
 		if (recipe.getRecipeImages().size() > 0) {
 			Image image = SwingFXUtils.toFXImage(recipe.getRecipeImages().get(0).getImage(), null);
 			imageView.setImage(image);

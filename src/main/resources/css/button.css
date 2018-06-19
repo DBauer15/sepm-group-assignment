@@ -50,7 +50,6 @@
 
 .toggle-container{
     -fx-background-radius: 15 0 0 15;
-    -fx-background-radius: 15 0 0 15;
 }
 
 .toggle-button-left{
@@ -59,7 +58,8 @@
 }
 
 .toggle-button:hover{
-    -fx-background-color: 787878;
+    -fx-background-color: #037F97;
+    -fx-text-fill: white;
 }
 
 .toggle-button-middle{

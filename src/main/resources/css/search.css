@@ -1,0 +1,9 @@
+.text-field{
+    -fx-border-radius: 10 10 10 10;
+    -fx-background-radius: 10 10 10 10;
+}
+
+.toggle-button:selected {
+    -fx-background-color: #037F97;
+    -fx-text-fill:white;
+}

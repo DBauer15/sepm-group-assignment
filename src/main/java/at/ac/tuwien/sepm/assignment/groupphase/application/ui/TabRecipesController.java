@@ -8,6 +8,7 @@ import java.util.List;
 import java.util.Optional;
 import java.util.Set;
 
+import javafx.beans.value.ObservableValue;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -50,19 +51,21 @@ import javafx.scene.input.KeyEvent;
 import javafx.scene.layout.AnchorPane;
 import javafx.scene.layout.Pane;
 
+import javax.swing.event.ChangeListener;
+
 @Controller
 public class TabRecipesController implements Notifiable {
 	private static final Logger LOG = LoggerFactory.getLogger(MethodHandles.lookup().lookupClass());
 
 	private RecipeService recipeService;
 	private NotificationService notificationService;
-	
+
     @Autowired
 	private SpringFXMLLoader fxmlLoader;
 
 	@FXML
 	Button addRecipeButton;
-	
+
 	@FXML
 	Button searchRecipesButton;
 
@@ -86,34 +89,34 @@ public class TabRecipesController implements Notifiable {
 
 	@FXML
 	TableColumn<Recipe, Integer> preparationTimeTableColumn;
-	
+
 	@FXML
 	Slider lowerLimit;
-	
+
 	@FXML
 	Slider upperLimit;
-	
+
 	@FXML
 	Label lowerLimitLabel;
-	
+
 	@FXML
 	Label upperLimitLabel;
-	
+
 	@FXML
 	TextField recipeTitle;
-	
+
 	@FXML
 	TextField addIngredient;
-	
-	@FXML 
+
+	@FXML
 	ToggleButton tag_b;
-	
-	@FXML 
+
+	@FXML
 	ToggleButton tag_d;
-	
-	@FXML 
+
+	@FXML
 	ToggleButton tag_l;
-	
+
 	@FXML
 	TableView<IngredientSearchWord> ingredientWordsView;
 
@@ -122,12 +125,12 @@ public class TabRecipesController implements Notifiable {
 
 	@FXML
 	TableColumn<IngredientSearchWord, Object> ingredientTagRemove;
-	
+
 	private Set<String> ingredientTagSet = new HashSet<>();
-	
+
 	@FXML
 	Pane paneSearch;
-	
+
 	@FXML
 	AnchorPane anchorPane;
 
@@ -183,16 +186,16 @@ public class TabRecipesController implements Notifiable {
         notificationService.subscribeTo(RecipeController.class, this);
 
 		updateRecipeTableView();
-		
-		
-		
-		// ingredient search words 
+
+
+
+		// ingredient search words
 		ingredientWordsView.getSelectionModel().setSelectionMode(SelectionMode.SINGLE);
 
 		ingredientTag.setCellValueFactory(new PropertyValueFactory<>("ingredientTag"));
 		ingredientTagRemove.setCellFactory(param -> new TableCell<>() {
             Button removeButton = new Button("X");
-			
+
 
             {
                 removeButton.setOnAction(x -> {
@@ -213,28 +216,28 @@ public class TabRecipesController implements Notifiable {
 		        ingredientWordsView.getItems().remove(word);
 			}
         });
-		
+
 		lowerLimit.valueProperty()
 				.addListener((ChangeListener) -> lowerLimitLabel.textProperty()
 						.setValue(Math.floor(lowerLimit.getValue()) < 120
 								? String.valueOf((int) Math.floor(lowerLimit.getValue())) + " minutes"
 								: String.valueOf((int) Math.floor((lowerLimit.getValue() - 118))) + " hours"));
-		
+
 		upperLimit.valueProperty()
 		.addListener((ChangeListener) -> upperLimitLabel.textProperty()
 				.setValue(Math.floor(upperLimit.getValue()) < 120
 						? String.valueOf((int) Math.floor(upperLimit.getValue())) + " minutes"
 						: String.valueOf((int) Math.floor((upperLimit.getValue() - 118))) + " hours"));
-		
+
 		upperLimit.setValue(142.0);
 		upperLimitLabel.setText("24 hours");
-		
+
 		this.paneSearch.setVisible(false);
 		recipeTableView.setPlaceholder(new Label("No recipes were found matching your search criteria."));
-		ingredientWordsView.setPlaceholder(new Label("No ingredient search words added yet."));
-		
+		ingredientWordsView.setPlaceholder(new Label(""));
 
-		
+
+
 	}
 
 	private void onDeleteRecipeClicked(Recipe recipe) {
@@ -277,20 +280,19 @@ public class TabRecipesController implements Notifiable {
 		UserInterfaceUtility.loadExternalController("/fxml/RecipeDetails.fxml", "Add Recipe", null, addRecipeButton.getScene().getWindow(), RecipeController.class, fxmlLoader);
 		updateRecipeTableView();
 	}
-	
+
 	@FXML
 	public void onSearchRecipeButtonClicked(ActionEvent actionEvent) {
 		LOG.info("On Search Recipe button clicked");
-		
+
 		// make search visible, but do not trigger search
-		if (this.paneSearch.isVisible() == false) {
+		if (!this.paneSearch.isVisible()) {
 			togglePaneSearch();
 			return;
-		}
-		
-		//UserInterfaceUtility.loadExternalController("/fxml/RecipeDetails.fxml", "Add Recipe", null, addRecipeButton.getScene().getWindow(), RecipeController.class, fxmlLoader);
-		//updateRecipeTableView();
-		
+		}else{
+            togglePaneSearch();
+        }
+
 		param = new RecipeSearchParam();
 		param.setLowerDurationInkl(getSliderValue(lowerLimit));
 		param.setUpperDurationInkl(getSliderValue(upperLimit));
@@ -309,21 +311,21 @@ public class TabRecipesController implements Notifiable {
 		for (String ingredient : this.ingredientTagSet)
 			param.addIngredient(ingredient);
 		LOG.info("Prepared new search param:\r\n{}", param.toString());
-		
+
 		updateRecipeTableView();
-		
-		togglePaneSearch();
+
+
 	}
-	
+
 	private void togglePaneSearch() {
 		if (this.paneSearch.isVisible()) {
 			AnchorPane.setBottomAnchor(recipeTableView, 0d);
 		} else {
-			AnchorPane.setBottomAnchor(recipeTableView, 270d);
+			AnchorPane.setBottomAnchor(recipeTableView, 185d);
 		}
 		this.paneSearch.setVisible(!this.paneSearch.isVisible());
 	}
-	
+
 	private double getSliderValue(Slider slider) {
 		return slider.getValue() < 120 ? (int) slider.getValue() : (Math.floor(slider.getValue()) - 118) * 60;
 	}
@@ -341,8 +343,8 @@ public class TabRecipesController implements Notifiable {
 		LOG.info("Found {} recipes matching the criteria", searchResult.size());
 		return searchResult;
 	}
-	
-	
+
+
 	public void onAddIngredient(KeyEvent e) {
 		if (e.getCode() == KeyCode.ENTER) {
 			String inputTag = addIngredient.getText().trim();
