@@ -4,7 +4,7 @@
 }
 
 .table-view:focused .table-row-cell:selected{
-    -fx-background-color: #039ab2;
+    -fx-background-color: #4DA4C1;
     -fx-table-cell-border-color: -fx-table-color;
     -fx-text-fill: WHITE;
 }

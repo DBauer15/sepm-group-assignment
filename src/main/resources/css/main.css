@@ -7,7 +7,7 @@
 }
 
 .background-blue {
-    -fx-background-color: #58C6DA;
+    -fx-background-color: #4DA4C1;
 }
 
 .background-white {
@@ -25,6 +25,12 @@
 .card-transparent {
     -fx-effect: dropshadow(gaussian, rgba(0,0,0,0.2), 10, 0.2, 0, 5);
     -fx-background-color: transparent;
+}
+
+.card-inactive {
+    -fx-effect: dropshadow(gaussian, rgba(0,0,0,0.2), 10, 0.2, 0, 5);
+    -fx-border-radius: 5;
+    -fx-background-radius: 5;
 }
 
 .card {
