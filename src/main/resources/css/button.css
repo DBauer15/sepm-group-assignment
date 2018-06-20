@@ -1,5 +1,5 @@
 .button {
-  -fx-background-color: #037F97;
+  -fx-background-color: #01608B;
   -fx-text-fill: #FFFFFF;
   -fx-font-size: 16;
   -fx-border: none;
@@ -14,7 +14,7 @@
 
 .button:pressed {
 	-fx-effect: dropshadow(gaussian, rgba(0,0,0,0.4), 5, 0.05, 0, 3);
-	-fx-background-color: #196674;
+	-fx-background-color: #004D7B;
 }
 
 .button-rounded {
@@ -58,7 +58,7 @@
 }
 
 .toggle-button:hover{
-    -fx-background-color: #037F97;
+    -fx-background-color: #01608B;
     -fx-text-fill: white;
 }
 
@@ -73,7 +73,7 @@
 }
 
 .jfx-toggle-button:selected {
-    -fx-toggle-color: #009688;
+    -fx-toggle-color: #004D7B;
     -fx-untoggle-color: #FAFAFA;
     -fx-toggle-line-color: derive(-jfx-toggle-color, 65%);
     -fx-untoggle-line-color: #999999;

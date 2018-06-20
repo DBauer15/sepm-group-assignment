@@ -36,7 +36,7 @@
                <children>
                   <ImageView fx:id="firstPlanImageView" fitHeight="124.0" fitWidth="124.0" layoutX="-24.0" layoutY="4.0" pickOnBounds="true" preserveRatio="true" AnchorPane.bottomAnchor="20.0" AnchorPane.leftAnchor="20.0" AnchorPane.topAnchor="20.0">
                      <image>
-                        <Image url="@../img/planPlaceholder.png" />
+                        <Image url="@../img/planCustom.png" />
                      </image>
                   </ImageView>
                   <Label layoutX="166.0" layoutY="22.0" styleClass="text-medium" text="Placeholder Title" AnchorPane.leftAnchor="164.0" AnchorPane.rightAnchor="20.0" AnchorPane.topAnchor="20.0" />
@@ -54,7 +54,7 @@
                <children>
                   <ImageView fx:id="secondPlanImageView" fitHeight="124.0" fitWidth="124.0" layoutX="-24.0" layoutY="4.0" pickOnBounds="true" preserveRatio="true" AnchorPane.bottomAnchor="20.0" AnchorPane.leftAnchor="20.0" AnchorPane.topAnchor="20.0">
                      <image>
-                        <Image url="@../img/planPlaceholder.png" />
+                        <Image url="@../img/planCustom.png" />
                      </image>
                   </ImageView>
                   <Label layoutX="166.0" layoutY="22.0" styleClass="text-medium" text="Placeholder Title" AnchorPane.leftAnchor="164.0" AnchorPane.rightAnchor="20.0" AnchorPane.topAnchor="20.0" />
@@ -73,7 +73,7 @@
                <children>
                   <ImageView fx:id="thirdPlanImageView" fitHeight="124.0" fitWidth="124.0" layoutX="-24.0" layoutY="4.0" pickOnBounds="true" preserveRatio="true" AnchorPane.bottomAnchor="20.0" AnchorPane.leftAnchor="20.0" AnchorPane.topAnchor="20.0">
                      <image>
-                        <Image url="@../img/planPlaceholder.png" />
+                        <Image url="@../img/planCustom.png" />
                      </image>
                   </ImageView>
                   <Label layoutX="166.0" layoutY="22.0" styleClass="text-medium" text="Placeholder Title" AnchorPane.leftAnchor="164.0" AnchorPane.rightAnchor="20.0" AnchorPane.topAnchor="20.0" />

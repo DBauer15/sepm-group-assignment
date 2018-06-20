@@ -5,14 +5,14 @@
 }
 
 .tab {
-    -fx-background-color: #F38484;
+    -fx-background-color: #80BED3;
     -fx-background-insert: 0.0;
     -fx-background-radius: 0.0;
     -fx-padding: 10 8 10 8;
 }
 
 .tab:selected {
-	-fx-background-color: #EE6566;
+	-fx-background-color: #4DA4C1;
 	-fx-background-insert: 0.0;
 	-fx-background-radius: 0.0;
 }
@@ -22,7 +22,7 @@
 }
 
 .tab-pane *.tab-header-background {
-	-fx-background-color: #F38484;
+	-fx-background-color: #80BED3;
 }
 
 .tab-pane:top *.tab-header-area {

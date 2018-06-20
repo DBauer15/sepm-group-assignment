@@ -10,44 +10,8 @@
 <?import javafx.scene.layout.AnchorPane?>
 <?import javafx.scene.text.Font?>
 
-<AnchorPane fx:id="mainAnchorPane" maxHeight="-Infinity" maxWidth="1068.0" minHeight="-Infinity" minWidth="1068.0" prefHeight="884.0" prefWidth="1068.0" xmlns="http://javafx.com/javafx/9.0.1" xmlns:fx="http://javafx.com/fxml/1" fx:controller="at.ac.tuwien.sepm.assignment.groupphase.application.ui.MainController">
+<AnchorPane fx:id="mainAnchorPane" maxHeight="-Infinity" maxWidth="1068.0" minHeight="-Infinity" minWidth="1068.0" prefHeight="884.0" prefWidth="1068.0" xmlns="http://javafx.com/javafx/9.0.4" xmlns:fx="http://javafx.com/fxml/1" fx:controller="at.ac.tuwien.sepm.assignment.groupphase.application.ui.MainController">
    <children>
-      <AnchorPane layoutX="-79.0" layoutY="-15.0" maxHeight="190.0" maxWidth="1084.0" minHeight="190.0" minWidth="1084.0" prefHeight="190.0" prefWidth="1086.0" style="-fx-background-color: #ED3A40#ED3A40;" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0">
-         <children>
-            <ImageView fx:id="dietPlanImageView" fitHeight="124.0" fitWidth="124.0" layoutX="51.0" layoutY="39.0" pickOnBounds="true" preserveRatio="true" AnchorPane.bottomAnchor="30.0" AnchorPane.leftAnchor="30.0" AnchorPane.topAnchor="30.0">
-               <image>
-                  <Image url="@../img/planPlaceholder.png" />
-               </image>
-            </ImageView>
-
-            <Label fx:id="titleLabel" layoutX="181.0" layoutY="31.0" prefHeight="44.0" prefWidth="510.0" styleClass="text-heading" text="Placeholder Plantitle" textFill="WHITE" AnchorPane.bottomAnchor="116.0" AnchorPane.leftAnchor="184.0" AnchorPane.topAnchor="30.0">
-               <font>
-                  <Font size="36.0" />
-               </font>
-            </Label>
-            <Label fx:id="carbohydratesLabel" layoutX="184.0" layoutY="134.0" styleClass="text-medium" text="33 % Carbohydrates" textFill="#7d131a" AnchorPane.bottomAnchor="30.0" AnchorPane.leftAnchor="184.0">
-               <font>
-                  <Font size="20.0" />
-               </font>
-            </Label>
-            <Label fx:id="proteinsLabel" layoutX="413.0" layoutY="134.0" styleClass="text-medium" text="33 % Proteins" textFill="#7d131a" AnchorPane.bottomAnchor="30.0" AnchorPane.leftAnchor="413.0">
-               <font>
-                  <Font size="20.0" />
-               </font>
-            </Label>
-            <Label fx:id="lipidsLabel" layoutX="577.0" layoutY="134.0" styleClass="text-medium" text="33 % Lipids" textFill="#7d131a" AnchorPane.bottomAnchor="30.0" AnchorPane.leftAnchor="577.0">
-               <font>
-                  <Font size="20.0" />
-               </font>
-            </Label>
-            <Label fx:id="kcalLabel" layoutX="184.0" layoutY="85.0" styleClass="text-large" text="2000 kcal" textFill="#7d131a" AnchorPane.leftAnchor="184.0" AnchorPane.topAnchor="85.0">
-               <font>
-                  <Font name="Roboto Medium" size="36.0" />
-               </font>
-            </Label>
-            <Button fx:id="changePlanButton" layoutX="928.0" layoutY="82.0" mnemonicParsing="false" onAction="#onChangeDietPlanClicked" text="Change Plan" AnchorPane.rightAnchor="44.5" AnchorPane.topAnchor="82.0" />
-         </children>
-      </AnchorPane>
       <TabPane fx:id="mainTabPane" layoutX="38.0" layoutY="228.0" prefHeight="701.0" prefWidth="1000.0" styleClass="tab.css" tabClosingPolicy="UNAVAILABLE" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="190.0">
         <tabs>
           <Tab closable="false" text="My Diet Plan">
@@ -74,10 +38,47 @@
             </Tab>
         </tabs>
       </TabPane>
+      <AnchorPane layoutX="-79.0" layoutY="-15.0" maxHeight="190.0" maxWidth="1084.0" minHeight="190.0" minWidth="1084.0" prefHeight="190.0" prefWidth="1086.0" style="-fx-background-color: #2791B3#2791B3;" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0">
+         <children>
+            <ImageView fx:id="dietPlanImageView" fitHeight="124.0" fitWidth="124.0" layoutX="34.0" layoutY="30.0" pickOnBounds="true" preserveRatio="true" styleClass="card-pane" AnchorPane.bottomAnchor="36.0" AnchorPane.leftAnchor="34.0" AnchorPane.topAnchor="30.0">
+               <image>
+                  <Image url="@../img/planCustom.png" />
+               </image>
+            </ImageView>
+
+            <Label fx:id="titleLabel" contentDisplay="TOP" layoutX="188.0" layoutY="20.0" prefHeight="44.0" prefWidth="510.0" styleClass="text-heading" text="Placeholder Plantitle" textFill="WHITE" AnchorPane.bottomAnchor="111.0" AnchorPane.leftAnchor="188.0" AnchorPane.topAnchor="20.0">
+               <font>
+                  <Font size="36.0" />
+               </font>
+            </Label>
+            <Label fx:id="carbohydratesLabel" layoutX="188.0" layoutY="125.0" styleClass="text-medium" text="33 % Carbohydrates" textFill="#004d7b" AnchorPane.bottomAnchor="42.0" AnchorPane.leftAnchor="188.0">
+               <font>
+                  <Font size="20.0" />
+               </font>
+            </Label>
+            <Label fx:id="proteinsLabel" layoutX="397.0" layoutY="125.0" styleClass="text-medium" text="33 % Proteins" textFill="#004d7b" AnchorPane.bottomAnchor="42.0" AnchorPane.leftAnchor="397.0">
+               <font>
+                  <Font size="20.0" />
+               </font>
+            </Label>
+            <Label fx:id="lipidsLabel" layoutX="551.0" layoutY="125.0" styleClass="text-medium" text="33 % Lipids" textFill="#004d7b" AnchorPane.bottomAnchor="42.0" AnchorPane.leftAnchor="551.0">
+               <font>
+                  <Font size="20.0" />
+               </font>
+            </Label>
+            <Label fx:id="kcalLabel" layoutX="188.0" layoutY="71.0" prefHeight="50.0" prefWidth="182.0" styleClass="text-medium-large" text="2000 kcal" textFill="#004d7b" AnchorPane.leftAnchor="188.0" AnchorPane.topAnchor="71.0">
+               <font>
+                  <Font name="Roboto Medium" size="35.0" />
+               </font>
+            </Label>
+            <Button fx:id="changePlanButton" layoutX="928.0" layoutY="82.0" mnemonicParsing="false" onAction="#onChangeDietPlanClicked" text="Change Plan" AnchorPane.rightAnchor="44.5" AnchorPane.topAnchor="82.0" />
+         </children>
+      </AnchorPane>
    </children>
    <stylesheets>
      <URL value="@../css/tab.css" />
      <URL value="@../css/text.css" />
       <URL value="@../css/button.css" />
+      <URL value="@../css/main.css" />
    </stylesheets>
 </AnchorPane>

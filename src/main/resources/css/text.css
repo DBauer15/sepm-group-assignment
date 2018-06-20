@@ -18,6 +18,10 @@
 	-fx-font-size: 20px;
 }
 
+.text-medium-large {
+    -fx-font-size: 33px;
+}
+
 .text-recipe-name {
 	-fx-font-size: 22px;
 	-fx-font-weight: bold;

@@ -98,7 +98,7 @@ public class ChoosePlanController {
                 } else if (dp.getName().equals("Carefree")){
                     ((ImageView) ap.getChildren().get(0)).setImage(new Image("/img/planCarefree.png"));
                 } else {
-                    ((ImageView) ap.getChildren().get(0)).setImage(new Image("/img/planPlaceholder.png"));
+                    ((ImageView) ap.getChildren().get(0)).setImage(new Image("/img/planCustom.png"));
                 }
 
                 ((Label) ap.getChildren().get(1)).setText(dp.getName());

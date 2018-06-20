@@ -163,8 +163,8 @@ public class TabPlansController implements Notifiable {
 
 		if (recipe.getRecipeImages().size() > 0) {
 			Image image = SwingFXUtils.toFXImage(recipe.getRecipeImages().get(0).getImage(), null);
-			imageView.setImage(image);
-			//imageView.setFitHeight(200);
+            imageView.setPreserveRatio(true);
+            imageView.setImage(image);
 			imageView.setPreserveRatio(true);
 			imageView.setSmooth(true);
 			imageView.setCache(true);
