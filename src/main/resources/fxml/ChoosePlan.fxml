@@ -34,9 +34,9 @@
                   <String fx:value="card" />
                </styleClass>
                <children>
-                  <ImageView fitHeight="124.0" fitWidth="124.0" layoutX="-24.0" layoutY="4.0" pickOnBounds="true" preserveRatio="true" AnchorPane.bottomAnchor="20.0" AnchorPane.leftAnchor="20.0" AnchorPane.topAnchor="20.0">
+                  <ImageView fx:id="firstPlanImageView" fitHeight="124.0" fitWidth="124.0" layoutX="-24.0" layoutY="4.0" pickOnBounds="true" preserveRatio="true" AnchorPane.bottomAnchor="20.0" AnchorPane.leftAnchor="20.0" AnchorPane.topAnchor="20.0">
                      <image>
-                        <Image url="@../img/plan_placeholder.png" />
+                        <Image url="@../img/planPlaceholder.png" />
                      </image>
                   </ImageView>
                   <Label layoutX="166.0" layoutY="22.0" styleClass="text-medium" text="Placeholder Title" AnchorPane.leftAnchor="164.0" AnchorPane.rightAnchor="20.0" AnchorPane.topAnchor="20.0" />
@@ -52,9 +52,9 @@
                   <String fx:value="card" />
                </styleClass>
                <children>
-                  <ImageView fitHeight="124.0" fitWidth="124.0" layoutX="-24.0" layoutY="4.0" pickOnBounds="true" preserveRatio="true" AnchorPane.bottomAnchor="20.0" AnchorPane.leftAnchor="20.0" AnchorPane.topAnchor="20.0">
+                  <ImageView fx:id="secondPlanImageView" fitHeight="124.0" fitWidth="124.0" layoutX="-24.0" layoutY="4.0" pickOnBounds="true" preserveRatio="true" AnchorPane.bottomAnchor="20.0" AnchorPane.leftAnchor="20.0" AnchorPane.topAnchor="20.0">
                      <image>
-                        <Image url="@../img/plan_placeholder.png" />
+                        <Image url="@../img/planPlaceholder.png" />
                      </image>
                   </ImageView>
                   <Label layoutX="166.0" layoutY="22.0" styleClass="text-medium" text="Placeholder Title" AnchorPane.leftAnchor="164.0" AnchorPane.rightAnchor="20.0" AnchorPane.topAnchor="20.0" />
@@ -71,9 +71,9 @@
                   <String fx:value="card" />
                </styleClass>
                <children>
-                  <ImageView fitHeight="124.0" fitWidth="124.0" layoutX="-24.0" layoutY="4.0" pickOnBounds="true" preserveRatio="true" AnchorPane.bottomAnchor="20.0" AnchorPane.leftAnchor="20.0" AnchorPane.topAnchor="20.0">
+                  <ImageView fx:id="thirdPlanImageView" fitHeight="124.0" fitWidth="124.0" layoutX="-24.0" layoutY="4.0" pickOnBounds="true" preserveRatio="true" AnchorPane.bottomAnchor="20.0" AnchorPane.leftAnchor="20.0" AnchorPane.topAnchor="20.0">
                      <image>
-                        <Image url="@../img/plan_placeholder.png" />
+                        <Image url="@../img/planPlaceholder.png" />
                      </image>
                   </ImageView>
                   <Label layoutX="166.0" layoutY="22.0" styleClass="text-medium" text="Placeholder Title" AnchorPane.leftAnchor="164.0" AnchorPane.rightAnchor="20.0" AnchorPane.topAnchor="20.0" />

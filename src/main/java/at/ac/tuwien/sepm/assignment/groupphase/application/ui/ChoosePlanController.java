@@ -8,6 +8,8 @@ import java.util.Arrays;
 import java.util.List;
 import java.util.Locale;
 
+import javafx.scene.image.Image;
+import javafx.scene.image.ImageView;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -34,9 +36,15 @@ public class ChoosePlanController {
 
     @Autowired
 	private SpringFXMLLoader fxmlLoader;
-    
+
     @FXML
     public Label exitLabel;
+    @FXML
+    private ImageView firstPlanImageView;
+    @FXML
+    private ImageView secondPlanImageView;
+    @FXML
+    private ImageView thirdPlanImageView;
     @FXML
     private AnchorPane dietPlanPane1;
     @FXML
@@ -75,15 +83,24 @@ public class ChoosePlanController {
 
             for (int i = 0; i < dietPlans.size(); i++) {
                 DietPlan dp = dietPlans.get(i);
-                
+
                 if (dp.getId() > 3) {
                 	customDietPlan = dp;
                 	continue;
                 }
-                
+
                 AnchorPane ap = dietPlanPanes.get(i);
 
-                // ImageView image = ((ImageView) ap.getChildren().get(0));
+                if (dp.getName().equals("Build Muscle")){
+                    ((ImageView) ap.getChildren().get(0)).setImage(new Image("/img/planBuildMuscle.png"));
+                } else if (dp.getName().equals("Lose Weight")){
+                    ((ImageView) ap.getChildren().get(0)).setImage(new Image("/img/planLoseWeight.png"));
+                } else if (dp.getName().equals("Carefree")){
+                    ((ImageView) ap.getChildren().get(0)).setImage(new Image("/img/planCarefree.png"));
+                } else {
+                    ((ImageView) ap.getChildren().get(0)).setImage(new Image("/img/planPlaceholder.png"));
+                }
+
                 ((Label) ap.getChildren().get(1)).setText(dp.getName());
                 ((Label) ap.getChildren().get(2)).setText(nf.format(dp.getCarbohydrate()) + "% Carbohydrates");
                 ((Label) ap.getChildren().get(3)).setText(nf.format(dp.getProtein()) + "% Proteins");
@@ -139,7 +156,7 @@ public class ChoosePlanController {
             fxmlLoader.setLocation(getClass().getResource(path));
             Stage stage = (Stage) exitLabel.getScene().getWindow();
             stage.setTitle("Custom diet plan");
-            
+
 			var load = fxmlLoader.loadAndWrap(DietPlanController.class.getResourceAsStream(path), DietPlanController.class);
 			load.getController().initializeView(customDietPlan);
 			stage.setScene(new Scene((Parent) load.getLoadedObject()));

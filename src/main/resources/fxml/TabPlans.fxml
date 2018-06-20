@@ -19,7 +19,7 @@
          <children>
             <ImageView fx:id="breakfastImageView" fitHeight="164.0" fitWidth="292.0" layoutX="51.0" layoutY="39.0" pickOnBounds="true" preserveRatio="true" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0">
                <image>
-                  <Image url="@../img/recipe_placeholder.png" />
+                  <Image url="@../img/recipePlaceholder.png" />
                </image></ImageView>
             <Label fx:id="breakfastRecipeNameLabel" alignment="CENTER" layoutX="82.0" layoutY="203.0" maxHeight="73.0" prefHeight="60.0" styleClass="text-recipe-name" text="Name" textAlignment="CENTER" wrapText="true" AnchorPane.leftAnchor="30.0" AnchorPane.rightAnchor="30.0" AnchorPane.topAnchor="175.0" />
             <Label fx:id="breakfastCaloriesLabel" layoutX="30.0" layoutY="223.0" prefHeight="23.0" prefWidth="127.0" styleClass="text-medium" text="2000 kcal" AnchorPane.leftAnchor="30.0" AnchorPane.rightAnchor="135.0" AnchorPane.topAnchor="255.0" />
@@ -37,7 +37,7 @@
          <children>
             <ImageView fx:id="lunchImageView" fitHeight="164.0" fitWidth="292.0" layoutX="51.0" layoutY="39.0" pickOnBounds="true" preserveRatio="true" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0">
                <image>
-                  <Image url="@../img/recipe_placeholder.png" />
+                  <Image url="@../img/recipePlaceholder.png" />
                </image></ImageView>
             <Label fx:id="lunchRecipeNameLabel" alignment="CENTER" layoutX="82.0" layoutY="203.0" prefHeight="60.0" styleClass="text-recipe-name" text="Name" textAlignment="CENTER" wrapText="true" AnchorPane.leftAnchor="30.0" AnchorPane.rightAnchor="30.0" AnchorPane.topAnchor="175.0" />
             <Label fx:id="lunchCaloriesLabel" layoutX="30.0" layoutY="223.0" prefHeight="23.0" prefWidth="127.0" styleClass="text-medium" text="2000 kcal" AnchorPane.leftAnchor="30.0" AnchorPane.rightAnchor="135.0" AnchorPane.topAnchor="255.0" />
@@ -61,7 +61,7 @@
          <children>
             <ImageView fx:id="dinnerImageView" fitHeight="164.0" fitWidth="292.0" layoutX="51.0" layoutY="39.0" pickOnBounds="true" preserveRatio="true" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0">
                <image>
-                  <Image url="@../img/recipe_placeholder.png" />
+                  <Image url="@../img/recipePlaceholder.png" />
                </image></ImageView>
             <Label fx:id="dinnerRecipeNameLabel" alignment="CENTER" layoutX="82.0" layoutY="203.0" prefHeight="60.0" prefWidth="232.0" styleClass="text-recipe-name" text="Name" textAlignment="CENTER" wrapText="true" AnchorPane.leftAnchor="30.0" AnchorPane.rightAnchor="30.0" AnchorPane.topAnchor="175.0" />
             <Label fx:id="dinnerCaloriesLabel" layoutX="30.0" layoutY="223.0" prefHeight="23.0" prefWidth="127.0" styleClass="text-medium" text="2000 kcal" AnchorPane.leftAnchor="30.0" AnchorPane.rightAnchor="135.0" AnchorPane.topAnchor="255.0" />

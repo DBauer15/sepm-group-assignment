@@ -80,7 +80,16 @@ public class MainController {
             DecimalFormat nf = (DecimalFormat) NumberFormat.getNumberInstance(Locale.US);
             nf.applyPattern("##.#");
 
-            // dietPlanImageView.setImage();
+            if (active.getName().equals("Build Muscle")){
+                dietPlanImageView.setImage(new Image("/img/planBuildMuscle.png"));
+            } else if (active.getName().equals("Lose Weight")){
+                dietPlanImageView.setImage(new Image("/img/planLoseWeight.png"));
+            } else if (active.getName().equals("Carefree")){
+                dietPlanImageView.setImage(new Image("/img/planCarefree.png"));
+            } else {
+                dietPlanImageView.setImage(new Image("/img/planPlaceholder.png"));
+            }
+            
             titleLabel.setText(active.getName());
             carbohydratesLabel.setText(nf.format(active.getCarbohydrate()) + " % Carbohydrates");
             proteinsLabel.setText(nf.format(active.getProtein()) + " % Proteins");
