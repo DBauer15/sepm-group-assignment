@@ -31,7 +31,18 @@
 }
 
 .table-view .scroll-bar .thumb {
-    -fx-background-color: #037F97;
+    -fx-background-color: #004D7B;
+    -fx-padding:100px;
+}
+
+.scroll-bar:vertical {
+    -fx-pref-width: 16.5;
+    -fx-padding: 3;
+}
+
+.scroll-bar:horizontal {
+    -fx-pref-height: 16.5;
+    -fx-padding: 3;
 }
 
 #buttonColumn{

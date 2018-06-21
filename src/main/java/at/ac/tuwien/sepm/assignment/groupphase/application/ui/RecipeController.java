@@ -157,7 +157,7 @@ public class RecipeController implements Initializable, ExternalController<Recip
 		this.recipeService = recipeService;
 		this.notificationService = notificationService;
 	}
-	
+
 	public void onRemovePicturesButtonClicked() {
 		this.r.getRecipeImages().clear();
 		this.picturePagination.setPageCount(0);
@@ -215,7 +215,7 @@ public class RecipeController implements Initializable, ExternalController<Recip
 				} catch (IOException ex) {
 					UserInterfaceUtility.handleFault(ex);
 				}
-				
+
 				picturePagination.setPageCount(picturePagination.getPageCount() + 1);
 				picturePagination.setPageCount(this.r.getRecipeImages().size());
 				picturePagination.setVisible(true);
@@ -235,9 +235,13 @@ public class RecipeController implements Initializable, ExternalController<Recip
 		unitTableColumn.setCellValueFactory(new PropertyValueFactory<>("unitName"));
 		amountTableColumn.setCellValueFactory(new PropertyValueFactory<>("amount"));
 		buttonTableColumn.setCellFactory(param -> new TableCell<>() {
-			Button removeButton = new Button("X");
+			Button removeButton = new Button("x");
 
-			{
+            {
+                removeButton.setStyle("-fx-background-radius: 50; " +
+                    "-fx-font-size: 15; " +
+                    "-fx-background-color: #E4E4E4;" +
+                    "-fx-text-fill: #787878");
 				removeButton.setOnAction(x -> {
 					setGraphic(null);
 					deleteIngredient(ingredientsTableView.getItems().get(getIndex()));
@@ -287,9 +291,9 @@ public class RecipeController implements Initializable, ExternalController<Recip
 			isInEditMode = false;
 			r = new Recipe();
 		}
-		
+
 		this.r = r;
-		
+
 		if (this.r.getRecipeImages().size() == 0) {
 			this.noPictureChosenLabel.setVisible(true);
 			this.picturePagination.setVisible(false);

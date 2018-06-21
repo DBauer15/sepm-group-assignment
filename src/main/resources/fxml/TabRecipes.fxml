@@ -15,7 +15,7 @@
 <?import javafx.scene.layout.HBox?>
 <?import javafx.scene.layout.Pane?>
 
-<AnchorPane fx:id="anchorPane" maxHeight="650.0" maxWidth="1068.0" minHeight="650.0" minWidth="1068.0" prefHeight="650.0" prefWidth="1068.0" style="-fx-background-color: #FFFFFF;" xmlns="http://javafx.com/javafx/9.0.1" xmlns:fx="http://javafx.com/fxml/1" fx:controller="at.ac.tuwien.sepm.assignment.groupphase.application.ui.TabRecipesController">
+<AnchorPane fx:id="anchorPane" maxHeight="650.0" maxWidth="1068.0" minHeight="650.0" minWidth="1068.0" prefHeight="650.0" prefWidth="1068.0" style="-fx-background-color: #FFFFFF;" xmlns="http://javafx.com/javafx/9.0.4" xmlns:fx="http://javafx.com/fxml/1" fx:controller="at.ac.tuwien.sepm.assignment.groupphase.application.ui.TabRecipesController">
    <children>
       <TableView fx:id="recipeTableView" prefHeight="650.0" prefWidth="1068.0" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0">
         <columns>
@@ -28,16 +28,16 @@
         </columns>
       </TableView>
       <ButtonBar buttonMinWidth="50.0" prefHeight="51.0" prefWidth="96.0" AnchorPane.bottomAnchor="20.0" AnchorPane.rightAnchor="20.0" />
-      <Pane fx:id="paneSearch" layoutY="467.0" prefHeight="185.0" prefWidth="1068.0" style="-fx-background-color: #03D7F1 #03D7F1;">
+      <Pane fx:id="paneSearch" layoutY="483.0" prefHeight="169.0" prefWidth="1068.0" style="-fx-background-color: #2791B3#2791B3;">
          <children>
-            <Label fx:id="lowerLimitLabel" layoutX="771.0" layoutY="97.0" text="0 minutes" textFill="WHITE" />
-            <TableView fx:id="ingredientWordsView" layoutX="315.0" layoutY="19.0" prefHeight="157.0" prefWidth="310.0" style="-fx-padding: 0;" stylesheets="@../css/ingredientTable.css">
+            <Label fx:id="lowerLimitLabel" layoutX="685.0" layoutY="89.0" text="0 minutes" textFill="WHITE" />
+            <TableView fx:id="ingredientWordsView" layoutX="316.0" layoutY="14.0" prefHeight="133.0" prefWidth="310.0" style="-fx-padding: 0;" stylesheets="@../css/ingredientTable.css">
               <columns>
                 <TableColumn fx:id="ingredientTag" prefWidth="233.40939331054688" resizable="false" text="Ingredient Search Keywords" />
                   <TableColumn fx:id="ingredientTagRemove" minWidth="0.0" prefWidth="50.090606689453125" text="Delete" />
               </columns>
             </TableView>
-            <HBox layoutX="14.0" layoutY="30.0" prefHeight="27.0" prefWidth="130.0" styleClass="toggle-container">
+            <HBox layoutX="14.0" layoutY="108.0" prefHeight="27.0" prefWidth="130.0" styleClass="toggle-container">
                <children>
                   <ToggleButton fx:id="tag_b" mnemonicParsing="false" prefWidth="40.0" style="z-index: 0;" text="B">
                      <styleClass>
@@ -52,17 +52,17 @@
                   <ToggleButton fx:id="tag_d" mnemonicParsing="false" prefWidth="40.0" style="z-index: 0;" styleClass="toggle-button-right" text="D" />
                </children>
             </HBox>
-            <TextField fx:id="recipeTitle" layoutX="14.0" layoutY="84.0" prefHeight="27.0" prefWidth="270.0" promptText="Recipe Title" />
-            <TextField fx:id="addIngredient" layoutX="14.0" layoutY="137.0" onKeyReleased="#onAddIngredient" prefHeight="27.0" prefWidth="270.0" promptText="Filter by Ingredient" />
-            <Slider fx:id="lowerLimit" layoutX="656.0" layoutY="82.0" max="142.0" prefHeight="23.0" prefWidth="270.0" />
-            <Slider fx:id="upperLimit" layoutX="656.0" layoutY="144.0" max="142.0" prefHeight="23.0" prefWidth="270.0" value="142.0" />
-            <Label layoutX="656.0" layoutY="128.0" text="Maximum Preparation Time:" textFill="WHITE" />
-            <Label layoutX="656.0" layoutY="65.0" text="Minimum Preparation Time:" textFill="WHITE" />
-            <Label fx:id="upperLimitLabel" layoutX="771.0" layoutY="159.0" text="0 minutes" textFill="WHITE" />
+            <TextField fx:id="recipeTitle" layoutX="14.0" layoutY="27.0" prefHeight="27.0" prefWidth="270.0" promptText="Recipe Title" />
+            <TextField fx:id="addIngredient" layoutX="14.0" layoutY="67.0" onKeyReleased="#onAddIngredient" prefHeight="27.0" prefWidth="270.0" promptText="Filter by Ingredient" />
+            <Slider fx:id="lowerLimit" layoutX="647.0" layoutY="69.0" max="142.0" prefHeight="23.0" prefWidth="138.0" />
+            <Slider fx:id="upperLimit" layoutX="816.0" layoutY="68.0" max="142.0" prefHeight="23.0" prefWidth="142.0" value="142.0" />
+            <Label layoutX="816.0" layoutY="52.0" text="Max. Preparation Time:" textFill="WHITE" />
+            <Label layoutX="647.0" layoutY="52.0" text="Min. Preparation Time:" textFill="WHITE" />
+            <Label fx:id="upperLimitLabel" layoutX="857.0" layoutY="88.0" text="0 minutes" textFill="WHITE" />
          </children>
       </Pane>
-      <Button fx:id="addRecipeButton" minWidth="53.0" mnemonicParsing="false" onAction="#onAddRecipeButtonClicked" prefHeight="51.0" prefWidth="50.0" styleClass="button-circular" text="+" AnchorPane.bottomAnchor="15.0" AnchorPane.rightAnchor="15.0" />
-      <Button fx:id="searchRecipesButton" mnemonicParsing="false" onAction="#onSearchRecipeButtonClicked" prefHeight="50.0" prefWidth="50.0" styleClass="button-filter" AnchorPane.bottomAnchor="75.0" AnchorPane.rightAnchor="15.0" />
+      <Button fx:id="addRecipeButton" layoutX="985.0" layoutY="574.0" minWidth="53.0" mnemonicParsing="false" onAction="#onAddRecipeButtonClicked" prefHeight="51.0" prefWidth="50.0" styleClass="button-circular" text="+" AnchorPane.bottomAnchor="25.0" AnchorPane.rightAnchor="30.0" />
+      <Button fx:id="searchRecipesButton" layoutX="988.0" layoutY="515.0" mnemonicParsing="false" onAction="#onSearchRecipeButtonClicked" prefHeight="50.0" prefWidth="50.0" styleClass="button-filter" AnchorPane.bottomAnchor="85.0" AnchorPane.rightAnchor="30.0" />
    </children>
    <stylesheets>
       <URL value="@../css/table.css" />

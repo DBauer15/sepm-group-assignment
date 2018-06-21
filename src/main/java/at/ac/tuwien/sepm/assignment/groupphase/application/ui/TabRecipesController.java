@@ -198,6 +198,10 @@ public class TabRecipesController implements Notifiable {
 
 
             {
+                removeButton.setStyle("-fx-background-radius: 50; " +
+                    "-fx-font-size: 15; " +
+                    "-fx-background-color: #E4E4E4;" +
+                    "-fx-text-fill: #787878;");
                 removeButton.setOnAction(x -> {
                     setGraphic(null);
                     deleteIngredient(ingredientWordsView.getItems().get(getIndex()));
@@ -321,7 +325,7 @@ public class TabRecipesController implements Notifiable {
 		if (this.paneSearch.isVisible()) {
 			AnchorPane.setBottomAnchor(recipeTableView, 0d);
 		} else {
-			AnchorPane.setBottomAnchor(recipeTableView, 185d);
+			AnchorPane.setBottomAnchor(recipeTableView, 169d);
 		}
 		this.paneSearch.setVisible(!this.paneSearch.isVisible());
 	}

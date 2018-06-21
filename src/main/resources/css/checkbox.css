@@ -1,3 +1,11 @@
+.check-box > .box > .mark {
+    -fx-padding: 5px;
+}
+
+.check-box > .box {
+    -fx-padding: 5px;
+}
+
 .check-box .box {
     -fx-background-color: white;
     -fx-border-radius: 1px;

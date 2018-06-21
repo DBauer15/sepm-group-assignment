@@ -5,6 +5,8 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.Map.Entry;
 
+import javafx.scene.Scene;
+import javafx.scene.layout.BorderPane;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -163,9 +165,8 @@ public class TabPlansController implements Notifiable {
 
 		if (recipe.getRecipeImages().size() > 0) {
 			Image image = SwingFXUtils.toFXImage(recipe.getRecipeImages().get(0).getImage(), null);
-            imageView.setPreserveRatio(true);
             imageView.setImage(image);
-			imageView.setPreserveRatio(true);
+			imageView.setPreserveRatio(false);
 			imageView.setSmooth(true);
 			imageView.setCache(true);
 		} else {
