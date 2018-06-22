@@ -158,12 +158,16 @@ public class RecipeController implements Initializable, ExternalController<Recip
 		this.notificationService = notificationService;
 	}
 
-	public void onRemovePicturesButtonClicked() {
-		this.r.getRecipeImages().clear();
-		this.picturePagination.setPageCount(0);
-		this.noPictureChosenLabel.setVisible(true);
-		this.picturePagination.setVisible(false);
-		this.removePicturesButton.setVisible(false);
+	public void onRemoveSelectedPictureButtonClicked() {
+		LOG.info("Remove picture button clicked");
+		this.r.getRecipeImages().remove(this.picturePagination.getCurrentPageIndex());
+		this.picturePagination.setPageCount(this.r.getRecipeImages().size());
+		
+		if (this.r.getRecipeImages().size() == 0) {
+			this.noPictureChosenLabel.setVisible(true);
+			this.picturePagination.setVisible(false);
+			this.removePicturesButton.setVisible(false);
+		}
 	}
 
 	public VBox displayPicture(int pageIndex) {
@@ -189,6 +193,11 @@ public class RecipeController implements Initializable, ExternalController<Recip
 	public void onAddPictureButtonClicked() {
 		LOG.info("Add picture to recipe button clicked");
 
+		if (this.r.getRecipeImages().size() == 5) {
+			showAlert(Alert.AlertType.ERROR, "Too many pictures", "You can only choose up to 5 images.");
+			return;
+		}
+
 		FileChooser fileChooser = new FileChooser();
 		FileChooser.ExtensionFilter extFilter = new FileChooser.ExtensionFilter(
 				"JPEG files (*.jpeg), JPG files (*.jpg), PNG files (*.png)", "*.jpeg", "*.jpg", "*.png");
@@ -197,31 +206,29 @@ public class RecipeController implements Initializable, ExternalController<Recip
 		List<File> pictures = fileChooser.showOpenMultipleDialog(saveButton.getScene().getWindow());
 
 		if (pictures != null && pictures.size() != 0) {
+			if (this.r.getRecipeImages().size() + pictures.size() > 5) {
+				showAlert(Alert.AlertType.ERROR, "Too many pictures", "You can only choose up to 5 images.");
+				return;
+			}
+			
 			for (File p : pictures) {
 				LOG.info("User has selected the following picture {}.", p.toString());
 			}
 
-			if (pictures.size() > 5) {
-				showAlert(Alert.AlertType.ERROR, "Too many pictures", "You can only choose up to 5 images.");
-			} else {
-				this.r.getRecipeImages().clear();
-
-				try {
-					for (File p : pictures) {
-						this.r.getRecipeImages().add(new RecipeImage(ImageIO.read(p), ImageUtil.getImageType(p)));
-					}
-				} catch (ServiceInvokationException ex) {
-					UserInterfaceUtility.handleFaults(ex);
-				} catch (IOException ex) {
-					UserInterfaceUtility.handleFault(ex);
+			try {
+				for (File p : pictures) {
+					this.r.getRecipeImages().add(new RecipeImage(ImageIO.read(p), ImageUtil.getImageType(p)));
 				}
-
-				picturePagination.setPageCount(picturePagination.getPageCount() + 1);
-				picturePagination.setPageCount(this.r.getRecipeImages().size());
-				picturePagination.setVisible(true);
-				noPictureChosenLabel.setVisible(false);
-				removePicturesButton.setVisible(true);
+			} catch (ServiceInvokationException ex) {
+				UserInterfaceUtility.handleFaults(ex);
+			} catch (IOException ex) {
+				UserInterfaceUtility.handleFault(ex);
 			}
+
+			picturePagination.setPageCount(this.r.getRecipeImages().size());
+			picturePagination.setVisible(true);
+			noPictureChosenLabel.setVisible(false);
+			removePicturesButton.setVisible(true);
 		} else {
 			LOG.info("User has selected no picture.");
 		}
@@ -237,11 +244,9 @@ public class RecipeController implements Initializable, ExternalController<Recip
 		buttonTableColumn.setCellFactory(param -> new TableCell<>() {
 			Button removeButton = new Button("x");
 
-            {
-                removeButton.setStyle("-fx-background-radius: 50; " +
-                    "-fx-font-size: 15; " +
-                    "-fx-background-color: #E4E4E4;" +
-                    "-fx-text-fill: #787878");
+			{
+				removeButton.setStyle("-fx-background-radius: 50; " + "-fx-font-size: 15; "
+						+ "-fx-background-color: #E4E4E4;" + "-fx-text-fill: #787878");
 				removeButton.setOnAction(x -> {
 					setGraphic(null);
 					deleteIngredient(ingredientsTableView.getItems().get(getIndex()));
