@@ -179,6 +179,7 @@ public class RecipeController implements Initializable, ExternalController<Recip
 			Image image = SwingFXUtils.toFXImage(bufferedImage, null);
 			imageView.setImage(image);
 			imageView.setFitHeight(200);
+			imageView.setFitWidth(565);
 			imageView.setPreserveRatio(true);
 			imageView.setSmooth(true);
 			imageView.setCache(true);
@@ -225,6 +226,7 @@ public class RecipeController implements Initializable, ExternalController<Recip
 				UserInterfaceUtility.handleFault(ex);
 			}
 
+			picturePagination.setPageCount(this.r.getRecipeImages().size() + 1);
 			picturePagination.setPageCount(this.r.getRecipeImages().size());
 			picturePagination.setVisible(true);
 			noPictureChosenLabel.setVisible(false);
