@@ -5,6 +5,7 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.Map.Entry;
 
+import javafx.geometry.Rectangle2D;
 import javafx.scene.Scene;
 import javafx.scene.layout.BorderPane;
 import org.slf4j.Logger;
@@ -166,7 +167,9 @@ public class TabPlansController implements Notifiable {
 		if (recipe.getRecipeImages().size() > 0) {
 			Image image = SwingFXUtils.toFXImage(recipe.getRecipeImages().get(0).getImage(), null);
             imageView.setImage(image);
-			imageView.setPreserveRatio(false);
+			imageView.setPreserveRatio(true);
+            double scaledHeight = imageView.getFitHeight() * image.getWidth() / imageView.getFitWidth();
+            imageView.setViewport(new Rectangle2D(0, (image.getHeight() - scaledHeight) / 2, image.getWidth(), scaledHeight));
 			imageView.setSmooth(true);
 			imageView.setCache(true);
 		} else {

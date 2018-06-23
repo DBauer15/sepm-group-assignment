@@ -17,7 +17,7 @@
             <String fx:value="background-white" />
          </styleClass>
          <children>
-            <ImageView fx:id="breakfastImageView" fitHeight="164.0" fitWidth="292.0" layoutX="51.0" layoutY="39.0" pickOnBounds="true" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0">
+            <ImageView fx:id="breakfastImageView" fitHeight="164.0" fitWidth="292.0" layoutX="51.0" layoutY="39.0" pickOnBounds="true" AnchorPane.leftAnchor="3.0" AnchorPane.rightAnchor="3.0" AnchorPane.topAnchor="3.0">
                <image>
                   <Image url="@../img/recipePlaceholder.png" />
                </image></ImageView>
@@ -35,7 +35,7 @@
             <String fx:value="background-white" />
          </styleClass>
          <children>
-            <ImageView fx:id="lunchImageView" fitHeight="164.0" fitWidth="292.0" layoutX="51.0" layoutY="39.0" pickOnBounds="true" preserveRatio="true" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0">
+            <ImageView fx:id="lunchImageView" fitHeight="164.0" fitWidth="286.0" layoutX="51.0" layoutY="39.0" pickOnBounds="true" AnchorPane.leftAnchor="3.0" AnchorPane.rightAnchor="3.0" AnchorPane.topAnchor="3.0">
                <image>
                   <Image url="@../img/recipePlaceholder.png" />
                </image></ImageView>
@@ -59,7 +59,7 @@
             <String fx:value="background-white" />
          </styleClass>
          <children>
-            <ImageView fx:id="dinnerImageView" fitHeight="164.0" fitWidth="292.0" layoutX="51.0" layoutY="39.0" pickOnBounds="true" preserveRatio="true" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0">
+            <ImageView fx:id="dinnerImageView" fitHeight="164.0" fitWidth="292.0" layoutX="51.0" layoutY="39.0" pickOnBounds="true" preserveRatio="true" AnchorPane.leftAnchor="3.0" AnchorPane.rightAnchor="3.0" AnchorPane.topAnchor="3.0">
                <image>
                   <Image url="@../img/recipePlaceholder.png" />
                </image></ImageView>
