@@ -32,7 +32,7 @@ public class DietPlanController implements ExternalController<DietPlan> {
 
 	@Autowired
 	private SpringFXMLLoader fxmlLoader;
-	
+
 	@FXML
 	public Label exitLabel;
 
@@ -100,20 +100,18 @@ public class DietPlanController implements ExternalController<DietPlan> {
 			}
 
 			if (dp == null) {
-				try {
-					dp = new DietPlan(dietPlanNameTextField.getText(), kcal.doubleValue(), fats, protein, carbohydrate);
-					dietPlanService.create(dp);
-				} catch (Exception ex) {
-					dp = null;
-					throw ex;
-				}
+				dp = new DietPlan(dietPlanNameTextField.getText(), kcal.doubleValue(), fats, protein, carbohydrate);
 			} else {
 				dp.setName(dietPlanNameTextField.getText());
 				dp.setEnergy_kcal(kcal.doubleValue());
 				dp.setLipid(fats);
 				dp.setProtein(protein);
 				dp.setCarbohydrate(carbohydrate);
-
+			}
+			
+			if (dp.getId() == null) {
+				dietPlanService.create(dp);
+			} else {
 				dietPlanService.update(dp);
 			}
 
