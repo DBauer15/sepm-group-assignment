@@ -32,6 +32,7 @@ public class DBStatisticPersistence implements StatisticPersistence {
 
     @Override
     public Map<Recipe, Integer> getMostPopularRecipes() throws PersistenceException {
+        LOG.debug("Fetching most popular recipes");
         PreparedStatement ps = null;
         ResultSet rs = null;
 

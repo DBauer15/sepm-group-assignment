@@ -8,7 +8,7 @@
 
 <AnchorPane maxHeight="650.0" maxWidth="1068.0" minHeight="650.0" minWidth="1068.0" prefHeight="650.0" prefWidth="1068.0" xmlns="http://javafx.com/javafx/9.0.1" xmlns:fx="http://javafx.com/fxml/1" fx:controller="at.ac.tuwien.sepm.assignment.groupphase.application.ui.TabStatisticController">
    <children>
-      <BarChart fx:id="lineChart" layoutX="229.0" layoutY="46.0" title="Most popular recipes" AnchorPane.bottomAnchor="30.0" AnchorPane.leftAnchor="5.0" AnchorPane.rightAnchor="5.0" AnchorPane.topAnchor="5.0">
+      <BarChart fx:id="barChart" layoutX="229.0" layoutY="46.0" title="Most popular recipes" AnchorPane.bottomAnchor="30.0" AnchorPane.leftAnchor="5.0" AnchorPane.rightAnchor="5.0" AnchorPane.topAnchor="5.0">
         <xAxis>
           <CategoryAxis fx:id="recipesAxis" side="BOTTOM" />
         </xAxis>

@@ -9,16 +9,19 @@ import javafx.fxml.FXML;
 import javafx.scene.chart.BarChart;
 import javafx.scene.chart.CategoryAxis;
 import javafx.scene.chart.NumberAxis;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.stereotype.Controller;
 
-import java.util.HashMap;
+import java.lang.invoke.MethodHandles;
 import java.util.Map;
 
 @Controller
 public class TabStatisticController implements Notifiable {
+    private static final Logger LOG = LoggerFactory.getLogger(MethodHandles.lookup().lookupClass());
 
     @FXML
-    private BarChart<String, Integer> lineChart;
+    private BarChart<String, Integer> barChart;
 
     @FXML
     private CategoryAxis recipesAxis;
@@ -30,6 +33,10 @@ public class TabStatisticController implements Notifiable {
 
     @FXML
     public void initialize(){
+        barChart.setLegendVisible(false);
+        quantityAxis.setTickUnit(1);
+        quantityAxis.setMinorTickVisible(false);
+        updateLineChart();
     }
 
     @Override
@@ -42,15 +49,26 @@ public class TabStatisticController implements Notifiable {
     }
 
     private void updateLineChart(){
-        lineChart.getData().clear();
+        LOG.debug("Updating line chart data.");
+        barChart.getData().clear();
 
-        Map<Recipe, Integer> mostPopularRecipes = new HashMap<>();
+        Map<Recipe, Integer> mostPopularRecipes;
         try {
             mostPopularRecipes = statisticService.getMostPopularRecipes();
+
+            for(Map.Entry<Recipe, Integer> entry : mostPopularRecipes.entrySet()){
+                Recipe r = entry.getKey();
+                Integer quantity = entry.getValue();
+                BarChart.Series<String, Integer> series = new BarChart.Series<>();
+
+                series.getData().add(new BarChart.Data<>(r.getName(), quantity));
+                barChart.getData().add(series);
+            }
         } catch (ServiceInvokationException e) {
             UserInterfaceUtility.handleFaults(e.getContext());
         } catch (Exception e) {
             UserInterfaceUtility.handleFault(e);
         }
+
     }
 }
