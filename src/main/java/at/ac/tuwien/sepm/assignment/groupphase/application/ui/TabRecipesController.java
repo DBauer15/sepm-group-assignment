@@ -268,7 +268,7 @@ public class TabRecipesController implements Notifiable {
 	}
 
     @Override
-    public void onNotify() {
+    public void onNotify(Class notifier) {
         updateRecipeTableView();
     }
 

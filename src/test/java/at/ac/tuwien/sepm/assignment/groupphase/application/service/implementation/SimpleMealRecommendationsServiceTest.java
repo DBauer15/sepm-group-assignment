@@ -57,8 +57,8 @@ public class SimpleMealRecommendationsServiceTest extends BaseTest {
         RecipeService recipeService = new SimpleRecipeService(mockedRecipeRepo, new RecipeValidator(new RecipeIngredientsValidator()), new IngredientSearchParamValidator());
         MealRecommendationsService mealRecommendationsService = new SimpleMealRecommendationsService(mockedMealRecommendationRepo, recipeService, mockedDietPlanRepo);
         try {
-            var v = mealRecommendationsService.getRecommendedMeals();
-            Assert.assertFalse(mealRecommendationsService.getRecommendedMeals().isEmpty());
+            var v = mealRecommendationsService.getRecommendedMeals(false);
+            Assert.assertFalse(mealRecommendationsService.getRecommendedMeals(false).isEmpty());
         } catch (Exception e) {
             Assert.fail();
         }
@@ -82,7 +82,7 @@ public class SimpleMealRecommendationsServiceTest extends BaseTest {
         RecipeService recipeService = new SimpleRecipeService(mockedRecipeRepo, new RecipeValidator(new RecipeIngredientsValidator()), new IngredientSearchParamValidator());
         MealRecommendationsService mealRecommendationsService = new SimpleMealRecommendationsService(mockedMealRecommendationRepo, recipeService, mockedDietPlanRepo);
         try {
-            Assert.assertFalse(mealRecommendationsService.getRecommendedMeals().isEmpty());
+            Assert.assertFalse(mealRecommendationsService.getRecommendedMeals(false).isEmpty());
         } catch (Exception e) {
             Assert.fail();
         }
@@ -106,7 +106,7 @@ public class SimpleMealRecommendationsServiceTest extends BaseTest {
         RecipeService recipeService = new SimpleRecipeService(mockedRecipeRepo, new RecipeValidator(new RecipeIngredientsValidator()), new IngredientSearchParamValidator());
         MealRecommendationsService mealRecommendationsService = new SimpleMealRecommendationsService(mockedMealRecommendationRepo, recipeService, mockedDietPlanRepo);
         try {
-            Assert.assertFalse(mealRecommendationsService.getRecommendedMeals().isEmpty());
+            Assert.assertFalse(mealRecommendationsService.getRecommendedMeals(false).isEmpty());
         } catch (Exception e) {
             Assert.fail();
         }
@@ -122,7 +122,7 @@ public class SimpleMealRecommendationsServiceTest extends BaseTest {
 
         RecipeService recipeService = new SimpleRecipeService(mockedRecipeRepo, new RecipeValidator(new RecipeIngredientsValidator()), new IngredientSearchParamValidator());
         MealRecommendationsService mealRecommendationsService = new SimpleMealRecommendationsService(mockedMealRecommendationRepo, recipeService, mockedDietPlanRepo);
-        mealRecommendationsService.getRecommendedMeals();
+        mealRecommendationsService.getRecommendedMeals(false);
     }
 
     @Test(expected = NoOptimalSolutionException.class)
@@ -144,7 +144,7 @@ public class SimpleMealRecommendationsServiceTest extends BaseTest {
 
         RecipeService recipeService = new SimpleRecipeService(mockedRecipeRepo, new RecipeValidator(new RecipeIngredientsValidator()), new IngredientSearchParamValidator());
         MealRecommendationsService mealRecommendationsService = new SimpleMealRecommendationsService(mockedMealRecommendationRepo, recipeService, mockedDietPlanRepo);
-        mealRecommendationsService.getRecommendedMeals();
+        mealRecommendationsService.getRecommendedMeals(false);
     }
 
     @Test(expected = NoOptimalSolutionException.class)
@@ -166,7 +166,7 @@ public class SimpleMealRecommendationsServiceTest extends BaseTest {
 
         RecipeService recipeService = new SimpleRecipeService(mockedRecipeRepo, new RecipeValidator(new RecipeIngredientsValidator()), new IngredientSearchParamValidator());
         MealRecommendationsService mealRecommendationsService = new SimpleMealRecommendationsService(mockedMealRecommendationRepo, recipeService, mockedDietPlanRepo);
-        mealRecommendationsService.getRecommendedMeals();
+        mealRecommendationsService.getRecommendedMeals(false);
     }
 
     @Test(expected = NoOptimalSolutionException.class)
@@ -188,7 +188,7 @@ public class SimpleMealRecommendationsServiceTest extends BaseTest {
 
         RecipeService recipeService = new SimpleRecipeService(mockedRecipeRepo, new RecipeValidator(new RecipeIngredientsValidator()), new IngredientSearchParamValidator());
         MealRecommendationsService mealRecommendationsService = new SimpleMealRecommendationsService(mockedMealRecommendationRepo, recipeService, mockedDietPlanRepo);
-        mealRecommendationsService.getRecommendedMeals();
+        mealRecommendationsService.getRecommendedMeals(false);
     }
 
     @Test(expected = NoEntryFoundException.class)
@@ -205,7 +205,7 @@ public class SimpleMealRecommendationsServiceTest extends BaseTest {
 
         RecipeService recipeService = new SimpleRecipeService(mockedRecipeRepo, new RecipeValidator(new RecipeIngredientsValidator()), new IngredientSearchParamValidator());
         MealRecommendationsService mealRecommendationsService = new SimpleMealRecommendationsService(mockedMealRecommendationRepo, recipeService, mockedDietPlanRepo);
-        mealRecommendationsService.getRecommendedMeals();
+        mealRecommendationsService.getRecommendedMeals(false);
     }
 
     private List<RecipeIngredient> getIngredients(int id) throws PersistenceException {
@@ -276,7 +276,7 @@ public class SimpleMealRecommendationsServiceTest extends BaseTest {
 
         RecipeService recipeService = new SimpleRecipeService(mockedRecipeRepo, new RecipeValidator(new RecipeIngredientsValidator()), new IngredientSearchParamValidator());
         MealRecommendationsService mealRecommendationsService = new SimpleMealRecommendationsService(mockedMealRecommendationRepo, recipeService, mockedDietPlanRepo);
-        mealRecommendationsService.getRecommendedMeals();
+        mealRecommendationsService.getRecommendedMeals(false);
 
         verify(mockedRecipeRepo, times(0)).getRecipes();
     }
@@ -300,7 +300,7 @@ public class SimpleMealRecommendationsServiceTest extends BaseTest {
 
         RecipeService recipeService = new SimpleRecipeService(mockedRecipeRepo, new RecipeValidator(new RecipeIngredientsValidator()), new IngredientSearchParamValidator());
         MealRecommendationsService mealRecommendationsService = new SimpleMealRecommendationsService(mockedMealRecommendationRepo, recipeService, mockedDietPlanRepo);
-        mealRecommendationsService.getRecommendedMeals();
+        mealRecommendationsService.getRecommendedMeals(false);
 
         verify(mockedRecipeRepo, times(1)).getRecipes();
     }
@@ -323,7 +323,7 @@ public class SimpleMealRecommendationsServiceTest extends BaseTest {
 
         RecipeService recipeService = new SimpleRecipeService(mockedRecipeRepo, new RecipeValidator(new RecipeIngredientsValidator()), new IngredientSearchParamValidator());
         MealRecommendationsService mealRecommendationsService = new SimpleMealRecommendationsService(mockedMealRecommendationRepo, recipeService, mockedDietPlanRepo);
-        mealRecommendationsService.getRecommendedMeals();
+        mealRecommendationsService.getRecommendedMeals(false);
 
         verify(mockedRecipeRepo, times(1)).getRecipes();
     }

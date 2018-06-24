@@ -44,7 +44,7 @@ public class SimpleMealRecommendationsService implements MealRecommendationsServ
     }
 
     @Override
-    public Map<RecipeTag, Recipe> getRecommendedMeals() throws ServiceInvokationException, NoEntryFoundException, NoOptimalSolutionException {
+    public Map<RecipeTag, Recipe> getRecommendedMeals(boolean force) throws ServiceInvokationException, NoEntryFoundException, NoOptimalSolutionException {
         LOG.debug("Requested recommended meals");
 
         Map<RecipeTag, Recipe> optimumMeals = new HashMap<>();
@@ -57,14 +57,22 @@ public class SimpleMealRecommendationsService implements MealRecommendationsServ
             RecipeTag[] values = {RecipeTag.B, RecipeTag.L, RecipeTag.D};
             for (int i = 0; i < FRACTION_FACTORS.length; i++) {
                 RecipeTag tag = values[i];
-                try {
-                    optimumMeals.put(tag, NutritionUtil.fillNutritionValues(mealRecommendationsPersistence.readRecommendationFor(currentDietPlan, tag)));
-                } catch (NoEntryFoundException e) {
+                if (force) {
                     if (allRecipes == null)
                         allRecipes = recipeService.getRecipes();
                     Recipe r = calculateOptimumForTag(currentDietPlan, allRecipes, tag, FRACTION_FACTORS[i]);
                     mealRecommendationsPersistence.createRecommendationFor(r, currentDietPlan, tag);
                     optimumMeals.put(tag, r);
+                } else {
+                    try {
+                        optimumMeals.put(tag, NutritionUtil.fillNutritionValues(mealRecommendationsPersistence.readRecommendationFor(currentDietPlan, tag)));
+                    } catch (NoEntryFoundException e) {
+                        if (allRecipes == null)
+                            allRecipes = recipeService.getRecipes();
+                        Recipe r = calculateOptimumForTag(currentDietPlan, allRecipes, tag, FRACTION_FACTORS[i]);
+                        mealRecommendationsPersistence.createRecommendationFor(r, currentDietPlan, tag);
+                        optimumMeals.put(tag, r);
+                    }
                 }
             }
         } catch (PersistenceException e) {

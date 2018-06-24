@@ -108,7 +108,7 @@ public class DietPlanController implements ExternalController<DietPlan> {
 				dp.setProtein(protein);
 				dp.setCarbohydrate(carbohydrate);
 			}
-			
+
 			if (dp.getId() == null) {
 				dietPlanService.create(dp);
 			} else {
@@ -117,7 +117,7 @@ public class DietPlanController implements ExternalController<DietPlan> {
 
 			dietPlanService.switchTo(dp);
 
-			notificationService.notify(ChoosePlanController.class);
+			notificationService.notify(DietPlanController.class);
 			LOG.debug("Diet plan successfully saved.");
 
 			this.onExitClicked();

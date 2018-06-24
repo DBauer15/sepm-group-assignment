@@ -100,18 +100,19 @@ public class TabPlansController implements Notifiable {
 
 	@FXML
 	public void initialize() {
-		updatePlan();
+		updatePlan(false);
 		notificationService.subscribeTo(ChoosePlanController.class, this);
+		notificationService.subscribeTo(DietPlanController.class, this);
 		notificationService.subscribeTo(RecipeController.class, this);
     }
 
 	@Override
-    public void onNotify() {
-	    updatePlan();
+    public void onNotify(Class notifier) {
+	    updatePlan(notifier == DietPlanController.class);
         notificationService.notify(TabStatisticController.class);
     }
 
-	private void updatePlan() {
+	private void updatePlan(boolean force) {
 		this.breakfastRecipeNameLabel.setText(null);
 		this.breakfastPreparationTimeLabel.setText(null);
 		this.breakfastCaloriesLabel.setText(null);
@@ -134,7 +135,7 @@ public class TabPlansController implements Notifiable {
 		this.dinnerFatsLabel.setText(null);
 
 		try {
-			for (Entry<RecipeTag, Recipe> entry : this.mealRecommendationsService.getRecommendedMeals().entrySet()) {
+			for (Entry<RecipeTag, Recipe> entry : this.mealRecommendationsService.getRecommendedMeals(force).entrySet()) {
 				if (RecipeTag.B.equals(entry.getKey())) {
 						breakfast = entry.getValue();
 						updateRecipeSuggestion(breakfast, breakfastRecipeNameLabel, breakfastPreparationTimeLabel, breakfastCaloriesLabel, breakfastCarbohydratesLabel, breakfastProteinsLabel, breakfastFatsLabel, breakfastImageView);
