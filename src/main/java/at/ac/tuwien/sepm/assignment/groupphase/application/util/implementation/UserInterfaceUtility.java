@@ -64,7 +64,7 @@ public class UserInterfaceUtility {
 	 */
 	public static void handleFaults(ServiceInvokationException e) {
 		String contentText = append(e.getContext());
-		LOG.error("Errors occured: \r\n", e);
+		LOG.error("Errors occured: \r\n{}", contentText, e);
 		showAlert(AlertType.ERROR, "An error occured.", contentText);
 	}
 
