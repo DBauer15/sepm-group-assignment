@@ -1,5 +1,9 @@
 package at.ac.tuwien.sepm.assignment.groupphase.main;
 
+import java.awt.*;
+import java.awt.image.BufferedImage;
+import java.io.File;
+import java.io.IOException;
 import java.lang.invoke.MethodHandles;
 import java.sql.SQLException;
 
@@ -18,6 +22,9 @@ import javafx.scene.Scene;
 import javafx.scene.image.Image;
 import javafx.stage.Stage;
 
+import javax.imageio.ImageIO;
+import javax.swing.*;
+
 @Component
 @ComponentScan("at.ac.tuwien.sepm.assignment.groupphase")
 public final class MainApplication extends Application {
@@ -29,6 +36,9 @@ public final class MainApplication extends Application {
 
 	@Override
 	public void start(Stage primaryStage) throws Exception {
+	    // load icon
+	    loadIcon();
+
 		// setup main
 		primaryStage.setTitle("FoodOrca");
 		primaryStage.centerOnScreen();
@@ -66,4 +76,19 @@ public final class MainApplication extends Application {
 		}
 		context.close();
 	}
+
+	private static void loadIcon(){
+
+	    if(!(System.getProperty("os.name").toLowerCase().indexOf("mac") >= 0)){
+	        return;
+        }
+
+        try {
+            File pathToFile = new File("./src/main/resources/img/foodOrca.png");
+            BufferedImage image = ImageIO.read(pathToFile);
+            Taskbar.getTaskbar().setIconImage(image);
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+    }
 }
