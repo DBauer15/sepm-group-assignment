@@ -46,7 +46,7 @@ public class SimpleNotificationService implements NotificationService {
         LOG.debug("{} sent notification", notifier);
         if (notificationMapping.containsKey(notifier)) {
             for (Notifiable n : notificationMapping.get(notifier)) {
-                n.onNotify();
+                n.onNotify(notifier);
             }
         }
     }

@@ -53,7 +53,7 @@ public class TabStatisticController implements Notifiable {
     }
 
     @Override
-    public void onNotify() {
+    public void onNotify(Class notifier) {
         updateBarChart();
     }
 

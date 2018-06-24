@@ -62,7 +62,7 @@ public class SimpleNotificationServiceTest extends BaseTest {
         }
 
         @Override
-        public void onNotify() {
+        public void onNotify(Class notifier) {
             notification_count++;
             if (failing) {
                 Assert.fail("Notification should not be received.");

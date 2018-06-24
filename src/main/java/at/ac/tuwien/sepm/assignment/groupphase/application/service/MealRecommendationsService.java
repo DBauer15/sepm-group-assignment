@@ -13,9 +13,10 @@ public interface MealRecommendationsService {
 
     /**
      * Calculates recipes for the day that best correspond with the current active plan.
+     * @param force If true recalculation is forced
      * @return A list of the recommended meals for the day in accordance with a plan
      */
-    public Map<RecipeTag, Recipe> getRecommendedMeals() throws ServiceInvokationException, NoEntryFoundException, NoOptimalSolutionException;
+    public Map<RecipeTag, Recipe> getRecommendedMeals(boolean force) throws ServiceInvokationException, NoEntryFoundException, NoOptimalSolutionException;
 
     /**
      * Calculates a meal recommendation for a specific meal
